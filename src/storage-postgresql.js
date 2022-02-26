@@ -1,7 +1,7 @@
 const { Sequelize, Model, DataTypes } = require('sequelize')
 
 module.exports = async () => {
-  const sequelize = new Sequelize(process.env.DATABASE_URL, {
+  const sequelize = new Sequelize(process.env.POSTGRESQL_DATABASE_URL, {
     logging: false
   })
   class Account extends Model {}

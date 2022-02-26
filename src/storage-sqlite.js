@@ -1,8 +1,8 @@
 const { Sequelize, Model, DataTypes } = require('sequelize')
 
 module.exports = async () => {
-  const sequelize = new Sequelize('dashboard', '', '', {
-    storage: process.env.DATABASE_FILE || 'sqlite::memory:',
+  const sequelize = new Sequelize(process.env.SQLITE_DATABASE, '', '', {
+    storage: process.env.SQLITE_FILE || 'sqlite::memory:',
     dialect: 'sqlite',
     logging: false
   })

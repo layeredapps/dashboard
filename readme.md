@@ -202,36 +202,37 @@ Dashboard and official modules are completely API-driven and you can access the 
 
 Dashboard uses the [Sequelize](github.com/sequelize/) library and is compatible with PostgreSQL, MySQL, MariaDB and SQLite.  Support for Microsoft SQL Server and IBM DB2 is possible but [has issues]().
 
-| Storage     | Environemnt variables           |
-|-------------|---------------------------------|
-| SQLITE      | STORAGE=sqlite                  |
-|             | DATABASE_FILE=/path/file.sqlite |
-| POSTGRESQL  | STORAGE=postgresql              |
-|             | DATABASE_URL=postgres://...     |
-| MariaDB     | STORAGE=mariadb                 |
-|             | MARIADB_HOST=                   |
-|             | MARIADB_DATABASE=               |
-|             | MARIADB_USERNAME=               |
-|             | MARIADB_PASSWORD=               |
-|             | MARIADB_PORT=                   |
-| MYSQL       | STORAGE=mysql                   |
-|             | MYSQL_HOST=                     |
-|             | MYSQL_DATABASE=                 |
-|             | MYSQL_USERNAME=                 |
-|             | MYSQL_PASSWORD=                 |
-|             | MYSQL_PORT=                     |
-| MSSQL       | STORAGE=mssql                   |
-|             | MSSQL_HOST=                     |
-|             | MSSQL_DATABASE=                 |
-|             | MSSQL_USERNAME=                 |
-|             | MSSQL_PASSWORD=                 |
-|             | MSSQL_PORT=                     |
-| DB2         | STORAGE=db2                     |
-|             | DB2_HOST=                       |
-|             | DB2_DATABASE=                   |
-|             | DB2_USERNAME=                   |
-|             | DB2_PASSWORD=                   |
-|             | DB2_PORT=                       |
+| Storage     | Environemnt variables                          |
+|-------------|------------------------------------------------|
+| SQLITE      | STORAGE=sqlite                                 |
+|             | SQLITE_DATABASE=dashboard                      |
+|             | SQLITE_DATABASE_FILE=/path/file.sqlite         |
+| POSTGRESQL  | STORAGE=postgresql                             |
+|             | POSTGRESQL_DATABASE_URL=postgres://...         |
+| MariaDB     | STORAGE=mariadb                                |
+|             | MARIADB_HOST=                                  |
+|             | MARIADB_DATABASE=                              |
+|             | MARIADB_USERNAME=                              |
+|             | MARIADB_PASSWORD=                              |
+|             | MARIADB_PORT=                                  |
+| MYSQL       | STORAGE=mysql                                  |
+|             | MYSQL_HOST=                                    |
+|             | MYSQL_DATABASE=                                |
+|             | MYSQL_USERNAME=                                |
+|             | MYSQL_PASSWORD=                                |
+|             | MYSQL_PORT=                                    |
+| MSSQL       | STORAGE=mssql                                  |
+|             | MSSQL_HOST=                                    |
+|             | MSSQL_DATABASE=                                |
+|             | MSSQL_USERNAME=                                |
+|             | MSSQL_PASSWORD=                                |
+|             | MSSQL_PORT=                                    |
+| DB2         | STORAGE=db2                                    |
+|             | DB2_HOST=                                      |
+|             | DB2_DATABASE=                                  |
+|             | DB2_USERNAME=                                  |
+|             | DB2_PASSWORD=                                  |
+|             | DB2_PORT=                                      |
 
 
 # Storage caching
@@ -305,7 +306,7 @@ Dashboard modules are able to use their own storage settings:
       ORGANIZATIONS_MYSQL_PASSWORD=xxxxx \
       ORGANIZATIONS_MYSQL_USERNAME=yyyyy \
       STORAGE=sqlite \
-      DATABASE_FILE=/my/database.sqlite \
+      SQLITE_DATABASE_FILE=/my/database.sqlite \
       node main.js
 
 # Creating modules for Dashboard
