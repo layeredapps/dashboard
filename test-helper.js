@@ -284,7 +284,7 @@ async function createOwner () {
   if (!owner.account.administrator) {
     await dashboard.Storage.Account.update({
       administrator: sequelize.literal('CURRENT_TIMESTAMP')
-    }, { 
+    }, {
       where: {
         accountid: owner.account.accountid
       }
@@ -294,7 +294,7 @@ async function createOwner () {
   if (!owner.account.owner) {
     await dashboard.Storage.Account.update({
       owner: sequelize.literal('CURRENT_TIMESTAMP')
-    }, { 
+    }, {
       where: {
         accountid: owner.account.accountid
       }
