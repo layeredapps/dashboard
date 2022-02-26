@@ -1,0 +1,8 @@
+node_modules
+documentation
+package-lock.json
+npm-shrinkwrap.json
+package-lock.json
+db.sqlite-journal
+db.sqlite
+.env

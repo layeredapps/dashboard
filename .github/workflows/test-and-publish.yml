@@ -1,0 +1,76 @@
+name: publish
+
+on: [push]
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-node@v1
+      with:
+        node-version: 16
+    - name: Lint JavaScript source with standard.js
+      run: |
+        if [ ! -z "$NPM_PROXY" ]; then
+          npm --registry=$NPM_PROXY install standard -g
+        else
+          npm install standard -g
+        fi        
+        standard
+    - name: Configure git and increase version
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+    - name: Increase version
+      run: npm version patch
+    - name: Set up project
+      run: |
+        HERE=`pwd`
+        mkdir /tmp/project
+        cd /tmp/project
+        npm init -y
+        npm install -g mocha
+        echo "global.applicationPath = __dirname" > main.js
+    - name: Generate UI screenshots and API responses
+      run: |
+        HERE=`pwd`
+        cd /tmp/project
+        export RESPONSE_PATH="$HERE/documentation"
+        export SCREENSHOT_PATH="$HERE/documentation/screenshots"
+        mocha --exit --file main.js --recursive --timeout 90000000 --slow 90000000 $(find ./node_modules/@layeredapps/dashboard/ -name "*.test.js" | grep -i -v [a-z0-9]/node_modules | sort -k5.1,8.1 -t /) | tee $HERE/tests.txt
+        TESTS=`cat $HERE/tests.txt`
+        if [[ "$TESTS" == *" 1)"* ]]; then
+          exit 1
+        fi
+      env:
+        NODE_ENV: testing
+        SQLITE: true
+        GENERATE_RESPONSE: true
+        GENERATE_SCREENSHOTS: true
+        SCREENSHOT_LANGUAGES: en
+        NODE_OPTIONS: --preserve-symlinks
+    - name: Generate sitemap.txt and api.txt
+      run: node main.js
+      env:
+        NODE_ENV: testing
+        EXIT_ON_START: true
+    - name: Publish to Github
+      uses: stefanzweifel/git-auto-commit-action@v4.1.6
+      with:
+        commit_message: Automatically regenerated against current version
+        branch: ${{ github.head_ref }}
+        commit_options: "--no-verify --signoff"
+        repository: .
+    # - name: Publish to NPM
+    #   uses: JS-DevTools/npm-publish@v1
+    #   with:
+    #     token: ${{ secrets.NPM_TOKEN }}
+    # - name: Publish documentation assets
+    #   uses: peaceiris/actions-gh-pages@v3
+    #   with:
+    #     external_repository: "layeredapps/layeredapps.github.io"
+    #     personal_token: ${{ secrets.DOCUMENTATION_PAT }}
+    #     publish_dir: documentation
+    #     publish_branch: master
+    #     keep_files: true
