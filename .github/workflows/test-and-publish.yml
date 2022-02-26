@@ -24,22 +24,13 @@ jobs:
         git config --local user.name "GitHub Action"
     - name: Increase version
       run: npm version patch
-    - name: Set up project
+    - name: Run test suite
       run: |
-        HERE=`pwd`
-        mkdir /tmp/project
-        cd /tmp/project
-        npm init -y
+        export RESPONSE_PATH=`pwd`/documentation
+        export SCREENSHOT_PATH=`pwd`/documentation/screenshots
         npm install -g mocha
-        echo "global.applicationPath = __dirname" > main.js
-    - name: Generate UI screenshots and API responses
-      run: |
-        HERE=`pwd`
-        cd /tmp/project
-        export RESPONSE_PATH="$HERE/documentation"
-        export SCREENSHOT_PATH="$HERE/documentation/screenshots"
-        mocha --exit --file main.js --recursive --timeout 90000000 --slow 90000000 $(find ./node_modules/@layeredapps/dashboard/ -name "*.test.js" | grep -i -v [a-z0-9]/node_modules | sort -k5.1,8.1 -t /) | tee $HERE/tests.txt
-        TESTS=`cat $HERE/tests.txt`
+        npm run test-sqlite | tee tests.txt
+        TESTS=`cat tests.txt`
         if [[ "$TESTS" == *" 1)"* ]]; then
           exit 1
         fi
