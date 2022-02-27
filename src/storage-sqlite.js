@@ -1,11 +1,19 @@
 const { Sequelize, Model, DataTypes } = require('sequelize')
 
 module.exports = async () => {
-  const sequelize = new Sequelize(process.env.SQLITE_DATABASE, '', '', {
-    storage: process.env.SQLITE_FILE || 'sqlite::memory:',
-    dialect: 'sqlite',
-    logging: false
-  })
+  let sequelize
+  if (process.env.SQLITE_DATABASE_FILE) {
+    sequelize = new Sequelize(prefixedDatabaseName, '', '', {
+      storage: process.env.SQLITE_DATABASE_FILE,
+      dialect: 'sqlite',
+      logging: false
+    })
+  } else {
+    sequelize = new Sequelize('sqlite::memory', {
+      dialect: 'sqlite',
+      logging: false
+    })
+  }
   class Account extends Model {}
   Account.init({
     accountid: {
@@ -205,7 +213,7 @@ module.exports = async () => {
     modelName: 'profile'
   })
 
-  await sequelize.sync({ force: true, alter: true })
+  await sequelize.sync()
   return {
     sequelize,
     flush: async () => {
@@ -213,7 +221,7 @@ module.exports = async () => {
       await Account.drop()
       await ResetCode.drop()
       await Session.drop()
-      await sequelize.sync({ force: true, alter: true })
+      await sequelize.sync()
     },
     Account,
     Session,

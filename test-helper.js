@@ -502,8 +502,9 @@ const proxy = util.promisify((method, path, req, callback) => {
       }
       if (proxyResponse.headers['content-type']) {
         if (proxyResponse.headers['content-type'].startsWith('application/json')) {
-          body = JSON.parse(body.toString())
+          body = body.toString ? JSON.parse(body.toString()) : body
           if (body.object === 'error') {
+            console.log('error parsing body', body, requestOptions)
             return callback(new Error(body.message))
           }
           return callback(null, body)

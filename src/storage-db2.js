@@ -261,7 +261,7 @@ module.exports = async () => {
     updatedAt: 'updatedAt'
   })
 
-  await sequelize.sync({ force: true, alter: true })
+  await sequelize.sync()
   return {
     sequelize,
     flush: async () => {
@@ -269,7 +269,7 @@ module.exports = async () => {
       await Account.drop()
       await ResetCode.drop()
       await Session.drop()
-      await sequelize.sync({ force: true, alter: true })
+      await sequelize.sync()
     },
     Account,
     Session,
