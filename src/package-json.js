@@ -223,6 +223,9 @@ function loadModuleFile (moduleName, file) {
   }
   const rootPath = path.join(global.applicationPath, file)
   if (fs.existsSync(rootPath)) {
+    if (rootPath.endsWith('.js')) {
+      return require(rootPath)
+    }
     return fs.readFileSync(rootPath).toString()
   }
   Log.error('missing module file', moduleName, file)
