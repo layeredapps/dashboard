@@ -283,23 +283,25 @@ async function createOwner () {
   const owner = await createUser('owner-' + global.testConfiguration.testNumber + '-' + Math.ceil(Math.random() * 100000))
   if (!owner.account.administrator) {
     await dashboard.Storage.Account.update({
-      administrator: sequelize.literal('CURRENT_TIMESTAMP')
+      administratorSince: sequelize.literal('CURRENT_TIMESTAMP')
     }, {
       where: {
         accountid: owner.account.accountid
       }
     })
-    owner.account.administrator = global.testConfiguration.testNumber
+    owner.account.administratorSince = new Date()
+    owner.account.administrator = true
   }
   if (!owner.account.owner) {
     await dashboard.Storage.Account.update({
-      owner: sequelize.literal('CURRENT_TIMESTAMP')
+      ownerSince: sequelize.literal('CURRENT_TIMESTAMP')
     }, {
       where: {
         accountid: owner.account.accountid
       }
     })
-    owner.account.owner = global.testConfiguration.testNumber
+    owner.account.ownerSince = new Date()
+    owner.account.owner = true
   }
   return owner
 }
