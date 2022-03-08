@@ -191,7 +191,7 @@ module.exports = async () => {
       type: DataTypes.DATE,
       defaultValue: undefined,
       get () {
-        const rawValue = this.getDataValue('lastVerifiedAt')
+        const rawValue = this.getDataValue('endedAt')
         return rawValue ? new Date(Date.parse(rawValue)) : undefined
       }
     },
@@ -265,10 +265,10 @@ module.exports = async () => {
   return {
     sequelize,
     flush: async () => {
-      await Profile.drop()
-      await Account.drop()
-      await ResetCode.drop()
-      await Session.drop()
+      await Profile.destroy({ where: {} })
+      await Account.destroy({ where: {} })
+      await ResetCode.destroy({ where: {} })
+      await Session.destroy({ where: {} })
       await sequelize.sync()
     },
     Account,
