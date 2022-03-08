@@ -66,7 +66,12 @@ const mimeTypes = {
   svg: 'image/svg+xml'
 }
 
+let startedServer = false
+
 async function setupBefore () {
+  if (startedServer) {
+    return
+  }
   global.testConfiguration.port = global.port || process.env.PORT || 9000
   let dashboardServer = global.dashboardServer || process.env.DASHBOARD_SERVER || 'http://localhost:9000'
   if (dashboardServer.lastIndexOf(':') > dashboardServer.indexOf(':')) {
@@ -78,6 +83,7 @@ async function setupBefore () {
     global.port = global.testConfiguration.port
     try {
       await dashboard.start()
+      startedServer = true
       break
     } catch (error) {
       Log.error('error starting server', error)
