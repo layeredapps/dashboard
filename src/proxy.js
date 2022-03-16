@@ -1,8 +1,12 @@
 const http = require('http')
 const https = require('https')
 const dashboard = require('../index.js')
+const util = require('util')
 
-module.exports = { pass }
+module.exports = { 
+  pass, 
+  get: util.promisify(get)
+}
 
 async function pass (req, res) {
   let baseURL = (req.applicationServer || global.applicationServer).split('://')[1]
@@ -135,4 +139,36 @@ async function pass (req, res) {
   }
   proxyRequest.end()
   return requestOptions
+}
+
+function get (req, callback) {
+  let host = global.applicationServer
+  let port = 80
+  if (global.applicationServer.lastIndexOf(':') > global.applicationServer.indexOf(':')) {
+    host = global.applicationServer.substring(0, global.applicationServer.lastIndexOf(':'))
+    host = host.substring(host.indexOf('://') + 3)
+    port = global.applicationServer.substring(global.applicationServer.lastIndexOf(':') + 1)
+  } else {
+    port = host.startsWith('https://') ? 443 : 80
+  }
+  const requestOptions = {
+    host,
+    path: req.url,
+    port,
+    method: 'GET'
+  }
+  const protocol = global.applicationServer.startsWith('http://') ? 'http' : 'https'
+  const proxyRequest = require(protocol).request(requestOptions, (proxyResponse) => {
+      let body = ''
+      proxyResponse.on('data', (chunk) => {
+          body += chunk
+      })
+      return proxyResponse.on('end', () => {
+          return callback(null, body)
+      })
+  })
+  proxyRequest.on('error', (error) => {
+      return callback(error)
+  })
+  return proxyRequest.end()
 }

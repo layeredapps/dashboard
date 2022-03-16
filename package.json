@@ -2,7 +2,8 @@
   "dashboard": {
     "content": [],
     "modules": [],
-    "server": []
+    "server": [],
+    "title": "Dashboard"
   },
   "dependencies": {
     "bcryptjs": "latest",

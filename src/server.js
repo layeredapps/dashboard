@@ -127,6 +127,18 @@ async function receiveRequest (req, res) {
       }
     }
   }
+  if (req.urlPath === '/') {
+    let contents
+    if (global.applicationServer) {
+      contents = await Proxy.get(req)
+    } else {
+      contents = fs.readFileSync(path.join(__dirname, 'src/www/index.html'))
+    }
+    if (contents) {
+      res.setHeader('content-type', 'text/html')
+      return res.end(contents)
+    }
+  }
   if (req.urlPath.startsWith('/public/') || req.urlPath === '/favicon.ico' || req.urlPath === '/robots.txt') {
     if (req.method === 'GET') {
       return staticFile(req, res)
@@ -310,9 +322,15 @@ async function staticFile (req, res) {
     resolvedPath = filePath
   } else {
     if (req.urlPath === '/public/content-additional.css' || req.urlPath === '/public/template-additional.css') {
+      let contents
+      if (global.applicationServer) {
+        contents = await Proxy.get(req)
+      } else {
+        contents = ''
+      }
       res.setHeader('content-type', 'text/css')
       res.statusCode = 200
-      return res.end('')
+      return res.end(contents)
     }
     filePath = `@layeredapps/dashboard/src/www${req.urlPath}`
     try {
