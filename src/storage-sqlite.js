@@ -3,7 +3,7 @@ const { Sequelize, Model, DataTypes } = require('sequelize')
 module.exports = async () => {
   let sequelize
   if (process.env.SQLITE_DATABASE_FILE) {
-    sequelize = new Sequelize(prefixedDatabaseName, '', '', {
+    sequelize = new Sequelize(process.env.SQLITE_DATABASE || 'dashboard', '', '', {
       storage: process.env.SQLITE_DATABASE_FILE,
       dialect: 'sqlite',
       logging: false
