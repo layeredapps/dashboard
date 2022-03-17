@@ -85,9 +85,9 @@ async function pass (req, res) {
             if (htmlTagIndex > -1) {
               let htmlTag = body.substring(htmlTagIndex)
               htmlTag = htmlTag.substring(0, htmlTag.indexOf('>'))
-              if (htmlTag.indexOf(' template="false"') > -1 ||
-                htmlTag.indexOf(" template='false'") > -1 ||
-                htmlTag.indexOf(' template=false') > -1) {
+              if (htmlTag.indexOf(' data-template="false"') > -1 ||
+                htmlTag.indexOf(" data-template='false'") > -1 ||
+                htmlTag.indexOf(' data-template=false') > -1) {
                 return res.end(body)
               }
               const doc = dashboard.HTML.parse(body)
