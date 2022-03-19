@@ -14,10 +14,13 @@ async function beforeRequest (req) {
   const resetCodes = await global.api.administrator.ResetCodes.get(req)
   if (resetCodes && resetCodes.length) {
     for (const resetCode of resetCodes) {
-      resetCode.createdFormatted = dashboard.Format.date(resetCode.createdAt)
+      resetCode.createdAtFormatted = dashboard.Format.date(resetCode.createdAt)
     }
   }
   const account = await global.api.administrator.Account.get(req)
+  req.query.profileid = account.profileid
+  const profile = await global.api.administrator.Profile.get(req)
+  account.contactEmail = profile.contactEmail
   const offset = req.query ? req.query.offset || 0 : 0
   req.data = { resetCodes, account, total, offset }
 }

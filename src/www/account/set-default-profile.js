@@ -14,7 +14,7 @@ async function beforeRequest (req) {
   const profiles = await global.api.user.Profiles.get(req)
   req.query.profileid = req.account.profileid
   const profile = await global.api.user.Profile.get(req)
-  profile.createdFormatted = dashboard.Format.date(profile.createdAt)
+  profile.createdAtFormatted = dashboard.Format.date(profile.createdAt)
   req.data = { profile, profiles }
 }
 

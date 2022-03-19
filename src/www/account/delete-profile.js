@@ -26,7 +26,7 @@ async function beforeRequest (req) {
   if (!profile) {
     throw new Error('invalid-profileid')
   }
-  profile.createdFormatted = dashboard.Format.date(profile.createdAt)
+  profile.createdAtFormatted = dashboard.Format.date(profile.createdAt)
   profile.default = req.account.profileid === profile.profileid
   req.data = { profile }
 }

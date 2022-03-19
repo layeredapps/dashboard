@@ -19,11 +19,11 @@
       </tr>
       <tr>
         <th translate="yes">Created</th>
-        <td>${account.createdFormatted}</td>
+        <td>${account.createdAtFormatted}</td>
       </tr>
       <tr>
         <th translate="yes">Last signed in</th>
-        <td>${account.lastSignedInFormatted}</td>
+        <td>${account.lastSignedInAtFormatted}</td>
       </tr>
     </tbody>
   </table>
@@ -74,7 +74,7 @@
       <td>
         <a href="/administrator/session?sessionid=${session.sessionid}">${session.sessionid}</a>
       </td>
-      <td>${session.createdFormatted}</td>
+      <td>${session.createdAtFormatted}</td>
       <td>${session.expiresFormatted}</td>
     </tr>
   </template>
@@ -83,7 +83,7 @@
       <td>
         <a href="/administrator/reset-code?codeid=${resetCode.codeid}">${resetCode.codeid}</a>
       </td>
-      <td>${resetCode.createdFormatted}</td>
+      <td>${resetCode.createdAtFormatted}</td>
     </tr>
   </template>
 </body>

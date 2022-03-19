@@ -11,13 +11,15 @@ async function beforeRequest (req) {
   if (sessions && sessions.length) {
     req.query = req.query || {}
     for (const session of sessions) {
-      session.createdFormatted = dashboard.Format.date(session.createdAt)
+      session.createdAtFormatted = dashboard.Format.date(session.createdAt)
       session.expiresFormatted = dashboard.Format.date(session.expiresAt)
       req.query.accountid = session.accountid
       const account = await global.api.administrator.Account.get(req)
       session.firstName = account.firstName
       session.lastName = account.lastName
-      session.email = account.email
+      req.query.profileid = account.profileid
+      const profile = await global.api.administrator.Profile.get(req)
+      session.contactEmail = profile.contactEmail
     }
   }
   const offset = req.query ? req.query.offset || 0 : 0

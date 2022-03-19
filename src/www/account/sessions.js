@@ -11,7 +11,7 @@ async function beforeRequest (req) {
   const total = await global.api.user.SessionsCount.get(req)
   const sessions = await global.api.user.Sessions.get(req)
   for (const session of sessions) {
-    session.createdFormatted = dashboard.Format.date(session.createdAt)
+    session.createdAtFormatted = dashboard.Format.date(session.createdAt)
     session.expiresFormatted = dashboard.Format.date(session.expiresAt)
   }
   const offset = req.query ? req.query.offset || 0 : 0

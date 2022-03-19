@@ -11,13 +11,16 @@ async function beforeRequest (req) {
     throw new Error('invalid-accountid')
   }
   const total = await global.api.administrator.ProfilesCount.get(req)
+  const account = await global.api.administrator.Account.get(req)
   const profiles = await global.api.administrator.Profiles.get(req)
   if (profiles && profiles.length) {
     for (const profile of profiles) {
-      profile.createdFormatted = dashboard.Format.date(profile.createdAt)
+      profile.createdAtFormatted = dashboard.Format.date(profile.createdAt)
+      if (profile.profileid === account.profileid) {
+        account.contactEmail = profile.contactEmail
+      }
     }
   }
-  const account = await global.api.administrator.Account.get(req)
   const offset = req.query ? req.query.offset || 0 : 0
   req.data = { profiles, account, total, offset }
 }

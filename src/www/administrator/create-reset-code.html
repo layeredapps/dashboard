@@ -28,10 +28,10 @@
       </td>
       <td>${account.firstName} ${account.lastName}</td>
       <td>
-        <a href="mailto:${account.email}">${account.email}</a>
+        <a href="mailto:${account.contactEmail}">${account.contactEmail}</a>
       </td>
-      <td>${account.createdFormatted}</td>
-      <td>${account.lastSignedInFormatted}</td>
+      <td>${account.createdAtFormatted}</td>
+      <td>${account.lastSignedInAtFormatted}</td>
     </tr>
   </table>
   <form id="submit-form" method="post" class="pure-form pure-form-stacked" action="/administrator/create-reset-code?accountid=${account.accountid}" name="submit-form">

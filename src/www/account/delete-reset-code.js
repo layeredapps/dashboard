@@ -22,7 +22,7 @@ async function beforeRequest (req) {
   if (!resetCode) {
     throw new Error('invalid-reset-codeid')
   }
-  resetCode.createdFormatted = dashboard.Format.date(resetCode.createdAt)
+  resetCode.createdAtFormatted = dashboard.Format.date(resetCode.createdAt)
   req.data = { resetCode }
 }
 

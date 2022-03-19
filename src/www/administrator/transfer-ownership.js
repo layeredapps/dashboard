@@ -12,8 +12,8 @@ async function beforeRequest (req) {
     throw new Error('invalid-accountid')
   }
   const account = await global.api.administrator.Account.get(req)
-  account.createdFormatted = dashboard.Format.date(account.createdAt)
-  account.lastSignedInFormatted = dashboard.Format.date(account.lastSignedInAt)
+  account.createdAtFormatted = dashboard.Format.date(account.createdAt)
+  account.lastSignedInAtFormatted = dashboard.Format.date(account.lastSignedInAt)
   req.data = { account }
 }
 

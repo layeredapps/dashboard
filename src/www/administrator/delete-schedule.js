@@ -9,10 +9,14 @@ async function beforeRequest (req) {
   const total = await global.api.administrator.DeletedAccountsCount.get(req)
   const accounts = await global.api.administrator.DeletedAccounts.get(req)
   if (accounts && accounts.length) {
+    req.query = req.query || {}
     for (const account of accounts) {
-      account.createdFormatted = dashboard.Format.date(account.createdAt)
-      account.lastSignedInFormatted = dashboard.Format.date(account.lastSignedInAt)
-      account.deletedFormatted = dashboard.Format.date(account.deletedAt)
+      account.createdAtFormatted = dashboard.Format.date(account.createdAt)
+      account.lastSignedInAtFormatted = dashboard.Format.date(account.lastSignedInAt)
+      account.deletedAtFormatted = dashboard.Format.date(account.deletedAt)
+      req.query.profileid = account.profileid
+      const profile = await global.api.administrator.Profile.get(req)
+      account.contactEmail = profile.contactEmail
     }
   }
   const offset = req.query ? req.query.offset || 0 : 0

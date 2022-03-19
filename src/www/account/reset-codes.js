@@ -12,7 +12,7 @@ async function beforeRequest (req) {
   const resetCodes = await global.api.user.ResetCodes.get(req)
   if (resetCodes && resetCodes.length) {
     for (const code of resetCodes) {
-      code.createdFormatted = dashboard.Format.date(code.createdAt)
+      code.createdAtFormatted = dashboard.Format.date(code.createdAt)
     }
   }
   const offset = req.query ? req.query.offset || 0 : 0

@@ -10,7 +10,7 @@ async function beforeRequest (req) {
     throw new Error('invalid-reset-codeid')
   }
   const resetCode = await global.api.administrator.ResetCode.get(req)
-  resetCode.createdFormatted = dashboard.Format.date(resetCode.createdAt)
+  resetCode.createdAtFormatted = dashboard.Format.date(resetCode.createdAt)
   req.data = { resetCode }
 }
 

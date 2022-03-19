@@ -28,7 +28,7 @@
       </td>
       <td>${account.firstName} ${account.lastName}</td>
       <td>
-        <a href="mailto:${account.email}">${account.email}</a>
+        <a href="mailto:${account.contactEmail}">${account.contactEmail}</a>
       </td>
     </tr>
   </table>
@@ -49,7 +49,7 @@
   <template id="reset-code-row">
     <tr id="${resetCode.codeid}">
       <td>${resetCode.codeid}</td>
-      <td>${resetCode.createdFormatted}</td>
+      <td>${resetCode.createdAtFormatted}</td>
     </tr>
   </template>
 </body>

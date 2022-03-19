@@ -20,7 +20,7 @@ async function beforeRequest (req) {
     return
   }
   const session = await global.api.user.Session.get(req)
-  session.createdFormatted = dashboard.Format.date(session.createdAt)
+  session.createdAtFormatted = dashboard.Format.date(session.createdAt)
   session.expiresFormatted = dashboard.Format.date(session.expiresAt)
   req.data = { session }
 }

@@ -28,7 +28,7 @@
       </td>
       <td>${account.firstName} ${account.lastName}</td>
       <td>
-        <a href="mailto:${account.email}">${account.email}</a>
+        <a href="mailto:${account.contactEmail}">${account.contactEmail}</a>
       </td>
     </tr>
   </table>
@@ -52,7 +52,7 @@
       <td>
         <a href="/administrator/session?sessionid=${session.sessionid}">${session.sessionid}</a>
       </td>
-      <td>${session.createdFormatted}</td>
+      <td>${session.createdAtFormatted}</td>
       <td>${session.expiresFormatted}</td>
     </tr>
   </template>

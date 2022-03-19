@@ -26,8 +26,8 @@ async function beforeRequest (req) {
   if (account.ownerid || account.administrator) {
     throw new Error('invalid-account')
   }
-  account.createdFormatted = dashboard.Format.date(account.createdAt)
-  account.lastSignedInFormatted = dashboard.Format.date(account.lastSignedInAt)
+  account.createdAtFormatted = dashboard.Format.date(account.createdAt)
+  account.lastSignedInAtFormatted = dashboard.Format.date(account.lastSignedInAt)
   req.data = { account }
 }
 

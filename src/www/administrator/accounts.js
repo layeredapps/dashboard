@@ -9,9 +9,15 @@ async function beforeRequest (req) {
   const total = await global.api.administrator.AccountsCount.get(req)
   const accounts = await global.api.administrator.Accounts.get(req)
   if (accounts && accounts.length) {
+    req.query = req.query || {}
     for (const account of accounts) {
-      account.createdFormatted = dashboard.Format.date(account.createdAt)
-      account.lastSignedInFormatted = dashboard.Format.date(account.lastSignedInAt)
+      account.createdAtFormatted = dashboard.Format.date(account.createdAt)
+      account.lastSignedInAtFormatted = dashboard.Format.date(account.lastSignedInAt)
+      req.query.profileid = account.profileid
+      const profile = await global.api.administrator.Profile.get(req)
+      account.contactEmail = profile.contactEmail
+      account.firstName = profile.firstName
+      account.lastName = profile.lastName
     }
   }
   const offset = req.query ? req.query.offset || 0 : 0
