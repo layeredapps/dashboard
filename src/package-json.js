@@ -209,6 +209,7 @@ function loadModuleFile (moduleName, file) {
     global.testModuleJSON[moduleName].files = global.testModuleJSON[moduleName].files || {}
     return global.testModuleJSON[moduleName].files[file]
   }
+  // resolve module-name/path/to/file.js
   let modulePath
   try {
     modulePath = require.resolve(moduleName)
@@ -221,6 +222,7 @@ function loadModuleFile (moduleName, file) {
     }
     return fs.readFileSync(filePath).toString()
   }
+  // resolve root path
   const rootPath = path.join(global.applicationPath, file)
   if (fs.existsSync(rootPath)) {
     if (rootPath.endsWith('.js')) {
@@ -228,6 +230,18 @@ function loadModuleFile (moduleName, file) {
     }
     return fs.readFileSync(rootPath).toString()
   }
-  Log.error('missing module file', moduleName, file)
+  // resolve absolute path
+  let absolutePath
+  try {
+    absolutePath = require.resolve(file)
+  } catch (error) {
+  }
+  if (absolutePath) {
+    if (absolutePath.endsWith('.js')) {
+      return require(absolutePath)
+    }
+    return fs.readFileSync(absolutePath).toString()
+  }
+  Log.error('missing module file', file)
   throw new Error('missing-module-file')
 }
