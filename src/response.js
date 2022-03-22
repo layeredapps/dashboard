@@ -36,14 +36,14 @@ async function end (req, res, doc, blob) {
     return res.end('')
   }
   const mimeType = mimeTypes[req.extension === 'jpeg' ? 'jpg' : req.extension] || mimeTypes.html
-  res.setHeader('content-type', mimeType)
+  res.setHeader('Content-Type', mimeType)
   if (blob) {
     const tag = eTagCache[req.urlPath] = eTagCache[req.urlPath] || req.eTag || eTag(blob)
-    res.setHeader('expires', new Date(Date.now() + eightDays).toUTCString())
-    res.setHeader('etag', tag)
-    res.setHeader('vary', 'accept-encoding')
+    res.setHeader('Expires', new Date(Date.now() + eightDays).toUTCString())
+    res.setHeader('Etag', tag)
+    res.setHeader('Vary', 'Accept-Encoding')
     if (mimeTypes[req.extension]) {
-      res.setHeader('content-type', mimeTypes[req.extension])
+      res.setHeader('Content-Type', mimeTypes[req.extension])
     }
     if (req.extension === 'jpg' || req.extension === 'jpeg') {
       return res.end(blob, 'binary')
@@ -92,7 +92,7 @@ async function redirect (req, res, url) {
   if (!url || !url.length || !url.startsWith('/')) {
     throw new Error('invalid-url')
   }
-  res.setHeader('content-type', mimeTypes.html)
+  res.setHeader('Content-Type', mimeTypes.html)
   const packageJSON = req.packageJSON || global.packageJSON
   const doc = HTML.parse(packageJSON.dashboard.redirectHTML.split('{url}').join(url))
   if (packageJSON.dashboard.content && packageJSON.dashboard.content.length) {
@@ -128,7 +128,7 @@ async function throwError (req, res, code, error) {
   heading.attr.code = code
   heading.attr.error = error.message
   res.statusCode = code || 500
-  res.setHeader('content-type', mimeTypes.html)
+  res.setHeader('Content-Type', mimeTypes.html)
   if (req.session) {
     const combinedPages = await wrapTemplateWithSrcDoc(req, res, doc)
     const templateDoc = HTML.parse(combinedPages)
@@ -141,7 +141,7 @@ function compress (req, res, data) {
   if (!req.headers) {
     return res.end(data)
   }
-  const acceptEncoding = req.headers['accept-encoding'] || ''
+  const acceptEncoding = req.headers['Accept-Encoding'] || ''
   if (!acceptEncoding) {
     return res.end(data)
   }
@@ -150,7 +150,7 @@ function compress (req, res, data) {
       if (error) {
         throw500(req, res)
       }
-      res.setHeader('content-encoding', 'deflate')
+      res.setHeader('Content-Encoding', 'deflate')
       return res.end(result)
     })
   } else if (acceptEncoding.match(/\bgzip\b/)) {
@@ -158,7 +158,7 @@ function compress (req, res, data) {
       if (error) {
         throw500(req, res)
       }
-      res.setHeader('content-encoding', 'gzip')
+      res.setHeader('Content-Encoding', 'gzip')
       return res.end(result)
     })
   }

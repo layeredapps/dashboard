@@ -44,8 +44,8 @@ describe('internal-api/server', () => {
     it('should ignore file uploads', async () => {
       const req = TestHelper.createRequest('/account/change-username')
       req.headers = {
-        'content-type': 'multipart/form-data',
-        'content-length': '1234'
+        'Content-Type': 'multipart/form-data',
+        'Content-Length': '1234'
       }
       const bodyRaw = await Server.parsePostData(req)
       assert.strictEqual(bodyRaw, undefined)
@@ -58,8 +58,8 @@ describe('internal-api/server', () => {
         port: global.port,
         method: 'POST',
         headers: {
-          'content-type': 'application/x-www-form-urlencoded',
-          'content-length': 0
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Content-Length': 0
         }
       }
       const proxyRequest = http.request(requestOptions, (proxyResponse) => {
@@ -85,8 +85,8 @@ describe('internal-api/server', () => {
         port: global.port,
         method: 'POST',
         headers: {
-          'content-type': 'application/x-www-form-urlencoded',
-          'content-length': postData.length
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Content-Length': postData.length
         }
       }
       const proxyRequest = http.request(requestOptions, (proxyResponse) => {

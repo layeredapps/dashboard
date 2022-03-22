@@ -11,8 +11,8 @@ const util = require('util')
 
 const parsePostData = util.promisify((req, callback) => {
   if (req.headers &&
-      req.headers['content-type'] &&
-      req.headers['content-type'].indexOf('multipart/form-data') > -1) {
+      req.headers['Content-Type'] &&
+      req.headers['Content-Type'].indexOf('multipart/form-data') > -1) {
     return callback()
   }
   let body = ''
@@ -44,7 +44,7 @@ const parseMultiPartData = util.promisify((req, callback) => {
         continue
       }
       req.uploads[field] = {
-        type: file.headers['content-type'],
+        type: file.headers['Content-Type'],
         buffer: fs.readFileSync(file.path),
         name: file.originalFilename
       }
@@ -107,7 +107,7 @@ async function receiveRequest (req, res) {
     req.query = querystring.parse(req.url.substring(question + 1), '&', '=')
   }
   if (req.method === 'POST' || req.method === 'PATCH' || req.method === 'PUT' || req.method === 'DELETE') {
-    if (req.headers['content-type'] && req.headers['content-type'].indexOf('multipart/form-data;') > -1) {
+    if (req.headers['Content-Type'] && req.headers['Content-Type'].indexOf('multipart/form-data;') > -1) {
       try {
         await parseMultiPartData(req)
       } catch (error) {
@@ -135,7 +135,7 @@ async function receiveRequest (req, res) {
       contents = fs.readFileSync(path.join(__dirname, 'src/www/index.html'))
     }
     if (contents) {
-      res.setHeader('content-type', 'text/html')
+      res.setHeader('Content-Type', 'text/html')
       return res.end(contents)
     }
   }
@@ -169,7 +169,12 @@ async function receiveRequest (req, res) {
   if (!req.applicationServer && req.headers['x-application-server']) {
     return dashboard.Response.throw500(req, res)
   }
-  if (req.urlPath.startsWith('/api/') && !global.allowPublicAPI && !req.applicationServer && !req.allowAPIRequest) {
+  if (req.urlPath.startsWith('/api/') && !global.allowSameDomainAPI && !req.applicationServer && !req.allowAPIRequest) {
+    if (global.globalAPIAccess) {
+      res.setHeader('Access-Control-Allow-Origin', '*')
+      res.setHeader('Access-Control-Allow-Headers', 'Content-Type')
+      res.setHeader('Access-Control-Allow-Methods', 'OPTIONS,POST,GET,PATCH,DELETE')
+    }
     return dashboard.Response.throw404(req, res)
   }
   if (req.route && req.route.api !== 'static-page') {
@@ -217,7 +222,12 @@ async function receiveRequest (req, res) {
   if (!req.account && req.route && req.route.auth !== false) {
     if (req.urlPath.startsWith('/api/')) {
       res.statusCode = 511
-      res.setHeader('content-type', 'application/json')
+      res.setHeader('Content-Type', 'application/json')
+      if (global.globalAPIAccess) {
+        res.setHeader('Access-Control-Allow-Origin', '*')
+        res.setHeader('Access-Control-Allow-Headers', 'Content-Type')
+        res.setHeader('Access-Control-Allow-Methods', 'OPTIONS,POST,GET,PATCH,DELETE')
+      }
       return res.end('{ "object": "auth", "message": "Sign in required" }')
     }
     return dashboard.Response.redirectToSignIn(req, res)
@@ -240,6 +250,17 @@ async function receiveRequest (req, res) {
     }
     if (!req.account.administrator) {
       return dashboard.Response.throw500(req, res)
+    }
+  }
+  if (req.urlPath.startsWith('/api/administrator/')) {
+    if (!req.account || !req.account.administrator) {
+      res.setHeader('Content-Type', 'application/json')
+      if (global.globalAPIAccess) {
+        res.setHeader('Access-Control-Allow-Origin', '*')
+        res.setHeader('Access-Control-Allow-Headers', 'Content-Type')
+        res.setHeader('Access-Control-Allow-Methods', 'OPTIONS,POST,GET,PATCH,DELETE')
+      }
+      return res.end('{ "object": "auth", "message": "Administrator required" }')
     }
   }
   if (req.session && global.sessionVerificationDelay) {
@@ -292,11 +313,16 @@ async function executeAPIRequest (req, res) {
   } catch (error) {
     Log.error('api error', req.url, req.body, req.uploads, error)
     res.statusCode = 500
-    res.setHeader('content-type', 'application/json; charset=utf-8')
+    res.setHeader('Content-Type', 'application/json; charset=utf-8')
     return res.end(`{ "object": "error", "message": "${error.message || 'An error ocurred'}" }`)
   }
   res.statusCode = 200
-  res.setHeader('content-type', 'application/json; charset=utf-8')
+  res.setHeader('Content-Type', 'application/json; charset=utf-8')
+  if (global.globalAPIAccess) {
+    res.setHeader('Access-Control-Allow-Origin', '*')
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type')
+    res.setHeader('Access-Control-Allow-Methods', 'OPTIONS,POST,GET,PATCH,DELETE')
+  }
   return res.end(result ? JSON.stringify(result) : '')
 }
 
@@ -328,7 +354,7 @@ async function staticFile (req, res) {
       } else {
         contents = ''
       }
-      res.setHeader('content-type', 'text/css')
+      res.setHeader('Content-Type', 'text/css')
       res.statusCode = 200
       return res.end(contents)
     }

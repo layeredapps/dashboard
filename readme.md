@@ -149,19 +149,19 @@ These fields are supported by the registration form:
 
 # Adding links to the header menus
 
-The account and administrator drop-down menus are created from stub HTML files placed in Dashboard, modules, and your project.  To add your own links create a `/src/menu-account.html` and `/src/menu-administrator.html` in your project with the HTML top include.
+The account and administrator drop-down menus are created from stub HTML files placed in Dashboard, modules, and your project.  To add your own links create a `/menu-account.html` and `/menu-administrator.html` in your project with the HTML to include.
 
 ## Account menu compilation
 
-1) Your project's `package.json` and `/src/menu-account.html`
-2) Any activated module's `package.json` links or `/src/menu-account.html` files
-3) Dashboard's `package.json` and `/src/menu-account.html`
+1) Your project's `/menu-account.html`
+2) Any activated module's `/menu-account.html` files
+3) Dashboard's `/menu-account.html`
 
 ## Administrator menu compilation
 
-1) Your project's `package.json` and `/src/menu-administrator.html`
-2) Any activated module's `package.json` links or `/src/menu-administrator.html` files
-3) Dashboard's `package.json` and `/src/menu-administrator.html`
+1) Your project's `/menu-administrator.html`
+2) Any activated module's `/menu-administrator.html` files
+3) Dashboard's `/menu-administrator.html`
 
 # Access the API
 

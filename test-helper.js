@@ -33,7 +33,7 @@ const defaultConfigurationValues = {
   deleteDelay: 7,
   pageSize: 2,
   idLength: 7,
-  allowPublicAPI: true,
+  allowSameDomainAPI: true,
   delayDiskWrites: false,
   bcryptWorkloadFactor: 4,
   sessionVerificationDelay: 14400
@@ -471,7 +471,7 @@ const proxy = util.promisify((method, path, req, callback) => {
       requestOptions.headers = req.headers
     } else {
       postData = querystring.stringify(req.body)
-      requestOptions.headers['content-length'] = postData.length
+      requestOptions.headers['Content-Length'] = postData.length
     }
   }
   if (req.session && req.session.expiresAt) {
@@ -508,8 +508,8 @@ const proxy = util.promisify((method, path, req, callback) => {
           expiresAt: new Date(expires)
         }
       }
-      if (proxyResponse.headers['content-type']) {
-        if (proxyResponse.headers['content-type'].startsWith('application/json')) {
+      if (proxyResponse.headers['Content-Type']) {
+        if (proxyResponse.headers['Content-Type'].startsWith('application/json')) {
           try {
             body = JSON.parse(body)
           } catch (error) {

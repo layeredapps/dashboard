@@ -131,7 +131,7 @@ describe('internal-api/proxy', () => {
       req.session = user.session
       req.method = 'GET'
       req.headers = {
-        'content-type': 'x-www-form-urlencoded'
+        'Content-Type': 'x-www-form-urlencoded'
       }
       req.body = {
         simple: 'payload'

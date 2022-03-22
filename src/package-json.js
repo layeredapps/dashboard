@@ -7,7 +7,7 @@ module.exports = {
   mergeTitle,
   mergeScriptArray,
   mergeModuleArray,
-  mergeMenuLinks,
+  mergeHTMLFileMenuLinks,
   mergeSpecialHTML
 }
 
@@ -52,11 +52,11 @@ function merge (applicationJSON, dashboardJSON) {
   }
   mergeSpecialHTML(packageJSON, '@layeredapps/dashboard')
   mergeSpecialHTML(packageJSON)
-  mergeMenuLinks(packageJSON)
+  mergeHTMLFileMenuLinks(packageJSON)
   for (const moduleName of packageJSON.dashboard.modules) {
-    mergeMenuLinks(packageJSON, moduleName)
+    mergeHTMLFileMenuLinks(packageJSON, moduleName)
   }
-  mergeMenuLinks(packageJSON, '@layeredapps/dashboard')
+  mergeHTMLFileMenuLinks(packageJSON, '@layeredapps/dashboard')
   return packageJSON
 }
 
@@ -96,7 +96,7 @@ function mergeSpecialHTML (baseJSON, moduleName) {
   }
 }
 
-function mergeMenuLinks (baseJSON, moduleName) {
+function mergeHTMLFileMenuLinks (baseJSON, moduleName) {
   if (!moduleName) {
     const rootAccountMenuHTMLPath = `${global.applicationPath}/menu-account.html`
     if (fs.existsSync(rootAccountMenuHTMLPath)) {
