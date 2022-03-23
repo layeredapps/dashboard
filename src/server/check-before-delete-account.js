@@ -1,5 +1,5 @@
 const dashboard = require('@layeredapps/dashboard')
-const Proxy = require('./proxy.js')
+const Proxy = require('../proxy.js')
 
 module.exports = {
   after: async (req, res) => {
