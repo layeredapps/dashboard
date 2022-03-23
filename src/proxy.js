@@ -155,7 +155,8 @@ async function get (req, callback) {
     host,
     path: req.url,
     port,
-    method: 'GET'
+    method: 'GET',
+    headers: {}
   }
   if (global.packageJSON.dashboard.proxy && global.packageJSON.dashboard.proxy.length) {
     for (const handler of global.packageJSON.dashboard.proxy) {
