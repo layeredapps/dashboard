@@ -141,7 +141,7 @@ async function pass (req, res) {
   return requestOptions
 }
 
-function get (req, callback) {
+async function get (req, callback) {
   let host = global.applicationServer
   let port = 80
   if (global.applicationServer.lastIndexOf(':') > global.applicationServer.indexOf(':')) {
