@@ -94,6 +94,7 @@ const dashboard = module.exports = {
   Format: require('./src/format.js'),
   Hash: require('./src/hash.js'),
   HTML: require('./src/html.js'),
+  Proxy: require('./src/proxy.js'),
   Response: require('./src/response.js'),
   UUID: require('./src/uuid.js'),
   start: async (applicationPath) => {
