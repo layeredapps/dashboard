@@ -102,6 +102,7 @@ async function redirect (req, res, url) {
       }
     }
   }
+  res.ended = true
   return res.end(doc.toString())
 }
 
