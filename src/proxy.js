@@ -157,6 +157,11 @@ function get (req, callback) {
     port,
     method: 'GET'
   }
+  if (global.packageJSON.dashboard.proxy && global.packageJSON.dashboard.proxy.length) {
+    for (const handler of global.packageJSON.dashboard.proxy) {
+      await handler(req, requestOptions)
+    }
+  }
   const protocol = global.applicationServer.startsWith('http://') ? 'http' : 'https'
   const proxyRequest = require(protocol).request(requestOptions, (proxyResponse) => {
       let body = ''
