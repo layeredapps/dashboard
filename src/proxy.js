@@ -158,6 +158,11 @@ async function get (req, callback) {
     method: 'GET',
     headers: {}
   }
+
+  if (req.account) {
+    requestOptions.headers['x-accountid'] = req.account.accountid
+    requestOptions.headers['x-sessionid'] = req.session.sessionid
+  }
   if (global.packageJSON.dashboard.proxy && global.packageJSON.dashboard.proxy.length) {
     for (const handler of global.packageJSON.dashboard.proxy) {
       await handler(req, requestOptions)
