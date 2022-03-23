@@ -46,29 +46,29 @@ async function pass (req, res) {
     }
   }
   if (req.body && req.bodyRaw) {
-    requestOptions.headers['Content-Length'] = req.headers['Content-Length'] || req.bodyRaw.length
-    requestOptions.headers['Content-Type'] = req.headers['Content-Type'] || 'application/x-www-form-urlencoded'
+    requestOptions.headers['content-length'] = req.headers['content-length'] || req.bodyRaw.length
+    requestOptions.headers['content-type'] = req.headers['content-type'] || 'application/x-www-form-urlencoded'
   } else if (req.body) {
     const boundary = '--------------------------' + (Math.random() + '').split('.')[1]
     const body = []
     for (const field in req.body) {
       let nextPostData = `--${boundary}\r\n`
-      nextPostData += `Content-Disposition: form-data; name="${field}"\r\n\r\n`
+      nextPostData += `content-disposition: form-data; name="${field}"\r\n\r\n`
       nextPostData += `${req.body[field]}\r\n`
       body.push(nextPostData)
     }
     for (const field in req.uploads) {
       let nextPostData = `--${boundary}\r\n`
-      nextPostData += `Content-Disposition: form-data; name="${field}"; filename="${req.uploads[field].name}"\r\n`
-      nextPostData += `Content-Type: ${req.uploads[field].type}\r\n\r\n`
+      nextPostData += `content-disposition: form-data; name="${field}"; filename="${req.uploads[field].name}"\r\n`
+      nextPostData += `content-type: ${req.uploads[field].type}\r\n\r\n`
       nextPostData += req.uploads[field].buffer.toString('binary')
       nextPostData += '\r\n'
       body.push(nextPostData)
     }
     body.push(`--${boundary}--`)
     req.body = req.bodyRaw = Buffer.from(body.join(''), 'binary')
-    requestOptions.headers['Content-Length'] = Buffer.byteLength(req.body)
-    requestOptions.headers['Content-Type'] = 'multipart/form-data; boundary=' + boundary
+    requestOptions.headers['content-length'] = Buffer.byteLength(req.body)
+    requestOptions.headers['content-type'] = 'multipart/form-data; boundary=' + boundary
   }
   const protocol = (req.applicationServerToken || global.applicationServer).startsWith('https') ? https : http
   const proxyRequest = protocol.request(requestOptions, (proxyResponse) => {
@@ -79,7 +79,7 @@ async function pass (req, res) {
     proxyResponse.on('end', () => {
       switch (proxyResponse.statusCode) {
         case 200:
-          if (proxyResponse.headers['Content-Type'] && proxyResponse.headers['Content-Type'].indexOf('text/html') === 0) {
+          if (proxyResponse.headers['content-type'] && proxyResponse.headers['content-type'].indexOf('text/html') === 0) {
             body = body.toString()
             const htmlTagIndex = body.indexOf('<html')
             if (htmlTagIndex > -1) {
@@ -94,14 +94,14 @@ async function pass (req, res) {
               return dashboard.Response.end(req, res, doc)
             }
           }
-          if (proxyResponse.headers['Content-Type']) {
-            res.setHeader('Content-Type', proxyResponse.headers['Content-Type'])
+          if (proxyResponse.headers['content-type']) {
+            res.setHeader('content-type', proxyResponse.headers['content-type'])
           }
-          if (proxyResponse.headers['Content-Disposition']) {
-            res.setHeader('Content-Disposition', proxyResponse.headers['Content-Disposition'])
+          if (proxyResponse.headers['content-disposition']) {
+            res.setHeader('content-disposition', proxyResponse.headers['content-disposition'])
           }
-          if (proxyResponse.headers['Content-Length']) {
-            res.setHeader('Content-Length', proxyResponse.headers['Content-Length'])
+          if (proxyResponse.headers['content-length']) {
+            res.setHeader('content-length', proxyResponse.headers['content-length'])
           }
           res.statusCode = 200
           return res.end(body)
@@ -112,20 +112,20 @@ async function pass (req, res) {
           return res.end()
         case 404:
           if (req.urlPath.startsWith('/api/')) {
-            res.setHeader('Content-Type', 'application/json')
+            res.setHeader('content-type', 'application/json')
             return res.end('{ "object": "error", "message": "Invalid content was returned from the application server" }')
           }
           return dashboard.Response.throw404(req, res)
         case 511:
           if (req.urlPath.startsWith('/api/')) {
-            res.setHeader('Content-Type', 'application/json')
+            res.setHeader('content-type', 'application/json')
             return res.end('{ "object": "error", "message": "Invalid content was returned from the application server" }')
           }
           return dashboard.Response.redirectToSignIn(req, res)
         case 500:
         default:
           if (req.urlPath.startsWith('/api/')) {
-            res.setHeader('Content-Type', 'application/json')
+            res.setHeader('content-type', 'application/json')
             return res.end('{ object": "error", "message": "Invalid content was returned from the application server" }')
           }
           return dashboard.Response.throw500(req, res)

@@ -471,7 +471,7 @@ const proxy = util.promisify((method, path, req, callback) => {
       requestOptions.headers = req.headers
     } else {
       postData = querystring.stringify(req.body)
-      requestOptions.headers['Content-Length'] = postData.length
+      requestOptions.headers['content-length'] = postData.length
     }
   }
   if (req.session && req.session.expiresAt) {
@@ -508,8 +508,8 @@ const proxy = util.promisify((method, path, req, callback) => {
           expiresAt: new Date(expires)
         }
       }
-      if (proxyResponse.headers['Content-Type']) {
-        if (proxyResponse.headers['Content-Type'].startsWith('application/json')) {
+      if (proxyResponse.headers['content-type']) {
+        if (proxyResponse.headers['content-type'].startsWith('application/json')) {
           try {
             body = JSON.parse(body)
           } catch (error) {
@@ -563,20 +563,20 @@ function createMultiPart (req, body, uploads) {
       const type = mimeTypes[extension]
       const segment = [
         delimiter,
-        `Content-Disposition: form-data; name="${field}"; filename="${filename}"`,
-        `Content-Type: ${type}`,
+        `content-disposition: form-data; name="${field}"; filename="${filename}"`,
+        `content-type: ${type}`,
         '\r\n'
       ]
       buffers.push(Buffer.from(segment.join('\r\n')), fs.readFileSync(uploads[field].path), Buffer.from('\r\n'))
     }
   }
   for (const field in body) {
-    buffers.push(Buffer.from(`${delimiter}\r\nContent-Disposition: form-data; name="${field}"\r\n\r\n${body[field]}`))
+    buffers.push(Buffer.from(`${delimiter}\r\ncontent-disposition: form-data; name="${field}"\r\n\r\n${body[field]}`))
   }
   buffers.push(Buffer.from(closeDelimiter))
   const multipartBody = Buffer.concat(buffers)
   req.headers = req.headers || {}
-  req.headers['Content-Type'] = `multipart/form-data; boundary=${boundary}`
-  req.headers['Content-Length'] = multipartBody.length
+  req.headers['content-type'] = `multipart/form-data; boundary=${boundary}`
+  req.headers['content-length'] = multipartBody.length
   return multipartBody
 }
