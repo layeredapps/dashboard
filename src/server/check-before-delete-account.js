@@ -19,7 +19,7 @@ module.exports = {
     if (response.startsWith('{')) {
       const result = JSON.parse(response)
       if (result.redirect) {
-        return dashboard.Response.redirect(req, res, response.redirect)
+        return dashboard.Response.redirect(req, res, result.redirect)
       }
     }
   }
