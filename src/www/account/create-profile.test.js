@@ -36,7 +36,7 @@ describe('/account/create-profile', () => {
       const result = await req.get()
       const doc = TestHelper.extractDoc(result.html)
       const inputContainer = doc.getElementById('contact-email-container')
-      assert.strictEqual(inputContainer.tag, 'div')
+      assert.strictEqual(inputContainer.tag, 'fieldset')
     })
 
     it('should have elements for display-email', async () => {
@@ -48,7 +48,7 @@ describe('/account/create-profile', () => {
       const result = await req.get()
       const doc = TestHelper.extractDoc(result.html)
       const inputContainer = doc.getElementById('display-email-container')
-      assert.strictEqual(inputContainer.tag, 'div')
+      assert.strictEqual(inputContainer.tag, 'fieldset')
     })
 
     it('should have elements for dob', async () => {
@@ -72,7 +72,7 @@ describe('/account/create-profile', () => {
       const result = await req.get()
       const doc = TestHelper.extractDoc(result.html)
       const inputContainer = doc.getElementById('phone-container')
-      assert.strictEqual(inputContainer.tag, 'div')
+      assert.strictEqual(inputContainer.tag, 'fieldset')
     })
 
     it('should have elements for occupation', async () => {
@@ -85,7 +85,7 @@ describe('/account/create-profile', () => {
       const result = await req.get()
       const doc = TestHelper.extractDoc(result.html)
       const inputContainer = doc.getElementById('occupation-container')
-      assert.strictEqual(inputContainer.tag, 'div')
+      assert.strictEqual(inputContainer.tag, 'fieldset')
     })
 
     it('should have elements for location', async () => {
@@ -97,7 +97,7 @@ describe('/account/create-profile', () => {
       const result = await req.get()
       const doc = TestHelper.extractDoc(result.html)
       const inputContainer = doc.getElementById('location-container')
-      assert.strictEqual(inputContainer.tag, 'div')
+      assert.strictEqual(inputContainer.tag, 'fieldset')
     })
 
     it('should have elements for company-name', async () => {
@@ -109,7 +109,7 @@ describe('/account/create-profile', () => {
       const result = await req.get()
       const doc = TestHelper.extractDoc(result.html)
       const inputContainer = doc.getElementById('company-name-container')
-      assert.strictEqual(inputContainer.tag, 'div')
+      assert.strictEqual(inputContainer.tag, 'fieldset')
     })
 
     it('should have elements for website', async () => {
@@ -122,7 +122,7 @@ describe('/account/create-profile', () => {
       const result = await req.get()
       const doc = TestHelper.extractDoc(result.html)
       const inputContainer = doc.getElementById('website-container')
-      assert.strictEqual(inputContainer.tag, 'div')
+      assert.strictEqual(inputContainer.tag, 'fieldset')
     })
   })
 

@@ -3,19 +3,20 @@
 <head>
   <meta charset="utf-8" /> 
   <title translate="yes">Delete ${profile.profileid}</title>
-  <link href="/public/pure-min.css" rel="stylesheet">
   <link href="/public/content.css" rel="stylesheet">
   <link href="/public/content-additional.css" rel="stylesheet">
   <base target="_top" href="/">
 </head>
 <body>
-  <h1 translate="yes">Delete ${profile.profileid}</h1>
-  <div id="message-container"></div>
-  <form id="submit-form" method="post" class="pure-form" action="/account/delete-profile?profileid=${profile.profileid}" name="submit-form">
-    <fieldset>
-      <button id="submit-button" type="submit" class="pure-button pure-button-primary" translate="yes">Delete profile</button>
-    </fieldset>
-  </form>
+  <div class="container">
+    <h1 translate="yes">Delete ${profile.profileid}</h1>
+    <div id="message-container"></div>
+    <form id="submit-form" method="post" class="input-form" action="/account/delete-profile?profileid=${profile.profileid}" name="submit-form">
+      <div class="form-buttons">
+        <button id="submit-button" type="submit" class="button" translate="yes">Delete profile</button>
+      </div>
+    </form>
+  </div>
   <template id="instant-delete">
     <p translate="yes">The profile will be deleted immediately and cannot be recovered.</p>
   </template>

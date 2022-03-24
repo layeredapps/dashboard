@@ -127,18 +127,6 @@ async function receiveRequest (req, res) {
       }
     }
   }
-  if (req.urlPath === '/') {
-    let contents
-    if (global.applicationServer) {
-      contents = await Proxy.get(req)
-    } else {
-      contents = fs.readFileSync(path.join(__dirname, 'src/www/index.html'))
-    }
-    if (contents) {
-      res.setHeader('content-type', 'text/html')
-      return res.end(contents)
-    }
-  }
   if (req.urlPath.startsWith('/public/') || req.urlPath === '/favicon.ico' || req.urlPath === '/robots.txt') {
     if (req.method === 'GET') {
       return staticFile(req, res)
@@ -243,6 +231,25 @@ async function receiveRequest (req, res) {
   }
   if (res.ended) {
     return
+  }
+  if (req.urlPath === '/') {
+    let contents
+    if (global.applicationServer) {
+      contents = await Proxy.get(req)
+    } else {
+      const rootPath = path.join(global.applicationPath, 'src/www/index.html')
+      if (fs.existsSync(rootPath)) {
+        contents = fs.readFileSync(rootPath)
+      }
+      const relativePath = path.join(__dirname, 'src/www/index.html')
+      if (fs.existsSync(relativePath)) {
+        contents = fs.existsSync(relativePath)
+      }
+    }
+    if (contents) {
+      res.setHeader('content-type', 'text/html')
+      return res.end(contents)
+    }
   }
   if (req.urlPath === '/administrator' || req.urlPath.startsWith('/administrator/') || req.urlPath.startsWith('/api/administrator/')) {
     if (!req.account) {
@@ -405,7 +412,7 @@ async function staticFile (req, res) {
 
 async function authenticateRequest (req) {
   if (!req.headers.cookie || !req.headers.cookie.length) {
-    return // console.log('fail0')
+    return
   }
   const segments = req.headers.cookie.split(';')
   const cookie = {}
@@ -419,7 +426,7 @@ async function authenticateRequest (req) {
     cookie[key] = decodeURI(value)
   }
   if (!cookie.sessionid || !cookie.token) {
-    return // console.log('fail1')
+    return
   }
   let session
   try {
@@ -435,7 +442,7 @@ async function authenticateRequest (req) {
   } catch (error) {
   }
   if (!session || session.ended) {
-    return // console.log('fail2')
+    return
   }
   let account
   try {
@@ -451,7 +458,7 @@ async function authenticateRequest (req) {
   } catch (error) {
   }
   if (!account || account.deletedAt) {
-    return // console.log('fail3')
+    return
   }
   let dashboardEncryptionKey = global.dashboardEncryptionKey
   let dashboardSessionKey = global.dashboardSessionKey
@@ -461,7 +468,7 @@ async function authenticateRequest (req) {
   }
   const tokenHash = await Hash.sha512Hash(`${account.accountid}/${cookie.token}/${account.sessionKey}/${dashboardSessionKey}`, dashboardEncryptionKey)
   if (session.tokenHash !== tokenHash) {
-    return // console.log('fail4')
+    return
   }
   return { session, account }
 }

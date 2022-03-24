@@ -42,6 +42,15 @@ async function fetch (method, req) {
   allDevices.devicesMap['Pixel 2 XL'],
   allDevices.devicesMap['iPhone SE']
   ]
+  if (process.env.DEVICE) {
+    let filtered = []
+    for (const device of devices) {
+      if (device.name === process.env.DEVICE) {
+        filtered.push(device)
+      }
+    }
+    devices = filtered
+  }
   browser = await relaunchBrowser()
   const result = {}
   const page = await launchBrowserPage()
@@ -388,6 +397,10 @@ async function setCookie (page, req) {
 }
 
 async function emulate (page, device) {
+  if (page.currentDevice === device) {
+    return
+  }
+  page.currentDevice = device
   while (true) {
     try {
       await page.emulate(device)
@@ -402,6 +415,7 @@ const screenshotCache = {
 }
 
 async function saveScreenshot (device, page, number, action, identifier, scriptName, overrideTitle) {
+  const language = global.language ? `-${global.language}` : ''
   Log.info('taking screenshot', number, action, identifier, scriptName)
   let filePath = scriptName.substring(scriptName.indexOf('/src/www/') + '/src/www/'.length)
   filePath = filePath.substring(0, filePath.lastIndexOf('.test.js'))
@@ -439,12 +453,12 @@ async function saveScreenshot (device, page, number, action, identifier, scriptN
   }
   let filename
   if (overrideTitle) {
-    filename = `${number}-${action}-${overrideTitle}-${device.name.split(' ').join('-')}-${global.language}.png`.toLowerCase()
+    filename = `${number}-${action}-${overrideTitle}-${device.name.split(' ').join('-')}${language}.png`.toLowerCase()
   } else {
     if (title) {
-      filename = `${number}-${action}-${title}-${device.name.split(' ').join('-')}-${global.language}.png`.toLowerCase()
+      filename = `${number}-${action}-${title}-${device.name.split(' ').join('-')}${language}.png`.toLowerCase()
     } else {
-      filename = `${number}-${action}-${device.name.split(' ').join('-')}-${global.language}.png`.toLowerCase()
+      filename = `${number}-${action}-${device.name.split(' ').join('-')}${language}.png`.toLowerCase()
     }
   }
   if (screenshotCache[filename]) {
@@ -470,6 +484,18 @@ async function fillForm (page, fieldContainer, body, uploads) {
 }
 
 async function execute (action, page, identifier) {
+  if (action === 'hover' && identifier === '#account-menu-container') {
+    await page.evaluate(() => {
+      document.querySelector('#account-menu-container').click()
+    })
+    return
+  }
+  if (action === 'hover' && identifier === '#administrator-menu-container') {
+    await page.evaluate(() => {
+      document.querySelector('#administrator-menu-container').click()
+    })
+    return
+  }
   let method
   switch (action) {
     case 'hover':

@@ -1,7 +1,6 @@
 const { Sequelize, Model, DataTypes } = require('sequelize')
 
 module.exports = async () => {
-  console.log(process.env.MSSQL_PASSWORD)
   const sequelize = new Sequelize(process.env.MSSQL_DATABASE, process.env.MSSQL_USERNAME, process.env.MSSQL_PASSWORD, {
     logging: false,
     dialect: 'mssql',

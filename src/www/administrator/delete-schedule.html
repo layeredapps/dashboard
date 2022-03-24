@@ -1,48 +1,49 @@
 <!DOCTYPE html>
 <html lang="en" data-navbar="/administrator/navbar.html">
-<head>
-  <meta charset="utf-8" /> 
-  <title translate="yes">Delete schedule</title>
-  <link href="/public/pure-min.css" rel="stylesheet">
-  <link href="/public/content.css" rel="stylesheet">
-  <link href="/public/content-additional.css" rel="stylesheet">
-  <base target="_top" href="/">
-</head>
-<body>
-  <h1 translate="yes">Delete schedule</h1>
-  <p translate="yes">These accounts are waiting to be deleted.</p>
-  <div id="message-container"></div>
-  <table id="accounts-table" class="pure-table object-table">
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th translate="yes">Name</th>
-        <th translate="yes">Email</th>
-        <th translate="yes">Created</th>
-        <th translate="yes">Last signed in</th>
-        <th translate="yes">Delete date</th>
+  <head>
+    <meta charset="utf-8" /> 
+    <title translate="yes">Delete schedule</title>
+    <link href="/public/content.css" rel="stylesheet">
+    <link href="/public/content-additional.css" rel="stylesheet">
+    <base target="_top" href="/">
+  </head>
+  <body>
+    <div class="container">
+      <h1 translate="yes">Delete schedule</h1>
+      <p translate="yes">These accounts are waiting to be deleted.</p>
+      <div id="message-container"></div>
+      <table id="accounts-table" class="object-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th translate="yes">Name</th>
+            <th translate="yes">Email</th>
+            <th translate="yes">Created</th>
+            <th translate="yes">Last signed in</th>
+            <th translate="yes">Delete date</th>
+          </tr>
+        </thead>
+      </table>
+      <ul id="page-links" class="pagination"></ul>
+    </div>
+    <template id="page-link">
+      <li>
+        <a href="/administrator/delete-schedule?offset=${page.offset}" id="page-link-${page.pageNumber}">${page.pageNumber}</a>
+      </li>
+    </template>
+    <template id="account-row">
+      <tr id="${account.accountid}">
+        <td>
+          <a href="/administrator/account?accountid=${account.accountid}">${account.accountid}</a>
+        </td>
+        <td>${account.firstName} ${account.lastName}</td>
+        <td>
+          <a href="mailto:${account.contactEmail}">${account.contactEmail}</a>
+        </td>
+        <td>${account.createdAtFormatted}</td>
+        <td>${account.lastSignedInAtFormatted}</td>
+        <td>${account.deletedAtFormatted}</td>
       </tr>
-    </thead>
-  </table>
-  <ul id="page-links" class="pagination"></ul>
-  <template id="page-link">
-    <li>
-      <a href="/administrator/delete-schedule?offset=${page.offset}" id="page-link-${page.pageNumber}">${page.pageNumber}</a>
-    </li>
-  </template>
-  <template id="account-row">
-    <tr id="${account.accountid}">
-      <td>
-        <a href="/administrator/account?accountid=${account.accountid}">${account.accountid}</a>
-      </td>
-      <td>${account.firstName} ${account.lastName}</td>
-      <td>
-        <a href="mailto:${account.contactEmail}">${account.contactEmail}</a>
-      </td>
-      <td>${account.createdAtFormatted}</td>
-      <td>${account.lastSignedInAtFormatted}</td>
-      <td>${account.deletedAtFormatted}</td>
-    </tr>
-  </template>
-</body>
+    </template>
+  </body>
 </html>

@@ -2,12 +2,13 @@
 global.applicationPath = global.applicationPath || __dirname
 global.appid = global.appid || 'tests'
 global.testConfiguration = global.testConfiguration || {}
+global.language = global.language || 'en'
 
 const defaultConfigurationValues = {
   domain: 'localhost',
   applicationServer: null,
   applicationServerToken: null,
-  language: null,
+  language: 'en',
   enableLanguagePreference: false,
   testModuleJSON: null,
   encryptionSecret: process.env.ENCRYPTION_SECRET || '',

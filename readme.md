@@ -409,7 +409,7 @@ If you would like to contribute check [Github Issues](https://github.com/layered
 
 ## License
 
-This software is licensed under the MIT license, a copy is enclosed in the `LICENSE` file.  Included icon assets and the CSS library `pure-min` is licensed separately, refer to the `icons/licenses` folder and `src/www/public/pure-min.css` file for their licensing information.
+This software is licensed under the MIT license, a copy is enclosed in the `LICENSE` file.  Included icon assets are licensed separately, refer to the `icons/licenses` folder for their licensing information.
 
 Copyright (c) 2022 Ben Lowry
 

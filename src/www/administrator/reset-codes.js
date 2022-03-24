@@ -15,9 +15,13 @@ async function beforeRequest (req) {
       const account = await global.api.administrator.ResetCode.get(req)
       resetCode.firstName = account.firstName
       resetCode.lastName = account.lastName
-      req.query.profileid = account.profileid
-      const profile = await global.api.administrator.Profile.get(req)
-      resetCode.contactEmail = profile.contactEmail
+      if (account.profileid) {
+        req.query.profileid = account.profileid
+        const profile = await global.api.administrator.Profile.get(req)
+        resetCode.contactEmail = profile.contactEmail
+      } else {
+        resetCode.contactEmail = '-'
+      }
     }
   }
   const offset = req.query ? req.query.offset || 0 : 0

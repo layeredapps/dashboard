@@ -13,10 +13,18 @@ async function beforeRequest (req) {
     for (const administrator of administrators) {
       administrator.createdAtFormatted = dashboard.Format.date(administrator.createdAt)
       administrator.administratorFormatted = dashboard.Format.date(administrator.administrator)
-      administrator.lastSignedInAtFormatted = dashboard.Format.date(administrator.lastSignedInAt)
-      req.query.profileid = administrator.profileid
-      const profile = await global.api.administrator.Profile.get(req)
-      administrator.contactEmail = profile.contactEmail
+      administrator.lastSignedInAtFormatted = administrator.lastSignedInAt ? dashboard.Format.date(administrator.lastSignedInAt) : '-'
+      if (administrator.profileid) {
+        req.query.profileid = administrator.profileid
+        const profile = await global.api.administrator.Profile.get(req)
+        administrator.contactEmail = profile.contactEmail
+        administrator.firstName = profile.firstName
+        administrator.lastName = profile.lastName
+      } else {
+        administrator.contactEmail = '-'
+        administrator.firstName = '-'
+        administrator.lastName = '-'
+      }
     }
   }
   const offset = req.query ? req.query.offset || 0 : 0
