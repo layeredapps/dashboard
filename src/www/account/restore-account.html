@@ -8,36 +8,38 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
   </head>
   <body class="entry">
-    <form id="submit-form" method="post" class="input-form entry-form" action="/account/restore-account" name="submit-form">
-      <h1 translate="yes">Restore my account</h1>
-      <div id="message-container"></div>
-      <fieldset class="input-fields">
-        <label class="field-label" for="username" translate="yes">Username</label>
-        <div class="field">
-          <input id="username" name="username" type="text" maxlength="1000">
+    <div class="container">
+      <form id="submit-form" method="post" class="input-form entry-form" action="/account/restore-account" name="submit-form">
+        <h1 translate="yes">Restore my account</h1>
+        <div id="message-container"></div>
+        <fieldset class="input-fields">
+          <label class="field-label" for="username" translate="yes">Username</label>
+          <div class="field">
+            <input id="username" name="username" type="text" maxlength="1000">
+          </div>
+        </fieldset>
+        <fieldset class="input-fields">
+          <label class="field-label" for="password" translate="yes">Password</label>
+          <div class="field">
+            <input id="password" name="password" type="password" maxlength="1000">
+          </div>
+        </fieldset>
+        <div class="form-buttons">
+          <button id="submit-button" type="submit" class="button" translate="yes">Restore my account</button>
         </div>
-      </fieldset>
-      <fieldset class="input-fields">
-        <label class="field-label" for="password" translate="yes">Password</label>
-        <div class="field">
-          <input id="password" name="password" type="password" maxlength="1000">
-        </div>
-      </fieldset>
-      <div class="form-buttons">
-        <button id="submit-button" type="submit" class="button" translate="yes">Restore my account</button>
-      </div>
-      <ul>
-        <li>
-          <a href="/account/register" translate="yes">Register an account</a>
-        </li>
-        <li>
-          <a href="/account/reset-account" translate="yes">Forgot password</a>
-        </li>
-        <li>
-          <a href="/account/restore-account" translate="yes">Cancel deleting account</a>
-        </li>
-      </ul>
-    </form>
+        <ul>
+          <li>
+            <a href="/account/register" translate="yes">Register an account</a>
+          </li>
+          <li>
+            <a href="/account/reset-account" translate="yes">Forgot password</a>
+          </li>
+          <li>
+            <a href="/account/restore-account" translate="yes">Cancel deleting account</a>
+          </li>
+        </ul>
+      </form>
+    </div>
     <template id="invalid-account">
       <div class="error message" translate="yes">
         Error! Invalid account or the cancelation period has ended

@@ -8,56 +8,46 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
   </head>
   <body class="entry">
-    <form id="submit-form" method="post" class="input-form entry-form" action="/account/signin" name="submit-form">
-      <h1 translate="yes">Sign in</h1>
-      <div id="message-container"></div>
-      <fieldset class="input-fields">
-        <label class="field-label" for="username" translate="yes">Username</label>
-        <div class="field">
-          <input id="username" name="username" type="text" maxlength="1000">
-        </div>
-      </fieldset>
-      <fieldset class="input-fields">
-        <label class="field-label" for="password" translate="yes">Password</label>
-        <div class="field">
-          <input id="password" name="password" type="password" maxlength="1000">
-        </div>
-      </fieldset>
-      <fieldset class="input-fields">
-        <div class="pure-checkbox">
+    <div class="container">
+      <form id="submit-form" method="post" class="input-form entry-form" action="/account/signin" name="submit-form">
+        <h1 translate="yes">Sign in</h1>
+        <div id="message-container"></div>
+        <fieldset class="input-fields">
+          <label class="field-label" for="username" translate="yes">Username</label>
+          <div class="field">
+            <input id="username" name="username" type="text" maxlength="1000">
+          </div>
+        </fieldset>
+        <fieldset class="input-fields">
+          <label class="field-label" for="password" translate="yes">Password</label>
+          <div class="field">
+            <input id="password" name="password" type="password" maxlength="1000">
+          </div>
+        </fieldset>
+        <fieldset class="checkbox-fields">
           <label class="field-label" for="remember-nothing">
             <input type="radio" name="remember" value="minutes" id="remember-nothing" checked="checked">
             <span translate="yes">Sign out in 20 minutes</span>
           </label>
-        </div>
-        <div class="pure-checkbox">
           <label class="field-label" for="remember-hours">
             <input type="radio" name="remember" value="hours" id="remember-hours">
             <span translate="yes">Sign out in 8 hours</span>
           </label>
-        </div>
-        <div class="pure-checkbox">
           <label class="field-label" for="remember-days">
             <input type="radio" name="remember" value="days" id="remember-days">
             <span translate="yes">Sign out in 30 days</span>
           </label>
+        </fieldset>
+        <div class="form-buttons">
+          <button id="submit-button" type="submit" class="button" translate="yes">Sign in</button>
         </div>
-      </fieldset>
-      <div class="form-buttons">
-        <button id="submit-button" type="submit" class="button" translate="yes">Sign in</button>
-      </div>
-      <ul>
-        <li>
-          <a href="/account/register" translate="yes">Register an account</a>
-        </li>
-        <li>
-          <a href="/account/reset-account" translate="yes">Forgot password</a>
-        </li>
-        <li>
-          <a href="/account/restore-account" translate="yes">Cancel deleting account</a>
-        </li>
-      </ul>
-    </form>
+        <ul class="list">
+          <li><a class="list-link" href="/account/register" translate="yes">Register an account</a></li>
+          <li><a class="list-link" href="/account/reset-account" translate="yes">Forgot password</a></li>
+          <li><a class="list-link" href="/account/restore-account" translate="yes">Cancel deleting account</a></li>
+        </ul>
+      </form>
+    </div>
     <template id="invalid-username">
       <div class="error message" translate="yes">
         Error! Invalid username

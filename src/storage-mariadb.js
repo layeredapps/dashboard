@@ -10,9 +10,12 @@ module.exports = async () => {
   class Account extends Model {}
   Account.init({
     accountid: {
-      type: DataTypes.UUID,
-      defaultValue: DataTypes.UUIDV4,
-      primaryKey: true
+      type: DataTypes.STRING(21),
+      primaryKey: true,
+      defaultValue: () => {
+        const idValue = Math.random().toString(16).substring(2) + Math.random().toString(16).substring(2)
+        return 'acct_' + idValue.substring(0, 16)
+      }
     },
     object: {
       type: DataTypes.VIRTUAL,
@@ -24,9 +27,7 @@ module.exports = async () => {
       type: DataTypes.STRING,
       defaultValue: global.appid
     },
-    profileid: {
-      type: DataTypes.UUID
-    },
+    profileid: DataTypes.STRING(21),
     usernameHash: DataTypes.STRING,
     passwordHash: DataTypes.STRING,
     sessionKey: DataTypes.STRING,
@@ -91,23 +92,21 @@ module.exports = async () => {
         const rawValue = this.getDataValue('administratorSince')
         return rawValue ? new Date(Date.parse(rawValue)) : undefined
       }
-    },
-    createdAt: DataTypes.DATE(6),
-    updatedAt: DataTypes.DATE(6)
+    }
   }, {
     sequelize,
-    modelName: 'account',
-    timestamps: true,
-    createdAt: 'createdAt',
-    updatedAt: 'updatedAt'
+    modelName: 'account'
   })
 
   class ResetCode extends Model {}
   ResetCode.init({
     codeid: {
-      type: DataTypes.UUID,
-      defaultValue: DataTypes.UUIDV4,
-      primaryKey: true
+      type: DataTypes.STRING(21),
+      primaryKey: true,
+      defaultValue: () => {
+        const idValue = Math.random().toString(16).substring(2) + Math.random().toString(16).substring(2)
+        return 'code_' + idValue.substring(0, 16)
+      }
     },
     object: {
       type: DataTypes.VIRTUAL,
@@ -115,24 +114,22 @@ module.exports = async () => {
         return 'resetCode'
       }
     },
-    accountid: DataTypes.UUID,
-    secretCodeHash: DataTypes.STRING,
-    createdAt: DataTypes.DATE(6),
-    updatedAt: DataTypes.DATE(6)
+    accountid: DataTypes.STRING(21),
+    secretCodeHash: DataTypes.STRING
   }, {
     sequelize,
-    modelName: 'resetCode',
-    timestamps: true,
-    createdAt: 'createdAt',
-    updatedAt: 'updatedAt'
+    modelName: 'resetCode'
   })
 
   class Session extends Model {}
   Session.init({
     sessionid: {
-      type: DataTypes.UUID,
-      defaultValue: DataTypes.UUIDV4,
-      primaryKey: true
+      type: DataTypes.STRING(21),
+      primaryKey: true,
+      defaultValue: () => {
+        const idValue = Math.random().toString(16).substring(2) + Math.random().toString(16).substring(2)
+        return 'sess_' + idValue.substring(0, 16)
+      }
     },
     object: {
       type: DataTypes.VIRTUAL,
@@ -140,7 +137,7 @@ module.exports = async () => {
         return 'session'
       }
     },
-    accountid: DataTypes.UUID,
+    accountid: DataTypes.STRING(21),
     tokenHash: DataTypes.STRING,
     duration: DataTypes.INTEGER,
     expiresAt: {
@@ -181,23 +178,21 @@ module.exports = async () => {
         const expiresAt = new Date(Date.parse(this.getDataValue('expiresAt')))
         return new Date().getTime() < expiresAt.getTime()
       }
-    },
-    createdAt: DataTypes.DATE(6),
-    updatedAt: DataTypes.DATE(6)
+    }
   }, {
     sequelize,
-    modelName: 'session',
-    timestamps: true,
-    createdAt: 'createdAt',
-    updatedAt: 'updatedAt'
+    modelName: 'session'
   })
 
   class Profile extends Model {}
   Profile.init({
     profileid: {
-      type: DataTypes.UUID,
-      defaultValue: DataTypes.UUIDV4,
-      primaryKey: true
+      type: DataTypes.STRING(21),
+      primaryKey: true,
+      defaultValue: () => {
+        const idValue = Math.random().toString(16).substring(2) + Math.random().toString(16).substring(2)
+        return 'prof_' + idValue.substring(0, 16)
+      }
     },
     object: {
       type: DataTypes.VIRTUAL,
@@ -205,7 +200,7 @@ module.exports = async () => {
         return 'profile'
       }
     },
-    accountid: DataTypes.UUID,
+    accountid: DataTypes.STRING(21),
     companyName: DataTypes.STRING,
     firstName: DataTypes.STRING,
     lastName: DataTypes.STRING,
@@ -217,15 +212,10 @@ module.exports = async () => {
     location: DataTypes.STRING,
     dob: DataTypes.DATEONLY,
     website: DataTypes.STRING,
-    fields: DataTypes.JSON,
-    createdAt: DataTypes.DATE(6),
-    updatedAt: DataTypes.DATE(6)
+    fields: DataTypes.JSON
   }, {
     sequelize,
-    modelName: 'profile',
-    timestamps: true,
-    createdAt: 'createdAt',
-    updatedAt: 'updatedAt'
+    modelName: 'profile'
   })
 
   await sequelize.sync()

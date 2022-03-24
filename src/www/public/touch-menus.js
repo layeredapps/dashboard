@@ -25,7 +25,7 @@ function toggleSpillage (e) {
     activeMenu = null
   }
   let container = e.target
-  if (!container.classList.contains('spillage')) {
+  if (!container.classList.contains('spillage-menu-container')) {
     container = container.parentNode
   }
   if (container.classList.contains('spillage-active')) {
@@ -50,8 +50,8 @@ window.addEventListener('load', () => {
   }
   const spillageMenuContainer = document.querySelector('#spillage-menu-container')
   if (spillageMenuContainer) {
-    spillageMenuContainer.addEventListener('click', toggleMenu)
-    spillageMenuContainer.addEventListener('hover', toggleMenu)
+    spillageMenuContainer.addEventListener('click', toggleSpillage)
+    spillageMenuContainer.addEventListener('hover', toggleSpillage)
   }
 })
 

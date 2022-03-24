@@ -8,23 +8,25 @@
     <base target="_top" href="/">
   </head>
   <body>
-    <h1 translate="yes">Set default profile</h1>
-    <p translate="yes">Your default profile serves as the primary point of contact for your account.</p>
-    <div id="message-container"></div>
-    <form id="submit-form" method="post" class="input-form" action="/account/set-default-profile" name="submit-form">
-      <fieldset class="input-fields">
-        <div class="field">
-          <select id="profileid" name="profileid">
-            <option value="" translate="yes">
-              Select profile
-            </option>
-          </select>
+    <div class="container">
+      <h1 translate="yes">Set default profile</h1>
+      <p translate="yes">Your default profile serves as the primary point of contact for your account.</p>
+      <div id="message-container"></div>
+      <form id="submit-form" method="post" class="input-form" action="/account/set-default-profile" name="submit-form">
+        <fieldset class="input-fields">
+          <div class="field">
+            <select id="profileid" name="profileid">
+              <option value="" translate="yes">
+                Select profile
+              </option>
+            </select>
+          </div>
+        </fieldset>
+        <div class="form-buttons">
+          <button id="submit-button" type="submit" class="button" translate="yes">Set default profile</button>
         </div>
-      </fieldset>
-      <div class="form-buttons">
-        <button id="submit-button" type="submit" class="button" translate="yes">Set default profile</button>
-      </div>
-    </form>
+      </form>
+    </div>
     <template id="success">
       <div class="success message" translate="yes">
         Success! The profile is now your default

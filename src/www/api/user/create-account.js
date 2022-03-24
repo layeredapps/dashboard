@@ -100,13 +100,13 @@ module.exports = {
     }
     const account = await dashboard.Storage.Account.create(accountInfo)
     req.query = req.query || {}
-    req.query.accountid = account.accountid
+    req.query.accountid = account.dataValues.accountid
+    req.account = req.query
     req.body.default = 'true'
-    req.account = account
     if (global.requireProfile) {
       await global.api.user.CreateProfile.post(req)
       req.account = await global.api.user.Account.get(req)
     }
-    return req.account
+    return global.api.user.Account.get(req)
   }
 }

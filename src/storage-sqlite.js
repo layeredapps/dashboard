@@ -17,9 +17,12 @@ module.exports = async () => {
   class Account extends Model {}
   Account.init({
     accountid: {
-      type: DataTypes.UUIDV4,
-      defaultValue: DataTypes.UUIDV4,
-      primaryKey: true
+      type: DataTypes.STRING(21),
+      primaryKey: true,
+      defaultValue: () => {
+        const idValue = Math.random().toString(16).substring(2) + Math.random().toString(16).substring(2)
+        return 'acct_' + idValue.substring(0, 16)
+      }
     },
     object: {
       type: DataTypes.VIRTUAL,
@@ -31,7 +34,7 @@ module.exports = async () => {
       type: DataTypes.STRING,
       defaultValue: global.appid
     },
-    profileid: DataTypes.UUIDV4,
+    profileid: DataTypes.STRING(21),
     usernameHash: DataTypes.STRING,
     passwordHash: DataTypes.STRING,
     sessionKey: DataTypes.STRING,
@@ -105,9 +108,12 @@ module.exports = async () => {
   class ResetCode extends Model {}
   ResetCode.init({
     codeid: {
-      type: DataTypes.UUIDV4,
-      defaultValue: DataTypes.UUIDV4,
-      primaryKey: true
+      type: DataTypes.STRING(21),
+      primaryKey: true,
+      defaultValue: () => {
+        const idValue = Math.random().toString(16).substring(2) + Math.random().toString(16).substring(2)
+        return 'code_' + idValue.substring(0, 16)
+      }
     },
     object: {
       type: DataTypes.VIRTUAL,
@@ -115,7 +121,7 @@ module.exports = async () => {
         return 'resetCode'
       }
     },
-    accountid: DataTypes.UUIDV4,
+    accountid: DataTypes.STRING(21),
     secretCodeHash: DataTypes.STRING
   }, {
     sequelize,
@@ -125,9 +131,12 @@ module.exports = async () => {
   class Session extends Model {}
   Session.init({
     sessionid: {
-      type: DataTypes.UUIDV4,
-      defaultValue: DataTypes.UUIDV4,
-      primaryKey: true
+      type: DataTypes.STRING(21),
+      primaryKey: true,
+      defaultValue: () => {
+        const idValue = Math.random().toString(16).substring(2) + Math.random().toString(16).substring(2)
+        return 'sess_' + idValue.substring(0, 16)
+      }
     },
     object: {
       type: DataTypes.VIRTUAL,
@@ -135,7 +144,7 @@ module.exports = async () => {
         return 'session'
       }
     },
-    accountid: DataTypes.UUIDV4,
+    accountid: DataTypes.STRING(21),
     tokenHash: DataTypes.STRING,
     duration: DataTypes.INTEGER,
     expiresAt: {
@@ -185,9 +194,12 @@ module.exports = async () => {
   class Profile extends Model {}
   Profile.init({
     profileid: {
-      type: DataTypes.UUIDV4,
-      defaultValue: DataTypes.UUIDV4,
-      primaryKey: true
+      type: DataTypes.STRING(21),
+      primaryKey: true,
+      defaultValue: () => {
+        const idValue = Math.random().toString(16).substring(2) + Math.random().toString(16).substring(2)
+        return 'prof_' + idValue.substring(0, 16)
+      }
     },
     object: {
       type: DataTypes.VIRTUAL,
@@ -195,7 +207,7 @@ module.exports = async () => {
         return 'profile'
       }
     },
-    accountid: DataTypes.UUIDV4,
+    accountid: DataTypes.STRING(21),
     companyName: DataTypes.STRING,
     firstName: DataTypes.STRING,
     lastName: DataTypes.STRING,

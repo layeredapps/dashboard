@@ -2,20 +2,22 @@
 <html lang="en" data-navbar="/account/navbar-profile.html">
   <head>
     <meta charset="utf-8" />
-    <title translate="yes">Edit ${profile.profileid}</title>
+    <title translate="yes">Edit profile</title>
     <link href="/public/content.css" rel="stylesheet">
     <link href="/public/content-additional.css" rel="stylesheet">
     <base target="_top" href="/">
   </head>
   <body>
     <div class="container">
-      <h1 translate="yes">Edit ${profile.profileid}</h1>
+      <h1 translate="yes">Edit profile</h1>
       <p translate="yes">Keep your contact information correct and up-to-date.</p>
       <div id="message-container"></div>
       <form id="submit-form" method="post" class="input-form" action="/account/edit-profile?profileid=${profile.profileid}" name="submit-form">
-        <div class="pure-checkbox">
-          <label class="field-label" for="default"><input required="required" id="default" name="default" value="true" type="checkbox"> <span translate="yes">Make my default</span></label>
-        </div>
+        <fieldset class="input-fields">
+          <label class="field-label" for="default">
+            <input required="required" id="default" name="default" value="true" type="checkbox"> <span translate="yes">Make my default</span>
+          </label>
+        </fieldset>
         <fieldset id="display-name-container" class="input-fields">
           <label class="field-label" for="display-name" translate="yes">Display name</label>
           <div class="field">

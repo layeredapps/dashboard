@@ -8,108 +8,108 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
   </head>
   <body class="entry">
-    <form id="submit-form" method="post" class="input-form entry-form" action="/account/register" name="submit-form">
-      <h1 translate="yes">Register</h1>
-      <div id="message-container"></div>
-      <div id="form-container">
-        <fieldset class="input-fields">
-          <label class="field-label" for="username" translate="yes">Signin username</label>
-          <div class="field">
-            <input placeholder="${requirements.minimumUsernameLength}+ characters" name="username" id="username" type="text" maxlength="1000">
-          </div>
-        </fieldset>
-        <fieldset class="input-fields">
-          <label class="field-label" for="password" translate="yes">Signin password</label>
-          <div class="field">
-            <input placeholder="${requirements.minimumPasswordLength}+ characters" name="password" id="password" type="password" maxlength="1000">
-          </div>
-        </fieldset>
-        <fieldset class="input-fields">
-          <label class="field-label" for="confirm" translate="yes">Confirm your password</label>
-          <div class="field">
-            <input name="confirm" id="confirm" type="password" maxlength="1000">
-          </div>
-        </fieldset>
-        <fieldset id="display-name-container" class="input-fields">
-          <label class="field-label" for="display-name" translate="yes">Display name</label>
-          <div class="field">
-            <input required="required" id="display-name" name="display-name" type="text" maxlength="1000">
-          </div>
-        </fieldset>
-        <fieldset id="display-email-container" class="input-fields">
-          <label class="field-label" for="display-email" translate="yes">Display email</label>
-          <div class="field">
-            <input required="required" id="display-email" name="display-email" type="text" maxlength="1000" size="50">
-          </div>
-        </fieldset>
-        <fieldset id="contact-email-container" class="input-fields">
-          <label class="field-label" for="contact-email" translate="yes">Contact email</label>
-          <div class="field">
-            <input required="required" id="contact-email" name="contact-email" type="text" maxlength="1000" size="50">
-          </div>
-        </fieldset>
-        <div id="full-name-container">
+    <div class="container">
+      <form id="submit-form" method="post" class="input-form entry-form" action="/account/register" name="submit-form">
+        <h1 translate="yes">Register</h1>
+        <div id="message-container"></div>
+        <div id="form-container">
           <fieldset class="input-fields">
-            <label class="field-label" for="first-name" translate="yes">First name</label>
+            <label class="field-label" for="username" translate="yes">Signin username</label>
             <div class="field">
-              <input required="required" id="first-name" name="first-name" type="text" maxlength="1000">
+              <input placeholder="${requirements.minimumUsernameLength}+ characters" name="username" id="username" type="text" maxlength="1000">
             </div>
           </fieldset>
           <fieldset class="input-fields">
-            <label class="field-label" for="last-name" translate="yes">Last name</label>
+            <label class="field-label" for="password" translate="yes">Signin password</label>
             <div class="field">
-              <input required="required" id="last-name" name="last-name" type="text" maxlength="1000">
+              <input placeholder="${requirements.minimumPasswordLength}+ characters" name="password" id="password" type="password" maxlength="1000">
             </div>
           </fieldset>
-        </div>
-        <div id="dob-container">
           <fieldset class="input-fields">
-            <label class="field-label" for="dob" translate="yes">Date of birth</label>
+            <label class="field-label" for="confirm" translate="yes">Confirm your password</label>
             <div class="field">
-              <input required="required" id="dob" name="dob" type="text" maxlength="11">
+              <input name="confirm" id="confirm" type="password" maxlength="1000">
             </div>
           </fieldset>
+          <fieldset id="display-name-container" class="input-fields">
+            <label class="field-label" for="display-name" translate="yes">Display name</label>
+            <div class="field">
+              <input required="required" id="display-name" name="display-name" type="text" maxlength="1000">
+            </div>
+          </fieldset>
+          <fieldset id="display-email-container" class="input-fields">
+            <label class="field-label" for="display-email" translate="yes">Display email</label>
+            <div class="field">
+              <input required="required" id="display-email" name="display-email" type="text" maxlength="1000" size="50">
+            </div>
+          </fieldset>
+          <fieldset id="contact-email-container" class="input-fields">
+            <label class="field-label" for="contact-email" translate="yes">Contact email</label>
+            <div class="field">
+              <input required="required" id="contact-email" name="contact-email" type="text" maxlength="1000" size="50">
+            </div>
+          </fieldset>
+          <div id="full-name-container">
+            <fieldset class="input-fields">
+              <label class="field-label" for="first-name" translate="yes">First name</label>
+              <div class="field">
+                <input required="required" id="first-name" name="first-name" type="text" maxlength="1000">
+              </div>
+            </fieldset>
+            <fieldset class="input-fields">
+              <label class="field-label" for="last-name" translate="yes">Last name</label>
+              <div class="field">
+                <input required="required" id="last-name" name="last-name" type="text" maxlength="1000">
+              </div>
+            </fieldset>
+          </div>
+          <div id="dob-container">
+            <fieldset class="input-fields">
+              <label class="field-label" for="dob" translate="yes">Date of birth</label>
+              <div class="field">
+                <input required="required" id="dob" name="dob" type="text" maxlength="11">
+              </div>
+            </fieldset>
+          </div>
+          <fieldset id="phone-container" class="input-fields">
+            <label class="field-label" for="phone" translate="yes">Telephone</label>
+            <div class="field">
+              <input required="required" id="phone" name="phone" type="text" maxlength="1000">
+            </div>
+          </fieldset>
+          <fieldset id="occupation-container" class="input-fields">
+            <label class="field-label" for="occupation" translate="yes">Occupation</label>
+            <div class="field">
+              <input required="required" id="occupation" name="occupation" type="text" maxlength="1000">
+            </div>
+          </fieldset>
+          <fieldset id="location-container" class="input-fields">
+            <label class="field-label" for="location" translate="yes">Location</label>
+            <div class="field">
+              <input required="required" id="location" name="location" type="text" maxlength="1000">
+            </div>
+          </fieldset>
+          <fieldset id="company-name-container" class="input-fields">
+            <label class="field-label" for="company-name" translate="yes">Company name</label>
+            <div class="field">
+              <input required="required" id="company-name" name="company-name" type="text" maxlength="1000">
+            </div>
+          </fieldset>
+          <fieldset id="website-container" class="input-fields">
+            <label class="field-label" for="website" translate="yes">Website</label>
+            <div class="field">
+              <input required="required" id="website" name="website" type="text" maxlength="1000">
+            </div>
+          </fieldset>
+          <div class="form-buttons">
+            <button id="submit-button" type="submit" class="button" translate="yes">Register</button>
+          </div>
         </div>
-        <fieldset id="phone-container" class="input-fields">
-          <label class="field-label" for="phone" translate="yes">Telephone</label>
-          <div class="field">
-            <input required="required" id="phone" name="phone" type="text" maxlength="1000">
-          </div>
-        </fieldset>
-        <fieldset id="occupation-container" class="input-fields">
-          <label class="field-label" for="occupation" translate="yes">Occupation</label>
-          <div class="field">
-            <input required="required" id="occupation" name="occupation" type="text" maxlength="1000">
-          </div>
-        </fieldset>
-        <fieldset id="location-container" class="input-fields">
-          <label class="field-label" for="location" translate="yes">Location</label>
-          <div class="field">
-            <input required="required" id="location" name="location" type="text" maxlength="1000">
-          </div>
-        </fieldset>
-        <fieldset id="company-name-container" class="input-fields">
-          <label class="field-label" for="company-name" translate="yes">Company name</label>
-          <div class="field">
-            <input required="required" id="company-name" name="company-name" type="text" maxlength="1000">
-          </div>
-        </fieldset>
-        <fieldset id="website-container" class="input-fields">
-          <label class="field-label" for="website" translate="yes">Website</label>
-          <div class="field">
-            <input required="required" id="website" name="website" type="text" maxlength="1000">
-          </div>
-        </fieldset>
-        <div class="form-buttons">
-          <button id="submit-button" type="submit" class="button" translate="yes">Register</button>
-        </div>
-      </div>
-      <ul>
-        <li>
-          <a href="/account/signin" translate="yes">I have an account</a>
-        </li>
-      </ul>
-    </form>
+        <ul class="list">
+          <li><a class="list-link" href="/account/signin" translate="yes">I have an account</a></li>
+        </ul>
+      </form>
+    </div>
     <template id="registration-disabled">
       <div class="error message" translate="yes">
         Registration has been disabled.

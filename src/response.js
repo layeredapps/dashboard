@@ -215,6 +215,7 @@ async function wrapTemplateWithSrcDoc (req, res, doc) {
     if (children && children.length) {
       for (const child of children) {
         if (child.tag === 'a') {
+          child.attr['class'] = 'spillage-link'
           links.push(child)
           if (child.child && child.child.length > 1) {
             for (const element of child.child) {
