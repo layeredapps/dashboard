@@ -532,7 +532,7 @@ async function fill (page, fieldContainer, body, uploads) {
   }
   if (uploads) {
     for (const field in uploads) {
-      const element = await page.$(Z_FILTERED)
+      const element = await page.$(`#${field}`)
       if (element) {
         await element.uploadFile(path)
       }
