@@ -1,49 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="utf-8" /> 
-  <title></title>
-  <link href="/public/template.css" rel="stylesheet">
-  <link href="/public/template-additional.css" rel="stylesheet">
-  <meta charset="UTF-8">
-  <base target="_top" href="/">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <script src="/public/touch-menus.js"></script>
-</head>
-<body>
-  <div class="container">
-    <header id="header" class="header">
-      <h1 id="heading" class="heading"></h1>
-      <div class="menus">
-        <div id="administrator-menu-container" class="menu-group" title="Administrator menu">
-          <button class="menu-trigger">
-            <img class="menu-icon" title="Administrator" src="/public/administrator.svg">
-            <span class="menu-group-label" translate="yes">Administrator</span>
-          </button>
-          <menu class="dropdown-menu" id="administrator-menu"></menu>
+  <head>
+    <meta charset="utf-8" /> 
+    <title></title>
+    <link href="/public/template.css" rel="stylesheet">
+    <link href="/public/template-additional.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <base target="_top" href="/">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="/public/template-tweaks.js"></script>
+  </head>
+  <body>
+    <div id="template-header" class="template">
+      <header id="header" class="header">
+        <h1 id="heading" class="heading"></h1>
+        <div class="menus">
+          <div id="administrator-menu-container" class="menu-group" title="Administrator menu">
+            <button class="menu-trigger">
+              <img class="menu-icon" title="Administrator" src="/public/administrator.svg">
+              <span class="menu-group-label" translate="yes">Administrator</span>
+            </button>
+            <menu class="dropdown-menu" id="administrator-menu"></menu>
+          </div>
+          <div id="account-menu-container" class="menu-group" title="Account menu">
+            <button class="menu-trigger">
+              <img class="menu-icon" title="Account" src="/public/account.svg" alt="Account menu">
+              <span class="menu-group-label" translate="yes">Account</span>
+            </button>
+            <menu class="dropdown-menu" id="account-menu"></menu>
+          </div>
         </div>
-        <div id="account-menu-container" class="menu-group" title="Account menu">
-          <button class="menu-trigger">
-            <img class="menu-icon" title="Account" src="/public/account.svg" alt="Account menu">
-            <span class="menu-group-label" translate="yes">Account</span>
+      </header>
+      <div class="navigation">
+        <nav class="navigation-links" id="navigation"></nav>
+        <div class="spillage" id="spillage-menu-container">
+          <button class="spillage-trigger">
+            <img class="spillage-icon" title="Extended menu" src="/public/extended.svg">
+            <menu class="spillage-links" id="spillage"></menu>
           </button>
-          <menu class="dropdown-menu" id="account-menu"></menu>
         </div>
-      </div>
-    </header>
-    <div class="navigation">
-      <nav class="navigation-links" id="navigation"></nav>
-      <div class="spillage" id="spillage-menu-container">
-        <button class="spillage-trigger">
-          <img class="spillage-icon" title="Extended menu" src="/public/extended.svg">
-          <menu class="spillage-links" id="spillage"></menu>
-        </button>
       </div>
     </div>
     <iframe id="application-iframe" class="application" sandbox="allow-top-navigation allow-scripts allow-forms allow-same-origin allow-popups" name="application-iframe"></iframe>
-  </div>
-  <template id="heading-link">
-    <a href="${link.href}">${link.text}</a>
-  </template>
-</body>
+    <template id="heading-link">
+      <a href="${link.href}">${link.text}</a>
+    </template>
+  </body>
 </html>

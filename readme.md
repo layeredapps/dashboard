@@ -31,9 +31,9 @@ Dashboard packages everything web apps need into reusable, modular software.  It
 
 Dashboard uses a `template.html` with header, navigation and content structure.  Dashboard and modules use HTML pages and CSS for all the functionality users need.  Your application server can serve two special CSS files at `/public/template-additional.css` and `/public/content-additional.css` to theme the template and pages to match your application design.  Dashboard assumes you must be signed in to access any URL outside of `/` and `/public/*`.
 
-Your application server can return special HTML attributes and tags to interoperate with the Dashboard server.  Your content can be accessible to guests by specifying `<html data-auth="false">` and you can serve full-page content by specifying `<html data-template="false">` in your HTML.
+Your application server can return special HTML attributes and tags to interoperate with the Dashboard server.  Your content can be accessible to guests by specifying `<html data-auth="false">` and you can serve full-page content by specifying `<html data-template="false">` in your HTML.  Otherwise the routes will require authentication, and Dashboard will inject the template's header and navigation int the top of the page and merge the head tag's script and CSS references.
 
-You can inject HTML snippets into the template by including `<template id="head"></template>` in your content or populate the template's navigation bar by including `<template id="navbar"></template>` with the links and any other HTML for your menu.  
+You can populate the template's navigation bar by including `<template id="navbar"></template>` with the links and any other HTML for your menu.
 
 # Hosting Dashboard yourself
 

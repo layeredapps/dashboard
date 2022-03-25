@@ -26,6 +26,7 @@ module.exports = {
   throwError,
   compress,
   wrapTemplateWithSrcDoc,
+  wrapSrcDocWithTemplate,
   eTag,
   sri
 }
@@ -55,8 +56,13 @@ async function end (req, res, doc, blob) {
     doc = HTML.parse(doc)
   }
   if (!req.route || req.route.template !== false) {
-    const framedPage = await wrapTemplateWithSrcDoc(req, res, doc)
-    return compress(req, res, framedPage)
+    if (global.iframed) {
+      const framedPage = await wrapTemplateWithSrcDoc(req, res, doc)
+      return compress(req, res, framedPage)
+    } else {
+      const mergedPage = await wrapSrcDocWithTemplate(req, res, doc)
+      return compress(req, res, mergedPage)
+    }
   } else {
     const forms = doc.getElementsByTagName('form')
     for (const form of forms) {
@@ -131,9 +137,14 @@ async function throwError (req, res, code, error) {
   res.statusCode = code || 500
   res.setHeader('content-type', mimeTypes.html)
   if (req.session) {
-    const combinedPages = await wrapTemplateWithSrcDoc(req, res, doc)
-    const templateDoc = HTML.parse(combinedPages)
-    return compress(req, res, templateDoc.toString())
+    if (global.iframed) {
+      const combinedPages = await wrapTemplateWithSrcDoc(req, res, doc)
+      const templateDoc = HTML.parse(combinedPages)
+      return compress(req, res, templateDoc.toString())
+    } else {
+      const mergedPage = await wrapSrcDocWithTemplate(req, res, doc)
+      return compress(req, res, mergedPage.toString())
+    }
   }
   return compress(req, res, doc.toString())
 }
@@ -177,6 +188,130 @@ function eTag (buffer) {
 function sri (buffer) {
   const hash = crypto.createHash('sha384').update(buffer, 'binary').digest('base64').replace(/=+$/, '')
   return 'sha384-' + hash
+}
+
+async function wrapSrcDocWithTemplate (req, res, doc) {
+  const packageJSON = req.packageJSON || global.packageJSON
+  const templateDoc = HTML.parse(req.templateHTML || packageJSON.dashboard.templateHTML)
+  if (!templateDoc) {
+    throw new Error()
+  }
+  // template title
+  let newTitle = packageJSON.dashboard.title
+  if (newTitle && newTitle.length && newTitle.indexOf(' ') > -1) {
+    newTitle = newTitle.split(' ').join('&nbsp;')
+  }
+  const headingLink = {
+    object: 'link',
+    href: global.dashboardServer || '/',
+    text: newTitle
+  }
+  HTML.renderTemplate(templateDoc, headingLink, 'heading-link', 'heading')
+  // template navigation
+  const navbarTemplate = doc.getElementById('navbar')
+  const navigation = templateDoc.getElementById('navigation')
+  if (navbarTemplate && navbarTemplate.child && navbarTemplate.child.length) {
+    if (navbarTemplate.child[0].node === 'text') {
+      navigation.child = HTML.parse('<div>' + navbarTemplate.child[0].text + '</div>').child
+    } else {
+      navigation.child = navbarTemplate.child
+    }
+    const spillage = templateDoc.getElementById('spillage')
+    const children = HTML.parse(navigation.toString()).child
+    const links = []
+    if (children && children.length) {
+      for (const child of children) {
+        if (child.tag === 'a') {
+          child.attr['class'] = 'spillage-link'
+          links.push(child)
+          if (child.child && child.child.length > 1) {
+            for (const element of child.child) {
+              if (element.tag !== 'text') {
+                child.child.splice(child.child.indexOf(element), 1)
+              }
+            }
+          }
+        }
+      }
+    }
+    spillage.child = links
+  } else {
+    navigation.setAttribute('style', 'display: none')
+  }
+  // template menus
+  const accountMenuContainer = templateDoc.getElementById('account-menu-container')
+  const administratorMenuContainer = templateDoc.getElementById('administrator-menu-container')
+  if (!req.account) {
+    accountMenuContainer.parentNode.removeChild(accountMenuContainer)
+    administratorMenuContainer.removeChild(administratorMenuContainer)
+  } else {
+    if (packageJSON.dashboard.menus &&
+        packageJSON.dashboard.menus.account &&
+        packageJSON.dashboard.menus.account.length) {
+      const accountMenu = templateDoc.getElementById('account-menu')
+      accountMenu.child = HTML.parse('<div>' + packageJSON.dashboard.menus.account.join('\n') + '</div>').child
+    } else {
+      accountMenuContainer.setAttribute('style', 'display: none')
+    }
+    if (!req.account.administrator) {
+      administratorMenuContainer.setAttribute('style', 'display: none')
+    } else {
+      if (packageJSON.dashboard.menus &&
+          packageJSON.dashboard.menus.administrator &&
+          packageJSON.dashboard.menus.administrator.length) {
+        const administratorMenu = templateDoc.getElementById('administrator-menu')
+        administratorMenu.child = HTML.parse('<div>' + packageJSON.dashboard.menus.administrator.join('\n') + '</div>').child
+      } else {
+        administratorMenuContainer.setAttribute('style', 'display: none')
+      }
+    }
+  }
+  // content handlers
+  if (packageJSON.dashboard.content && packageJSON.dashboard.content.length) {
+    for (const contentHandler of packageJSON.dashboard.content) {
+      if (contentHandler.page) {
+        await contentHandler.page(req, res, doc)
+      }
+      if (contentHandler.template) {
+        await contentHandler.template(req, res, templateDoc)
+      }
+    }
+  }
+  highlightCurrentPage(req.urlPath, templateDoc)
+  // merge head scripts and css
+  const templateScripts = templateDoc.getElementsByTagName('script')
+  const templateStyles = templateDoc.getElementsByTagName('link')
+  const head = doc.getElementsByTagName('head')[0]
+  for (const script of templateScripts) {
+    head.child.unshift(script)
+  }
+  for (const style of templateStyles) {
+    head.child.unshift(style)
+  }
+  // add return urls to form, and disable field-based validation for tests
+  const forms = doc.getElementsByTagName('form')
+  for (const form of forms) {
+    form.attr = form.attr || {}
+    form.attr.method = form.attr.method || 'POST'
+    form.attr.action = form.attr.action || req.url
+    if (global.testNumber) {
+      form.attr.novalidate = 'novalidate'
+    }
+    if (req.query && req.query['return-url']) {
+      const formURL = form.attr.action.startsWith('/') ? global.dashboardServer + form.attr.action : form.attr.action
+      const action = new url.URL(formURL)
+      if (action['return-url']) {
+        continue
+      }
+      const divider = form.attr.action.indexOf('?') > -1 ? '&' : '?'
+      form.attr.action += `${divider}return-url=${encodeURI(req.query['return-url']).split('?').join('%3F').split('&').join('%26')}`
+    }
+  }
+  // merge body
+  const container = templateDoc.getElementById('template-header')
+  const pageBody = doc.getElementsByTagName('body')[0]
+  pageBody.child.unshift(container)
+  return doc.toString()
 }
 
 async function wrapTemplateWithSrcDoc (req, res, doc) {
@@ -321,7 +456,9 @@ function highlightCurrentPage (urlPath, doc) {
       }
       const linkPath = link.attr.href.split('?')[0]
       if (linkPath === urlPath || linkPath === pageURL) {
-        link.classList.add('current-page')
+        if (link.attr.class && link.attr.class.indexOf('navigation-link') > -1) {
+          link.classList.add('current-page')
+        }
       }
     }
   }

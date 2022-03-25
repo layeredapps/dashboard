@@ -42,15 +42,6 @@ async function fetch (method, req) {
   allDevices.devicesMap['Pixel 2 XL'],
   allDevices.devicesMap['iPhone SE']
   ]
-  if (process.env.DEVICE) {
-    let filtered = []
-    for (const device of devices) {
-      if (device.name === process.env.DEVICE) {
-        filtered.push(device)
-      }
-    }
-    devices = filtered
-  }
   browser = await relaunchBrowser()
   const result = {}
   const page = await launchBrowserPage()
@@ -103,6 +94,9 @@ async function fetch (method, req) {
     }
     for (const step of req.screenshots) {
       Log.info('screenshot step', JSON.stringify(step))
+      if (req.screenshots.indexOf(step) > 0) {
+        await wait(100)
+      }
       if (step.save) {
         if (process.env.GENERATE_SCREENSHOTS && process.env.SCREENSHOT_PATH) {
           let firstTitle
@@ -164,7 +158,7 @@ async function fetch (method, req) {
         if (step.waitBefore) {
           await step.waitBefore(page)
         }
-        html = await getContent(page)
+        html = await page.content()
         await execute('click', page, step.click)
         if (step.waitAfter) {
           await step.waitAfter(page)
@@ -187,7 +181,7 @@ async function fetch (method, req) {
               if (step.waitFormLoad) {
                 await step.waitFormLoad(page)
               }
-              await fillForm(page, step.fill, step.body || req.body, req.uploads)
+              await fill(page, step.fill, step.body || req.body, req.uploads)
               await execute('hover', page, req.button || '#submit-button')
               const thisTitle = await saveScreenshot(device, page, screenshotNumber, 'submit', step.fill, req.filename, firstTitle)
               firstTitle = firstTitle || thisTitle
@@ -197,11 +191,11 @@ async function fetch (method, req) {
           if (step.waitFormLoad) {
             await step.waitFormLoad(page)
           }
-          await fillForm(page, step.fill, step.body || req.body, step.uploads || req.uploads)
+          await fill(page, step.fill, step.body || req.body, step.uploads || req.uploads)
         }
         screenshotNumber++
         await execute('focus', page, req.button || '#submit-button')
-        html = await getContent(page)
+        html = await page.content()
         await execute('click', page, req.button || '#submit-button')
         if (step.waitAfter) {
           await step.waitAfter(page)
@@ -211,7 +205,13 @@ async function fetch (method, req) {
             return status === 200
           })
         }
-        html = await getContent(page)
+        while (true) {
+          try {
+            html = await page.content()
+            break
+          } catch (error) {
+          }
+        }
         if (html.indexOf('<meta http-equiv="refresh"') > -1) {
           let redirectLocation = html.substring(html.indexOf(';url=') + 5)
           redirectLocation = redirectLocation.substring(0, redirectLocation.indexOf('"'))
@@ -241,9 +241,8 @@ async function fetch (method, req) {
       if (req.waitBefore) {
         await req.waitBefore(page)
       }
-      await fillForm(page, '#submit-form', req.body, req.uploads)
+      await fill(page, '#submit-form', req.body, req.uploads)
       await execute('hover', page, req.button || '#submit-button')
-      html = await getContent(page)
       await execute('click', page, req.button || '#submit-button')
       if (req.waitAfter) {
         await req.waitAfter(page)
@@ -253,9 +252,16 @@ async function fetch (method, req) {
           return status === 200
         })
       }
+      await wait(1000)
     }
   }
-  html = await getContent(page)
+  while (true) {
+    try {
+      html = await page.content()
+      break
+    } catch (error) {
+    }
+  }
   if (!result.redirect && html.indexOf('<meta http-equiv="refresh"') > -1) {
     let redirectLocation = html.substring(html.indexOf(';url=') + 5)
     redirectLocation = redirectLocation.substring(0, redirectLocation.indexOf('"'))
@@ -263,7 +269,7 @@ async function fetch (method, req) {
   }
   if (result.redirect && !result.redirect.startsWith('/account/signin')) {
     await gotoURL(page, `${global.dashboardServer}${result.redirect}`)
-    html = await getContent(page)
+    html = await page.content()
   }
   result.html = html
   await page.close()
@@ -337,7 +343,7 @@ async function gotoURL (page, url) {
       await page.goto(url, { waitLoad: true, waitNetworkIdle: true })
       let content
       while (!content || !content.length) {
-        content = await getContent(page)
+        content = await page.content()
       }
       return true
     } catch (error) {
@@ -347,17 +353,6 @@ async function gotoURL (page, url) {
   }
 }
 
-async function getContent (page) {
-  let html
-  while (!html || !html.length) {
-    try {
-      html = await page.content()
-      return html
-    } catch (error) {
-    }
-    await wait(50)
-  }
-}
 async function setCookie (page, req) {
   const cookies = await page.cookies()
   if (cookies.length) {
@@ -366,18 +361,8 @@ async function setCookie (page, req) {
   if (!req.session) {
     return
   }
-  const cookie = {
-    value: req.session.sessionid,
-    session: true,
-    name: 'sessionid',
-    url: global.dashboardServer
-  }
-  const cookie2 = {
-    value: req.session.token,
-    session: true,
-    name: 'token',
-    url: global.dashboardServer
-  }
+  const cookie = { value: req.session.sessionid, session: true, name: 'sessionid', url: global.dashboardServer }
+  const cookie2 = { value: req.session.token, session: true, name: 'token', url: global.dashboardServer }
   while (true) {
     try {
       await page.setCookie(cookie)
@@ -397,10 +382,6 @@ async function setCookie (page, req) {
 }
 
 async function emulate (page, device) {
-  if (page.currentDevice === device) {
-    return
-  }
-  page.currentDevice = device
   while (true) {
     try {
       await page.emulate(device)
@@ -415,7 +396,6 @@ const screenshotCache = {
 }
 
 async function saveScreenshot (device, page, number, action, identifier, scriptName, overrideTitle) {
-  const language = global.language ? `-${global.language}` : ''
   Log.info('taking screenshot', number, action, identifier, scriptName)
   let filePath = scriptName.substring(scriptName.indexOf('/src/www/') + '/src/www/'.length)
   filePath = filePath.substring(0, filePath.lastIndexOf('.test.js'))
@@ -427,8 +407,23 @@ async function saveScreenshot (device, page, number, action, identifier, scriptN
   if (identifier === '#submit-form') {
     title = 'form'
   } else if (identifier === '#submit-button') {
-    const element = await getElement(page, identifier)
-    let text = await getText(page, element)
+    let text = await page.evaluate((identifier) => {
+      const element = document.querySelector(identifier)
+      if (element.innerText && element.innerHTML.indexOf('>') === -1) {
+        return element.innerText
+      }
+      if (element.title) {
+        return element.title
+      }
+      for (let i = 0, len = element.children.length; i < len; i++) {
+        if (element.children[i].innerText) {
+          return element.children[i].innerText
+        }
+        if (element.children[i].title) {
+          return element.children[i].title
+        }
+      }
+    }, identifier)
     if (text.indexOf('_') > -1) {
       text = text.substring(0, text.indexOf('_'))
     } else {
@@ -436,8 +431,32 @@ async function saveScreenshot (device, page, number, action, identifier, scriptN
     }
     title = text
   } else if (identifier && identifier[0] === '/') {
-    const element = await getElement(page, identifier)
-    let text = await getText(page, element)
+    let text = await page.evaluate((identifier, dashboardServer) => {
+      const links = document.getElementsByTagName('a')
+      for (const link of links) {
+        if (link.href === identifier ||
+          link.href.startsWith(`${identifier}?`) ||
+          link.href.startsWith(`${identifier}&`) ||
+          link.href === `${dashboardServer}${identifier}` ||
+          link.href.startsWith(`${dashboardServer}${identifier}?`) ||
+          link.href.startsWith(`${dashboardServer}${identifier}&`)) {
+          if (link.innerText && link.innerHTML.indexOf('>') === -1) {
+            return link.innerText
+          }
+          if (link.title) {
+            return link.title
+          }
+          for (let i = 0, len = link.children.length; i < len; i++) {
+            if (link.children[i].innerText) {
+              return link.children[i].innerText
+            }
+            if (link.children[i].title) {
+              return link.children[i].title
+            }
+          }
+        }
+      }
+    }, identifier, global.dashboardServer)
     if (text.indexOf('_') > -1) {
       text = text.substring(0, text.indexOf('_'))
     } else {
@@ -453,12 +472,12 @@ async function saveScreenshot (device, page, number, action, identifier, scriptN
   }
   let filename
   if (overrideTitle) {
-    filename = `${number}-${action}-${overrideTitle}-${device.name.split(' ').join('-')}${language}.png`.toLowerCase()
+    filename = `${number}-${action}-${overrideTitle}-${device.name.split(' ').join('-')}-${global.language}.png`.toLowerCase()
   } else {
     if (title) {
-      filename = `${number}-${action}-${title}-${device.name.split(' ').join('-')}${language}.png`.toLowerCase()
+      filename = `${number}-${action}-${title}-${device.name.split(' ').join('-')}-${global.language}.png`.toLowerCase()
     } else {
-      filename = `${number}-${action}-${device.name.split(' ').join('-')}${language}.png`.toLowerCase()
+      filename = `${number}-${action}-${device.name.split(' ').join('-')}-${global.language}.png`.toLowerCase()
     }
   }
   if (screenshotCache[filename]) {
@@ -472,92 +491,50 @@ async function saveScreenshot (device, page, number, action, identifier, scriptN
   return title
 }
 
-async function fillForm (page, fieldContainer, body, uploads) {
-  while (true) {
-    try {
-      await fill(page, fieldContainer, body, uploads)
-      break
-    } catch (error) {
-      await wait(50)
-    }
-  }
-}
-
 async function execute (action, page, identifier) {
-  if (action === 'hover' && identifier === '#account-menu-container') {
-    await page.evaluate(() => {
-      document.querySelector('#account-menu-container').click()
-    })
-    return
-  }
-  if (action === 'hover' && identifier === '#administrator-menu-container') {
-    await page.evaluate(() => {
-      document.querySelector('#administrator-menu-container').click()
-    })
-    return
-  }
-  let method
-  switch (action) {
-    case 'hover':
-      method = hoverElement
-      break
-    case 'click':
-      method = clickElement
-      break
-    case 'focus':
-      method = focusElement
-      break
-  }
-  const element = await getElement(page, identifier)
-  if (element) {
-    return method(element, page)
-  }
-  const html = await getContent(page)
-  throw new Error('element not found ' + identifier, html)
-}
-
-async function getText (page, element) {
-  return evaluate(page, (el) => {
-    if (!el) {
-      return ''
-    }
-    if (el.innerText && el.innerHTML.indexOf('>') === -1) {
-      return el.innerText
-    }
-    if (el.title) {
-      return el.title
-    }
-    for (let i = 0, len = el.children.length; i < len; i++) {
-      if (el.children[i].innerText) {
-        return el.children[i].innerText
-      }
-      if (el.children[i].title) {
-        return el.children[i].title
+  return page.evaluate((identifier, action, dashboardServer) => {
+    if (identifier.startsWith('/')) {
+      const links = document.getElementsByTagName('a')
+      for (const a of links) {
+        if (a.href === identifier ||
+          a.href.startsWith(`${identifier}?`) ||
+          a.href.startsWith(`${identifier}&`) ||
+          a.href === `${dashboardServer}${identifier}` ||
+          a.href.startsWith(`${dashboardServer}${identifier}?`) ||
+          a.href.startsWith(`${dashboardServer}${identifier}&`)) {
+          if (action === 'hover') {
+            a.focus()
+          } else if (action === 'click') {
+            a.click()
+          }
+        }
       }
     }
-  }, element)
+    if (identifier.startsWith('#')) {
+      const element = document.querySelector(identifier)
+      const button = element.firstChild
+      if (button && button.tagName === 'button') {
+        return button.click()
+      }
+      if (action === 'hover') {
+        element.focus()
+      } else if (action === 'click') {
+        element.click()
+      }
+      return
+    }
+  }, identifier, action, global.dashboardServer)
 }
 
 async function fill (page, fieldContainer, body, uploads) {
   if (!body && !uploads) {
     return
   }
-  const frame = await getOptionalApplicationFrame(page)
-  let formFields = await getElement(page, fieldContainer || '#submit-form')
-  if (!formFields && frame) {
-    formFields = await getElement(frame, fieldContainer || '#submit-form')
-  }
-  if (!formFields) {
-    formFields = await page.$('form')
-    if (!formFields) {
-      return
-    }
-  }
   if (uploads) {
     for (const field in uploads) {
-      const element = await getElement(formFields, `#${field}`)
+      const element = await page.$(Z_FILTERED)
       if (element) {
-        await uploadFile(element, uploads[field].path)
+        await element.uploadFile(path)
       }
       continue
     }
@@ -565,385 +542,129 @@ async function fill (page, fieldContainer, body, uploads) {
   if (!body) {
     return
   }
-  for (const field in body) {
-    const element = await getElement(formFields, `#${field}`)
-    if (!element) {
-      const checkboxes = await getTags(formFields, 'input[type=checkbox]')
-      if (checkboxes && checkboxes.length) {
-        for (const checkbox of checkboxes) {
-          const name = await evaluate(formFields, el => el.name, checkbox)
-          if (name !== field) {
-            continue
-          }
-          const value = await evaluate(formFields, el => el.value, checkbox)
-          if (value === body[field]) {
-            await evaluate(formFields, el => { el.checked = true }, checkbox)
-          } else if (!body[field]) {
-            await evaluate(formFields, el => { el.checked = false }, checkbox)
-          }
-        }
-      }
-      const radios = await getTags(formFields, 'input[type=radio]')
-      if (radios && radios.length) {
-        for (const radio of radios) {
-          const name = await evaluate(formFields, el => el.name, radio)
-          if (name !== field) {
-            continue
-          }
-          const value = await evaluate(formFields, el => el.value, radio)
-          if (value === body[field]) {
-            await evaluate(formFields, el => { el.checked = true }, radio)
-          } else if (!body[field]) {
-            await evaluate(formFields, el => { el.checked = false }, radio)
-          }
-        }
-      }
-      continue
-    }
-    const tagName = await evaluate(formFields, el => el.tagName, element)
-    if (!tagName) {
-      throw new Error('unknown tag name')
-    }
-    await focusElement(element)
-    if (tagName === 'TEXTAREA') {
-      await (frame || page).$eval(`textarea[id=${field}]`, (el, value) => { el.value = value }, body[field])
-    } else if (tagName === 'SELECT') {
-      await selectOption(element, body[field])
-    } else if (tagName === 'INPUT') {
-      const inputType = await evaluate(formFields, el => el.type, element)
-      if (inputType === 'radio' || inputType === 'checkbox') {
-        if (body[field]) {
-          await evaluate(formFields, el => { el.checked = true }, element)
-        } else {
-          await evaluate(formFields, el => { el.checked = false }, element)
-        }
-      } else {
-        if (body[field]) {
-          await evaluate(formFields, el => { el.value = '' }, element)
-          await typeInElement(element, body[field])
-        } else {
-          await evaluate(formFields, el => { el.value = '' }, element)
-        }
-      }
-    } else {
-      // inaccessible input fields such as Stripe payment information
-      await element.click()
-      await wait(1)
-      for (let i = 0, len = 100; i < len; i++) {
-        await page.keyboard.press('Backspace')
-        await wait(1)
-      }
-      if (field.endsWith('-container')) {
-        for (const char of body[field]) {
-          await element.focus()
-          await wait(1)
-          await element.type(char)
-          await wait(1)
-        }
-      } else {
-        await wait(1)
-        await clickElement(element)
-        await wait(1)
-        await typeInElement(element, body[field])
-      }
-    }
-  }
-}
-
-async function getElement (page, identifier) {
-  const frame = await getOptionalApplicationFrame(page)
-  let element
-  if (identifier.startsWith('#')) {
-    if (frame) {
-      element = await frame.$(identifier)
-      if (element) {
-        return element
-      }
-    }
-    element = await page.$(identifier)
-    if (element) {
-      return element
-    }
-    return null
-  }
-  let elements
-  if (identifier.startsWith('/')) {
-    if (frame) {
-      elements = await getTags(frame, 'a')
-      if (elements && elements.length) {
-        for (element of elements) {
-          const href = await evaluate(page, el => el.href, element)
-          if (href) {
-            if (href === identifier ||
-              href.startsWith(`${identifier}?`) ||
-              href.startsWith(`${identifier}&`) ||
-              href === `${global.dashboardServer}${identifier}` ||
-              href.startsWith(`${global.dashboardServer}${identifier}?`) ||
-              href.startsWith(`${global.dashboardServer}${identifier}&`)) {
-              return element
+  return page.evaluate((fieldContainer, body) => {
+    const container = document.querySelector(fieldContainer || '#submit-form')
+    for (const field in body) {
+      const element = container.querySelector(`#${field}`)
+      if (!element) {
+        const checkboxes = container.querySelectorAll('input[type=checkbox]')
+        if (checkboxes && checkboxes.length) {
+          for (const checkbox of checkboxes) {
+            if (checkbox.name !== field) {
+              continue
+            }
+            if (checkbox.value === body[field]) {
+              checkbox.checked = true
+            } else if (!body[field]) {
+              checkbox.checked = false
             }
           }
         }
-      }
-    }
-    elements = await getTags(page, 'a')
-    const menuLinks = []
-    if (elements && elements.length) {
-      for (element of elements) {
-        const href = await evaluate(page, el => el.href, element)
-        const isMenu = await evaluate(page, (el) => {
-          return el.parentNode.id === 'account-menu' ||
-                 el.parentNode.id === 'administrator-menu' ||
-                 el.parentNode.parentNode.id === 'account-menu' ||
-                 el.parentNode.parentNode.id === 'administrator-menu'
-        }, element)
-        if (isMenu) {
-          menuLinks.push(element)
-          continue
-        }
-        if (href) {
-          if (href === identifier ||
-              href.startsWith(`${identifier}?`) ||
-              href.startsWith(`${identifier}&`) ||
-              href === `${global.dashboardServer}${identifier}` ||
-              href.startsWith(`${global.dashboardServer}${identifier}?`) ||
-              href.startsWith(`${global.dashboardServer}${identifier}&`)) {
-            return element
+        const radios = container.querySelectorAll('input[type=radio]')
+        if (radios && radios.length) {
+          for (const radio of radios) {
+            if (radio.name !== field) {
+              continue
+            }
+            if (radio.value === body[field]) {
+              radio.checked = true
+            } else if (!body[field]) {
+              radio.checked = false
+            }
           }
         }
-      }
-      for (element of menuLinks) {
-        const href = await evaluate(page, el => el.href, element)
-        if (href) {
-          if (href === identifier ||
-              href.startsWith(`${identifier}?`) ||
-              href.startsWith(`${identifier}&`) ||
-              href === `${global.dashboardServer}${identifier}` ||
-              href.startsWith(`${global.dashboardServer}${identifier}?`) ||
-              href.startsWith(`${global.dashboardServer}${identifier}&`)) {
-            return element
-          }
-        }
-      }
-    }
-  }
-  const tags = ['button', 'input', 'select', 'textarea', 'img']
-  for (const tag of tags) {
-    if (frame) {
-      elements = await getTags(frame, tag)
-      if (!elements || !elements.length) {
         continue
       }
-      for (element of elements) {
-        const text = await getText(element)
-        if (text) {
-          if (text === identifier || text.indexOf(identifier) > -1) {
-            return element
+      element.focus()
+      if (element.tagName === 'TEXTAREA') {
+        element.value = body[field]
+      } else if (element.tagName === 'SELECT') {
+        for (let i = 0; i < element.options.length; i++) {
+          if (element.options[i].text === body[field] || element.options[i].value === body[field]) {
+            element.selectedIndex = i;
+            break;
           }
         }
-      }
-    }
-    elements = await getTags(page, tag)
-    if (!elements || !elements.length) {
-      continue
-    }
-    for (element of elements) {
-      const text = await getText(element)
-      if (text) {
-        if (text === identifier || text.indexOf(identifier) > -1) {
-          return element
-        }
-      }
-    }
-  }
-}
-
-async function evaluate (page, method, element) {
-  let fails = 0
-  const active = element || page
-  while (true) {
-    try {
-      const thing = await active.evaluate(method, element)
-      return thing
-    } catch (error) {
-      Log.error('puppeteer evaluate error', error.toString())
-    }
-    fails++
-    if (fails > 10) {
-      const content = await getContent(page)
-      Log.error('puppeteer evaluate fail ten times', content, global.testConfiguration, global.packageJSON)
-      throw new Error('evaluate failed ten times')
-    }
-    await wait(50)
-  }
-}
-
-async function getOptionalApplicationFrame (page) {
-  if (!page.frames) {
-    return null
-  }
-  let fails = 0
-  while (true) {
-    try {
-      const frame = await page.frames().find(f => f.name() === 'application-iframe')
-      if (frame) {
-        return frame
-      }
-    } catch (error) {
-      Log.error('puppeteer getOptionalApplicationFrame error', error.toString())
-    }
-    fails++
-    if (fails > 10) {
-      return null
-    }
-    await wait(50)
-  }
-}
-
-async function getTags (page, tag) {
-  let fails = 0
-  while (true) {
-    try {
-      const links = await page.$$(tag)
-      return links
-    } catch (error) {
-      Log.error(`puppeteer getTags(${tag}) error`, error.toString())
-    }
-    fails++
-    if (fails > 10) {
-      const content = await getContent(page)
-      Log.error('puppeteer getTags fail ten times', content, global.testConfiguration, global.packageJSON)
-      throw new Error('getTags failed ten times')
-    }
-    await wait(50)
-  }
-}
-
-async function hoverElement (element, page) {
-  let fails = 0
-  while (true) {
-    try {
-      await element.hover()
-      return
-    } catch (error) {
-      Log.error('puppeteer hoverElement error', error.toString())
-    }
-    fails++
-    if (fails > 10) {
-      const content = page ? await getContent(page) : null
-      Log.error('puppeteer hoverElement fail ten times', content, global.testConfiguration, global.packageJSON)
-      throw new Error('hoverElement failed ten times')
-    }
-    await wait(50)
-  }
-}
-
-async function clickElement (element) {
-  let fails = 0
-  while (true) {
-    try {
-      await element.click()
-      return
-    } catch (error) {
-      Log.error('puppeteer clickElement error', error.toString())
-    }
-    fails++
-    if (fails > 10) {
-      Log.error('puppeteer clickElement fail ten times', element, global.testConfiguration, global.packageJSON)
-      throw new Error('clickElement failed ten times')
-    }
-    await wait(50)
-  }
-}
-
-async function focusElement (element) {
-  let fails = 0
-  while (true) {
-    try {
-      await element.focus()
-      return
-    } catch (error) {
-      Log.error('puppeteer focusElement error', error.toString())
-    }
-    fails++
-    if (fails > 10) {
-      Log.error('puppeteer focusElement fail ten times', element, global.testConfiguration, global.packageJSON)
-      throw new Error('focusElement failed ten times')
-    }
-    await wait(50)
-  }
-}
-
-async function uploadFile (element, path) {
-  let fails = 0
-  while (true) {
-    try {
-      await element.uploadFile(path)
-      return
-    } catch (error) {
-      Log.error('puppeteer uploadFile error', error.toString())
-    }
-    fails++
-    if (fails > 10) {
-      Log.error('puppeteer uploadFile fail ten times', element, global.testConfiguration, global.packageJSON)
-      throw new Error('uploadFile failed ten times')
-    }
-    await wait(50)
-  }
-}
-
-async function typeInElement (element, text) {
-  let fails = 0
-  while (true) {
-    try {
-      if (!text || !text.length) {
-        await element.evaluate((element) => {
-          element.value = ''
-        }, element)
-        return
-      }
-      await element.type(text || '')
-      return
-    } catch (error) {
-      Log.error('puppeteer typeInElement error', error.toString())
-    }
-    fails++
-    if (fails > 10) {
-      Log.error('puppeteer typeInElement fail ten times', element, global.testConfiguration, global.packageJSON)
-      throw new Error('typeElement failed ten times')
-    }
-    await wait(50)
-  }
-}
-
-async function selectOption (element, value) {
-  const id = await element.evaluate(element => element.id, element)
-  let fails = 0
-  while (true) {
-    try {
-      await element.evaluate((_, data) => {
-        const select = document.getElementById(data.id)
-        for (let i = 0, len = select.options.length; i < len; i++) {
-          if (select.options[i].value === data.value ||
-            select.options[i].text === data.value ||
-            select.options[i].text.indexOf(data.value) === 0 ||
-            select.options[i].value.indexOf(data.value) === 0) {
-            select.selectedIndex = i
-            return
+      } else if (element.tagName === 'INPUT') {
+        if (element.type === 'radio' || element.type === 'checkbox') {
+          if (body[field]) {
+            element.checked = true
+          } else {
+            element.checked = false
+          }
+        } else {
+          if (body[field]) {
+            element.value = body[field]
+          } else {
+            element.value = ''
           }
         }
-      }, { id, value })
-      return
-    } catch (error) {
-      Log.error('puppeteer selectOption error', error.toString())
-    }
-    fails++
-    if (fails > 10) {
-      Log.error('puppeteer selectOption fail ten times', element, global.testConfiguration, global.packageJSON)
-      throw new Error('selectOption failed ten times')
-    }
-    await wait(50)
-  }
+      } else {
+        // inaccessible input fields such as Stripe payment information
+        element.click()
+        for (let i = 0, len = 100; i < len; i++) {
+          element.dispatchEvent(new KeyboardEvent("keydown", {
+            "key": "Backspace",
+            "keyCode": 8,
+            "which": 8,
+            "code": "Backspace",
+            "location": 0,
+            "altKey": false,
+            "ctrlKey": false,
+            "metaKey": false,
+            "shiftKey": false,
+            "repeat": false
+          }))
+        }
+        const keyCodes = {
+          '0': { "key": "0", "keyCode": 48, "which": 48, "code": "Digit0", "location": 0 },
+          '1': { "key": "1", "keyCode": 49, "which": 49, "code": "Digit1", "location": 0 },
+          '2': { "key": "2", "keyCode": 50, "which": 50, "code": "Digit2", "location": 0 },
+          '3': { "key": "3", "keyCode": 51, "which": 51, "code": "Digit3", "location": 0 },
+          '4': { "key": "4", "keyCode": 52, "which": 52, "code": "Digit4", "location": 0 },
+          '5': { "key": "5", "keyCode": 53, "which": 53, "code": "Digit5", "location": 0 },
+          '6': { "key": "6", "keyCode": 54, "which": 54, "code": "Digit6", "location": 0 },
+          '7': { "key": "7", "keyCode": 55, "which": 55, "code": "Digit7", "location": 0 },
+          '8': { "key": "8", "keyCode": 56, "which": 56, "code": "Digit8", "location": 0 },
+          '9': { "key": "9", "keyCode": 57, "which": 57, "code": "Digit9", "location": 0 },
+          'a': { "key": "a", "keyCode": 65, "which": 65, "code": "KeyA", "location": 1 },
+          'b': { "key": "b", "keyCode": 65, "which": 66, "code": "KeyB", "location": 1 },
+          'c': { "key": "c", "keyCode": 65, "which": 67, "code": "KeyC", "location": 1 },
+          'd': { "key": "d", "keyCode": 65, "which": 68, "code": "KeyD", "location": 1 },
+          'e': { "key": "e", "keyCode": 65, "which": 69, "code": "KeyE", "location": 1 },
+          'f': { "key": "f", "keyCode": 65, "which": 70, "code": "KeyF", "location": 1 },
+          'g': { "key": "g", "keyCode": 65, "which": 71, "code": "KeyG", "location": 1 },
+          'h': { "key": "h", "keyCode": 65, "which": 72, "code": "KeyH", "location": 1 },
+          'i': { "key": "i", "keyCode": 65, "which": 73, "code": "KeyI", "location": 1 },
+          'j': { "key": "j", "keyCode": 65, "which": 74, "code": "KeyJ", "location": 1 },
+          'k': { "key": "k", "keyCode": 65, "which": 75, "code": "KeyK", "location": 1 },
+          'l': { "key": "l", "keyCode": 65, "which": 76, "code": "KeyL", "location": 1 },
+          'm': { "key": "m", "keyCode": 65, "which": 77, "code": "KeyM", "location": 1 },
+          'n': { "key": "n", "keyCode": 65, "which": 78, "code": "KeyN", "location": 1 },
+          'o': { "key": "o", "keyCode": 65, "which": 79, "code": "KeyO", "location": 1 },
+          'p': { "key": "p", "keyCode": 65, "which": 80, "code": "KeyP", "location": 1 },
+          'q': { "key": "q", "keyCode": 65, "which": 81, "code": "KeyQ", "location": 1 },
+          'r': { "key": "r", "keyCode": 65, "which": 82, "code": "KeyR", "location": 1 },
+          's': { "key": "s", "keyCode": 65, "which": 83, "code": "KeyS", "location": 1 },
+          't': { "key": "t", "keyCode": 65, "which": 84, "code": "KeyT", "location": 1 },
+          'u': { "key": "u", "keyCode": 65, "which": 85, "code": "KeyU", "location": 1 },
+          'v': { "key": "v", "keyCode": 65, "which": 86, "code": "KeyV", "location": 1 },
+          'w': { "key": "w", "keyCode": 65, "which": 87, "code": "KeyW", "location": 1 },
+          'x': { "key": "x", "keyCode": 65, "which": 88, "code": "KeyX", "location": 1 },
+          'y': { "key": "y", "keyCode": 65, "which": 89, "code": "KeyY", "location": 1 },
+          'z': { "key": "z", "keyCode": 65, "which": 90, "code": "KeyZ", "location": 1 },
+             
+        }
+        if (field.endsWith('-container')) {
+          element.focus()
+        }
+        for (const char of body[field]) {
+          element.dispatchEvent(new KeyboardEvent("keydown", keyCodes[char]))
+        }
+      }
+  
+    }  
+  }, fieldContainer, body)
 }
 
 function createFolderSync (folderPath) {

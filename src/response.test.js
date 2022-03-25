@@ -6,50 +6,6 @@ const TestHelper = require('../test-helper.js')
 
 describe('internal-api/response', () => {
   describe('Response#wrapTemplateWithSrcDoc (global setting)', () => {
-    it('should transfer head content from page to template', async () => {
-      global.packageJSON = {
-        dashboard: {
-          title: 'Global Template Title',
-          content: [],
-          templateHTML: `
-          <html>
-            <head>
-              <title>Hardcoded Template Title</title>
-            </head>
-            <body>
-              <header id="heading"></header>
-              <div id="administrator-menu-container"><menu id="administrator-menu"></menu></div>
-              <div id="account-menu-container"><menu id="account-menu"></menu></div>
-              <nav id="navigation"></nav>
-              <iframe id="application-iframe"></iframe>
-              <template id="heading-link"><a href="\${link.href}">\${link.text}</a></template>
-              <template id="menu-link"><a href="\${link.href}">\${link.text}</a></template>
-            </body>
-          </html>`
-        }
-      }
-      const doc = HTML.parse(`
-      <html>
-        <head>
-          <title>Hardcoded Page Title</title>
-          <template id="head">
-            <script src="include.js"></script>
-          </template>
-        </head>
-        <body>Body</body>
-      </html>`)
-      const req = TestHelper.createRequest('/account/sessions')
-      const res = { setHeader: () => { } }
-      const completedHTML = await Response.wrapTemplateWithSrcDoc(req, res, doc)
-      const completed = HTML.parse(completedHTML)
-      const scripts = completed.getElementsByTagName('script')
-      assert.strictEqual(scripts.length, 1)
-      assert.strictEqual(scripts[0].parentNode.tag, 'head')
-      const titles = completed.getElementsByTagName('title')
-      assert.strictEqual(titles.length, 1)
-      assert.strictEqual(titles[0].child[0].text, 'Hardcoded Page Title')
-    })
-
     it('should transfer head content from template to page', async () => {
       global.packageJSON = {
         dashboard: {

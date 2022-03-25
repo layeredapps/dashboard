@@ -38,6 +38,9 @@ function toggleSpillage (e) {
 }
 
 window.addEventListener('load', () => {
+  const iframe = document.querySelector("#application-iframe")
+  iframe.style.height = iframe.contentDocument.body.scrollHeight + 'px';
+  iframe.style.width = iframe.contentDocument.body.scrollWidth + 'px'
   const administratorMenuContainer = document.querySelector('#administrator-menu-container')
   if (administratorMenuContainer) {
     administratorMenuContainer.addEventListener('click', toggleMenu)

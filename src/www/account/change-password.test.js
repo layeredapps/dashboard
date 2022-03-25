@@ -54,6 +54,7 @@ describe('/account/change-password', () => {
         password: user.account.password
       }
       const result = await req.post()
+      console.log('result', result)
       const doc = TestHelper.extractDoc(result.html)
       const message = doc.getElementById('message-container').child[0]
       assert.strictEqual(message.attr.template, 'invalid-new-password')
