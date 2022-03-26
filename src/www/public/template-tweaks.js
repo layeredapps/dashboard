@@ -6,7 +6,7 @@ function toggleMenu (e) {
     activeMenu = null
   }
   let container = e.target
-  if (!container.classList.contains('menu-group')) {
+  while (container && !container.classList.contains('menu-group')) {
     container = container.parentNode
   }
   if (container.classList.contains('menu-group-active')) {
@@ -25,7 +25,7 @@ function toggleSpillage (e) {
     activeMenu = null
   }
   let container = e.target
-  if (!container.classList.contains('spillage-menu-container')) {
+  while (container && !container.classList.contains('spillage')) {
     container = container.parentNode
   }
   if (container.classList.contains('spillage-active')) {

@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" data-navbar="/account/navbar-sessions.html">
   <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="utf-8" /> 
     <title translate="yes">Sessions</title>
     <link href="/public/content.css" rel="stylesheet">
@@ -15,15 +16,17 @@
       <div id="no-sessions">
         <p translate="yes">You do not have any sessions yet.</p>
       </div>
-      <table id="sessions-table" class="list-table">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th translate="yes">Created</th>
-            <th translate="yes">Expires</th>
-          </tr>
-        </thead>
-      </table>
+      <div class="list-table-wrapper">
+        <table id="sessions-table" class="list-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th translate="yes">Created</th>
+              <th translate="yes">Expires</th>
+            </tr>
+          </thead>
+        </table>
+      </div>
       <ul id="page-links" class="pagination"></ul>
     </div>
     <template id="page-link">
@@ -33,9 +36,7 @@
     </template>
     <template id="session-row">
       <tr id="${session.sessionid}">
-        <td>
-          <a href="/account/session?sessionid=${session.sessionid}">${session.sessionid}</a>
-        </td>
+        <td><a href="/account/session?sessionid=${session.sessionid}">${session.sessionid}</a></td>
         <td>${session.createdAtFormatted}</td>
         <td>${session.expiresFormatted}</td>
       </tr>

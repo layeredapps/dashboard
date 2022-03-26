@@ -251,7 +251,8 @@ describe('internal-api/response', () => {
       }
       const doc = HTML.parse(`
       <html>
-        <head>account
+        <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">account
           <title>Hardcoded Page Title</title>
         </head>
         <body>Body</body>

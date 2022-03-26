@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" data-navbar="/account/navbar-profile.html">
   <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="utf-8" />
     <title translate="yes">Edit profile</title>
     <link href="/public/content.css" rel="stylesheet">
@@ -14,8 +15,9 @@
       <div id="message-container"></div>
       <form id="submit-form" method="post" class="input-form" action="/account/edit-profile?profileid=${profile.profileid}" name="submit-form">
         <fieldset class="input-fields">
-          <label class="field-label" for="default">
-            <input required="required" id="default" name="default" value="true" type="checkbox"> <span translate="yes">Make my default</span>
+          <label class="field-label">Default</label>
+          <label class="field" for="default">
+            <input required="required" id="default" name="default" value="true" type="checkbox">&nbsp;<span translate="yes">Make my default</span>
           </label>
         </fieldset>
         <fieldset id="display-name-container" class="input-fields">

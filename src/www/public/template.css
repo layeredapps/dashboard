@@ -18,16 +18,20 @@ input, select, textarea, a, button, div { outline: 0 }
 .template .menu-group { display: inline-block; position: relative; margin: 0 0 0 1rem; padding: 0 0 0 1rem; min-height: 4rem; cursor: pointer; font-size: 0.8rem; color: inherit }
 .template .menu-icon { position: absolute; right: 0.5rem; top: 1rem; height: 2rem; width: 2rem; opacity: 0.75 }
 .template .menu-group-label { padding-right: 4rem } 
-.template .menu-trigger { height: 4rem; color: inherit; border: none; background-color: transparent; padding: 0 0 0 1rem; margin: 0; border-radius: 0.5rem; }
-.template .menu-trigger:focus { background-color: rgba(255, 255, 255, 0.125) }
+.template .menu-trigger { cursor: pointer; height: 4rem; color: inherit; border: none; background-color: transparent; padding: 0 0 0 1rem; margin: 0; border-radius: 0.5rem; }
+
 .template .menus .menu-group:first-of-type { margin-left: 0; padding-left: 0 }
 .template .menu-group-active .dropdown-menu,
 .template .menu-group:hover .dropdown-menu,
 .template .menu-group:focus .dropdown-menu { display: block }
-.template .dropdown-menu { padding: 0.5rem 0.5rem 0.5rem 4rem; position: absolute; border-radius: 0.5rem; background: linear-gradient(#F7F1ED, #FFF); box-shadow: 0 0.25rem 0.25rem rgba(0, 0, 0, 0.25); text-align: right; z-index: 1; top: 3.5rem; right: 0; display: none }
-.template .menu-link { white-space: nowrap; line-height: 2rem; padding: 0 1rem; margin-bottom: 0.5rem; white-space: nowrap; font-size: 0.8rem; color: #2F365F; display: block; text-decoration: none }
+.template .menu-group-active .menu-trigger,
+.template .menu-group:hover .menu-trigger,
+.template .menu-group:focus .menu-trigger,
+.template .menu-trigger:focus { background-color: #1E90FF }
+.template .dropdown-menu { padding: 0.5rem 0.5rem 0.5rem 4rem; position: absolute; border-radius: 0.5rem; border-top-right-radius: 0; background-color: #1E90FF; box-shadow: 0 0.25rem 0.25rem rgba(0, 0, 0, 0.25); text-align: right; z-index: 1; top: 3.5rem; right: 0; display: none }
+.template .menu-link { white-space: nowrap; line-height: 2rem; padding: 0 1rem; margin-bottom: 0.5rem; white-space: nowrap; font-size: 0.8rem; color: #FFF; display: block; text-decoration: none }
 .template .menu-link:hover,
-.template .menu-link:focus { background-color: #19F; border-radius: 0.5rem; color: #FFF }
+.template .menu-link:focus { background-color: rgba(255, 255, 255, 0.5); color: #2F365F; border-radius: 0.5rem }
 .template .menu-link.current-page { color: #999 }
 .template .menu-group .menu-link:last-of-type { margin-bottom: 0 }
 
@@ -36,23 +40,23 @@ input, select, textarea, a, button, div { outline: 0 }
 .template .navigation-links { display: flex; white-space: nowrap; height: 2rem; line-height: 2rem; overflow: hidden; width: 100% }
 .template .navigation-links ul { margin: 0 0 0 1rem }
 .template .navigation-link { display: flex; white-space: nowrap; border-radius: 0.5rem; color: inherit; margin: 0 0.5rem; height: 2rem; line-height: 2rem; padding: 0 0.5rem; opacity: 0.8; font-size: 0.9rem; cursor: pointer }
+.template .navigation-link.current-page { background-color: rgba(255, 255, 255, 0.25); border-radius: 0.5rem }
 .template .navigation-link:hover,
-.template .navigation-link:active { background-color: rgba(255, 255, 255, 0.125) }
-.template .navigation-link:focus { background-color: #19F; }
+.template .navigation-link:active { background-color: #1E90FF }
+.template .navigation-link:focus { background-color: #1E90FF; }
 .template .navigation-link span { height: 2rem; display: block }
 .template .navigation-link img { margin: 0.5rem; height: 1rem; width: 1rem }
-.template .navigation-link.current-page { background-color: rgba(255, 255, 255, 0.25); border-radius: 0.5rem }
 .template .spillage { flex-direction: column; height: 3rem; padding: 0 0.5rem; cursor: pointer; overflow: hidden }
 .template .spillage-active,
 .template .spillage:hover,
 .template .spillage:focus { background-color: #121527; border-top-left-radius: 0.5rem } 
-.template .spillage-trigger { height: 2rem; color: inherit; border: none; background-color: transparent; padding: 0 0 0 1rem; margin: 0; border-radius: 0.5rem; }
-.template .spillage-trigger:focus { background-color: rgba(255, 255, 255, 0.125) }
+.template .spillage-trigger { cursor: pointer; height: 2rem; color: inherit; border: none; background-color: transparent; padding: 0 0 0 1rem; margin: 0; border-radius: 0.5rem; }
+.template .spillage-trigger:focus { background-color: #1E90FF }
 .template .spillage-icon { width: 1rem; height: 1rem; margin-top: 0.25rem; margin-right: 1rem }
 .template .spillage-links { display: none; background-color: #121527; position: absolute; top: 3rem; right: 0; padding: 0.5rem 0.5rem 0.5rem 4rem; text-align: right; border-bottom-left-radius: 0.5rem }
 .template .spillage-link { line-height: 2rem; font-size: 0.8rem; display: block; margin-bottom: 0.5rem; padding: 0 0.5rem; color: #F7F1ED }
 .template .spillage-link:hover,
-.template .spillage-link:focus { background-color: #19F; border-radius: 0.5rem; color: #FFF }
+.template .spillage-link:focus { background-color: #1E90FF; border-radius: 0.5rem; color: #FFF }
 .template .spillage-links .spillage-link:last-of-type { margin-bottom: 0 }
 .template .spillage-active .spillage-links,
 .template .spillage:hover .spillage-links,

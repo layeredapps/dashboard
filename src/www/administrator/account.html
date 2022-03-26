@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" data-navbar="/administrator/navbar-account.html">
   <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="utf-8" /> 
     <title translate="yes">View account</title>
     <link href="/public/content.css" rel="stylesheet">
@@ -28,62 +29,60 @@
         </tbody>
       </table>
       <h2 translate="yes">Profiles</h2>
-      <table id="profiles-table" class="list-table">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th translate="yes">Name</th>
-            <th translate="yes">Email</th>
-          </tr>
-        </thead>
-      </table>
-      <h2 translate="yes">Sessions</h2>
-      <table id="sessions-table" class="list-table">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th translate="yes">Created</th>
-            <th translate="yes">Last signed in</th>
-          </tr>
-        </thead>
-      </table>
-      <div id="reset-codes-container">
-        <h2 translate="yes">Reset codes</h2>
-        <table id="reset-codes-table" class="list-table">
+      <div class="list-table-wrapper">
+        <table id="profiles-table" class="list-table">
           <thead>
             <tr>
               <th>ID</th>
-              <th translate="yes">Created</th>
+              <th translate="yes">Name</th>
+              <th translate="yes">Email</th>
             </tr>
           </thead>
         </table>
       </div>
+      <h2 translate="yes">Sessions</h2>
+      <div class="list-table-wrapper">
+        <table id="sessions-table" class="list-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th translate="yes">Created</th>
+              <th translate="yes">Last signed in</th>
+            </tr>
+          </thead>
+        </table>
+      </div>
+      <div id="reset-codes-container">
+        <h2 translate="yes">Reset codes</h2>
+        <div class="list-table-wrapper">
+          <table id="reset-codes-table" class="list-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th translate="yes">Created</th>
+              </tr>
+            </thead>
+          </table>
+        </div>
+      </div>
     </div>
     <template id="profile-row">
       <tr id="${profile.profileid}">
-        <td>
-          <a href="/administrator/profile?profileid=${profile.profileid}">${profile.profileid}</a>
-        </td>
+        <td><a href="/administrator/profile?profileid=${profile.profileid}">${profile.profileid}</a></td>
         <td>${profile.firstName} ${profile.lastName}</td>
-        <td>
-          <a href="mailto:${profile.contactEmail}">${profile.contactEmail}</a>
-        </td>
+        <td><a href="mailto:${profile.contactEmail}">${profile.contactEmail}</a></td>
       </tr>
     </template>
     <template id="session-row">      
       <tr id="${session.sessionid}">
-        <td>
-          <a href="/administrator/session?sessionid=${session.sessionid}">${session.sessionid}</a>
-        </td>
+        <td><a href="/administrator/session?sessionid=${session.sessionid}">${session.sessionid}</a></td>
         <td>${session.createdAtFormatted}</td>
         <td>${session.expiresFormatted}</td>
       </tr>
     </template>
     <template id="reset-code-row">
       <tr id="${resetCode.codeid}">
-        <td>
-          <a href="/administrator/reset-code?codeid=${resetCode.codeid}">${resetCode.codeid}</a>
-        </td>
+        <td><a href="/administrator/reset-code?codeid=${resetCode.codeid}">${resetCode.codeid}</a></td>
         <td>${resetCode.createdAtFormatted}</td>
       </tr>
     </template>

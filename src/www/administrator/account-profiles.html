@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" data-navbar="/administrator/navbar-account.html">
   <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="utf-8" /> 
     <title translate="yes">Profiles belonging to account</title>
     <link href="/public/content.css" rel="stylesheet">
@@ -13,42 +14,26 @@
       <div id="no-profiles">
         <p translate="yes">This account does not have any profiles yet.</p>
       </div>
-      <table id="accounts-table" class="list-table">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th translate="yes">Name</th>
-            <th translate="yes">Email</th>
-          </tr>
-        </thead>
-        <tr id="${account.accountid}">
-          <td>
-            <a href="/administrator/account?accountid=${account.accountid}">${account.accountid}</a>
-          </td>
-          <td>${account.firstName} ${account.lastName}</td>
-          <td>
-            <a href="mailto:${account.contactEmail}">${account.contactEmail}</a>
-          </td>
-        </tr>
-      </table>
-      <table id="profiles-table" class="list-table">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th id="full-name" translate="yes">Full name</th>
-            <th id="contact-email" translate="yes">Contact email</th>
-            <th id="display-name" translate="yes">Display name</th>
-            <th id="display-email" translate="yes">Display email</th>
-            <th id="dob" >DOB</th>
-            <th id="phone" translate="yes">Phone</th>
-            <th id="occupation" translate="yes">Occupation</th>
-            <th id="location" translate="yes">Location</th>
-            <th id="company-name" translate="yes">Company name</th>
-            <th id="website" translate="yes">Website</th>
-            <th translate="yes">Created</th>
-          </tr>
-        </thead>
-      </table>
+      <div class="list-table-wrapper">
+        <table id="profiles-table" class="list-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th id="full-name" translate="yes">Full name</th>
+              <th id="contact-email" translate="yes">Contact email</th>
+              <th id="display-name" translate="yes">Display name</th>
+              <th id="display-email" translate="yes">Display email</th>
+              <th id="dob" >DOB</th>
+              <th id="phone" translate="yes">Phone</th>
+              <th id="occupation" translate="yes">Occupation</th>
+              <th id="location" translate="yes">Location</th>
+              <th id="company-name" translate="yes">Company name</th>
+              <th id="website" translate="yes">Website</th>
+              <th translate="yes">Created</th>
+            </tr>
+          </thead>
+        </table>
+      </div>
     </div>
     <ul id="page-links" class="pagination"></ul>
     <template id="page-link">

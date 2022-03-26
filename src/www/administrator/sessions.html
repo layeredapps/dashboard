@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" data-navbar="/administrator/navbar.html">
   <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="utf-8" /> 
     <title translate="yes">Sessions</title>
     <link href="/public/content.css" rel="stylesheet">
@@ -15,18 +16,20 @@
       <div id="no-sessions">
         <p translate="yes">There are no sessions yet.</p>
       </div>
-      <table id="sessions-table" class="list-table">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th translate="yes">Account</th>
-            <th translate="yes">Name</th>
-            <th translate="yes">Email</th>
-            <th translate="yes">Created</th>
-            <th translate="yes">Expires</th>
-          </tr>
-        </thead>
-      </table>
+      <div class="list-table-wrapper">
+        <table id="sessions-table" class="list-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th translate="yes">Account</th>
+              <th translate="yes">Name</th>
+              <th translate="yes">Email</th>
+              <th translate="yes">Created</th>
+              <th translate="yes">Expires</th>
+            </tr>
+          </thead>
+        </table>
+      </div>
       <ul id="page-links" class="pagination"></ul>
     </div>
     <template id="page-link">
@@ -36,16 +39,10 @@
     </template>
     <template id="session-row">
       <tr id="${session.sessionid}">
-        <td>
-          <a href="/administrator/session?sessionid=${session.sessionid}">${session.sessionid}</a>
-        </td>
-        <td>
-          <a href="/administrator/account?accountid=${session.accountid}">${session.accountid}</a>
-        </td>
+        <td><a href="/administrator/session?sessionid=${session.sessionid}">${session.sessionid}</a></td>
+        <td><a href="/administrator/account?accountid=${session.accountid}">${session.accountid}</a></td>
         <td>${session.firstName} ${session.lastName}</td>
-        <td>
-          <a href="mailto:${session.contactEmail}">${session.contactEmail}</a>
-        </td>
+        <td><a href="mailto:${session.contactEmail}">${session.contactEmail}</a></td>
         <td>${session.createdAtFormatted}</td>
         <td>${session.expiresFormatted}</td>
       </tr>

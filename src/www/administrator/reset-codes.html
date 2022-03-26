@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" data-navbar="/administrator/navbar.html">
   <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="utf-8" /> 
     <title translate="yes">Reset codes</title>
     <link href="/public/content.css" rel="stylesheet">
@@ -15,17 +16,19 @@
       <div id="no-reset-codes">
         <p translate="yes">There are no reset codes yet.</p>
       </div>
-      <table id="reset-codes-table" class="list-table">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th translate="yes">Account</th>
-            <th translate="yes">Name</th>
-            <th translate="yes">Email</th>
-            <th translate="yes">Created</th>
-          </tr>
-        </thead>
-      </table>
+      <div class="list-table-wrapper">
+        <table id="reset-codes-table" class="list-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th translate="yes">Account</th>
+              <th translate="yes">Name</th>
+              <th translate="yes">Email</th>
+              <th translate="yes">Created</th>
+            </tr>
+          </thead>
+        </table>
+      </div>
       <ul id="page-links" class="pagination"></ul>
     </div>
     <template id="page-link">
@@ -35,16 +38,10 @@
     </template>
     <template id="reset-code-row">
       <tr id="${resetCode.codeid}">
-        <td>
-          <a href="/administrator/reset-code?codeid=${resetCode.codeid}">${resetCode.codeid}</a>
-        </td>
-        <td>
-          <a href="/administrator/account?accountid=${resetCode.accountid}">${resetCode.accountid}</a>
-        </td>
+        <td><a href="/administrator/reset-code?codeid=${resetCode.codeid}">${resetCode.codeid}</a></td>
+        <td><a href="/administrator/account?accountid=${resetCode.accountid}">${resetCode.accountid}</a></td>
         <td>${resetCode.firstName} ${resetCode.lastName}</td>
-        <td>
-          <a href="mailto:${resetCode.contactEmail}">${resetCode.contactEmail}</a>
-        </td>
+        <td><a href="mailto:${resetCode.contactEmail}">${resetCode.contactEmail}</a></td>
         <td>${resetCode.createdAtFormatted}</td>
       </tr>
     </template>

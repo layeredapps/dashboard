@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" data-navbar="/administrator/navbar.html">
   <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="utf-8" /> 
     <title translate="yes">Accounts</title>
     <link href="/public/content.css" rel="stylesheet">
@@ -14,17 +15,19 @@
       <div id="no-accounts">
         <p translate="yes">There are no accounts yet.</p>
       </div>
-      <table id="accounts-table" class="list-table">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th translate="yes">Name</th>
-            <th translate="yes">Email</th>
-            <th translate="yes">Created</th>
-            <th translate="yes">Last signed in</th>
-          </tr>
-        </thead>
-      </table>
+      <div class="list-table-wrapper">
+        <table id="accounts-table" class="list-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th translate="yes">Name</th>
+              <th translate="yes">Email</th>
+              <th translate="yes">Created</th>
+              <th translate="yes">Last signed in</th>
+            </tr>
+          </thead>
+        </table>
+      </div>
       <ul id="page-links" class="pagination"></ul>
     </div>
     <template id="page-link">
@@ -34,13 +37,9 @@
     </template>
     <template id="account-row">
       <tr id="${account.accountid}">
-        <td>
-          <a href="/administrator/account?accountid=${account.accountid}">${account.accountid}</a>
-        </td>
+        <td><a href="/administrator/account?accountid=${account.accountid}">${account.accountid}</a></td>
         <td>${account.firstName} ${account.lastName}</td>
-        <td>
-          <a href="mailto:${account.contactEmail}">${account.contactEmail}</a>
-        </td>
+        <td><a href="mailto:${account.contactEmail}">${account.contactEmail}</a></td>
         <td>${account.createdAtFormatted}</td>
         <td>${account.lastSignedInAtFormatted}</td>
       </tr>

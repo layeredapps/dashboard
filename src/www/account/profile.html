@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" data-navbar="/account/navbar-profile.html">
   <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8" /> 
     <title translate="yes">View profile</title>
     <link href="/public/content.css" rel="stylesheet">
     <link href="/public/content-additional.css" rel="stylesheet">
@@ -30,9 +32,7 @@
           </tr>
           <tr id="contact-email">
             <th translate="yes">Contact email</th>
-            <td>
-              <a href="mailto:${profile.contactEmail}">${profile.contactEmail}</a>
-            </td>
+            <td><a href="mailto:${profile.contactEmail}">${profile.contactEmail}</a></td>
           </tr>
           <tr id="display-name">
             <th translate="yes">Display name</th>
@@ -40,9 +40,7 @@
           </tr>
           <tr id="display-email">
             <th translate="yes">Display email</th>
-            <td>
-              <a href="mailto:${profile.displayEmail}">${profile.displayEmail}</a>
-            </td>
+            <td><a href="mailto:${profile.displayEmail}">${profile.displayEmail}</a></td>
           </tr>
           <tr id="dob">
             <th translate="yes">Date of birth</th>
@@ -66,9 +64,7 @@
           </tr>
           <tr id="website">
             <th translate="yes">Website</th>
-            <td>
-              <a href="${profile.website}">${profile.website}</a>
-            </td>
+            <td><a href="${profile.website}">${profile.website}</a></td>
           </tr>
         </tbody>
       </table>

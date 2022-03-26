@@ -15,11 +15,6 @@ async function beforeRequest (req) {
   if (!account || account.deletedAt) {
     throw new Error('invalid-account')
   }
-  req.query.profileid = account.profileid
-  const profile = await global.api.administrator.Profile.get(req)
-  account.contactEmail = profile.contactEmail
-  account.createdAtFormatted = dashboard.Format.date(account.createdAt)
-  account.lastSignedInAtFormatted = dashboard.Format.date(account.lastSignedInAt)
   req.data = { account }
 }
 
