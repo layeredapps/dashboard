@@ -241,7 +241,7 @@ async function fetch (method, req) {
       if (req.waitBefore) {
         await req.waitBefore(page)
       }
-      await fill(page, '#submit-form', req.body, req.uploads)
+      await fill(page, req.fill || '#submit-form', req.body, req.uploads)
       await execute('hover', page, req.button || '#submit-button')
       await execute('click', page, req.button || '#submit-button')
       if (req.waitAfter) {
