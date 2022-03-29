@@ -90,7 +90,7 @@ async function end (req, res, doc, blob) {
         }
       }
     }
-    return compress(req, res, doc.toString())
+    return compress(req, res, '<!doctype html>' + doc.toString())
   }
 }
 
@@ -109,7 +109,7 @@ async function redirect (req, res, url) {
     }
   }
   res.ended = true
-  return res.end(doc.toString())
+  return res.end('<!doctype html>' + doc.toString())
 }
 
 function throw404 (req, res) {
@@ -311,7 +311,7 @@ async function wrapSrcDocWithTemplate (req, res, doc) {
   const container = templateDoc.getElementById('template-header')
   const pageBody = doc.getElementsByTagName('body')[0]
   pageBody.child.unshift(container)
-  return doc.toString()
+  return '<!doctype html>' + doc.toString()
 }
 
 async function wrapTemplateWithSrcDoc (req, res, doc) {
@@ -442,7 +442,7 @@ async function wrapTemplateWithSrcDoc (req, res, doc) {
   if (pageTitles && pageTitles.length && pageTitles[0].child && pageTitles[0].child.length) {
     iframe.attr.title = pageTitles[0].child[0].text
   }
-  return templateDoc.toString()
+  return '<!doctype html>' + templateDoc.toString()
 }
 
 function highlightCurrentPage (urlPath, doc) {
