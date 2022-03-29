@@ -45,7 +45,7 @@ async function fetch (method, req) {
   browser = await relaunchBrowser()
   const result = {}
   const page = await launchBrowserPage()
-  await emulate(page, devices[0])
+  await page.emulate(devices[0])
   page.on('error', (msg) => {
     if (msg && msg.text) {
       Log.error('puppeteer page error', msg.text())
@@ -103,7 +103,7 @@ async function fetch (method, req) {
           for (const language of languages) {
             global.language = language.code
             for (const device of devices) {
-              await emulate(page, device)
+              await page.emulate(device)
               const thisTitle = await saveScreenshot(device, page, screenshotNumber, 'index', 'page', req.filename, firstTitle)
               firstTitle = firstTitle || thisTitle
             }
@@ -118,7 +118,7 @@ async function fetch (method, req) {
           for (const language of languages) {
             for (const device of devices) {
               global.language = language.code
-              await emulate(page, device)
+              await page.emulate(device)
               await execute('hover', page, step.hover)
               const thisTitle = await saveScreenshot(device, page, screenshotNumber, 'hover', step.hover, req.filename, firstTitle)
               firstTitle = firstTitle || thisTitle
@@ -134,7 +134,7 @@ async function fetch (method, req) {
           for (const language of languages) {
             global.language = language.code
             for (const device of devices) {
-              await emulate(page, device)
+              await page.emulate(device)
               if (lastStep && lastStep.hover === '#account-menu-container') {
                 await execute('hover', page, '#account-menu-container')
               } else if (lastStep && lastStep.hover === '#administrator-menu-container') {
@@ -177,7 +177,7 @@ async function fetch (method, req) {
           for (const language of languages) {
             global.language = language.code
             for (const device of devices) {
-              await emulate(page, device, req)
+              await page.emulate(device)
               if (step.waitFormLoad) {
                 await step.waitFormLoad(page)
               }
@@ -225,7 +225,7 @@ async function fetch (method, req) {
       for (const language of languages) {
         global.language = language.code
         for (const device of devices) {
-          await emulate(page, device)
+          await page.emulate(device)
           const thisTitle = await saveScreenshot(device, page, screenshotNumber, 'complete', null, req.filename, firstTitle)
           firstTitle = firstTitle || thisTitle
         }
@@ -374,17 +374,6 @@ async function setCookie (page, req) {
   while (true) {
     try {
       await page.setCookie(cookie2)
-      return
-    } catch (error) {
-    }
-    await wait(50)
-  }
-}
-
-async function emulate (page, device) {
-  while (true) {
-    try {
-      await page.emulate(device)
       return
     } catch (error) {
     }
@@ -542,9 +531,12 @@ async function fill (page, fieldContainer, body, uploads) {
   if (!body) {
     return
   }
-  return page.evaluate((fieldContainer, body) => {
+  await page.evaluate((fieldContainer, body) => {
     const container = document.querySelector(fieldContainer || '#submit-form')
     for (const field in body) {
+      if (body[field].type) {
+        continue
+      }
       const element = container.querySelector(`#${field}`)
       if (!element) {
         const checkboxes = container.querySelectorAll('input[type=checkbox]')
@@ -665,6 +657,23 @@ async function fill (page, fieldContainer, body, uploads) {
   
     }  
   }, fieldContainer, body)
+  for (const field in body) {
+    if (!body[field].type) {
+      continue
+    }
+    // inaccessible input fields such as Stripe payment information
+    const element = await page.$(`#${field}`)
+    await element.click()
+    await wait(1)
+    await page.keyboard.press('Backspace')
+    await wait(1)
+    for (const char of body[field].value) {
+      await element.focus()
+      await wait(1)
+      await element.type(char)
+      await wait(1)
+    }
+  }
 }
 
 function createFolderSync (folderPath) {

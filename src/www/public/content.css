@@ -81,11 +81,11 @@ body.entry { background-color: #2F365F; display: flex; align-items: center; just
 .entry-form .form-buttons { text-align: left; margin-bottom: 2rem }
 .entry-form .button { padding: 0 2rem; background-color: rgba(0, 0, 0, 0.5); border: 1px solid rgba(0, 0, 0, 0.5); color: #FFF }
 
-
 @media (max-width: 600px) {
   .container { padding: 1rem 0.5rem }
   .entry-form { width: unset; box-shadow: none; transform: none; position: unset }
   .input-fields { display: block }
+  .field-label { display: inline-block; font-size: 0.75rem; margin-bottom: 0.5rem }
   .button { padding: 0 0.5rem }
 }
 

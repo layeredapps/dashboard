@@ -69,14 +69,14 @@ input, select, textarea, a, button, div { outline: 0 }
 
 @media (max-width: 960px) {
   .template .header { height: 3rem }
-  .template .header .heading { padding-left: 0.5rem; font-size: 1rem }
+  .template .heading { padding-left: 0.5rem; font-size: 1rem; line-height: 3rem; }
   .template .menus { margin-right: 0; min-height: 4rem }
   .template .menu-group .dropdown-menu:first-of-type { right: 0 }
   .template .menus .menu-group:last-of-type { margin-left: 0.5rem; padding-left: 0.5rem }
   .template .menu-group-label { display: none !important }
   .template .menu-group img { position: unset; margin-top: 1rem; margin-right: 0.5rem }
   .template .dropdown-menu { right: -0.5rem } 
-  .template .navigation-links a { margin-left: 0; margin-right: 1rem }
+  .template .navigation-links a { margin-left: 0.5rem; margin-right: 0.5rem }
   .template .navigation-links a:first-of-type { padding-left: 0.5rem; margin-right: 0 }
   .template .navigation-links a,
   .template .spillage-links a { font-size: 0.8rem }

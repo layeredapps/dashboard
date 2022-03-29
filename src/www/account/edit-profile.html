@@ -16,9 +16,9 @@
       <form id="submit-form" method="post" class="input-form" action="/account/edit-profile?profileid=${profile.profileid}" name="submit-form">
         <fieldset class="input-fields">
           <label class="field-label">Default</label>
-          <label class="field" for="default">
-            <input required="required" id="default" name="default" value="true" type="checkbox">&nbsp;<span translate="yes">Make my default</span>
-          </label>
+          <div class="field">
+            <label><input required="required" id="default" name="default" value="true" type="checkbox">&nbsp;<span translate="yes">Make my default</span></label>
+          </div>
         </fieldset>
         <fieldset id="display-name-container" class="input-fields">
           <label class="field-label" for="display-name" translate="yes">Display name</label>
@@ -29,13 +29,13 @@
         <fieldset id="display-email-container" class="input-fields">
           <label class="field-label" for="display-email" translate="yes">Display email</label>
           <div class="field">
-            <input required="required" id="display-email" name="display-email" type="text" maxlength="1000" size="50">
+            <input required="required" id="display-email" name="display-email" type="text" maxlength="1000">
           </div>
         </fieldset>
         <fieldset id="contact-email-container" class="input-fields">
           <label class="field-label" for="contact-email" translate="yes">Contact email</label>
           <div class="field">
-            <input required="required" id="contact-email" name="contact-email" type="text" maxlength="1000" size="50">
+            <input required="required" id="contact-email" name="contact-email" type="text" maxlength="1000">
           </div>
         </fieldset>
         <div id="full-name-container">
