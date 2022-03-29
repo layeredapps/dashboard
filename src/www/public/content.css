@@ -46,10 +46,13 @@ input, select, textarea, a, button, div { outline: 0 }
 .checkbox-fields .field-label:last-of-type { margin-bottom: 0 }
 .field-label { font-size: 1rem }
 .field select,
+.field input[type=number],
 .field input[type=text],
 .field input[type=password] { padding: 0.5rem; border-radius: 0.25rem; border: none; background-color: rgba(0, 0, 0, 0.125); color: #2F365F }
 .field select:active,
 .field select:focus,
+.field input[type=number]:active,
+.field input[type=number]:focus,
 .field input[type=text]:active,
 .field input[type=text]:focus,
 .field input[type=password]:active,
