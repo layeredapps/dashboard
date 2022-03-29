@@ -243,7 +243,7 @@ function extractRedirectURL (doc) {
 }
 
 function nextIdentity () {
-  const gender = Math.random() > 0.5 ? 1 : 0
+  const gender = Math.random() > 0.5 ? 'female' : 'male'
   const firstName = faker.name.firstName(gender)
   const lastName = faker.name.lastName(gender)
   return {

@@ -104,6 +104,7 @@ async function fetch (method, req) {
             global.language = language.code
             for (const device of devices) {
               await page.emulate(device)
+              await page.setViewport(device.viewport)
               const thisTitle = await saveScreenshot(device, page, screenshotNumber, 'index', 'page', req.filename, firstTitle)
               firstTitle = firstTitle || thisTitle
             }
@@ -119,6 +120,7 @@ async function fetch (method, req) {
             for (const device of devices) {
               global.language = language.code
               await page.emulate(device)
+              await page.setViewport(device.viewport)
               await execute('hover', page, step.hover)
               const thisTitle = await saveScreenshot(device, page, screenshotNumber, 'hover', step.hover, req.filename, firstTitle)
               firstTitle = firstTitle || thisTitle
@@ -135,6 +137,7 @@ async function fetch (method, req) {
             global.language = language.code
             for (const device of devices) {
               await page.emulate(device)
+              await page.setViewport(device.viewport)
               if (lastStep && lastStep.hover === '#account-menu-container') {
                 await execute('hover', page, '#account-menu-container')
               } else if (lastStep && lastStep.hover === '#administrator-menu-container') {
@@ -178,6 +181,7 @@ async function fetch (method, req) {
             global.language = language.code
             for (const device of devices) {
               await page.emulate(device)
+              await page.setViewport(device.viewport)
               if (step.waitFormLoad) {
                 await step.waitFormLoad(page)
               }
@@ -226,6 +230,7 @@ async function fetch (method, req) {
         global.language = language.code
         for (const device of devices) {
           await page.emulate(device)
+          await page.setViewport(device.viewport)
           const thisTitle = await saveScreenshot(device, page, screenshotNumber, 'complete', null, req.filename, firstTitle)
           firstTitle = firstTitle || thisTitle
         }
@@ -386,6 +391,7 @@ const screenshotCache = {
 
 async function saveScreenshot (device, page, number, action, identifier, scriptName, overrideTitle) {
   Log.info('taking screenshot', number, action, identifier, scriptName)
+  global.language = global.language || 'en'
   let filePath = scriptName.substring(scriptName.indexOf('/src/www/') + '/src/www/'.length)
   filePath = filePath.substring(0, filePath.lastIndexOf('.test.js'))
   filePath = path.join(process.env.SCREENSHOT_PATH, filePath)
@@ -472,7 +478,7 @@ async function saveScreenshot (device, page, number, action, identifier, scriptN
   if (screenshotCache[filename]) {
     return fs.writeFileSync(`${filePath}/${filename}`, screenshotCache[filename])
   }
-  await page.screenshot({ path: `${filePath}/${filename}`, type: 'png' })
+  await page.screenshot({ path: `${filePath}/${filename}`, type: 'png', fullPage: true })
   if ((number === 1 && action === 'hover') ||
       (number === 2 && action === 'click')) {
     screenshotCache[filename] = fs.readFileSync(`${filePath}/${filename}`)
