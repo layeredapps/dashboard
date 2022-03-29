@@ -597,70 +597,7 @@ async function fill (page, fieldContainer, body, uploads) {
             element.value = ''
           }
         }
-      } else {
-        // inaccessible input fields such as Stripe payment information
-        element.click()
-        for (let i = 0, len = 100; i < len; i++) {
-          element.dispatchEvent(new KeyboardEvent("keydown", {
-            "key": "Backspace",
-            "keyCode": 8,
-            "which": 8,
-            "code": "Backspace",
-            "location": 0,
-            "altKey": false,
-            "ctrlKey": false,
-            "metaKey": false,
-            "shiftKey": false,
-            "repeat": false
-          }))
-        }
-        const keyCodes = {
-          '0': { "key": "0", "keyCode": 48, "which": 48, "code": "Digit0", "location": 0 },
-          '1': { "key": "1", "keyCode": 49, "which": 49, "code": "Digit1", "location": 0 },
-          '2': { "key": "2", "keyCode": 50, "which": 50, "code": "Digit2", "location": 0 },
-          '3': { "key": "3", "keyCode": 51, "which": 51, "code": "Digit3", "location": 0 },
-          '4': { "key": "4", "keyCode": 52, "which": 52, "code": "Digit4", "location": 0 },
-          '5': { "key": "5", "keyCode": 53, "which": 53, "code": "Digit5", "location": 0 },
-          '6': { "key": "6", "keyCode": 54, "which": 54, "code": "Digit6", "location": 0 },
-          '7': { "key": "7", "keyCode": 55, "which": 55, "code": "Digit7", "location": 0 },
-          '8': { "key": "8", "keyCode": 56, "which": 56, "code": "Digit8", "location": 0 },
-          '9': { "key": "9", "keyCode": 57, "which": 57, "code": "Digit9", "location": 0 },
-          'a': { "key": "a", "keyCode": 65, "which": 65, "code": "KeyA", "location": 1 },
-          'b': { "key": "b", "keyCode": 65, "which": 66, "code": "KeyB", "location": 1 },
-          'c': { "key": "c", "keyCode": 65, "which": 67, "code": "KeyC", "location": 1 },
-          'd': { "key": "d", "keyCode": 65, "which": 68, "code": "KeyD", "location": 1 },
-          'e': { "key": "e", "keyCode": 65, "which": 69, "code": "KeyE", "location": 1 },
-          'f': { "key": "f", "keyCode": 65, "which": 70, "code": "KeyF", "location": 1 },
-          'g': { "key": "g", "keyCode": 65, "which": 71, "code": "KeyG", "location": 1 },
-          'h': { "key": "h", "keyCode": 65, "which": 72, "code": "KeyH", "location": 1 },
-          'i': { "key": "i", "keyCode": 65, "which": 73, "code": "KeyI", "location": 1 },
-          'j': { "key": "j", "keyCode": 65, "which": 74, "code": "KeyJ", "location": 1 },
-          'k': { "key": "k", "keyCode": 65, "which": 75, "code": "KeyK", "location": 1 },
-          'l': { "key": "l", "keyCode": 65, "which": 76, "code": "KeyL", "location": 1 },
-          'm': { "key": "m", "keyCode": 65, "which": 77, "code": "KeyM", "location": 1 },
-          'n': { "key": "n", "keyCode": 65, "which": 78, "code": "KeyN", "location": 1 },
-          'o': { "key": "o", "keyCode": 65, "which": 79, "code": "KeyO", "location": 1 },
-          'p': { "key": "p", "keyCode": 65, "which": 80, "code": "KeyP", "location": 1 },
-          'q': { "key": "q", "keyCode": 65, "which": 81, "code": "KeyQ", "location": 1 },
-          'r': { "key": "r", "keyCode": 65, "which": 82, "code": "KeyR", "location": 1 },
-          's': { "key": "s", "keyCode": 65, "which": 83, "code": "KeyS", "location": 1 },
-          't': { "key": "t", "keyCode": 65, "which": 84, "code": "KeyT", "location": 1 },
-          'u': { "key": "u", "keyCode": 65, "which": 85, "code": "KeyU", "location": 1 },
-          'v': { "key": "v", "keyCode": 65, "which": 86, "code": "KeyV", "location": 1 },
-          'w': { "key": "w", "keyCode": 65, "which": 87, "code": "KeyW", "location": 1 },
-          'x': { "key": "x", "keyCode": 65, "which": 88, "code": "KeyX", "location": 1 },
-          'y': { "key": "y", "keyCode": 65, "which": 89, "code": "KeyY", "location": 1 },
-          'z': { "key": "z", "keyCode": 65, "which": 90, "code": "KeyZ", "location": 1 },
-             
-        }
-        if (field.endsWith('-container')) {
-          element.focus()
-        }
-        for (const char of body[field]) {
-          element.dispatchEvent(new KeyboardEvent("keydown", keyCodes[char]))
-        }
       }
-  
     }  
   }, fieldContainer, body)
   for (const field in body) {
@@ -671,8 +608,10 @@ async function fill (page, fieldContainer, body, uploads) {
     const element = await page.$(`#${field}`)
     await element.click()
     await wait(1)
-    await page.keyboard.press('Backspace')
-    await wait(1)
+    for (let i = 0; i < 100; i++) {
+      await page.keyboard.press('Backspace')
+      await wait(1)
+    }
     for (const char of body[field].value) {
       await element.focus()
       await wait(1)
