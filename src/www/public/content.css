@@ -33,7 +33,7 @@ input, select, textarea, a, button, div { outline: 0 }
 .data-table tr:last-of-type th,
 .data-table tr:last-of-type td { border-bottom: none }
 
-.list-table-wrapper { max-width: 100%; overflow-x: scroll }
+.list-table-wrapper { max-width: 100%; overflow-x: auto }
 .list-table { border-collapse: collapse; margin-bottom: 2rem }
 .list-table th { background-color: #2F365F; color: #F7F1ED; font-weight: normal; padding: 0.5rem; text-align: left }
 .list-table td { padding: 0.5rem }
@@ -95,7 +95,6 @@ body.entry { background-color: #2F365F; display: flex; align-items: center; just
   .data-table td, 
   .data-table tr { 
 		display: block;
-    width: 100%;
     padding: 0;
     text-align: left
 	}
