@@ -540,7 +540,7 @@ async function fill (page, fieldContainer, body, uploads) {
   await page.evaluate((fieldContainer, body) => {
     const container = document.querySelector(fieldContainer || '#submit-form')
     for (const field in body) {
-      if (body[field].type) {
+      if (body[field] && body[field].type) {
         continue
       }
       const element = container.querySelector(`#${field}`)
@@ -601,7 +601,7 @@ async function fill (page, fieldContainer, body, uploads) {
     }  
   }, fieldContainer, body)
   for (const field in body) {
-    if (!body[field].type) {
+    if (!body[field] || !body[field].type) {
       continue
     }
     // inaccessible input fields such as Stripe payment information
