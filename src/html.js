@@ -38,7 +38,7 @@ function minify (doc) {
     }
     script.child = [{
       node: 'text',
-      text: js
+      text: js.code || js
     }]
   }
   return doc
