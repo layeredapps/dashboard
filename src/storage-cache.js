@@ -48,7 +48,7 @@ module.exports = {
     if (item) {
       const json = JSON.parse(item)
       for (const key in json) {
-        if (key.endsWith('At') || key.endsWith('Since')) {
+        if (json[key] && (key.endsWith('At') || key.endsWith('Since'))) {
           try {
             json[key] = new Date(json[key])
           } catch (error) {
