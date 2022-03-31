@@ -57,11 +57,11 @@ jobs:
     #   uses: JS-DevTools/npm-publish@v1
     #   with:
     #     token: ${{ secrets.NPM_TOKEN }}
-    # - name: Publish documentation assets
-    #   uses: peaceiris/actions-gh-pages@v3
-    #   with:
-    #     external_repository: "layeredapps/layeredapps.github.io"
-    #     personal_token: ${{ secrets.DOCUMENTATION_PAT }}
-    #     publish_dir: documentation
-    #     publish_branch: master
-    #     keep_files: true
+    - name: Publish documentation assets
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        external_repository: "layeredapps/layeredapps.github.io"
+        personal_token: ${{ secrets.DEPLOY_TOKEN }}
+        publish_dir: documentation
+        publish_branch: master
+        keep_files: true
