@@ -77,7 +77,11 @@ body.entry { background-color: #2F365F; display: flex; align-items: center; just
 .entry-form h1 { text-align: left; font-size: 1.2rem; color: rgba(255, 255, 255, 0.75) }
 
 .entry-form .list { text-align: left }
-.entry-form .list-link { color: rgba(255, 255, 255, 0.5); line-height: 1.5rem }
+.entry-form .list li { margin-bottom: 0.5rem }
+.entry-form .list-link { color: rgba(255, 255, 255, 0.5); line-height: 1.5rem; font-size: 0.8rem; padding: 0.25rem; border-radius: 0.5rem }
+.entry-form .list-link:hover { color: #FFF; text-decoration: underline }
+.entry-form .list-link:active,
+.entry-form .list-link:focus { background-color: rgba(255, 255, 255, 0.25) }
 .entry-form .input-fields { display: block; text-align: left }
 .entry-form .field input[type="text"], 
 .entry-form .field input[type="password"],
@@ -86,6 +90,7 @@ body.entry { background-color: #2F365F; display: flex; align-items: center; just
 .entry-form .field-label span { border: none; background-color: transparent; margin-left: 0.5rem }
 .entry-form .form-buttons { text-align: left; margin-bottom: 2rem }
 .entry-form .button { padding: 0 2rem; background-color: rgba(0, 0, 0, 0.5); border: 1px solid rgba(0, 0, 0, 0.5); color: #FFF }
+.entry-form .message { color: #FFF; padding: 0.5rem; background-color: rgba(0, 0, 0, 0.5) }
 
 @media (max-width: 600px) {
   .container { padding: 1rem 0.5rem }

@@ -64,20 +64,21 @@ input, select, textarea, a, button, div { outline: 0 }
 .template .spillage:hover .spillage-trigger,
 .template .spillage:focus .spillage-trigger { background-color: transparent }
 
-
-
 @media (max-width: 960px) {
   .template .header { height: 3rem }
   .template .heading { padding-left: 0.5rem; font-size: 1rem; line-height: 3rem; }
-  .template .menus { margin-right: 0; min-height: 4rem }
+  .template .menus { margin-right: 0; min-height: 2rem; line-height: 2rem }
   .template .menu-group .dropdown-menu:first-of-type { right: 0 }
   .template .menus .menu-group:last-of-type { margin-left: 0.5rem; padding-left: 0.5rem }
   .template .menu-group-label { display: none !important }
   .template .menu-group img { position: unset; margin-top: 1rem; margin-right: 0.5rem }
+  .template .menu-trigger { padding-left: 0.5rem }
   .template .dropdown-menu { right: -0.5rem } 
-  .template .navigation-links a { margin-left: 0.5rem; margin-right: 0.5rem }
-  .template .navigation-links a:first-of-type { padding-left: 0.5rem; margin-right: 0 }
-  .template .navigation-links a,
+  .template .navigation { height: 2.5rem }
+  .template .navigation-link { height: 2rem; margin-left: 0.5rem; margin-right: 0.5rem }
+  .template .navigation-link:first-of-type { padding-left: 0.5rem; margin-right: 0 }
+  .template .spillage { height: 2.5rem }
+  .template .spillage-links { top: 2.5rem }
   .template .spillage-links a { font-size: 0.8rem }
   .template .navigation-links span { display: none }
   .template .spillage img { padding-right: 0 }
