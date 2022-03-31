@@ -196,8 +196,9 @@ function writeEnvironment () {
   if (!fs.existsSync(testsFilePath)) {
     return
   }
-  let tests = fs.readFileSync(testsFilePath).toString()
-  tests = tests.substring(0, tests.indexOf('internal-api'))
+  let tests = fs.readFileSync(testsFilePath).toString().trim()
+  tests = tests.substring(tests.indexOf('  index'))
+  tests = tests.substring(0, tests.indexOf('\n\n'))
   tests = tests.split('\n')
   let start = false
   const properties = {}
