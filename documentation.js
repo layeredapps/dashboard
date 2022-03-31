@@ -13,17 +13,11 @@ function writeAPI () {
     return
   }
   let tests = fs.readFileSync(testsFilePath).toString()
-  tests = tests.substring(tests.indexOf('\n\n'))
-  while (true) {
-    const lastTick = tests.lastIndexOf('✓')
-    const lastLineBreak = tests.lastIndexOf('\n')
-    if (lastLineBreak > lastTick) {
-      tests = tests.substring(0, lastLineBreak)
-    } else {
-      break
-    }
-  }
+  // trim from first api test
+  tests = tests.substring(tests.indexOf('  /api')).trim()
   tests = tests.split('\n\n')
+  // get rid of "x tests passing" line
+  tests.pop()
   const api = {}
   const categories = ['exceptions', 'receives', 'configuration', 'returns', 'redacts']
   const verbs = ['get', 'post', 'patch', 'pull', 'delete', 'options', 'head']
@@ -43,9 +37,6 @@ function writeAPI () {
     let exception
     for (let line of lines) {
       line = line.trim()
-      if (!line) {
-        continue
-      }
       if (!done.length) {
         item.url = line
         if (!global.sitemap[line]) {
@@ -61,17 +52,15 @@ function writeAPI () {
         done.push('url')
         continue
       }
-      const type = done[done.length - 1]
-      if (!line.startsWith('✓')) {
-        if (categories.indexOf(line) > -1) {
-          done.push(line)
-          continue
-        }
-        exception = line
+      if (categories.indexOf(line) > -1) {
+        done.push(line)
         continue
-      } else {
+      } else if(line[1] === ' ') {
         line = line.substring(2)
+      } else {
+        exception = line
       }
+      const type = done[done.length - 1]
       if (type === 'exceptions') {
         item.exceptions[exception] = item.exceptions[exception] || []
         item.exceptions[exception].push(line)
