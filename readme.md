@@ -5,6 +5,7 @@
 - [Introduction](#introduction)
 - [Hosting Dashboard yourself](#hosting-dashboard-yourself)
 - [Configuring Dashboard](#configuring-dashboard)
+- [Dashboard modules](#dashboard-modules)
 - [Customize registration information](#customize-registration-information)
 - [Adding links to the header menus](#adding-links-to-the-header-menus)
 - [Access the API from your application server](#access-the-api)
@@ -12,7 +13,6 @@
 - [Storage backends](#storage-backends)
 - [Storage caching](#storage-caching)
 - [Logging](#logging)
-- [Dashboard modules](#dashboard-modules)
 - [Creating modules for Dashboard](#creating-modules-for-dashboard)
 - [Testing](#testing)
 - [Github repository](https://github.com/layeredapps/dashboard)
@@ -24,10 +24,10 @@ Web applications often require coding a user account system, organizations, subs
 
 Dashboard packages everything web apps need into reusable, modular software.  It runs separately to your application so you have two web servers instead of one, and Dashboard fuses their content together to provide a single website or interface for your users.  To get started your web app just needs a `/` for guests and `/home` for signed in users.
 
-| Application | Dashboard      | + modules          |
-|-------------|----------------|--------------------|
-| /           | /account       | /account/...       |
-| /home       | /administrator | /administrator/... |
+| Your application | Dashboard server   | Dashboard modules  | Dashboard APIs         |
+|------------------|--------------------|--------------------|------------------------|
+| /                | /account           | /account/...       | /api/user/...          |
+| /home            | /administrator     | /administrator/... | /api/administrator/... |
 
 Dashboard uses a `template.html` with header, navigation and content structure.  Dashboard and modules use HTML pages and CSS for all the functionality users need.  Your application server can serve two special CSS files at `/public/template-additional.css` and `/public/content-additional.css` to theme the template and pages to match your application design.  Dashboard assumes you must be signed in to access any URL outside of `/` and `/public/*`.
 
@@ -65,34 +65,9 @@ Dashboard is configured with a combination of environment variables and hard-cod
             ],
             "proxy": [
                 "/src/to/script/to/modify/proxy/requests.js
-            ],
-            "menus": {
-                "administrator": [
-                    {
-                        "href": "/administrator/your_module_name",
-                        "text": "Administrator link",
-                        "object": "link"
-                    }
-                ],
-                "account": [
-                    {
-                        "href": "/account/your_module_name",
-                        "text": "Account link",
-                        "object": "link"
-                    }
-                ]
-            }
+            ]
         }
     }
-
-| Attribute | Purpose                                   |
-|-----------|-------------------------------------------|
-| title     | Template header title                     |
-| modules   | Activates the installed modules           |
-| menus     | Add links to header menus                 |
-| proxy     | Include data in requests to your server   |
-| content   | Modify content before it is served        |
-| server    | Modify requests before they are processed |
 
 Server handlers can execute `before` and/or `after` a visitor is identified as a guest or user:
 
@@ -124,6 +99,28 @@ Proxy handlers can add to the headers sent to your application servers:
         proxyRequestOptions.headers.include = 'something'
     }
     
+# Dashboard modules
+
+Dashboard is modular and by itself it provides only the signing in, account management and basic administration.  Modules add new pages and API routes for additional functionality.
+
+| Name                                                                                                | Description                               |
+|-----------------------------------------------------------------------------------------------------|-------------------------------------------|
+| [@layeredapps/maxmind-geoip](https://npmjs.com/package/layeredapps/maxmind-geoip)               | IP address-based geolocation by MaxMind   |
+| [@layeredapps/organizations](https://npmjs.com/package/layeredapps/organizations)               | User created groups                       |
+| [@layeredapps/stripe-connect](https://npmjs.com/package/layeredapps/stripe-connect)             | Marketplace functionality by Stripe       |
+| [@layeredapps/stripe-subscriptions](https://npmjs.com/package/layeredapps/stripe-subscriptions) | SaaS functionality by Stripe              |
+
+Modules are NodeJS packages that you install with NPM:
+
+    $ npm install @layeredapps/stripe-subscriptions
+
+You need to notify Dashboard which modules you are using in `package.json` conffiguration:
+
+    "dashboard": {
+      "modules": [
+        "@layeredapps/stripe-subscriptions"
+      ]
+    }
 
 # Customize registration information
 
@@ -151,13 +148,13 @@ These fields are supported by the registration form:
 
 The account and administrator drop-down menus are created from stub HTML files placed in Dashboard, modules, and your project.  To add your own links create a `/menu-account.html` and `/menu-administrator.html` in your project with the HTML to include.
 
-## Account menu compilation
+The account menu is compiled in this order:
 
 1) Your project's `/menu-account.html`
 2) Any activated module's `/menu-account.html` files
 3) Dashboard's `/menu-account.html`
 
-## Administrator menu compilation
+The administrator menu is compiled in this order:
 
 1) Your project's `/menu-administrator.html`
 2) Any activated module's `/menu-administrator.html` files
@@ -165,7 +162,29 @@ The account and administrator drop-down menus are created from stub HTML files p
 
 # Access the API
 
-Dashboard and official modules are completely API-driven and you can access the same APIs on behalf of the user making requests.  You perform `GET`, `POST`, `PATCH`, and `DELETE` HTTP requests against the API endpoints to fetch or modify data.  You can use a shared secret `APPLICATION_SERVER_TOKEN` to verify requests between servers, both servers send it in an `x-application-server-token` header.  This example fetches the user's session information using NodeJS, you can do this with any language:
+Dashboard and official modules are completely API-driven and you can access the same APIs on behalf of the user making requests.  You perform `GET`, `POST`, `PATCH`, and `DELETE` HTTP requests against the API endpoints to fetch or modify data.  You can use a shared secret `APPLICATION_SERVER_TOKEN` to verify requests between servers, both servers send it in an `x-application-server-token` header. 
+
+By default the API is not accessible, you can allow total access to it with an `ENV` variable:
+
+    ALLOW_PUBLIC_API=true
+
+Or enable requests from your application server with a `server` script handler:
+
+   "dashboard": {
+       "server": [
+           "@layeredapps/dashboard/src/server/internal-api-requests.js"
+       ]
+   }
+
+Dashboard can also forward API requests to your own `/api/` routes:
+
+  "dashboard": {
+       "server": [
+           "@layeredapps/dashboard/src/server/forward-api-requests.js"
+       ]
+   }
+
+This example fetches the user's session information using NodeJS, you can do this with any language:
 
     const sessions = await proxy(`/api/user/sessions?accountid=${accountid}`, accountid, sessionid)
 
@@ -234,6 +253,20 @@ Dashboard uses the [Sequelize](github.com/sequelize/) library and is compatible 
 |             | DB2_PASSWORD=                                  |
 |             | DB2_PORT=                                      |
 
+Dashboard modules are able to use their own storage settings:
+
+    $ SUBSCRIPTIONS_STORAGE=postgresql \
+      SUBSCRIPTIONS_DATABASE_URL=postgres://localhost:5432/subscriptions \
+      ORGANIZATIONS_STORAGE=mysql \
+      ORGANIZATIONS_MYSQL_DATABASE=dbname \
+      ORGANIZATIONS_MYSQL_HOST=localhost \
+      ORGANIZATIONS_MYSQL_PORT=3306 \
+      ORGANIZATIONS_MYSQL_PASSWORD=xxxxx \
+      ORGANIZATIONS_MYSQL_USERNAME=yyyyy \
+      CONNECT_STORAGE=sqlite \
+      CONNECT_SQLITE_DATABASE_FILE=/my/database.sqlite \
+      node main.js
+
 
 # Storage caching
 
@@ -261,53 +294,14 @@ Override Dashboard's logging by creating your own `log.js` in the root of your p
 
     module.exports = (group) => {
       return {
-        log: () => {
+        log: (message) => {
         },
-        info: () => {
+        info: (message) => {
         },
-        warn: () => {
+        warn: (message) => {
         }
       }
     }
-
-# Dashboard modules
-
-Dashboard is modular and by itself it provides only the signing in, account management and basic administration.  Modules add new pages and API routes for additional functionality.
-
-| Name                                                                                                | Description                               |
-|-----------------------------------------------------------------------------------------------------|-------------------------------------------|
-| [@layeredapps/maxmind-geoip](https://npmjs.com/package/layeredapps/maxmind-geoip)               | IP address-based geolocation by MaxMind   |
-| [@layeredapps/organizations](https://npmjs.com/package/layeredapps/organizations)               | User created groups                       |
-| [@layeredapps/stripe-connect](https://npmjs.com/package/layeredapps/stripe-connect)             | Marketplace functionality by Stripe       |
-| [@layeredapps/stripe-subscriptions](https://npmjs.com/package/layeredapps/stripe-subscriptions) | SaaS functionality by Stripe              |
-
-Modules are NodeJS packages that you install with NPM:
-
-    $ npm install @layeredapps/stripe-subscriptions
-
-You need to notify Dashboard which modules you are using in `package.json` conffiguration:
-
-    "dashboard": {
-      "modules": [
-        "@layeredapps/stripe-subscriptions"
-      ]
-    }
-
-If you have built your own modules you may submit a pull request to add them to this list.  
-
-Dashboard modules are able to use their own storage settings:
-
-    $ SUBSCRIPTIONS_STORAGE=postgresql \
-      SUBSCRIPTIONS_DATABASE_URL=postgres://localhost:5432/subscriptions \
-      ORGANIZATIONS_STORAGE=mysql \
-      ORGANIZATIONS_MYSQL_DATABASE=dbname \
-      ORGANIZATIONS_MYSQL_HOST=localhost \
-      ORGANIZATIONS_MYSQL_PORT=3306 \
-      ORGANIZATIONS_MYSQL_PASSWORD=xxxxx \
-      ORGANIZATIONS_MYSQL_USERNAME=yyyyy \
-      STORAGE=sqlite \
-      SQLITE_DATABASE_FILE=/my/database.sqlite \
-      node main.js
 
 # Creating modules for Dashboard
 

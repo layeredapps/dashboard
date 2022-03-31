@@ -40,7 +40,7 @@ input, select, textarea, a, button, div { outline: 0 }
 .list-table td,
 .list-table th { padding-right: 4rem }
 
-.input-fields { margin: 0 0 2rem 0; border: none; display: grid; grid-template-columns: 1fr 3fr; }
+.input-fields { margin: 0 0 2rem 0; border: none; display: grid; grid-template-columns: 1fr 3fr; max-width: 60rem }
 .checkbox-fields { margin: 0 0 0.5rem 0; border: none; display: flex; flex-direction: column; text-align: left }
 .checkbox-fields .field-label { margin-bottom: 1rem }
 .checkbox-fields .field-label:last-of-type { margin-bottom: 0 }
