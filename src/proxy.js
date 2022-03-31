@@ -4,8 +4,8 @@ const HTML = require('./html.js')
 const Response = require('./response.js')
 const util = require('util')
 
-module.exports = { 
-  pass, 
+module.exports = {
+  pass,
   get: util.promisify(get)
 }
 
@@ -171,16 +171,16 @@ async function get (req, callback) {
   }
   const protocol = global.applicationServer.startsWith('http://') ? 'http' : 'https'
   const proxyRequest = require(protocol).request(requestOptions, (proxyResponse) => {
-      let body = ''
-      proxyResponse.on('data', (chunk) => {
-          body += chunk
-      })
-      return proxyResponse.on('end', () => {
-          return callback(null, body)
-      })
+    let body = ''
+    proxyResponse.on('data', (chunk) => {
+      body += chunk
+    })
+    return proxyResponse.on('end', () => {
+      return callback(null, body)
+    })
   })
   proxyRequest.on('error', (error) => {
-      return callback(error)
+    return callback(error)
   })
   return proxyRequest.end()
 }

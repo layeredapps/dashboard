@@ -55,7 +55,7 @@ function writeAPI () {
       if (categories.indexOf(line) > -1) {
         done.push(line)
         continue
-      } else if(line[1] === ' ') {
+      } else if (line[1] === ' ') {
         line = line.substring(2)
       } else {
         exception = line

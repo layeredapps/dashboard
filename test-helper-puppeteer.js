@@ -516,7 +516,6 @@ async function execute (action, page, identifier) {
       } else if (action === 'click') {
         element.click()
       }
-      return
     }
   }, identifier, action, global.dashboardServer)
 }
@@ -579,8 +578,8 @@ async function fill (page, fieldContainer, body, uploads) {
       } else if (element.tagName === 'SELECT') {
         for (let i = 0; i < element.options.length; i++) {
           if (element.options[i].text === body[field] || element.options[i].value === body[field]) {
-            element.selectedIndex = i;
-            break;
+            element.selectedIndex = i
+            break
           }
         }
       } else if (element.tagName === 'INPUT') {
@@ -598,7 +597,7 @@ async function fill (page, fieldContainer, body, uploads) {
           }
         }
       }
-    }  
+    }
   }, fieldContainer, body)
   for (const field in body) {
     if (!body[field] || !body[field].type) {

@@ -6,7 +6,7 @@ module.exports = {
   },
   after: async (req, res) => {
     if (!req.account) {
-        delete (req.allowAPIRequest)
+      delete (req.allowAPIRequest)
     }
   }
 }
