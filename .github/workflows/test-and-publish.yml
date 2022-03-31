@@ -53,10 +53,10 @@ jobs:
         branch: ${{ github.head_ref }}
         commit_options: "--no-verify --signoff"
         repository: .
-    # - name: Publish to NPM
-    #   uses: JS-DevTools/npm-publish@v1
-    #   with:
-    #     token: ${{ secrets.NPM_TOKEN }}
+    - name: Publish to NPM
+      uses: JS-DevTools/npm-publish@v1
+      with:
+        token: ${{ secrets.NPM_TOKEN }}
     - name: Publish documentation assets
       uses: peaceiris/actions-gh-pages@v3
       with:
