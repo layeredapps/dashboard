@@ -1,5 +1,94 @@
 
 
+  index
+    PAGE_SIZE
+      Rows of data per page
+        ✔ default 10
+        ✔ Integer
+    DASHBOARD_SERVER
+      URL of dashboard server
+        ✔ Address
+    DOMAIN
+      Domain of server
+        ✔ default unset
+        ✔ String
+    HOST
+      IP or address web server listens on
+        ✔ default localhost
+        ✔ IP address
+    PORT
+      Port web server listens on
+        ✔ default 8000
+        ✔ Integer
+    ID_LENGTH
+      Length of random ID
+        ✔ default 8
+        ✔ Integer
+    ALLOW_PUBLIC_API
+      Allow HTTP access to /api
+        ✔ default false
+        ✔ Boolean
+    DELETE_DELAY
+      Cool-down time in days to delete accounts
+        ✔ default 7
+        ✔ Integer
+    APPLICATION_SERVER
+      URL of application server
+        ✔ Address
+    APPLICATION_SERVER_TOKEN
+      Secret shared between servers
+        ✔ String
+    BCRYPT_WORKLOAD_FACTOR
+      Strength to protect passwords
+        ✔ default 10
+        ✔ Integer
+    ENCRYPTION_SECRET
+      32-character secret string
+        ✔ String
+    ENCRYPTION_SECRET_IV
+      16-character secret string
+        ✔ String
+    DISABLE_REGISTRATION
+      Disable UI (not API) for registering
+        ✔ default unset
+        ✔ Boolean
+    MINIMUM_PASSWORD_LENGTH
+      Shortest password length
+        ✔ default 1
+        ✔ Integer
+    MAXIMUM_PASSWORD_LENGTH
+      Longest password length
+        ✔ default 50
+        ✔ Integer
+    MINIMUM_USERNAME_LENGTH
+      Shortest username length
+        ✔ default 1
+        ✔ Integer
+    MAXIMUM_USERNAME_LENGTH
+      Longest username length
+        ✔ default 50
+        ✔ Integer
+    MINIMUM_RESET_CODE_LENGTH
+      Shortest reset code length
+        ✔ default 6
+        ✔ Integer
+    MAXIMUM_RESET_CODE_LENGTH
+      Longest reset code length
+        ✔ default 50
+        ✔ Integer
+    REQUIRE_PROFILE
+      Require registration information
+        ✔ default unset
+        ✔ Integer
+    USER_PROFILE_FIELDS
+      Information to collect at registration
+        ✔ default contact-email,full-name
+        ✔ Profile property list
+    SESSION_VERIFICATION_DELAY
+      Seconds before verifying a prolongued session
+        ✔ default 14400
+        ✔ Integer
+
   internal-api/api
     API#generate
       ✔ should remap urls to object
@@ -157,95 +246,6 @@
       ✔ should reject null length
     #v4
       ✔ should be a v4 uuid
-
-  index
-    PAGE_SIZE
-      Rows of data per page
-        ✔ default 10
-        ✔ Integer
-    DASHBOARD_SERVER
-      URL of dashboard server
-        ✔ Address
-    DOMAIN
-      Domain of server
-        ✔ default unset
-        ✔ String
-    HOST
-      IP or address web server listens on
-        ✔ default localhost
-        ✔ IP address
-    PORT
-      Port web server listens on
-        ✔ default 8000
-        ✔ Integer
-    ID_LENGTH
-      Length of random ID
-        ✔ default 8
-        ✔ Integer
-    ALLOW_PUBLIC_API
-      Allow HTTP access to /api
-        ✔ default false
-        ✔ Boolean
-    DELETE_DELAY
-      Cool-down time in days to delete accounts
-        ✔ default 7
-        ✔ Integer
-    APPLICATION_SERVER
-      URL of application server
-        ✔ Address
-    APPLICATION_SERVER_TOKEN
-      Secret shared between servers
-        ✔ String
-    BCRYPT_WORKLOAD_FACTOR
-      Strength to protect passwords
-        ✔ default 10
-        ✔ Integer
-    ENCRYPTION_SECRET
-      32-character secret string
-        ✔ String
-    ENCRYPTION_SECRET_IV
-      16-character secret string
-        ✔ String
-    DISABLE_REGISTRATION
-      Disable UI (not API) for registering
-        ✔ default unset
-        ✔ Boolean
-    MINIMUM_PASSWORD_LENGTH
-      Shortest password length
-        ✔ default 1
-        ✔ Integer
-    MAXIMUM_PASSWORD_LENGTH
-      Longest password length
-        ✔ default 50
-        ✔ Integer
-    MINIMUM_USERNAME_LENGTH
-      Shortest username length
-        ✔ default 1
-        ✔ Integer
-    MAXIMUM_USERNAME_LENGTH
-      Longest username length
-        ✔ default 50
-        ✔ Integer
-    MINIMUM_RESET_CODE_LENGTH
-      Shortest reset code length
-        ✔ default 6
-        ✔ Integer
-    MAXIMUM_RESET_CODE_LENGTH
-      Longest reset code length
-        ✔ default 50
-        ✔ Integer
-    REQUIRE_PROFILE
-      Require registration information
-        ✔ default unset
-        ✔ Integer
-    USER_PROFILE_FIELDS
-      Information to collect at registration
-        ✔ default contact-email,full-name
-        ✔ Profile property list
-    SESSION_VERIFICATION_DELAY
-      Seconds before verifying a prolongued session
-        ✔ default 14400
-        ✔ Integer
 
   /account/change-password
     view
@@ -1485,5 +1485,5 @@
       ✔ override req.userProfileFields
 
 
-  821 passing (22m)
+  821 passing (15m)
 
