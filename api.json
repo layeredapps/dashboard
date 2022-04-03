@@ -1,0 +1,1380 @@
+{
+  "/api/administrator/account": {
+    "url": "/api/administrator/account",
+    "verb": "get",
+    "auth": false,
+    "receives": [],
+    "exceptions": {
+      "invalid-accountid": [
+        "invalid-accountid",
+        "unspecified querystring accountid",
+        "invalid querystring accountid"
+      ]
+    },
+    "redacts": [
+      "usernameHash",
+      "passwordHash",
+      "sessionKey"
+    ],
+    "returns": [
+      "object"
+    ],
+    "configuration": []
+  },
+  "/api/administrator/accounts-count": {
+    "url": "/api/administrator/accounts-count",
+    "verb": "get",
+    "auth": false,
+    "receives": [],
+    "exceptions": {},
+    "redacts": [],
+    "returns": [
+      "integer"
+    ],
+    "configuration": []
+  },
+  "/api/administrator/accounts": {
+    "url": "/api/administrator/accounts",
+    "verb": "get",
+    "auth": false,
+    "receives": [
+      "optional querystring offset (integer)",
+      "optional querystring limit (integer)",
+      "optional querystring all (boolean)"
+    ],
+    "exceptions": {},
+    "redacts": [
+      "usernameHash",
+      "passwordHash",
+      "sessionKey"
+    ],
+    "returns": [
+      "array"
+    ],
+    "configuration": [
+      "environment PAGE_SIZE"
+    ]
+  },
+  "/api/administrator/administrator-accounts-count": {
+    "url": "/api/administrator/administrator-accounts-count",
+    "verb": "get",
+    "auth": false,
+    "receives": [],
+    "exceptions": {},
+    "redacts": [],
+    "returns": [
+      "integer"
+    ],
+    "configuration": []
+  },
+  "/api/administrator/administrator-accounts": {
+    "url": "/api/administrator/administrator-accounts",
+    "verb": "get",
+    "auth": false,
+    "receives": [
+      "optional querystring offset (integer)",
+      "optional querystring limit (integer)",
+      "optional querystring all (boolean)"
+    ],
+    "exceptions": {},
+    "redacts": [
+      "usernameHash",
+      "passwordHash",
+      "sessionKey"
+    ],
+    "returns": [
+      "array"
+    ],
+    "configuration": [
+      "environment PAGE_SIZE"
+    ]
+  },
+  "/api/administrator/create-reset-code": {
+    "url": "/api/administrator/create-reset-code",
+    "verb": "post",
+    "auth": false,
+    "receives": [],
+    "exceptions": {
+      "invalid-accountid": [
+        "invalid-accountid",
+        "unspecified querystring accountid",
+        "invalid querystring accountid"
+      ],
+      "invalid-secret-code": [
+        "invalid-secret-code",
+        "missing posted secret-code"
+      ],
+      "invalid-secret-code-length": [
+        "invalid-secret-code-length",
+        "invalid posted secret-code length"
+      ]
+    },
+    "redacts": [],
+    "returns": [
+      "object"
+    ],
+    "configuration": [
+      "environment MINIMUM_RESET_CODE_LENGTH",
+      "environment MAXIMUM_RESET_CODE_LENGTH"
+    ]
+  },
+  "/api/administrator/delete-account": {
+    "url": "/api/administrator/delete-account",
+    "verb": "delete",
+    "auth": false,
+    "receives": [],
+    "exceptions": {
+      "invalid-accountid": [
+        "invalid-accountid",
+        "missing querystring accountid",
+        "invalid querystring accountid"
+      ],
+      "receieves": [
+        "receieves",
+        "querystring accountid"
+      ]
+    },
+    "redacts": [],
+    "returns": [
+      "boolean"
+    ],
+    "configuration": []
+  },
+  "/api/administrator/deleted-accounts-count": {
+    "url": "/api/administrator/deleted-accounts-count",
+    "verb": "get",
+    "auth": false,
+    "receives": [],
+    "exceptions": {},
+    "redacts": [],
+    "returns": [
+      "querystring accountid"
+    ],
+    "configuration": []
+  },
+  "/api/administrator/deleted-accounts": {
+    "url": "/api/administrator/deleted-accounts",
+    "verb": "get",
+    "auth": false,
+    "receives": [
+      "optional querystring offset (integer)",
+      "optional querystring limit (integer)",
+      "optional querystring all (boolean)"
+    ],
+    "exceptions": {},
+    "redacts": [
+      "usernameHash",
+      "passwordHash",
+      "sessionKey"
+    ],
+    "returns": [
+      "array"
+    ],
+    "configuration": [
+      "environment PAGE_SIZE"
+    ]
+  },
+  "/api/administrator/profile": {
+    "url": "/api/administrator/profile",
+    "verb": "get",
+    "auth": false,
+    "receives": [],
+    "exceptions": {
+      "invalid-profileid": [
+        "invalid-profileid",
+        "missing querystring profileid",
+        "invalid querystring profileid"
+      ]
+    },
+    "redacts": [],
+    "returns": [
+      "object"
+    ],
+    "configuration": []
+  },
+  "/api/administrator/profiles-count": {
+    "url": "/api/administrator/profiles-count",
+    "verb": "get",
+    "auth": false,
+    "receives": [],
+    "exceptions": {},
+    "redacts": [],
+    "returns": [
+      "integer"
+    ],
+    "configuration": []
+  },
+  "/api/administrator/profiles": {
+    "url": "/api/administrator/profiles",
+    "verb": "get",
+    "auth": false,
+    "receives": [
+      "optional querystring offset (integer)",
+      "optional querystring limit (integer)",
+      "optional querystring all (boolean)",
+      "optional querystring accountid (string)"
+    ],
+    "exceptions": {},
+    "redacts": [],
+    "returns": [
+      "array"
+    ],
+    "configuration": [
+      "environment PAGE_SIZE"
+    ]
+  },
+  "/api/administrator/reset-account-administrator": {
+    "url": "/api/administrator/reset-account-administrator",
+    "verb": "patch",
+    "auth": false,
+    "receives": [],
+    "exceptions": {
+      "invalid-accountid": [
+        "invalid-accountid",
+        "missing querystring accountid",
+        "invalid querystring accountid"
+      ],
+      "invalid-account": [
+        "invalid-account",
+        "accessing account is not owner",
+        "querystring accountid is not administrator"
+      ]
+    },
+    "redacts": [],
+    "returns": [
+      "object"
+    ],
+    "configuration": []
+  },
+  "/api/administrator/reset-code": {
+    "url": "/api/administrator/reset-code",
+    "verb": "get",
+    "auth": false,
+    "receives": [],
+    "exceptions": {
+      "invalid-reset-codeid": [
+        "invalid-reset-codeid",
+        "missing querystring codeid",
+        "invalid querystring codeid"
+      ]
+    },
+    "redacts": [
+      "secretCodeHash"
+    ],
+    "returns": [
+      "object"
+    ],
+    "configuration": []
+  },
+  "/api/administrator/reset-codes-count": {
+    "url": "/api/administrator/reset-codes-count",
+    "verb": "get",
+    "auth": false,
+    "receives": [],
+    "exceptions": {},
+    "redacts": [],
+    "returns": [
+      "integer"
+    ],
+    "configuration": []
+  },
+  "/api/administrator/reset-codes": {
+    "url": "/api/administrator/reset-codes",
+    "verb": "get",
+    "auth": false,
+    "receives": [
+      "optional querystring offset (integer)",
+      "optional querystring limit (integer)",
+      "optional querystring all (boolean)",
+      "optional querystring accountid (string)"
+    ],
+    "exceptions": {},
+    "redacts": [
+      "secretCodeHash"
+    ],
+    "returns": [
+      "array"
+    ],
+    "configuration": [
+      "environment PAGE_SIZE"
+    ]
+  },
+  "/api/administrator/reset-session-key": {
+    "url": "/api/administrator/reset-session-key",
+    "verb": "patch",
+    "auth": false,
+    "receives": [],
+    "exceptions": {
+      "invalid-accountid": [
+        "invalid-accountid",
+        "missing querystring accountid",
+        "invalid querystring accountid"
+      ],
+      "invalid-account": [
+        "invalid-account",
+        "ineligible querystring account is deleted"
+      ],
+      "requires": [
+        "requires",
+        "querystring accountid is not deleted"
+      ]
+    },
+    "redacts": [],
+    "returns": [
+      "object"
+    ],
+    "configuration": []
+  },
+  "/api/administrator/session": {
+    "url": "/api/administrator/session",
+    "verb": "get",
+    "auth": false,
+    "receives": [],
+    "exceptions": {
+      "invalid-sessionid": [
+        "invalid-sessionid",
+        "unspecified querystring accountid",
+        "invalid querystring sessionid"
+      ]
+    },
+    "redacts": [
+      "tokenHash"
+    ],
+    "returns": [
+      "object"
+    ],
+    "configuration": []
+  },
+  "/api/administrator/sessions-count": {
+    "url": "/api/administrator/sessions-count",
+    "verb": "get",
+    "auth": false,
+    "receives": [],
+    "exceptions": {},
+    "redacts": [],
+    "returns": [
+      "integer"
+    ],
+    "configuration": []
+  },
+  "/api/administrator/sessions": {
+    "url": "/api/administrator/sessions",
+    "verb": "get",
+    "auth": false,
+    "receives": [
+      "optional querystring offset (integer)",
+      "optional querystring limit (integer)",
+      "optional querystring all (boolean)",
+      "optional querystring accountid (string)"
+    ],
+    "exceptions": {},
+    "redacts": [
+      "tokenHash"
+    ],
+    "returns": [
+      "array"
+    ],
+    "configuration": [
+      "environment PAGE_SIZE"
+    ]
+  },
+  "/api/administrator/set-account-administrator": {
+    "url": "/api/administrator/set-account-administrator",
+    "verb": "patch",
+    "auth": false,
+    "receives": [],
+    "exceptions": {
+      "invalid-accountid": [
+        "invalid-accountid",
+        "unspecified querystring accountid",
+        "invalid querystring accountid"
+      ],
+      "invalid-account": [
+        "invalid-account",
+        "ineligible querystring account is already administrator"
+      ],
+      "requires": [
+        "requires",
+        "querystring accountid is not administrator"
+      ]
+    },
+    "redacts": [],
+    "returns": [
+      "object"
+    ],
+    "configuration": []
+  },
+  "/api/administrator/set-account-deleted": {
+    "url": "/api/administrator/set-account-deleted",
+    "verb": "patch",
+    "auth": false,
+    "receives": [],
+    "exceptions": {
+      "invalid-accountid": [
+        "invalid-accountid",
+        "unspecified querystring accountid",
+        "invalid querystring accountid"
+      ],
+      "invalid-account": [
+        "invalid-account",
+        "ineligible querystring account is already deleted",
+        "invalid-account",
+        "querystring accountid is deleted"
+      ]
+    },
+    "redacts": [],
+    "returns": [
+      "object"
+    ],
+    "configuration": [
+      "environment DELETE_DELAY"
+    ]
+  },
+  "/api/administrator/set-owner-account": {
+    "url": "/api/administrator/set-owner-account",
+    "verb": "patch",
+    "auth": false,
+    "receives": [],
+    "exceptions": {
+      "invalid-accountid": [
+        "invalid-accountid",
+        "missing querystring accountid",
+        "invalid querystring accountid"
+      ],
+      "invalid-account": [
+        "invalid-account",
+        "ineligible accessing account",
+        "ineligible querystring account is already owner"
+      ],
+      "requires": [
+        "requires",
+        "accessing account is owner",
+        "querystring account is not owner",
+        "querystring account is not deleted"
+      ]
+    },
+    "redacts": [],
+    "returns": [
+      "object"
+    ],
+    "configuration": []
+  },
+  "/api/user/account": {
+    "url": "/api/user/account",
+    "verb": "get",
+    "auth": false,
+    "receives": [],
+    "exceptions": {
+      "invalid-accountid": [
+        "invalid-accountid",
+        "missing querystring accountid",
+        "invalid querystring accountid"
+      ],
+      "invalid-account": [
+        "invalid-account",
+        "ineligible accessing account"
+      ]
+    },
+    "redacts": [
+      "usernameHash",
+      "passwordHash",
+      "sessionKey"
+    ],
+    "returns": [
+      "object"
+    ],
+    "configuration": []
+  },
+  "/api/user/create-account": {
+    "url": "/api/user/create-account",
+    "verb": "post",
+    "auth": false,
+    "receives": [
+      "optionally-required posted first-name",
+      "optionally-required posted last-name",
+      "optionally-required posted display-name",
+      "optionally-required posted company-name",
+      "optionally-required posted contact-email",
+      "optionally-required posted display-email",
+      "optionally-required posted location",
+      "optionally-required posted occupation",
+      "optionally-required posted phone",
+      "optionally-required posted dob"
+    ],
+    "exceptions": {
+      "invalid-username": [
+        "invalid-username",
+        "missing posted username"
+      ],
+      "invalid-username-length": [
+        "invalid-username-length",
+        "posted username too short",
+        "posted username too long"
+      ],
+      "invalid-password": [
+        "invalid-password",
+        "missing posted password"
+      ],
+      "invalid-password-length": [
+        "invalid-password-length",
+        "posted password too short",
+        "posted password too long"
+      ],
+      "invalid-first-name": [
+        "invalid-first-name",
+        "missing posted first-name"
+      ],
+      "invalid-first-name-length": [
+        "invalid-first-name-length",
+        "posted first-name too short",
+        "posted first-name too long"
+      ],
+      "invalid-last-name": [
+        "invalid-last-name",
+        "missing posted last-name"
+      ],
+      "invalid-last-name-length": [
+        "invalid-last-name-length",
+        "posted last-name too short",
+        "posted last-name too long"
+      ],
+      "invalid-display-name": [
+        "invalid-display-name",
+        "missing posted display-name"
+      ],
+      "invalid-display-name-length": [
+        "invalid-display-name-length",
+        "posted display-name too short",
+        "posted display-name too long"
+      ],
+      "invalid-company-name": [
+        "invalid-company-name",
+        "missing posted company-name"
+      ],
+      "invalid-contact-email": [
+        "invalid-contact-email",
+        "missing posted contact-email"
+      ],
+      "invalid-display-email": [
+        "invalid-display-email",
+        "missing posted display-email"
+      ],
+      "invalid-location": [
+        "invalid-location",
+        "missing posted location"
+      ],
+      "invalid-occupation": [
+        "invalid-occupation",
+        "missing posted occupation"
+      ],
+      "invalid-phone": [
+        "invalid-phone",
+        "missing posted phone"
+      ],
+      "invalid-dob": [
+        "invalid-dob",
+        "missing posted dob"
+      ]
+    },
+    "redacts": [],
+    "returns": [
+      "object"
+    ],
+    "configuration": [
+      "environment MINIMUM_USERNAME_LENGTH",
+      "environment MAXIMUM_USERNAME_LENGTH",
+      "environment MINIMUM_PASSWORD_LENGTH",
+      "environment MAXIMUM_PASSWORD_LENGTH",
+      "environment REQUIRE_PROFILE",
+      "environment USER_PROFILE_FIELDS",
+      "environment MINIMUM_PROFILE_FIRST_NAME_LENGTH",
+      "environment MAXIMUM_PROFILE_FIRST_NAME_LENGTH",
+      "environment MINIMUM_PROFILE_LAST_NAME_LENGTH",
+      "environment MAXIMUM_PROFILE_LAST_NAME_LENGTH",
+      "environment MINIMUM_PROFILE_DISPLAY_NAME_LENGTH",
+      "environment MAXIMUM_PROFILE_DISPLAY_NAME_LENGTH",
+      "environment MINIMUM_PROFILE_COMPANY_NAME_LENGTH",
+      "environment MAXIMUM_PROFILE_COMPANY_NAME_LENGTH",
+      "override req.userProfileFields"
+    ]
+  },
+  "/api/user/create-profile": {
+    "url": "/api/user/create-profile",
+    "verb": "post",
+    "auth": false,
+    "receives": [
+      "optionally-required posted first-name",
+      "optionally-required posted last-name",
+      "optionally-required posted display-name",
+      "optionally-required posted company-name",
+      "optionally-required posted contact-email",
+      "optionally-required posted display-email",
+      "optionally-required posted location",
+      "optionally-required posted occupation",
+      "optionally-required posted phone",
+      "optionally-required posted dob"
+    ],
+    "exceptions": {
+      "invalid-accountid": [
+        "invalid-accountid",
+        "missing querystring accountid",
+        "invalid querystring accountid",
+        "invalid-accountid",
+        "ineligible accessing account"
+      ],
+      "invalid-first-name": [
+        "invalid-first-name",
+        "missing posted first-name"
+      ],
+      "invalid-first-name-length": [
+        "invalid-first-name-length",
+        "posted first-name too short",
+        "posted first-name too long"
+      ],
+      "invalid-last-name": [
+        "invalid-last-name",
+        "missing posted last-name"
+      ],
+      "invalid-last-name-length": [
+        "invalid-last-name-length",
+        "posted last-name too short",
+        "posted last-name too long"
+      ],
+      "invalid-display-name": [
+        "invalid-display-name",
+        "missing posted display-name"
+      ],
+      "invalid-display-name-length": [
+        "invalid-display-name-length",
+        "posted display-name too short",
+        "posted display-name too long"
+      ],
+      "invalid-company-name-length": [
+        "invalid-company-name-length",
+        "posted company-name too short",
+        "posted company-name too long",
+        "invalid-company-name-length",
+        "invalid-company-name-length"
+      ],
+      "invalid-contact-email": [
+        "invalid-contact-email",
+        "missing posted contact-email"
+      ],
+      "invalid-display-email": [
+        "invalid-display-email",
+        "missing posted display-email"
+      ],
+      "invalid-location": [
+        "invalid-location",
+        "missing posted location"
+      ],
+      "invalid-occupation": [
+        "invalid-occupation",
+        "missing posted occupation"
+      ],
+      "invalid-phone": [
+        "invalid-phone",
+        "missing posted phone"
+      ],
+      "invalid-dob": [
+        "invalid-dob",
+        "missing posted dob"
+      ]
+    },
+    "redacts": [],
+    "returns": [
+      "object"
+    ],
+    "configuration": [
+      "environment USER_PROFILE_FIELDS",
+      "environment MINIMUM_PROFILE_FIRST_NAME_LENGTH",
+      "environment MAXIMUM_PROFILE_FIRST_NAME_LENGTH",
+      "environment MINIMUM_PROFILE_LAST_NAME_LENGTH",
+      "environment MAXIMUM_PROFILE_LAST_NAME_LENGTH",
+      "environment MINIMUM_PROFILE_DISPLAY_NAME_LENGTH",
+      "environment MAXIMUM_PROFILE_DISPLAY_NAME_LENGTH",
+      "environment MINIMUM_PROFILE_COMPANY_NAME_LENGTH",
+      "environment MAXIMUM_PROFILE_COMPANY_NAME_LENGTH",
+      "override req.userProfileFields"
+    ]
+  },
+  "/api/user/create-reset-code": {
+    "url": "/api/user/create-reset-code",
+    "verb": "post",
+    "auth": false,
+    "receives": [],
+    "exceptions": {
+      "invalid-accountid": [
+        "invalid-accountid",
+        "missing querystring accountid",
+        "invalid querystring accountid",
+        "invalid-accountid",
+        "ineligible accessing account"
+      ],
+      "invalid-secret-code": [
+        "invalid-secret-code",
+        "missing posted secret-code"
+      ],
+      "invalid-secret-code-length": [
+        "invalid-secret-code-length",
+        "posted secret code too short",
+        "posted secret code too long"
+      ]
+    },
+    "redacts": [],
+    "returns": [
+      "object"
+    ],
+    "configuration": []
+  },
+  "/api/user/create-session": {
+    "url": "/api/user/create-session",
+    "verb": "post",
+    "auth": false,
+    "receives": [
+      "optional posted remember (hours|days)"
+    ],
+    "exceptions": {
+      "invalid-username": [
+        "invalid-username",
+        "missing posted username"
+      ],
+      "invalid-password": [
+        "invalid-password",
+        "missing posted password"
+      ]
+    },
+    "redacts": [],
+    "returns": [
+      "object"
+    ],
+    "configuration": []
+  },
+  "/api/user/delete-profile": {
+    "url": "/api/user/delete-profile",
+    "verb": "delete",
+    "auth": false,
+    "receives": [],
+    "exceptions": {
+      "invalid-profileid": [
+        "invalid-profileid",
+        "missing querystring profileid",
+        "invalid querystring profileid"
+      ],
+      "invalid-profile": [
+        "invalid-profile",
+        "querystring profileid is default contact profile"
+      ],
+      "invalid-account": [
+        "invalid-account",
+        "ineligible querystring profileid"
+      ]
+    },
+    "redacts": [],
+    "returns": [
+      "boolean"
+    ],
+    "configuration": []
+  },
+  "/api/user/delete-reset-code": {
+    "url": "/api/user/delete-reset-code",
+    "verb": "delete",
+    "auth": false,
+    "receives": [],
+    "exceptions": {
+      "invalid-reset-codeid": [
+        "invalid-reset-codeid",
+        "missing querystring codeid",
+        "invalid querystring codeid"
+      ],
+      "invalid-account": [
+        "invalid-account",
+        "ineligible querystring codeid"
+      ]
+    },
+    "redacts": [],
+    "returns": [
+      "boolean"
+    ],
+    "configuration": []
+  },
+  "/api/user/profile": {
+    "url": "/api/user/profile",
+    "verb": "get",
+    "auth": false,
+    "receives": [],
+    "exceptions": {
+      "invalid-profileid": [
+        "invalid-profileid",
+        "missing querystring profileid",
+        "invalid querystring profileid"
+      ],
+      "invalid-account": [
+        "invalid-account",
+        "ineligible querystring profileid"
+      ]
+    },
+    "redacts": [],
+    "returns": [
+      "object"
+    ],
+    "configuration": []
+  },
+  "/api/user/profiles-count": {
+    "url": "/api/user/profiles-count",
+    "verb": "get",
+    "auth": false,
+    "receives": [],
+    "exceptions": {
+      "invalid-accountid": [
+        "invalid-accountid",
+        "missing querystring accountid",
+        "invalid querystring accountid"
+      ],
+      "invalid-account": [
+        "invalid-account",
+        "ineligible accessing account"
+      ]
+    },
+    "redacts": [],
+    "returns": [
+      "integer"
+    ],
+    "configuration": []
+  },
+  "/api/user/profiles": {
+    "url": "/api/user/profiles",
+    "verb": "get",
+    "auth": false,
+    "receives": [
+      "optional querystring offset (integer)",
+      "optional querystring limit (integer)",
+      "optional querystring all (boolean)"
+    ],
+    "exceptions": {
+      "invalid-accountid": [
+        "invalid-accountid",
+        "missing querystring accountid",
+        "invalid querystring accountid"
+      ],
+      "invalid-account": [
+        "invalid-account",
+        "ineligible accessing account"
+      ]
+    },
+    "redacts": [],
+    "returns": [
+      "array"
+    ],
+    "configuration": [
+      "environment PAGE_SIZE"
+    ]
+  },
+  "/api/user/reset-account-deleted": {
+    "url": "/api/user/reset-account-deleted",
+    "verb": "patch",
+    "auth": false,
+    "receives": [],
+    "exceptions": {
+      "invalid-username": [
+        "invalid-username",
+        "missing posted username",
+        "invalid posted username"
+      ],
+      "invalid-password": [
+        "invalid-password",
+        "missing posted password",
+        "invalid posted password"
+      ],
+      "invalid-account": [
+        "invalid-account",
+        "credentialed account is not scheduled for deletion"
+      ]
+    },
+    "redacts": [],
+    "returns": [
+      "object"
+    ],
+    "configuration": []
+  },
+  "/api/user/reset-account-password": {
+    "url": "/api/user/reset-account-password",
+    "verb": "patch",
+    "auth": false,
+    "receives": [],
+    "exceptions": {
+      "invalid-username": [
+        "invalid-username",
+        "missing posted username",
+        "invalid posted username"
+      ],
+      "invalid-password": [
+        "invalid-password",
+        "missing posted new-password"
+      ],
+      "invalid-secret-code": [
+        "invalid-secret-code",
+        "missing posted secret-code"
+      ],
+      "invalid-reset-code": [
+        "invalid-reset-code",
+        "invalid posted secret-code"
+      ]
+    },
+    "redacts": [],
+    "returns": [
+      "boolean"
+    ],
+    "configuration": []
+  },
+  "/api/user/reset-code": {
+    "url": "/api/user/reset-code",
+    "verb": "get",
+    "auth": false,
+    "receives": [],
+    "exceptions": {
+      "invalid-reset-codeid": [
+        "invalid-reset-codeid",
+        "missing querystring codeid",
+        "invalid querystring codeid"
+      ],
+      "invalid-account": [
+        "invalid-account",
+        "ineligible querystring codeid"
+      ]
+    },
+    "redacts": [
+      "secretCodeHash"
+    ],
+    "returns": [
+      "object"
+    ],
+    "configuration": []
+  },
+  "/api/user/reset-codes-count": {
+    "url": "/api/user/reset-codes-count",
+    "verb": "get",
+    "auth": false,
+    "receives": [],
+    "exceptions": {
+      "invalid-accountid": [
+        "invalid-accountid",
+        "missing querystring accountid",
+        "invalid querystring accountid"
+      ],
+      "invalid-account": [
+        "invalid-account",
+        "ineligible accessing account"
+      ]
+    },
+    "redacts": [],
+    "returns": [
+      "integer"
+    ],
+    "configuration": []
+  },
+  "/api/user/reset-codes": {
+    "url": "/api/user/reset-codes",
+    "verb": "get",
+    "auth": false,
+    "receives": [
+      "optional querystring offset (integer)",
+      "optional querystring limit (integer)",
+      "optional querystring all (boolean)"
+    ],
+    "exceptions": {
+      "invalid-accountid": [
+        "invalid-accountid",
+        "missing querystring accountid",
+        "invalid querystring accountid"
+      ],
+      "invalid-account": [
+        "invalid-account",
+        "ineligible accessing account"
+      ]
+    },
+    "redacts": [
+      "secretCodeHash"
+    ],
+    "returns": [
+      "array"
+    ],
+    "configuration": [
+      "environment PAGE_SIZE"
+    ]
+  },
+  "/api/user/reset-session-key": {
+    "url": "/api/user/reset-session-key",
+    "verb": "patch",
+    "auth": false,
+    "receives": [],
+    "exceptions": {
+      "invalid-accountid": [
+        "invalid-accountid",
+        "missing querystring accountid",
+        "invalid querystring accountid"
+      ],
+      "invalid-account": [
+        "invalid-account",
+        "ineligible accessing account"
+      ]
+    },
+    "redacts": [],
+    "returns": [
+      "boolean"
+    ],
+    "configuration": []
+  },
+  "/api/user/session": {
+    "url": "/api/user/session",
+    "verb": "get",
+    "auth": false,
+    "receives": [],
+    "exceptions": {
+      "invalid-sessionid": [
+        "invalid-sessionid",
+        "missing querystring sessionid",
+        "invalid querystring sessionid"
+      ],
+      "invalid-account": [
+        "invalid-account",
+        "ineligible querystring sessionid"
+      ]
+    },
+    "redacts": [
+      "tokenHash"
+    ],
+    "returns": [
+      "object"
+    ],
+    "configuration": []
+  },
+  "/api/user/sessions-count": {
+    "url": "/api/user/sessions-count",
+    "verb": "get",
+    "auth": false,
+    "receives": [],
+    "exceptions": {
+      "invalid-accountid": [
+        "invalid-accountid",
+        "missing querystring accountid",
+        "invalid querystring accountid"
+      ],
+      "invalid-account": [
+        "invalid-account",
+        "ineligible accessing account"
+      ]
+    },
+    "redacts": [],
+    "returns": [
+      "integer"
+    ],
+    "configuration": []
+  },
+  "/api/user/sessions": {
+    "url": "/api/user/sessions",
+    "verb": "get",
+    "auth": false,
+    "receives": [
+      "optional querystring offset (integer)",
+      "optional querystring limit (integer)",
+      "optional querystring all (boolean)"
+    ],
+    "exceptions": {
+      "invalid-accountid": [
+        "invalid-accountid",
+        "missing querystring accountid",
+        "invalid querystring accountid"
+      ],
+      "invalid-account": [
+        "invalid-account",
+        "ineligible accessing account"
+      ]
+    },
+    "redacts": [],
+    "returns": [
+      "array"
+    ],
+    "configuration": [
+      "environment PAGE_SIZE"
+    ]
+  },
+  "/api/user/set-account-deleted": {
+    "url": "/api/user/set-account-deleted",
+    "verb": "patch",
+    "auth": false,
+    "receives": [],
+    "exceptions": {
+      "invalid-accountid": [
+        "invalid-accountid",
+        "missing querystring accountid",
+        "invalid querystring accountid"
+      ],
+      "invalid-account": [
+        "invalid-account",
+        "ineligible accessing account"
+      ],
+      "invalid-password": [
+        "invalid-password",
+        "missing posted password",
+        "invalid posted password"
+      ]
+    },
+    "redacts": [],
+    "returns": [
+      "object"
+    ],
+    "configuration": [
+      "environment DELETE_DELAY"
+    ]
+  },
+  "/api/user/set-account-password": {
+    "url": "/api/user/set-account-password",
+    "verb": "patch",
+    "auth": false,
+    "receives": [],
+    "exceptions": {
+      "invalid-accountid": [
+        "invalid-accountid",
+        "missing querystring accountid",
+        "invalid querystring accountid"
+      ],
+      "invalid-account": [
+        "invalid-account",
+        "ineligible accessing account"
+      ],
+      "invalid-password": [
+        "invalid-password",
+        "missing posted password",
+        "invalid posted password"
+      ],
+      "invalid-new-password": [
+        "invalid-new-password",
+        "missing posted new-password"
+      ],
+      "invalid-new-password-length": [
+        "invalid-new-password-length",
+        "posted new-password too short",
+        "posted new-password too long"
+      ]
+    },
+    "redacts": [],
+    "returns": [
+      "object"
+    ],
+    "configuration": []
+  },
+  "/api/user/set-account-profile": {
+    "url": "/api/user/set-account-profile",
+    "verb": "patch",
+    "auth": false,
+    "receives": [],
+    "exceptions": {
+      "invalid-accountid": [
+        "invalid-accountid",
+        "missing querystring accountid",
+        "invalid querystring accountid"
+      ],
+      "invalid-account": [
+        "invalid-account",
+        "ineligible accessing account"
+      ],
+      "invalid-profileid": [
+        "invalid-profileid",
+        "missing posted profileid",
+        "invalid posted profileid"
+      ]
+    },
+    "redacts": [],
+    "returns": [
+      "object"
+    ],
+    "configuration": []
+  },
+  "/api/user/set-account-username": {
+    "url": "/api/user/set-account-username",
+    "verb": "patch",
+    "auth": false,
+    "receives": [],
+    "exceptions": {
+      "invalid-accountid": [
+        "invalid-accountid",
+        "missing querystring accountid",
+        "invalid querystring accountid"
+      ],
+      "invalid-account": [
+        "invalid-account",
+        "ineligible accessing account"
+      ],
+      "invalid-password": [
+        "invalid-password",
+        "missing posted password",
+        "invalid posted password"
+      ],
+      "invalid-new-username": [
+        "invalid-new-username",
+        "missing posted new-username"
+      ],
+      "invalid-new-username-length": [
+        "invalid-new-username-length",
+        "posted new-username too short",
+        "posted new-username too long"
+      ]
+    },
+    "redacts": [],
+    "returns": [
+      "object"
+    ],
+    "configuration": []
+  },
+  "/api/user/set-session-ended": {
+    "url": "/api/user/set-session-ended",
+    "verb": "patch",
+    "auth": false,
+    "receives": [],
+    "exceptions": {
+      "invalid-sessionid": [
+        "invalid-sessionid",
+        "missing querystring sessionid",
+        "invalid querystring sessionid"
+      ],
+      "invalid-session": [
+        "invalid-session",
+        "querystring sessionid is not active session"
+      ],
+      "invalid-account": [
+        "invalid-account",
+        "ineligible querystring sessionid"
+      ]
+    },
+    "redacts": [],
+    "returns": [
+      "object"
+    ],
+    "configuration": []
+  },
+  "/api/user/set-session-verified": {
+    "url": "/api/user/set-session-verified",
+    "verb": "patch",
+    "auth": false,
+    "receives": [],
+    "exceptions": {
+      "invalid-sessionid": [
+        "invalid-sessionid",
+        "missing querystring sessionid",
+        "invalid querystring sessionid"
+      ],
+      "invalid-account": [
+        "invalid-account",
+        "ineligible querystring sessionid"
+      ]
+    },
+    "redacts": [],
+    "returns": [
+      "object"
+    ],
+    "configuration": []
+  },
+  "/api/user/update-profile": {
+    "url": "/api/user/update-profile",
+    "verb": "patch",
+    "auth": false,
+    "receives": [
+      "optionally-required posted first-name",
+      "optionally-required posted last-name",
+      "optionally-required posted display-name",
+      "optionally-required posted company-name",
+      "optionally-required posted contact-email",
+      "optionally-required posted display-email",
+      "optionally-required posted location",
+      "optionally-required posted occupation",
+      "optionally-required posted phone",
+      "optionally-required posted dob"
+    ],
+    "exceptions": {
+      "invalid-profileid": [
+        "invalid-profileid",
+        "missing querystring profileid",
+        "invalid querystring profileid",
+        "invalid-profileid",
+        "ineligible querystring profileid"
+      ],
+      "invalid-first-name": [
+        "invalid-first-name",
+        "missing posted first-name"
+      ],
+      "invalid-first-name-length": [
+        "invalid-first-name-length",
+        "posted first-name too short",
+        "posted first-name too long"
+      ],
+      "invalid-last-name": [
+        "invalid-last-name",
+        "missing posted last-name"
+      ],
+      "invalid-last-name-length": [
+        "invalid-last-name-length",
+        "posted last-name too short",
+        "posted last-name too long"
+      ],
+      "invalid-display-name": [
+        "invalid-display-name",
+        "missing posted display-name"
+      ],
+      "invalid-display-name-length": [
+        "invalid-display-name-length",
+        "posted display-name too short",
+        "posted display-name too long"
+      ],
+      "invalid-company-name": [
+        "invalid-company-name",
+        "missing posted company-name"
+      ],
+      "invalid-company-name-length": [
+        "invalid-company-name-length",
+        "posted company-name too short",
+        "posted company-name too long"
+      ],
+      "invalid-contact-email": [
+        "invalid-contact-email",
+        "missing posted contact-email"
+      ],
+      "invalid-display-email": [
+        "invalid-display-email",
+        "missing posted display-email"
+      ],
+      "invalid-location": [
+        "invalid-location",
+        "missing posted location"
+      ],
+      "invalid-occupation": [
+        "invalid-occupation",
+        "missing posted occupation"
+      ],
+      "invalid-phone": [
+        "invalid-phone",
+        "missing posted phone"
+      ],
+      "invalid-dob": [
+        "invalid-dob",
+        "missing posted dob"
+      ]
+    },
+    "redacts": [],
+    "returns": [
+      "object"
+    ],
+    "configuration": [
+      "environment USER_PROFILE_FIELDS",
+      "environment MINIMUM_PROFILE_FIRST_NAME_LENGTH",
+      "environment MAXIMUM_PROFILE_FIRST_NAME_LENGTH",
+      "environment MINIMUM_PROFILE_LAST_NAME_LENGTH",
+      "environment MAXIMUM_PROFILE_LAST_NAME_LENGTH",
+      "environment MINIMUM_PROFILE_DISPLAY_NAME_LENGTH",
+      "environment MAXIMUM_PROFILE_DISPLAY_NAME_LENGTH",
+      "environment MINIMUM_PROFILE_COMPANY_NAME_LENGTH",
+      "environment MAXIMUM_PROFILE_COMPANY_NAME_LENGTH",
+      "override req.userProfileFields"
+    ]
+  }
+}
