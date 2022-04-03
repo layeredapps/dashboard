@@ -13,9 +13,9 @@ const wait = util.promisify(function (amount, callback) {
 module.exports = {
   fetch,
   fill,
-  close: () => {
+  close: async () => {
     if (browser && browser.close) {
-      browser.close()
+      await browser.close()
       browser = null
     }
   }

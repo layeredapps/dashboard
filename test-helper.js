@@ -115,8 +115,11 @@ after((callback) => {
   dashboard.stop()
   global.testEnded = true
   delete (global.apiDependencies)
-  TestHelperPuppeteer.close()
   return callback()
+})
+
+after (async () => {
+  await TestHelperPuppeteer.close()
 })
 
 const wait = util.promisify(function (amount, callback) {
