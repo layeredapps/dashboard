@@ -37,6 +37,7 @@ function writeAPI () {
     let exception
     for (let line of lines) {
       line = line.trim()
+      line = line.replace(/\(([0-9]*)ms\)/, '')
       if (!done.length) {
         item.url = line
         if (!global.sitemap[line]) {
@@ -73,6 +74,8 @@ function writeAPI () {
     }
     api[item.url] = item
   }
+  const jsonPath = path.join(global.applicationPath, 'api.json')
+  fs.writeFileSync(jsonPath, JSON.stringify(api, null, '  '))
   const sortedURLs = []
   for (const url in api) {
     sortedURLs.push(url)
@@ -240,7 +243,6 @@ function writeEnvironment () {
   let maximumDescriptionSize = 0
   let maximumValueSize = 0
   let maximumDefaultSize = 0
-
   for (const property in properties) {
     if (property.length > maximumPropertySize) {
       maximumPropertySize = property.length
@@ -259,6 +261,8 @@ function writeEnvironment () {
       maximumDefaultSize = properties[property].default.length
     }
   }
+  const jsonPath = path.join(global.applicationPath, 'env.json')
+  fs.writeFileSync(jsonPath, JSON.stringify(properties, null, '  '))
   maximumPropertySize += 4
   maximumDescriptionSize += 2
   maximumValueSize += 2
@@ -332,6 +336,8 @@ function writeSitemap () {
       widestJS = trimNodeModulePath(route.jsFilePath).length + 4
     }
   }
+  const jsonPath = path.join(global.applicationPath, 'sitemap.json')
+  fs.writeFileSync(jsonPath, JSON.stringify(configuration, null, '  '))
   sortedURLs.sort()
   let url = global.dashboardServer
   if (global.applicationServer) {

@@ -35,7 +35,6 @@ const defaultConfigurationValues = {
   pageSize: 2,
   idLength: 7,
   allowSameDomainAPI: true,
-  delayDiskWrites: false,
   bcryptWorkloadFactor: 4,
   sessionVerificationDelay: 14400
 }
