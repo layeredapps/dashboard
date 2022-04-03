@@ -101,6 +101,9 @@ async function setupBeforeEach () {
   for (const property in global.testConfiguration) {
     global[property] = global.testConfiguration[property]
   }
+  if (global.gc) {
+    global.gc()
+  }
 }
 
 before(setupBefore)
