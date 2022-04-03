@@ -118,7 +118,7 @@ after((callback) => {
   return callback()
 })
 
-after (async () => {
+after(async () => {
   await TestHelperPuppeteer.close()
 })
 
