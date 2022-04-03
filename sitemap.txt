@@ -1,4 +1,4 @@
-@layeredapps/dashboard 0.0.9
+@layeredapps/dashboard 0.0.10
 http://localhost:8000
 
 Administrator menu:
