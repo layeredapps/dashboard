@@ -1,0 +1,650 @@
+{
+  "administrator": [
+    "/administrator \"Dashboard administration\""
+  ],
+  "account": [
+    "/account \"My account\""
+  ],
+  "modules": [],
+  "content": [],
+  "server": [],
+  "proxy": [],
+  "urls": {
+    "/account/change-password": {
+      "htmlFilePath": "/src/www/account/change-password.html",
+      "jsFilePath": "/src/www/account/change-password.js",
+      "templateDescription": "",
+      "verbs": "GET POST",
+      "authDescription": ""
+    },
+    "/account/change-username": {
+      "htmlFilePath": "/src/www/account/change-username.html",
+      "jsFilePath": "/src/www/account/change-username.js",
+      "templateDescription": "",
+      "verbs": "GET POST",
+      "authDescription": ""
+    },
+    "/account/create-profile": {
+      "htmlFilePath": "/src/www/account/create-profile.html",
+      "jsFilePath": "/src/www/account/create-profile.js",
+      "templateDescription": "",
+      "verbs": "GET POST",
+      "authDescription": ""
+    },
+    "/account/create-reset-code": {
+      "htmlFilePath": "/src/www/account/create-reset-code.html",
+      "jsFilePath": "/src/www/account/create-reset-code.js",
+      "templateDescription": "",
+      "verbs": "GET POST",
+      "authDescription": ""
+    },
+    "/account/delete-account-complete": {
+      "htmlFilePath": "/src/www/account/delete-account-complete.html",
+      "jsFilePath": "/src/www/account/delete-account-complete.js",
+      "templateDescription": "FULLSCREEN",
+      "verbs": "GET",
+      "authDescription": "GUEST"
+    },
+    "/account/delete-account": {
+      "htmlFilePath": "/src/www/account/delete-account.html",
+      "jsFilePath": "/src/www/account/delete-account.js",
+      "templateDescription": "",
+      "verbs": "GET POST",
+      "authDescription": ""
+    },
+    "/account/delete-profile": {
+      "htmlFilePath": "/src/www/account/delete-profile.html",
+      "jsFilePath": "/src/www/account/delete-profile.js",
+      "templateDescription": "",
+      "verbs": "GET POST",
+      "authDescription": ""
+    },
+    "/account/delete-reset-code": {
+      "htmlFilePath": "/src/www/account/delete-reset-code.html",
+      "jsFilePath": "/src/www/account/delete-reset-code.js",
+      "templateDescription": "",
+      "verbs": "GET POST",
+      "authDescription": ""
+    },
+    "/account/edit-profile": {
+      "htmlFilePath": "/src/www/account/edit-profile.html",
+      "jsFilePath": "/src/www/account/edit-profile.js",
+      "templateDescription": "",
+      "verbs": "GET POST",
+      "authDescription": ""
+    },
+    "/account/end-all-sessions": {
+      "htmlFilePath": "/src/www/account/end-all-sessions.html",
+      "jsFilePath": "/src/www/account/end-all-sessions.js",
+      "templateDescription": "",
+      "verbs": "GET POST",
+      "authDescription": ""
+    },
+    "/account/end-session": {
+      "htmlFilePath": "/src/www/account/end-session.html",
+      "jsFilePath": "/src/www/account/end-session.js",
+      "templateDescription": "",
+      "verbs": "GET POST",
+      "authDescription": ""
+    },
+    "/account": {
+      "htmlFilePath": "/src/www/account/index.html",
+      "jsFilePath": "/src/www/account/index.js",
+      "templateDescription": "",
+      "verbs": "GET",
+      "authDescription": ""
+    },
+    "/account/profile": {
+      "htmlFilePath": "/src/www/account/profile.html",
+      "jsFilePath": "/src/www/account/profile.js",
+      "templateDescription": "",
+      "verbs": "GET",
+      "authDescription": ""
+    },
+    "/account/profiles": {
+      "htmlFilePath": "/src/www/account/profiles.html",
+      "jsFilePath": "/src/www/account/profiles.js",
+      "templateDescription": "",
+      "verbs": "GET",
+      "authDescription": ""
+    },
+    "/account/register": {
+      "htmlFilePath": "/src/www/account/register.html",
+      "jsFilePath": "/src/www/account/register.js",
+      "templateDescription": "FULLSCREEN",
+      "verbs": "GET POST",
+      "authDescription": "GUEST"
+    },
+    "/account/reset-account": {
+      "htmlFilePath": "/src/www/account/reset-account.html",
+      "jsFilePath": "/src/www/account/reset-account.js",
+      "templateDescription": "FULLSCREEN",
+      "verbs": "GET POST",
+      "authDescription": "GUEST"
+    },
+    "/account/reset-code": {
+      "htmlFilePath": "/src/www/account/reset-code.html",
+      "jsFilePath": "/src/www/account/reset-code.js",
+      "templateDescription": "",
+      "verbs": "GET",
+      "authDescription": ""
+    },
+    "/account/reset-codes": {
+      "htmlFilePath": "/src/www/account/reset-codes.html",
+      "jsFilePath": "/src/www/account/reset-codes.js",
+      "templateDescription": "",
+      "verbs": "GET",
+      "authDescription": ""
+    },
+    "/account/restore-account": {
+      "htmlFilePath": "/src/www/account/restore-account.html",
+      "jsFilePath": "/src/www/account/restore-account.js",
+      "templateDescription": "FULLSCREEN",
+      "verbs": "GET POST",
+      "authDescription": "GUEST"
+    },
+    "/account/session": {
+      "htmlFilePath": "/src/www/account/session.html",
+      "jsFilePath": "/src/www/account/session.js",
+      "templateDescription": "",
+      "verbs": "GET",
+      "authDescription": ""
+    },
+    "/account/sessions": {
+      "htmlFilePath": "/src/www/account/sessions.html",
+      "jsFilePath": "/src/www/account/sessions.js",
+      "templateDescription": "",
+      "verbs": "GET",
+      "authDescription": ""
+    },
+    "/account/set-default-profile": {
+      "htmlFilePath": "/src/www/account/set-default-profile.html",
+      "jsFilePath": "/src/www/account/set-default-profile.js",
+      "templateDescription": "",
+      "verbs": "GET POST",
+      "authDescription": ""
+    },
+    "/account/signin": {
+      "htmlFilePath": "/src/www/account/signin.html",
+      "jsFilePath": "/src/www/account/signin.js",
+      "templateDescription": "FULLSCREEN",
+      "verbs": "GET POST",
+      "authDescription": "GUEST"
+    },
+    "/account/signout-complete": {
+      "htmlFilePath": "/src/www/account/signout-complete.html",
+      "templateDescription": "FULLSCREEN",
+      "verbs": "",
+      "authDescription": "GUEST"
+    },
+    "/account/signout": {
+      "htmlFilePath": "/src/www/account/signout.html",
+      "jsFilePath": "/src/www/account/signout.js",
+      "templateDescription": "FULLSCREEN",
+      "verbs": "GET",
+      "authDescription": "GUEST"
+    },
+    "/account/verify": {
+      "htmlFilePath": "/src/www/account/verify.html",
+      "jsFilePath": "/src/www/account/verify.js",
+      "templateDescription": "FULLSCREEN",
+      "verbs": "GET POST",
+      "authDescription": "GUEST"
+    },
+    "/administrator/account-profiles": {
+      "htmlFilePath": "/src/www/administrator/account-profiles.html",
+      "jsFilePath": "/src/www/administrator/account-profiles.js",
+      "templateDescription": "",
+      "verbs": "GET",
+      "authDescription": ""
+    },
+    "/administrator/account-reset-codes": {
+      "htmlFilePath": "/src/www/administrator/account-reset-codes.html",
+      "jsFilePath": "/src/www/administrator/account-reset-codes.js",
+      "templateDescription": "",
+      "verbs": "GET",
+      "authDescription": ""
+    },
+    "/administrator/account-sessions": {
+      "htmlFilePath": "/src/www/administrator/account-sessions.html",
+      "jsFilePath": "/src/www/administrator/account-sessions.js",
+      "templateDescription": "",
+      "verbs": "GET",
+      "authDescription": ""
+    },
+    "/administrator/account": {
+      "htmlFilePath": "/src/www/administrator/account.html",
+      "jsFilePath": "/src/www/administrator/account.js",
+      "templateDescription": "",
+      "verbs": "GET",
+      "authDescription": ""
+    },
+    "/administrator/accounts": {
+      "htmlFilePath": "/src/www/administrator/accounts.html",
+      "jsFilePath": "/src/www/administrator/accounts.js",
+      "templateDescription": "",
+      "verbs": "GET",
+      "authDescription": ""
+    },
+    "/administrator/administrators": {
+      "htmlFilePath": "/src/www/administrator/administrators.html",
+      "jsFilePath": "/src/www/administrator/administrators.js",
+      "templateDescription": "",
+      "verbs": "GET",
+      "authDescription": ""
+    },
+    "/administrator/assign-administrator": {
+      "htmlFilePath": "/src/www/administrator/assign-administrator.html",
+      "jsFilePath": "/src/www/administrator/assign-administrator.js",
+      "templateDescription": "",
+      "verbs": "GET POST",
+      "authDescription": ""
+    },
+    "/administrator/create-reset-code": {
+      "htmlFilePath": "/src/www/administrator/create-reset-code.html",
+      "jsFilePath": "/src/www/administrator/create-reset-code.js",
+      "templateDescription": "",
+      "verbs": "GET POST",
+      "authDescription": ""
+    },
+    "/administrator/delete-account": {
+      "htmlFilePath": "/src/www/administrator/delete-account.html",
+      "jsFilePath": "/src/www/administrator/delete-account.js",
+      "templateDescription": "",
+      "verbs": "GET POST",
+      "authDescription": ""
+    },
+    "/administrator/delete-schedule": {
+      "htmlFilePath": "/src/www/administrator/delete-schedule.html",
+      "jsFilePath": "/src/www/administrator/delete-schedule.js",
+      "templateDescription": "",
+      "verbs": "GET",
+      "authDescription": ""
+    },
+    "/administrator": {
+      "htmlFilePath": "/src/www/administrator/index.html",
+      "templateDescription": "",
+      "verbs": "",
+      "authDescription": ""
+    },
+    "/administrator/profile": {
+      "htmlFilePath": "/src/www/administrator/profile.html",
+      "jsFilePath": "/src/www/administrator/profile.js",
+      "templateDescription": "",
+      "verbs": "GET",
+      "authDescription": ""
+    },
+    "/administrator/profiles": {
+      "htmlFilePath": "/src/www/administrator/profiles.html",
+      "jsFilePath": "/src/www/administrator/profiles.js",
+      "templateDescription": "",
+      "verbs": "GET",
+      "authDescription": ""
+    },
+    "/administrator/reset-code": {
+      "htmlFilePath": "/src/www/administrator/reset-code.html",
+      "jsFilePath": "/src/www/administrator/reset-code.js",
+      "templateDescription": "",
+      "verbs": "GET",
+      "authDescription": ""
+    },
+    "/administrator/reset-codes": {
+      "htmlFilePath": "/src/www/administrator/reset-codes.html",
+      "jsFilePath": "/src/www/administrator/reset-codes.js",
+      "templateDescription": "",
+      "verbs": "GET",
+      "authDescription": ""
+    },
+    "/administrator/reset-session-key": {
+      "htmlFilePath": "/src/www/administrator/reset-session-key.html",
+      "jsFilePath": "/src/www/administrator/reset-session-key.js",
+      "templateDescription": "",
+      "verbs": "GET POST",
+      "authDescription": ""
+    },
+    "/administrator/revoke-administrator": {
+      "htmlFilePath": "/src/www/administrator/revoke-administrator.html",
+      "jsFilePath": "/src/www/administrator/revoke-administrator.js",
+      "templateDescription": "",
+      "verbs": "GET POST",
+      "authDescription": ""
+    },
+    "/administrator/schedule-account-delete": {
+      "htmlFilePath": "/src/www/administrator/schedule-account-delete.html",
+      "jsFilePath": "/src/www/administrator/schedule-account-delete.js",
+      "templateDescription": "",
+      "verbs": "GET POST",
+      "authDescription": ""
+    },
+    "/administrator/session": {
+      "htmlFilePath": "/src/www/administrator/session.html",
+      "jsFilePath": "/src/www/administrator/session.js",
+      "templateDescription": "",
+      "verbs": "GET",
+      "authDescription": ""
+    },
+    "/administrator/sessions": {
+      "htmlFilePath": "/src/www/administrator/sessions.html",
+      "jsFilePath": "/src/www/administrator/sessions.js",
+      "templateDescription": "",
+      "verbs": "GET",
+      "authDescription": ""
+    },
+    "/administrator/transfer-ownership": {
+      "htmlFilePath": "/src/www/administrator/transfer-ownership.html",
+      "jsFilePath": "/src/www/administrator/transfer-ownership.js",
+      "templateDescription": "",
+      "verbs": "GET POST",
+      "authDescription": ""
+    },
+    "/api/administrator/account": {
+      "jsFilePath": "/src/www/api/administrator/account.js",
+      "templateDescription": "",
+      "verbs": "GET",
+      "authDescription": ""
+    },
+    "/api/administrator/accounts-count": {
+      "jsFilePath": "/src/www/api/administrator/accounts-count.js",
+      "templateDescription": "",
+      "verbs": "GET",
+      "authDescription": ""
+    },
+    "/api/administrator/accounts": {
+      "jsFilePath": "/src/www/api/administrator/accounts.js",
+      "templateDescription": "",
+      "verbs": "GET",
+      "authDescription": ""
+    },
+    "/api/administrator/administrator-accounts-count": {
+      "jsFilePath": "/src/www/api/administrator/administrator-accounts-count.js",
+      "templateDescription": "",
+      "verbs": "GET",
+      "authDescription": ""
+    },
+    "/api/administrator/administrator-accounts": {
+      "jsFilePath": "/src/www/api/administrator/administrator-accounts.js",
+      "templateDescription": "",
+      "verbs": "GET",
+      "authDescription": ""
+    },
+    "/api/administrator/create-reset-code": {
+      "jsFilePath": "/src/www/api/administrator/create-reset-code.js",
+      "templateDescription": "",
+      "verbs": "POST",
+      "authDescription": ""
+    },
+    "/api/administrator/delete-account": {
+      "jsFilePath": "/src/www/api/administrator/delete-account.js",
+      "templateDescription": "",
+      "verbs": "DELETE",
+      "authDescription": ""
+    },
+    "/api/administrator/deleted-accounts-count": {
+      "jsFilePath": "/src/www/api/administrator/deleted-accounts-count.js",
+      "templateDescription": "",
+      "verbs": "GET",
+      "authDescription": ""
+    },
+    "/api/administrator/deleted-accounts": {
+      "jsFilePath": "/src/www/api/administrator/deleted-accounts.js",
+      "templateDescription": "",
+      "verbs": "GET",
+      "authDescription": ""
+    },
+    "/api/administrator/profile": {
+      "jsFilePath": "/src/www/api/administrator/profile.js",
+      "templateDescription": "",
+      "verbs": "GET",
+      "authDescription": ""
+    },
+    "/api/administrator/profiles-count": {
+      "jsFilePath": "/src/www/api/administrator/profiles-count.js",
+      "templateDescription": "",
+      "verbs": "GET",
+      "authDescription": ""
+    },
+    "/api/administrator/profiles": {
+      "jsFilePath": "/src/www/api/administrator/profiles.js",
+      "templateDescription": "",
+      "verbs": "GET",
+      "authDescription": ""
+    },
+    "/api/administrator/reset-account-administrator": {
+      "jsFilePath": "/src/www/api/administrator/reset-account-administrator.js",
+      "templateDescription": "",
+      "verbs": "PATCH",
+      "authDescription": ""
+    },
+    "/api/administrator/reset-code": {
+      "jsFilePath": "/src/www/api/administrator/reset-code.js",
+      "templateDescription": "",
+      "verbs": "GET",
+      "authDescription": ""
+    },
+    "/api/administrator/reset-codes-count": {
+      "jsFilePath": "/src/www/api/administrator/reset-codes-count.js",
+      "templateDescription": "",
+      "verbs": "GET",
+      "authDescription": ""
+    },
+    "/api/administrator/reset-codes": {
+      "jsFilePath": "/src/www/api/administrator/reset-codes.js",
+      "templateDescription": "",
+      "verbs": "GET",
+      "authDescription": ""
+    },
+    "/api/administrator/reset-session-key": {
+      "jsFilePath": "/src/www/api/administrator/reset-session-key.js",
+      "templateDescription": "",
+      "verbs": "PATCH",
+      "authDescription": ""
+    },
+    "/api/administrator/session": {
+      "jsFilePath": "/src/www/api/administrator/session.js",
+      "templateDescription": "",
+      "verbs": "GET",
+      "authDescription": ""
+    },
+    "/api/administrator/sessions-count": {
+      "jsFilePath": "/src/www/api/administrator/sessions-count.js",
+      "templateDescription": "",
+      "verbs": "GET",
+      "authDescription": ""
+    },
+    "/api/administrator/sessions": {
+      "jsFilePath": "/src/www/api/administrator/sessions.js",
+      "templateDescription": "",
+      "verbs": "GET",
+      "authDescription": ""
+    },
+    "/api/administrator/set-account-administrator": {
+      "jsFilePath": "/src/www/api/administrator/set-account-administrator.js",
+      "templateDescription": "",
+      "verbs": "PATCH",
+      "authDescription": ""
+    },
+    "/api/administrator/set-account-deleted": {
+      "jsFilePath": "/src/www/api/administrator/set-account-deleted.js",
+      "templateDescription": "",
+      "verbs": "PATCH",
+      "authDescription": ""
+    },
+    "/api/administrator/set-owner-account": {
+      "jsFilePath": "/src/www/api/administrator/set-owner-account.js",
+      "templateDescription": "",
+      "verbs": "PATCH",
+      "authDescription": ""
+    },
+    "/api/user/account": {
+      "jsFilePath": "/src/www/api/user/account.js",
+      "templateDescription": "",
+      "verbs": "GET",
+      "authDescription": ""
+    },
+    "/api/user/create-account": {
+      "jsFilePath": "/src/www/api/user/create-account.js",
+      "templateDescription": "",
+      "verbs": "POST",
+      "authDescription": "GUEST"
+    },
+    "/api/user/create-profile": {
+      "jsFilePath": "/src/www/api/user/create-profile.js",
+      "templateDescription": "",
+      "verbs": "POST",
+      "authDescription": ""
+    },
+    "/api/user/create-reset-code": {
+      "jsFilePath": "/src/www/api/user/create-reset-code.js",
+      "templateDescription": "",
+      "verbs": "POST",
+      "authDescription": ""
+    },
+    "/api/user/create-session": {
+      "jsFilePath": "/src/www/api/user/create-session.js",
+      "templateDescription": "",
+      "verbs": "POST",
+      "authDescription": "GUEST"
+    },
+    "/api/user/delete-profile": {
+      "jsFilePath": "/src/www/api/user/delete-profile.js",
+      "templateDescription": "",
+      "verbs": "DELETE",
+      "authDescription": ""
+    },
+    "/api/user/delete-reset-code": {
+      "jsFilePath": "/src/www/api/user/delete-reset-code.js",
+      "templateDescription": "",
+      "verbs": "DELETE",
+      "authDescription": ""
+    },
+    "/api/user/profile": {
+      "jsFilePath": "/src/www/api/user/profile.js",
+      "templateDescription": "",
+      "verbs": "GET",
+      "authDescription": ""
+    },
+    "/api/user/profiles-count": {
+      "jsFilePath": "/src/www/api/user/profiles-count.js",
+      "templateDescription": "",
+      "verbs": "GET",
+      "authDescription": ""
+    },
+    "/api/user/profiles": {
+      "jsFilePath": "/src/www/api/user/profiles.js",
+      "templateDescription": "",
+      "verbs": "GET",
+      "authDescription": ""
+    },
+    "/api/user/reset-account-deleted": {
+      "jsFilePath": "/src/www/api/user/reset-account-deleted.js",
+      "templateDescription": "",
+      "verbs": "PATCH",
+      "authDescription": "GUEST"
+    },
+    "/api/user/reset-account-password": {
+      "jsFilePath": "/src/www/api/user/reset-account-password.js",
+      "templateDescription": "",
+      "verbs": "PATCH",
+      "authDescription": "GUEST"
+    },
+    "/api/user/reset-code": {
+      "jsFilePath": "/src/www/api/user/reset-code.js",
+      "templateDescription": "",
+      "verbs": "GET",
+      "authDescription": ""
+    },
+    "/api/user/reset-codes-count": {
+      "jsFilePath": "/src/www/api/user/reset-codes-count.js",
+      "templateDescription": "",
+      "verbs": "GET",
+      "authDescription": ""
+    },
+    "/api/user/reset-codes": {
+      "jsFilePath": "/src/www/api/user/reset-codes.js",
+      "templateDescription": "",
+      "verbs": "GET",
+      "authDescription": ""
+    },
+    "/api/user/reset-session-key": {
+      "jsFilePath": "/src/www/api/user/reset-session-key.js",
+      "templateDescription": "",
+      "verbs": "PATCH",
+      "authDescription": ""
+    },
+    "/api/user/session": {
+      "jsFilePath": "/src/www/api/user/session.js",
+      "templateDescription": "",
+      "verbs": "GET",
+      "authDescription": ""
+    },
+    "/api/user/sessions-count": {
+      "jsFilePath": "/src/www/api/user/sessions-count.js",
+      "templateDescription": "",
+      "verbs": "GET",
+      "authDescription": ""
+    },
+    "/api/user/sessions": {
+      "jsFilePath": "/src/www/api/user/sessions.js",
+      "templateDescription": "",
+      "verbs": "GET",
+      "authDescription": ""
+    },
+    "/api/user/set-account-deleted": {
+      "jsFilePath": "/src/www/api/user/set-account-deleted.js",
+      "templateDescription": "",
+      "verbs": "PATCH",
+      "authDescription": ""
+    },
+    "/api/user/set-account-password": {
+      "jsFilePath": "/src/www/api/user/set-account-password.js",
+      "templateDescription": "",
+      "verbs": "PATCH",
+      "authDescription": ""
+    },
+    "/api/user/set-account-profile": {
+      "jsFilePath": "/src/www/api/user/set-account-profile.js",
+      "templateDescription": "",
+      "verbs": "PATCH",
+      "authDescription": ""
+    },
+    "/api/user/set-account-username": {
+      "jsFilePath": "/src/www/api/user/set-account-username.js",
+      "templateDescription": "",
+      "verbs": "PATCH",
+      "authDescription": ""
+    },
+    "/api/user/set-session-ended": {
+      "jsFilePath": "/src/www/api/user/set-session-ended.js",
+      "templateDescription": "",
+      "verbs": "PATCH",
+      "authDescription": ""
+    },
+    "/api/user/set-session-verified": {
+      "jsFilePath": "/src/www/api/user/set-session-verified.js",
+      "templateDescription": "",
+      "verbs": "PATCH",
+      "authDescription": ""
+    },
+    "/api/user/update-profile": {
+      "jsFilePath": "/src/www/api/user/update-profile.js",
+      "templateDescription": "",
+      "verbs": "PATCH",
+      "authDescription": ""
+    },
+    "/home": {
+      "htmlFilePath": "/src/www/home.html",
+      "templateDescription": "",
+      "verbs": "",
+      "authDescription": ""
+    },
+    "/": {
+      "htmlFilePath": "/src/www/index.html",
+      "templateDescription": "FULLSCREEN",
+      "verbs": "",
+      "authDescription": "GUEST"
+    }
+  },
+  "templateHTMLPath": "/template.html",
+  "errorHTMLPath": "/error.html",
+  "redirectHTMLPath": "/redirect.html"
+}
