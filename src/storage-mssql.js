@@ -8,7 +8,12 @@ module.exports = async () => {
       driver: 'SQL Server Native Client 11.0'
     },
     host: process.env.MSSQL_HOST,
-    port: process.env.MSSQL_PORT
+    port: process.env.MSSQL_PORT,
+    pool: {
+      max: process.env.MAX_CONNECTIONS || 10,
+      min: 0,
+      idle: process.env.IDLE_CONNECTION_LIMIT || 10000
+    }
   })
   class Account extends Model {}
   Account.init({

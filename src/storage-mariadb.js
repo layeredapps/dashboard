@@ -5,7 +5,12 @@ module.exports = async () => {
     logging: false,
     dialect: 'mysql',
     host: process.env.MARIADB_HOST,
-    port: process.env.MARIADB_PORT
+    port: process.env.MARIADB_PORT,
+    pool: {
+      max: process.env.MAX_CONNECTIONS || 10,
+      min: 0,
+      idle: process.env.IDLE_CONNECTION_LIMIT || 10000
+    }
   })
   class Account extends Model {}
   Account.init({
