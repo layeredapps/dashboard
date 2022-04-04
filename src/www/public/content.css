@@ -57,7 +57,7 @@ input, select, textarea, a, button, div { outline: 0 }
 .field input[type=text]:active,
 .field input[type=text]:focus,
 .field input[type=password]:active,
-.field input[type=password]:focus { background-color: rgba(255, 255, 255, 075) }
+.field input[type=password]:focus { background-color: rgba(255, 255, 255, 0.75) }
 .field select { max-width: 100% }
 
 /* alerts */
