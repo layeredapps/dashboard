@@ -1,11 +1,9 @@
 module.exports = {
   before: (req) => {
-    if (req.urlPath.startsWith('/api/') && !req.urlPath.startsWith('/api/user/') && !req.urlPath.startsWith('/api/administrator')) {
-      req.allowAPIRequest = true
-    }
+    req.allowAPIRequest = req.urlPath.startsWith('/api/')
   },
-  after: async (req, res) => {
-    if (!req.account) {
+  after: async (req) => {
+    if (!req.account || req.route) {
       delete (req.allowAPIRequest)
     }
   }
