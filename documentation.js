@@ -64,7 +64,9 @@ function writeAPI () {
       const type = done[done.length - 1]
       if (type === 'exceptions') {
         item.exceptions[exception] = item.exceptions[exception] || []
-        item.exceptions[exception].push(line)
+        if (line.indexOf(' ') > -1) {
+          item.exceptions[exception].push(line)
+        }
         continue
       }
       if (!item[type] || !item[type].push) {
