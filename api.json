@@ -6,7 +6,6 @@
     "receives": [],
     "exceptions": {
       "invalid-accountid": [
-        "invalid-accountid",
         "unspecified querystring accountid",
         "invalid querystring accountid"
       ]
@@ -96,16 +95,13 @@
     "receives": [],
     "exceptions": {
       "invalid-accountid": [
-        "invalid-accountid",
         "unspecified querystring accountid",
         "invalid querystring accountid"
       ],
       "invalid-secret-code": [
-        "invalid-secret-code",
         "missing posted secret-code"
       ],
       "invalid-secret-code-length": [
-        "invalid-secret-code-length",
         "invalid posted secret-code length"
       ]
     },
@@ -125,12 +121,10 @@
     "receives": [],
     "exceptions": {
       "invalid-accountid": [
-        "invalid-accountid",
         "missing querystring accountid",
         "invalid querystring accountid"
       ],
       "receieves": [
-        "receieves",
         "querystring accountid"
       ]
     },
@@ -181,7 +175,6 @@
     "receives": [],
     "exceptions": {
       "invalid-profileid": [
-        "invalid-profileid",
         "missing querystring profileid",
         "invalid querystring profileid"
       ]
@@ -230,12 +223,10 @@
     "receives": [],
     "exceptions": {
       "invalid-accountid": [
-        "invalid-accountid",
         "missing querystring accountid",
         "invalid querystring accountid"
       ],
       "invalid-account": [
-        "invalid-account",
         "accessing account is not owner",
         "querystring accountid is not administrator"
       ]
@@ -253,7 +244,6 @@
     "receives": [],
     "exceptions": {
       "invalid-reset-codeid": [
-        "invalid-reset-codeid",
         "missing querystring codeid",
         "invalid querystring codeid"
       ]
@@ -306,16 +296,13 @@
     "receives": [],
     "exceptions": {
       "invalid-accountid": [
-        "invalid-accountid",
         "missing querystring accountid",
         "invalid querystring accountid"
       ],
       "invalid-account": [
-        "invalid-account",
         "ineligible querystring account is deleted"
       ],
       "requires": [
-        "requires",
         "querystring accountid is not deleted"
       ]
     },
@@ -332,7 +319,6 @@
     "receives": [],
     "exceptions": {
       "invalid-sessionid": [
-        "invalid-sessionid",
         "unspecified querystring accountid",
         "invalid querystring sessionid"
       ]
@@ -385,16 +371,13 @@
     "receives": [],
     "exceptions": {
       "invalid-accountid": [
-        "invalid-accountid",
         "unspecified querystring accountid",
         "invalid querystring accountid"
       ],
       "invalid-account": [
-        "invalid-account",
         "ineligible querystring account is already administrator"
       ],
       "requires": [
-        "requires",
         "querystring accountid is not administrator"
       ]
     },
@@ -411,14 +394,11 @@
     "receives": [],
     "exceptions": {
       "invalid-accountid": [
-        "invalid-accountid",
         "unspecified querystring accountid",
         "invalid querystring accountid"
       ],
       "invalid-account": [
-        "invalid-account",
         "ineligible querystring account is already deleted",
-        "invalid-account",
         "querystring accountid is deleted"
       ]
     },
@@ -437,17 +417,14 @@
     "receives": [],
     "exceptions": {
       "invalid-accountid": [
-        "invalid-accountid",
         "missing querystring accountid",
         "invalid querystring accountid"
       ],
       "invalid-account": [
-        "invalid-account",
         "ineligible accessing account",
         "ineligible querystring account is already owner"
       ],
       "requires": [
-        "requires",
         "accessing account is owner",
         "querystring account is not owner",
         "querystring account is not deleted"
@@ -466,12 +443,10 @@
     "receives": [],
     "exceptions": {
       "invalid-accountid": [
-        "invalid-accountid",
         "missing querystring accountid",
         "invalid querystring accountid"
       ],
       "invalid-account": [
-        "invalid-account",
         "ineligible accessing account"
       ]
     },
@@ -503,76 +478,59 @@
     ],
     "exceptions": {
       "invalid-username": [
-        "invalid-username",
         "missing posted username"
       ],
       "invalid-username-length": [
-        "invalid-username-length",
         "posted username too short",
         "posted username too long"
       ],
       "invalid-password": [
-        "invalid-password",
         "missing posted password"
       ],
       "invalid-password-length": [
-        "invalid-password-length",
         "posted password too short",
         "posted password too long"
       ],
       "invalid-first-name": [
-        "invalid-first-name",
         "missing posted first-name"
       ],
       "invalid-first-name-length": [
-        "invalid-first-name-length",
         "posted first-name too short",
         "posted first-name too long"
       ],
       "invalid-last-name": [
-        "invalid-last-name",
         "missing posted last-name"
       ],
       "invalid-last-name-length": [
-        "invalid-last-name-length",
         "posted last-name too short",
         "posted last-name too long"
       ],
       "invalid-display-name": [
-        "invalid-display-name",
         "missing posted display-name"
       ],
       "invalid-display-name-length": [
-        "invalid-display-name-length",
         "posted display-name too short",
         "posted display-name too long"
       ],
       "invalid-company-name": [
-        "invalid-company-name",
         "missing posted company-name"
       ],
       "invalid-contact-email": [
-        "invalid-contact-email",
         "missing posted contact-email"
       ],
       "invalid-display-email": [
-        "invalid-display-email",
         "missing posted display-email"
       ],
       "invalid-location": [
-        "invalid-location",
         "missing posted location"
       ],
       "invalid-occupation": [
-        "invalid-occupation",
         "missing posted occupation"
       ],
       "invalid-phone": [
-        "invalid-phone",
         "missing posted phone"
       ],
       "invalid-dob": [
-        "invalid-dob",
         "missing posted dob"
       ]
     },
@@ -616,68 +574,51 @@
     ],
     "exceptions": {
       "invalid-accountid": [
-        "invalid-accountid",
         "missing querystring accountid",
         "invalid querystring accountid",
-        "invalid-accountid",
         "ineligible accessing account"
       ],
       "invalid-first-name": [
-        "invalid-first-name",
         "missing posted first-name"
       ],
       "invalid-first-name-length": [
-        "invalid-first-name-length",
         "posted first-name too short",
         "posted first-name too long"
       ],
       "invalid-last-name": [
-        "invalid-last-name",
         "missing posted last-name"
       ],
       "invalid-last-name-length": [
-        "invalid-last-name-length",
         "posted last-name too short",
         "posted last-name too long"
       ],
       "invalid-display-name": [
-        "invalid-display-name",
         "missing posted display-name"
       ],
       "invalid-display-name-length": [
-        "invalid-display-name-length",
         "posted display-name too short",
         "posted display-name too long"
       ],
       "invalid-company-name-length": [
-        "invalid-company-name-length",
         "posted company-name too short",
-        "posted company-name too long",
-        "invalid-company-name-length",
-        "invalid-company-name-length"
+        "posted company-name too long"
       ],
       "invalid-contact-email": [
-        "invalid-contact-email",
         "missing posted contact-email"
       ],
       "invalid-display-email": [
-        "invalid-display-email",
         "missing posted display-email"
       ],
       "invalid-location": [
-        "invalid-location",
         "missing posted location"
       ],
       "invalid-occupation": [
-        "invalid-occupation",
         "missing posted occupation"
       ],
       "invalid-phone": [
-        "invalid-phone",
         "missing posted phone"
       ],
       "invalid-dob": [
-        "invalid-dob",
         "missing posted dob"
       ]
     },
@@ -705,18 +646,14 @@
     "receives": [],
     "exceptions": {
       "invalid-accountid": [
-        "invalid-accountid",
         "missing querystring accountid",
         "invalid querystring accountid",
-        "invalid-accountid",
         "ineligible accessing account"
       ],
       "invalid-secret-code": [
-        "invalid-secret-code",
         "missing posted secret-code"
       ],
       "invalid-secret-code-length": [
-        "invalid-secret-code-length",
         "posted secret code too short",
         "posted secret code too long"
       ]
@@ -736,11 +673,9 @@
     ],
     "exceptions": {
       "invalid-username": [
-        "invalid-username",
         "missing posted username"
       ],
       "invalid-password": [
-        "invalid-password",
         "missing posted password"
       ]
     },
@@ -757,16 +692,13 @@
     "receives": [],
     "exceptions": {
       "invalid-profileid": [
-        "invalid-profileid",
         "missing querystring profileid",
         "invalid querystring profileid"
       ],
       "invalid-profile": [
-        "invalid-profile",
         "querystring profileid is default contact profile"
       ],
       "invalid-account": [
-        "invalid-account",
         "ineligible querystring profileid"
       ]
     },
@@ -783,12 +715,10 @@
     "receives": [],
     "exceptions": {
       "invalid-reset-codeid": [
-        "invalid-reset-codeid",
         "missing querystring codeid",
         "invalid querystring codeid"
       ],
       "invalid-account": [
-        "invalid-account",
         "ineligible querystring codeid"
       ]
     },
@@ -805,12 +735,10 @@
     "receives": [],
     "exceptions": {
       "invalid-profileid": [
-        "invalid-profileid",
         "missing querystring profileid",
         "invalid querystring profileid"
       ],
       "invalid-account": [
-        "invalid-account",
         "ineligible querystring profileid"
       ]
     },
@@ -827,12 +755,10 @@
     "receives": [],
     "exceptions": {
       "invalid-accountid": [
-        "invalid-accountid",
         "missing querystring accountid",
         "invalid querystring accountid"
       ],
       "invalid-account": [
-        "invalid-account",
         "ineligible accessing account"
       ]
     },
@@ -853,12 +779,10 @@
     ],
     "exceptions": {
       "invalid-accountid": [
-        "invalid-accountid",
         "missing querystring accountid",
         "invalid querystring accountid"
       ],
       "invalid-account": [
-        "invalid-account",
         "ineligible accessing account"
       ]
     },
@@ -877,17 +801,14 @@
     "receives": [],
     "exceptions": {
       "invalid-username": [
-        "invalid-username",
         "missing posted username",
         "invalid posted username"
       ],
       "invalid-password": [
-        "invalid-password",
         "missing posted password",
         "invalid posted password"
       ],
       "invalid-account": [
-        "invalid-account",
         "credentialed account is not scheduled for deletion"
       ]
     },
@@ -904,20 +825,16 @@
     "receives": [],
     "exceptions": {
       "invalid-username": [
-        "invalid-username",
         "missing posted username",
         "invalid posted username"
       ],
       "invalid-password": [
-        "invalid-password",
         "missing posted new-password"
       ],
       "invalid-secret-code": [
-        "invalid-secret-code",
         "missing posted secret-code"
       ],
       "invalid-reset-code": [
-        "invalid-reset-code",
         "invalid posted secret-code"
       ]
     },
@@ -934,12 +851,10 @@
     "receives": [],
     "exceptions": {
       "invalid-reset-codeid": [
-        "invalid-reset-codeid",
         "missing querystring codeid",
         "invalid querystring codeid"
       ],
       "invalid-account": [
-        "invalid-account",
         "ineligible querystring codeid"
       ]
     },
@@ -958,12 +873,10 @@
     "receives": [],
     "exceptions": {
       "invalid-accountid": [
-        "invalid-accountid",
         "missing querystring accountid",
         "invalid querystring accountid"
       ],
       "invalid-account": [
-        "invalid-account",
         "ineligible accessing account"
       ]
     },
@@ -984,12 +897,10 @@
     ],
     "exceptions": {
       "invalid-accountid": [
-        "invalid-accountid",
         "missing querystring accountid",
         "invalid querystring accountid"
       ],
       "invalid-account": [
-        "invalid-account",
         "ineligible accessing account"
       ]
     },
@@ -1010,12 +921,10 @@
     "receives": [],
     "exceptions": {
       "invalid-accountid": [
-        "invalid-accountid",
         "missing querystring accountid",
         "invalid querystring accountid"
       ],
       "invalid-account": [
-        "invalid-account",
         "ineligible accessing account"
       ]
     },
@@ -1032,12 +941,10 @@
     "receives": [],
     "exceptions": {
       "invalid-sessionid": [
-        "invalid-sessionid",
         "missing querystring sessionid",
         "invalid querystring sessionid"
       ],
       "invalid-account": [
-        "invalid-account",
         "ineligible querystring sessionid"
       ]
     },
@@ -1056,12 +963,10 @@
     "receives": [],
     "exceptions": {
       "invalid-accountid": [
-        "invalid-accountid",
         "missing querystring accountid",
         "invalid querystring accountid"
       ],
       "invalid-account": [
-        "invalid-account",
         "ineligible accessing account"
       ]
     },
@@ -1082,12 +987,10 @@
     ],
     "exceptions": {
       "invalid-accountid": [
-        "invalid-accountid",
         "missing querystring accountid",
         "invalid querystring accountid"
       ],
       "invalid-account": [
-        "invalid-account",
         "ineligible accessing account"
       ]
     },
@@ -1106,16 +1009,13 @@
     "receives": [],
     "exceptions": {
       "invalid-accountid": [
-        "invalid-accountid",
         "missing querystring accountid",
         "invalid querystring accountid"
       ],
       "invalid-account": [
-        "invalid-account",
         "ineligible accessing account"
       ],
       "invalid-password": [
-        "invalid-password",
         "missing posted password",
         "invalid posted password"
       ]
@@ -1135,25 +1035,20 @@
     "receives": [],
     "exceptions": {
       "invalid-accountid": [
-        "invalid-accountid",
         "missing querystring accountid",
         "invalid querystring accountid"
       ],
       "invalid-account": [
-        "invalid-account",
         "ineligible accessing account"
       ],
       "invalid-password": [
-        "invalid-password",
         "missing posted password",
         "invalid posted password"
       ],
       "invalid-new-password": [
-        "invalid-new-password",
         "missing posted new-password"
       ],
       "invalid-new-password-length": [
-        "invalid-new-password-length",
         "posted new-password too short",
         "posted new-password too long"
       ]
@@ -1171,16 +1066,13 @@
     "receives": [],
     "exceptions": {
       "invalid-accountid": [
-        "invalid-accountid",
         "missing querystring accountid",
         "invalid querystring accountid"
       ],
       "invalid-account": [
-        "invalid-account",
         "ineligible accessing account"
       ],
       "invalid-profileid": [
-        "invalid-profileid",
         "missing posted profileid",
         "invalid posted profileid"
       ]
@@ -1198,25 +1090,20 @@
     "receives": [],
     "exceptions": {
       "invalid-accountid": [
-        "invalid-accountid",
         "missing querystring accountid",
         "invalid querystring accountid"
       ],
       "invalid-account": [
-        "invalid-account",
         "ineligible accessing account"
       ],
       "invalid-password": [
-        "invalid-password",
         "missing posted password",
         "invalid posted password"
       ],
       "invalid-new-username": [
-        "invalid-new-username",
         "missing posted new-username"
       ],
       "invalid-new-username-length": [
-        "invalid-new-username-length",
         "posted new-username too short",
         "posted new-username too long"
       ]
@@ -1234,16 +1121,13 @@
     "receives": [],
     "exceptions": {
       "invalid-sessionid": [
-        "invalid-sessionid",
         "missing querystring sessionid",
         "invalid querystring sessionid"
       ],
       "invalid-session": [
-        "invalid-session",
         "querystring sessionid is not active session"
       ],
       "invalid-account": [
-        "invalid-account",
         "ineligible querystring sessionid"
       ]
     },
@@ -1260,12 +1144,10 @@
     "receives": [],
     "exceptions": {
       "invalid-sessionid": [
-        "invalid-sessionid",
         "missing querystring sessionid",
         "invalid querystring sessionid"
       ],
       "invalid-account": [
-        "invalid-account",
         "ineligible querystring sessionid"
       ]
     },
@@ -1293,70 +1175,54 @@
     ],
     "exceptions": {
       "invalid-profileid": [
-        "invalid-profileid",
         "missing querystring profileid",
         "invalid querystring profileid",
-        "invalid-profileid",
         "ineligible querystring profileid"
       ],
       "invalid-first-name": [
-        "invalid-first-name",
         "missing posted first-name"
       ],
       "invalid-first-name-length": [
-        "invalid-first-name-length",
         "posted first-name too short",
         "posted first-name too long"
       ],
       "invalid-last-name": [
-        "invalid-last-name",
         "missing posted last-name"
       ],
       "invalid-last-name-length": [
-        "invalid-last-name-length",
         "posted last-name too short",
         "posted last-name too long"
       ],
       "invalid-display-name": [
-        "invalid-display-name",
         "missing posted display-name"
       ],
       "invalid-display-name-length": [
-        "invalid-display-name-length",
         "posted display-name too short",
         "posted display-name too long"
       ],
       "invalid-company-name": [
-        "invalid-company-name",
         "missing posted company-name"
       ],
       "invalid-company-name-length": [
-        "invalid-company-name-length",
         "posted company-name too short",
         "posted company-name too long"
       ],
       "invalid-contact-email": [
-        "invalid-contact-email",
         "missing posted contact-email"
       ],
       "invalid-display-email": [
-        "invalid-display-email",
         "missing posted display-email"
       ],
       "invalid-location": [
-        "invalid-location",
         "missing posted location"
       ],
       "invalid-occupation": [
-        "invalid-occupation",
         "missing posted occupation"
       ],
       "invalid-phone": [
-        "invalid-phone",
         "missing posted phone"
       ],
       "invalid-dob": [
-        "invalid-dob",
         "missing posted dob"
       ]
     },
