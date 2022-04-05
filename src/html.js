@@ -81,15 +81,17 @@ function parse (fileOrHTML, dataObject, dataObjectName) {
         } catch (error) {
         }
         if (!navbarPath) {
-          for (const moduleName of global.packageJSON.dashboard.moduleNames) {
-            try {
-              navbarPath = require.resolve(`${moduleName}/src/www${navbar}`)
-            } catch (error) {
+          if (global.packageJSON && global.packageJSON.dashboard && global.packageJSON.dashboard.modules && global.packageJSON.dashboard.modules.length) {
+            for (const moduleName of global.packageJSON.dashboard.moduleNames) {
+              try {
+                navbarPath = require.resolve(`${moduleName}/src/www${navbar}`)
+              } catch (error) {
+              }
+              if (navbarPath) {
+                break
+              }
+              navbarPath = null
             }
-            if (navbarPath) {
-              break
-            }
-            navbarPath = null
           }
         }
       }
