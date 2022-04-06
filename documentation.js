@@ -74,6 +74,9 @@ function writeAPI () {
       }
       item[type].push(line)
     }
+    if (!item.url.startsWith('/api/')) {
+      continue
+    }
     api[item.url] = item
   }
   const jsonPath = path.join(global.applicationPath, 'api.json')
