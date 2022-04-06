@@ -1,4 +1,4 @@
-@layeredapps/dashboard 0.0.15
+@layeredapps/dashboard 0.0.16
 http://localhost:8000
 
 |------------------------------------------------------------------|
@@ -530,17 +530,17 @@ http://localhost:8000
 |                                 |          |  * posted new-username too long   |
 |---------------------------------|----------|-----------------------------------|
 
-|----------------------------------------------------------------------------------------------|
-| /api/user/set-session-ended                                                                  |
-| RECEIVES------------------------| RETURNS--| EXCEPTIONS--------------------------------------|
-| required querystring sessionid  | object   | invalid-sessionid                               |
-|                                 |          |  * missing querystring sessionid                |
-|                                 |          |  * invalid querystring sessionid                |
-|                                 |          | invalid-session                                 |
-|                                 |          |  * querystring sessionid is not active session  |
-|                                 |          | invalid-account                                 |
-|                                 |          |  * ineligible querystring sessionid             |
-|---------------------------------|----------|-------------------------------------------------|
+|-----------------------------------------------------------------------------------------|
+| /api/user/set-session-ended                                                             |
+| RECEIVES------------------------| RETURNS--| EXCEPTIONS---------------------------------|
+| required querystring sessionid  | object   | invalid-sessionid                          |
+|                                 |          |  * missing querystring sessionid           |
+|                                 |          |  * invalid querystring sessionid           |
+|                                 |          | invalid-session                            |
+|                                 |          |  * querystring sessionid is already ended  |
+|                                 |          | invalid-account                            |
+|                                 |          |  * ineligible querystring sessionid        |
+|---------------------------------|----------|--------------------------------------------|
 
 |-----------------------------------------------------------------------------------|
 | /api/user/set-session-verified                                                    |

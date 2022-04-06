@@ -1404,7 +1404,7 @@
         ✔ missing querystring sessionid
         ✔ invalid querystring sessionid
       invalid-session
-        ✔ querystring sessionid is not active session
+        ✔ querystring sessionid is already ended
       invalid-account
         ✔ ineligible querystring sessionid
     returns
