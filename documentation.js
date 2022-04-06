@@ -13,15 +13,15 @@ function writeAPI () {
     return
   }
   let tests = fs.readFileSync(testsFilePath).toString()
-  // trim from first api test
-  tests = tests.substring(tests.indexOf('  /api')).trim()
   tests = tests.split('\n\n')
-  // get rid of "x tests passing" line
   tests.pop()
   const api = {}
   const categories = ['exceptions', 'receives', 'configuration', 'returns', 'redacts']
   const verbs = ['get', 'post', 'patch', 'pull', 'delete', 'options', 'head']
   for (const test of tests) {
+    if (!test.trim().startsWith('/api/')) {
+      continue
+    }
     const item = {
       url: '',
       verb: '',
@@ -205,43 +205,47 @@ function writeEnvironment () {
     return
   }
   let tests = fs.readFileSync(testsFilePath).toString().trim()
-  tests = tests.substring(tests.indexOf('  index'))
-  tests = tests.substring(0, tests.indexOf('\n\n'))
-  tests = tests.split('\n')
-  let start = false
+  tests = tests.split('\n\n')
   const properties = {}
-  let lastProperty
-  for (const i in tests) {
-    const line = tests[i].trim()
-    if (!line.length) {
+  for (const test of tests) {
+    if (!test.trim().startsWith('index')) {
       continue
     }
-    if (!start) {
-      if (line === 'index') {
-        start = true
+    const lines = test.split('\n')
+    let start = false
+    let lastProperty
+    for (const i in lines) {
+      const line = lines[i].trim()
+      if (!line.length) {
+        continue
       }
-      continue
-    }
-    if (line.indexOf(' ') === -1) {
-      lastProperty = line
-      properties[lastProperty] = {}
-      continue
-    }
-    if (!lastProperty) {
-      continue
-    }
-    if (!properties[lastProperty].description) {
-      properties[lastProperty].description = line
-      continue
-    }
-    if (line.indexOf('default') > -1) {
-      properties[lastProperty].default = line.substring('✓ default '.length).trim()
-      if (!properties[lastProperty].default.length) {
-        properties[lastProperty].default = 'unset'
+      if (!start) {
+        if (line === 'index') {
+          start = true
+        }
+        continue
       }
-    } else {
-      properties[lastProperty].value = line.substring('✓ '.length)
-      lastProperty = null
+      if (line.indexOf(' ') === -1) {
+        lastProperty = line
+        properties[lastProperty] = {}
+        continue
+      }
+      if (!lastProperty) {
+        continue
+      }
+      if (!properties[lastProperty].description) {
+        properties[lastProperty].description = line
+        continue
+      }
+      if (line.indexOf('default') > -1) {
+        properties[lastProperty].default = line.substring('✓ default '.length).trim()
+        if (!properties[lastProperty].default.length) {
+          properties[lastProperty].default = 'unset'
+        }
+      } else {
+        properties[lastProperty].value = line.substring('✓ '.length)
+        lastProperty = null
+      }
     }
   }
   let maximumPropertySize = 0
