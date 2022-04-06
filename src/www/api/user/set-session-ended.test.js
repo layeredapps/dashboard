@@ -36,7 +36,7 @@ describe('/api/user/set-session-ended', () => {
     })
 
     describe('invalid-session', () => {
-      it('querystring sessionid is not active session', async () => {
+      it('querystring sessionid is already ended', async () => {
         const user = await TestHelper.createUser()
         const session1 = user.session
         await TestHelper.endSession(user)
@@ -44,7 +44,6 @@ describe('/api/user/set-session-ended', () => {
         const req = TestHelper.createRequest(`/api/user/set-session-ended?sessionid=${session1.sessionid}`)
         req.account = user.account
         req.session = user.session
-        await req.patch()
         let errorMessage
         try {
           await req.patch(req)

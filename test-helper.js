@@ -383,7 +383,9 @@ async function completeVerification (user) {
 }
 
 async function endSession (user) {
-  const req = createRequest(`/api/user/end-session?sessionid=${user.session.sessionid}`)
+  const req = createRequest(`/api/user/set-session-ended?sessionid=${user.session.sessionid}`)
+  req.account = user.account
+  req.session = user.session
   user.session = await req.patch()
   return user.session
 }
