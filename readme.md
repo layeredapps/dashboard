@@ -170,19 +170,19 @@ By default the API is not accessible, you can allow total access to it with an `
 
 Or enable requests from your application server with a `server` script handler:
 
-   "dashboard": {
-       "server": [
-           "@layeredapps/dashboard/src/server/internal-api-requests.js"
-       ]
-   }
-
+    "dashboard": {
+      "server": [
+        "@layeredapps/dashboard/src/server/internal-api-requests.js"
+      ]
+    }
+ 
 Dashboard can also forward API requests to your own `/api/` routes:
 
-  "dashboard": {
+    "dashboard": {
        "server": [
-           "@layeredapps/dashboard/src/server/forward-api-requests.js"
+         "@layeredapps/dashboard/src/server/forward-api-requests.js"
        ]
-   }
+    }
 
 This example fetches the user's session information using NodeJS, you can do this with any language:
 
