@@ -465,6 +465,7 @@ const proxy = util.promisify((method, path, req, callback) => {
       postData = querystring.stringify(req.body)
       requestOptions.headers['content-length'] = postData.length
     }
+    requestOptions.headers['content-type'] = requestOptions.headers['content-type'] || 'application/x-www-form-urlencoded'
   }
   if (req.session && req.session.expiresAt) {
     const expires = new Date(req.session.expiresAt)
