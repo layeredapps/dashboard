@@ -6,7 +6,9 @@ const util = require('util')
 
 module.exports = {
   pass,
-  get: util.promisify(get)
+  get: util.promisify(get),
+  externalPOST: util.promisify(externalPOST),
+  externalGET: util.promisify(externalGET)
 }
 
 async function pass (req, res) {
@@ -159,7 +161,6 @@ async function get (req, callback) {
     method: 'GET',
     headers: {}
   }
-
   if (req.account) {
     requestOptions.headers['x-accountid'] = req.account.accountid
     requestOptions.headers['x-sessionid'] = req.session.sessionid
@@ -170,6 +171,87 @@ async function get (req, callback) {
     }
   }
   const protocol = global.applicationServer.startsWith('http://') ? 'http' : 'https'
+  const proxyRequest = require(protocol).request(requestOptions, (proxyResponse) => {
+    let body = ''
+    proxyResponse.on('data', (chunk) => {
+      body += chunk
+    })
+    return proxyResponse.on('end', () => {
+      return callback(null, body)
+    })
+  })
+  proxyRequest.on('error', (error) => {
+    return callback(error)
+  })
+  return proxyRequest.end()
+}
+
+async function externalPOST (url, headers, body, callback) {
+  let host = url
+  let port = 80
+  if (url.lastIndexOf(':') > url.indexOf(':')) {
+    host = url.substring(0, url.lastIndexOf(':'))
+    host = host.substring(host.indexOf('://') + 3)
+    port = url.substring(url.lastIndexOf(':') + 1)
+  } else {
+    host = host.substring(host.indexOf('://') + 3)
+    host = host.substring(0, host.indexOf('/'))
+    port = url.startsWith('https://') ? 443 : 80
+  }
+  const requestOptions = {
+    host,
+    path: url.substring(url.indexOf(host) + host.length),
+    port,
+    method: 'POST',
+    headers: headers || {}
+  }
+  const bodyRawFields = []
+  for (const field in body) {
+    bodyRawFields.push(`${field}=${body[field]}`)
+  }
+  const bodyRaw = bodyRawFields.join('&')
+  if (bodyRaw.length) {
+    requestOptions.headers['content-length'] = bodyRaw.length
+    requestOptions.headers['content-type'] = 'application/x-www-form-urlencoded'
+  }
+  const protocol = url.startsWith('http://') ? 'http' : 'https'
+  const proxyRequest = require(protocol).request(requestOptions, (proxyResponse) => {
+    let body = ''
+    proxyResponse.on('data', (chunk) => {
+      body += chunk
+    })
+    return proxyResponse.on('end', () => {
+      return callback(null, body)
+    })
+  })
+  proxyRequest.on('error', (error) => {
+    return callback(error)
+  })
+  proxyRequest.write(bodyRaw)
+  return proxyRequest.end()
+}
+
+async function externalGET (url, headers, callback) {
+  let host = url
+  let port = 80
+  if (url.lastIndexOf(':') > url.indexOf(':')) {
+    host = url.substring(0, url.lastIndexOf(':'))
+    host = host.substring(host.indexOf('://') + 3)
+    port = url.substring(url.lastIndexOf(':') + 1)
+  } else {
+    host = host.substring(host.indexOf('://') + 3)
+    host = host.substring(0, host.indexOf('/'))
+    port = url.startsWith('https://') ? 443 : 80
+  }
+  const requestOptions = {
+    host,
+    path: url.substring(url.indexOf(host) + host.length),
+    port,
+    method: 'GET',
+    headers: headers || {}
+  }
+  console.log(requestOptions)
+  const protocol = url.startsWith('http://') ? 'http' : 'https'
   const proxyRequest = require(protocol).request(requestOptions, (proxyResponse) => {
     let body = ''
     proxyResponse.on('data', (chunk) => {
