@@ -43,7 +43,7 @@ async function submitForm (req, res) {
     req.query = query
   }
   req.session = session
-  let cookieStr = 'httponly; path=/; SameSite=strict'
+  let cookieStr = 'HttpOnly; path=/; SameSite=strict'
   if (req.secure) {
     cookieStr += '; secure'
   }
