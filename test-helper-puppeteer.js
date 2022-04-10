@@ -401,7 +401,7 @@ async function saveScreenshot (device, page, number, action, identifier, scriptN
   let title
   if (identifier === '#submit-form') {
     title = 'form'
-  } else if (identifier.startsWith('#')) {
+  } else if (identifier && identifier.startsWith('#')) {
     let text = await page.evaluate((identifier) => {
       const element = document.querySelector(identifier)
       if (element.innerText && element.innerHTML.indexOf('>') === -1) {
