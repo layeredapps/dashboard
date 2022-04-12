@@ -17,9 +17,11 @@ async function beforeRequest (req) {
       const account = await global.api.administrator.Account.get(req)
       session.firstName = account.firstName
       session.lastName = account.lastName
-      req.query.profileid = account.profileid
-      const profile = await global.api.administrator.Profile.get(req)
-      session.contactEmail = profile.contactEmail
+      if (account.profileid) {
+        req.query.profileid = account.profileid
+        const profile = await global.api.administrator.Profile.get(req)
+        session.contactEmail = profile.contactEmail
+      }
     }
   }
   const offset = req.query ? req.query.offset || 0 : 0
