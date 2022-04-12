@@ -45,7 +45,10 @@ module.exports = async () => {
       defaultValue: global.appid
     },
     profileid: DataTypes.STRING(21),
-    usernameHash: DataTypes.STRING,
+    usernameHash: {
+      type: DataTypes.STRING,
+      unique: true
+    },
     passwordHash: DataTypes.STRING,
     sessionKey: DataTypes.STRING,
     sessionKeyNumber: DataTypes.INTEGER,

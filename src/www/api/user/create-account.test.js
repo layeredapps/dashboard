@@ -21,6 +21,24 @@ describe('/api/user/create-account', () => {
       })
     })
 
+    describe('duplicate-username', () => {
+      it('username already registered', async () => {
+        const user = await TestHelper.createUser()
+        const req = TestHelper.createRequest('/api/user/create-account')
+        req.body = {
+          username: user.account.username,
+          password: 'password'
+        }
+        let errorMessage
+        try {
+          await req.post()
+        } catch (error) {
+          errorMessage = error.message
+        }
+        assert.strictEqual(errorMessage, 'duplicate-username')
+      })
+    })
+
     describe('invalid-username-length', () => {
       it('posted username too short', async () => {
         const req = TestHelper.createRequest('/api/user/create-account')

@@ -98,7 +98,14 @@ module.exports = {
       accountInfo.administratorSince = sequelize.literal('CURRENT_TIMESTAMP')
       accountInfo.ownerSince = sequelize.literal('CURRENT_TIMESTAMP')
     }
-    const account = await dashboard.Storage.Account.create(accountInfo)
+    let account
+    try {
+      account = await dashboard.Storage.Account.create(accountInfo)
+    } catch (error) {
+      if (error.name === 'SequelizeUniqueConstraintError') {
+        throw new Error('duplicate-username') 
+      }
+    }
     req.query = req.query || {}
     req.query.accountid = account.dataValues.accountid
     req.account = req.query

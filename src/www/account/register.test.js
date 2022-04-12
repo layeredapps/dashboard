@@ -321,6 +321,20 @@ describe('/account/register', () => {
       assert.strictEqual(message.attr.template, 'invalid-username')
     })
 
+    it('duplicate-username', async () => {
+      const user= await TestHelper.createUser()
+      const req = TestHelper.createRequest('/account/register')
+      req.body = {
+        username: user.account.username,
+        password: 'new-password',
+        confirm: 'new-password'
+      }
+      const result = await req.post()
+      const doc = await TestHelper.extractDoc(result.html)
+      const message = doc.getElementById('message-container').child[0]
+      assert.strictEqual(message.attr.template, 'duplicate-username')
+    })
+
     it('invalid-username-length', async () => {
       const req = TestHelper.createRequest('/account/register')
       req.body = {
