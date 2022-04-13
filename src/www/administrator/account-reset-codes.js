@@ -18,9 +18,11 @@ async function beforeRequest (req) {
     }
   }
   const account = await global.api.administrator.Account.get(req)
-  req.query.profileid = account.profileid
-  const profile = await global.api.administrator.Profile.get(req)
-  account.contactEmail = profile.contactEmail
+  if (account.profileid) {
+    req.query.profileid = account.profileid
+    const profile = await global.api.administrator.Profile.get(req)
+    account.contactEmail = profile.contactEmail
+  }
   const offset = req.query ? req.query.offset || 0 : 0
   req.data = { resetCodes, account, total, offset }
 }

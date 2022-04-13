@@ -14,11 +14,11 @@ async function beforeRequest (req) {
       account.createdAtFormatted = dashboard.Format.date(account.createdAt)
       account.lastSignedInAtFormatted = dashboard.Format.date(account.lastSignedInAt)
       account.deletedAtFormatted = dashboard.Format.date(account.deletedAt)
-      req.query.profileid = account.profileid
-      const profile = await global.api.administrator.Profile.get(req)
-      account.contactEmail = profile.contactEmail
-    }
-  }
+      if (account.profileid) {
+        req.query.profileid = account.profileid
+        const profile = await global.api.administrator.Profile.get(req)
+        account.contactEmail = profile.contactEmail
+      }
   const offset = req.query ? req.query.offset || 0 : 0
   req.data = { accounts, total, offset }
 }
