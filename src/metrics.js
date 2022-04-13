@@ -31,17 +31,20 @@ module.exports = {
     const dayKey = `${monthKey}-${dayPart}`
     const totalKey = `${metric}/total`
     if (process.env.STORAGE_METRICS === 'redis') {
-      await redisStorage.hincrby('metrics', yearKey, 1)
-      await redisStorage.hincrby('metrics', monthKey, 1)
-      await redisStorage.hincrby('metrics', dayKey, 1)
-      await redisStorage.hincrby('metrics', totalKey, 1)
-      return
-    } else { 
+      await redisStorage.hSetNX('metrics', yearKey, 0)
+      await redisStorage.hIncrBy('metrics', yearKey, amount || 1)
+      await redisStorage.hSetNX('metrics', monthKey, 0)
+      await redisStorage.hIncrBy('metrics', monthKey, amount || 1)
+      await redisStorage.hSetNX('metrics', dayKey, 0)
+      await redisStorage.hIncrBy('metrics', dayKey, amount || 1)
+      await redisStorage.hSetNX('metrics', totalKey, 0)
+      await redisStorage.hIncrBy('metrics', totalKey, amount || 1)
+    } else {
       // day
       if (!upsertedCache[dayKey]) {
         await dashboardStorage.Metric.upsert({
           metricid: dayKey
-        }, { 
+        }, {
           where: {
             metricid: dayKey
           }
@@ -52,7 +55,7 @@ module.exports = {
       if (!upsertedCache[monthKey]) {
         await dashboardStorage.Metric.upsert({
           metricid: monthKey
-        }, { 
+        }, {
           where: {
             metricid: monthKey
           }
@@ -63,7 +66,7 @@ module.exports = {
       if (!upsertedCache[yearKey]) {
         await dashboardStorage.Metric.upsert({
           metricid: yearKey
-        }, { 
+        }, {
           where: {
             metricid: yearKey
           }
@@ -74,7 +77,7 @@ module.exports = {
       if (!upsertedCache[totalKey]) {
         await dashboardStorage.Metric.upsert({
           metricid: totalKey
-        }, { 
+        }, {
           where: {
             metricid: totalKey
           }
@@ -90,23 +93,24 @@ module.exports = {
         }
       }
       // increase the values for the aggregate keys
-      await dashboardStorage.Metric.increment({ 
+      await dashboardStorage.Metric.increment({
         value: amount || 1
-      }, { 
-        where: { 
+      }, {
+        where: {
           metricid: [
             dayKey,
             monthKey,
             yearKey,
             totalKey
           ]
-        } 
+        }
       })
     }
   },
   keyRange: async (keys) => {
     if (process.env.STORAGE_METRICS === 'redis') {
-      const response = await redisStorage.hmget('metrics', keys)
+      console.log('getting metric keys', keys)
+      const response = await redisStorage.hmGet('metrics', keys)
       const data = []
       for (const i in keys) {
         const object = {
@@ -115,6 +119,7 @@ module.exports = {
         }
         data.push(object)
       }
+      console.log('coallesced metrics', data)
       return data
     } else {
       const rawData = await dashboardStorage.Metric.findAll({
@@ -182,7 +187,7 @@ function days (data, maximum) {
   return day
 }
 
-function highlights(data, days) {
+function highlights (data, days) {
   const highlight = {
     object: 'highlight',
     today: 0,
