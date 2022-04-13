@@ -105,17 +105,18 @@ module.exports = {
   },
   keyRange: async (keys) => {
     if (process.env.STORAGE_METRICS === 'redis') {
-      console.log('getting metric keys', keys)
       const response = await redisStorage.hmGet('metrics', keys)
       const data = []
       for (const i in keys) {
+        if (!response[i]) {
+          continue
+        }
         const object = {
           metricid: keys[i],
-          value: response[i]
+          value: parseInt(response[i], 10)
         }
         data.push(object)
       }
-      console.log('coallesced metrics', data)
       return data
     } else {
       const rawData = await dashboardStorage.Metric.findAll({
