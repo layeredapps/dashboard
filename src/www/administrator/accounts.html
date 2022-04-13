@@ -15,7 +15,44 @@
       <div id="no-accounts">
         <p translate="yes">There are no accounts yet.</p>
       </div>
+      <div class="charts charts-grid">
+        <div class="chart">
+          <h2>Accounts created in last 365 days</h2>
+          <div className="metrics" id="created-highlights">
+          </div>
+          <div class="graph">
+            <div class="values" id="created-values"></div>
+            <div class="columns">
+              <div class="padder">
+                <ol id="created-chart"></ol>
+              </div>
+              <legend>
+                <span>Today</span>
+                <span>365 days ago</span>
+              </legend>
+            </div>
+          </div>
+        </div>
+        <div class="chart">
+          <h2>Accounts created in last 36 months</h2>
+          <div className="metrics" id="created-highlights">
+          </div>
+          <div class="graph">
+            <div class="values" id="created-values"></div>
+            <div class="columns">
+              <div class="padder">
+                <ol id="created-chart"></ol>
+              </div>
+              <legend>
+                <span>Today</span>
+                <span>36 months ago</span>
+              </legend>
+            </div>
+          </div>
+        </div>
+      </div>
       <div class="list-table-wrapper">
+        <h3>Recently created accounts</h3>
         <table id="accounts-table" class="list-table">
           <thead>
             <tr>

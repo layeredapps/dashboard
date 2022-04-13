@@ -11,31 +11,97 @@
   <body>
     <div class="container">
       <h1 translate="yes">Administration</h1>
-      <h2 translate="yes">Users</h2>
-      <p translate="yes">Browse user accounts and data, create reset codes, grant administration access, delete accounts and transfer ownership.</p>
-      <menu class="single-button">
-        <a class="button" href="/administrator/accounts" translate="yes">User accounts</a>
-      </menu>
-      <h2 translate="yes">Administrators</h2>
-      <p translate="yes">Browse administrators and revoke administration access.</p>
-      <menu class="single-button">
-        <a class="button" href="/administrator/administrators" translate="yes">Administrator accounts</a>
-      </menu>
-      <h2 translate="yes">Sessions</h2>
-      <p translate="yes">Browse and terminate active user sessions.</p>
-      <menu class="single-button">
-        <a class="button" href="/administrator/sessions" translate="yes">Sessions</a>
-      </menu>
-      <h2 translate="yes">Reset codes</h2>
-      <p translate="yes">Browse and delete reset codes, create reset codes for users.</p>
-      <menu class="single-button">
-        <a class="button" href="/administrator/reset-codes" translate="yes">Reset codes</a>
-      </menu>
-      <h2 translate="yes">Delete schedule</h2>
-      <p translate="yes">Restore or permanently delete accounts after the delete delay period.</p>
-      <menu class="single-button">
-        <a class="button" href="/administrator/delete-schedule" translate="yes">Delete schedule</a>
-      </menu>
+      <div class="charts">
+        <div class="chart">
+          <h2>Registrations in last 90 days</h2>
+          <div className="metrics" id="created-highlights">
+          </div>
+          <div class="graph">
+            <div class="values" id="created-values"></div>
+            <div class="columns">
+              <div class="padder">
+                <ol id="created-chart"></ol>
+              </div>
+              <legend>
+                <span>Today</span>
+                <span>90 days ago</span>
+              </legend>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="charts">
+        <div class="chart">
+          <h2>Active sessions in last 90 days</h2>
+          <div className="metrics" id="sessions-highlights">
+          </div>
+          <div class="graph">
+            <div class="values" id="sessions-values"></div>
+            <div class="columns">
+              <div class="padder">
+                <ol id="sessions-chart"></ol>
+              </div>
+              <legend>
+                <span>Today</span>
+                <span>90 days ago</span>
+              </legend>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="charts" id="reset-codes-container">
+        <div class="chart">
+          <h2>Reset code usage in last 90 days</h2>
+          <div className="metrics" id="reset-codes-highlights">
+          </div>
+          <div class="graph">
+            <div class="values" id="reset-codes-values"></div>
+            <div class="columns">
+              <div class="padder">
+                <ol id="reset-codes-chart"></ol>
+              </div>
+              <legend>
+                <span>Today</span>
+                <span>90 days ago</span>
+              </legend>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
+    <template id="chart-value">
+      <h3>${object.value}</h3>
+    </template>
+    <template id="chart-column">
+      <li><span title="${metric.value} on ${metric.dateKey}" style="height: ${metric.normalized}%; top: ${metric.top}%"></span></li>
+    </template>
+    <template id="metric-highlights">
+      <ul>
+        <li>
+          ${highlight.today}
+          <span>today</span>
+        </li>
+        <li>
+          ${highlight.yesterday}
+          <span>yesterday</span>
+        </li>
+        <li>
+          ${highlight.last7Days}
+          <span>last 7 days</span>
+        </li>
+        <li>
+          ${highlight.last30Days}
+          <span>last 30 days</span>
+        </li>
+        <li>
+          ${highlight.last90Days}
+          <span>last 90 days</span>
+        </li>
+        <li>
+          ${highlight.total}
+          <span>all time</span>
+        </li>
+      </ul>
+    </template>
   </body>
 </html>

@@ -25,7 +25,33 @@ async function beforeRequest (req) {
     }
   }
   const offset = req.query ? req.query.offset || 0 : 0
-  req.data = { resetCodes, total, offset }
+  // resetcodes-created chart
+  req.query.keys = dashboard.Metrics.metricKeys('resetcodes-created', 365).join(',')
+  const createdChart = await global.api.administrator.MetricKeys.get(req)
+  const createdChartMaximum = dashboard.Metrics.maximumDay(createdChart)
+  const createdChartDays = dashboard.Metrics.days(createdChart, createdChartMaximum)
+  const createdChartHighlights = dashboard.Metrics.highlights(createdChart, createdChartDays)
+  const createdChartValues = [
+    { object: 'object', value: createdChartMaximum },
+    { object: 'object', value: Math.floor(createdChartMaximum * 0.75) },
+    { object: 'object', value: Math.floor(createdChartMaximum * 0.5) },
+    { object: 'object', value: Math.floor(createdChartMaximum * 0.25) },
+    { object: 'object', value: 0 }
+  ]
+  // resetcodes-used chart
+  req.query.keys = dashboard.Metrics.metricKeys('resetcodes-used', 365).join(',')
+  const usedChart = await global.api.administrator.MetricKeys.get(req)
+  const usedChartMaximum = dashboard.Metrics.maximumDay(usedChart)
+  const usedChartDays = dashboard.Metrics.days(usedChart, usedChartMaximum)
+  const usedChartHighlights = dashboard.Metrics.highlights(usedChart, usedChartDays)
+  const usedChartValues = [
+    { object: 'object', value: usedChartMaximum },
+    { object: 'object', value: Math.floor(usedChartMaximum * 0.75) },
+    { object: 'object', value: Math.floor(usedChartMaximum * 0.5) },
+    { object: 'object', value: Math.floor(usedChartMaximum * 0.25) },
+    { object: 'object', value: 0 }
+  ]
+  req.data = { resetCodes, total, offset, createdChartDays, createdChartHighlights, createdChartValues, usedChartDays, usedChartHighlights, usedChartValues }
 }
 
 async function renderPage (req, res) {
@@ -40,6 +66,22 @@ async function renderPage (req, res) {
     }
     const noResetCodes = doc.getElementById('no-reset-codes')
     noResetCodes.parentNode.removeChild(noResetCodes)
+    if (req.data.createdChartDays.length) {
+      dashboard.HTML.renderList(doc, req.data.createdChartDays, 'chart-column', 'created-chart')
+      dashboard.HTML.renderList(doc, req.data.createdChartValues, 'chart-value', 'created-values')
+      dashboard.HTML.renderTemplate(doc, req.data.createdChartHighlights, 'metric-highlights', 'created-highlights')
+    } else {
+      const createdChartContainer = doc.getElementById('created-chart-container')
+      createdChartContainer.parentNode.removeChild(createdChartContainer)  
+    }
+    if (req.data.usedChartDays.length) {
+      dashboard.HTML.renderList(doc, req.data.usedChartDays, 'chart-column', 'used-chart')
+      dashboard.HTML.renderList(doc, req.data.usedChartValues, 'chart-value', 'used-values')
+      dashboard.HTML.renderTemplate(doc, req.data.usedChartHighlights, 'metric-highlights', 'used-highlights')
+    } else {
+      const usedChartContainer = doc.getElementById('used-chart-container')
+      usedChartContainer.parentNode.removeChild(usedChartContainer)  
+    }
   } else {
     const resetCodesTable = doc.getElementById('reset-codes-table')
     resetCodesTable.parentNode.removeChild(resetCodesTable)

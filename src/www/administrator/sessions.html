@@ -16,7 +16,27 @@
       <div id="no-sessions">
         <p translate="yes">There are no sessions yet.</p>
       </div>
+      <div class="charts">
+        <div class="chart">
+          <h2>Sessions created in last 365 days</h2>
+          <div className="metrics" id="sessions-highlights">
+          </div>
+          <div class="graph">
+            <div class="values" id="sessions-values"></div>
+            <div class="columns">
+              <div class="padder">
+                <ol id="sessions-chart"></ol>
+              </div>
+              <legend>
+                <span>Today</span>
+                <span>365 days ago</span>
+              </legend>
+            </div>
+          </div>
+        </div>
+      </div>
       <div class="list-table-wrapper">
+        <h3>Sessions sessions</h3>
         <table id="sessions-table" class="list-table">
           <thead>
             <tr>
@@ -46,6 +66,40 @@
         <td>${session.createdAtFormatted}</td>
         <td>${session.expiresFormatted}</td>
       </tr>
+    </template>
+    <template id="chart-value">
+      <h3>${object.value}</h3>
+    </template>
+    <template id="chart-column">
+      <li><span title="${metric.value} on ${metric.dateKey}" style="height: ${metric.normalized}%; top: ${metric.top}%"></span></li>
+    </template>
+    <template id="metric-highlights">
+      <ul>
+        <li>
+          ${highlight.today}
+          <span>today</span>
+        </li>
+        <li>
+          ${highlight.yesterday}
+          <span>yesterday</span>
+        </li>
+        <li>
+          ${highlight.last7Days}
+          <span>last 7 days</span>
+        </li>
+        <li>
+          ${highlight.last30Days}
+          <span>last 30 days</span>
+        </li>
+        <li>
+          ${highlight.last90Days}
+          <span>last 90 days</span>
+        </li>
+        <li>
+          ${highlight.total}
+          <span>all time</span>
+        </li>
+      </ul>
     </template>
   </body>
 </html>

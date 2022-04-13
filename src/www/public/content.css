@@ -60,6 +60,28 @@ input, select, textarea, a, button, div { outline: 0 }
 .field input[type=password]:focus { background-color: rgba(255, 255, 255, 0.75) }
 .field select { max-width: 100% }
 
+.charts-grid { display: grid; grid-template-columns: 1fr 1fr; grid-gap: 1rem; margin-bottom: 2rem }
+.charts-grid3 { grid-template-columns: 1fr 1fr 1fr }
+.chart { margin-top: 1rem; background-color: rgba(255, 255, 255, 0.5); border-radius: 0.5rem; padding: 1rem }
+.chart ol,
+.chart ul,
+.chart li { list-style-type: none; padding: 0; margin: 0 }
+.chart ul { display: flex }
+.chart legend { display: flex; margin: 0; padding: 0.5rem 0; width: 100% }
+.chart legend span { width: 50%; display: block; font-size: 0.5rem; text-transform: uppercase; color: rgba(0, 0, 0, 0.5) }
+.chart legend span:last-of-type { text-align: right }
+.chart ul li { font-size: 1.5rem; display: flex; flex-direction: column; align-content: center; color: rgba(0, 0, 0, 0.75); margin: 0 2rem 0 0 }
+.chart ul li span { font-size: 0.8rem; display: block; color: rgba(0, 0, 0, 0.5)}
+.chart .graph { display: flex; width: 100%; margin-top: 1rem }
+.chart .values { display: grid; grid-template-rows: repeat(5, 1fr); padding: 0 0.5rem; text-align: right; }
+.chart .values h3 { margin: 0; padding: 0; font-size: 0.5rem; line-height: 0.5rem; color: rgba(0, 0, 0, 0.5) }
+.chart .columns { width: 100% }
+.chart .padder { padding: 0.25rem; border-left: 1px solid rgba(0, 0, 0, 0.25); border-bottom: 1px solid rgba(0, 0, 0, 0.25) }
+.chart ol { width: 100%; height: 10rem; display: grid; grid-template-columns: repeat(90, 1fr); grid-gap: 2px; vertical-align: bottom }
+.chart ol li { height: 100%; position: relative }
+.chart ol li span { position: absolute; display: block; background-color: rgba(47, 54, 95, 0.5); border-bottom: 1px solid rgba(0, 0, 0, 0.125); border-right: 1px solid rgba(0, 0, 0, 0.125); width: 100% }
+.chart ol li span:hover { background-color: rgba(47, 54, 95, 0.5) }
+
 /* alerts */
 .message { font-weight: bold; font-size: 0.9rem; margin-bottom: 1rem }
 .success.message { color: #060 }

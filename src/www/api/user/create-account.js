@@ -106,6 +106,9 @@ module.exports = {
         throw new Error('duplicate-username') 
       }
     }
+    if (!account) {
+      throw new Error('unknown-error')
+    }
     req.query = req.query || {}
     req.query.accountid = account.dataValues.accountid
     req.account = req.query

@@ -250,7 +250,6 @@ async function externalGET (url, headers, callback) {
     method: 'GET',
     headers: headers || {}
   }
-  console.log(requestOptions)
   const protocol = url.startsWith('http://') ? 'http' : 'https'
   const proxyRequest = require(protocol).request(requestOptions, (proxyResponse) => {
     let body = ''

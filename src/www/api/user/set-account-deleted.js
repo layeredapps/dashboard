@@ -32,13 +32,10 @@ module.exports = {
     if (!validPassword) {
       throw new Error('invalid-password')
     }
-    const updateClause = {}
-    if (!process.env.STORAGE || process.env.STORAGE === 'sqlite') {
-      updateClause.deletedAt = sequelize.fn('datetime', sequelize.literal('CURRENT_TIMESTAMP'), `+${global.deleteDelay} days`)
-    } else if (process.env.STORAGE === 'postgresql') {
-      updateClause.deletedAt = sequelize.literal(`NOW() + interval '${global.deleteDelay}d'`)
-    } else if (process.env.STORAGE === 'mariadb' || process.env.STORAGE === 'mysql') {
-      updateClause.deletedAt = sequelize.literal(`date_add(NOW(), interval ${global.deleteDelay} day)`)
+    const now = new Date()
+    const deletedAt = new Date(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() + global.deleteDelay)
+    const updateClause = {
+      deletedAt
     }
     await dashboard.Storage.Account.update(updateClause, {
       where: {

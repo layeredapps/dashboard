@@ -238,7 +238,40 @@ module.exports = async () => {
     modelName: 'profile'
   })
 
-  await sequelize.sync()
+  class Metric extends Model {}
+  Metric.init({
+    metricid: {
+      type: DataTypes.STRING(32),
+      primaryKey: true
+    },
+    object: {
+      type: DataTypes.VIRTUAL,
+      get () {
+        return 'metric'
+      }
+    },
+    name: {
+      type: DataTypes.VIRTUAL,
+      get () {
+        return this.getDataValue('metricid').split('/')[0]
+      }
+    },
+    dateKey: {
+      type: DataTypes.VIRTUAL,
+      get () {
+        return this.getDataValue('metricid').split('/')[1]
+      }
+    },
+    value: {
+      type: DataTypes.BIGINT,
+      defaultValue: 0
+    }
+  }, {
+    sequelize,
+    modelName: 'metric'
+  })
+  
+  await sequelize.sync({ alter: true })
   return {
     sequelize,
     flush: async () => {
@@ -246,11 +279,13 @@ module.exports = async () => {
       await Account.destroy({ where: {} })
       await ResetCode.destroy({ where: {} })
       await Session.destroy({ where: {} })
+      await Metric.destroy({ where: {} })
       await sequelize.sync()
     },
     Account,
     Session,
     ResetCode,
-    Profile
+    Profile,
+    Metric
   }
 }
