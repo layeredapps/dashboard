@@ -31,13 +31,9 @@ module.exports = {
     const dayKey = `${monthKey}-${dayPart}`
     const totalKey = `${metric}/total`
     if (process.env.STORAGE_METRICS === 'redis') {
-      await redisStorage.hSetNX('metrics', yearKey, 0)
       await redisStorage.hIncrBy('metrics', yearKey, amount || 1)
-      await redisStorage.hSetNX('metrics', monthKey, 0)
       await redisStorage.hIncrBy('metrics', monthKey, amount || 1)
-      await redisStorage.hSetNX('metrics', dayKey, 0)
       await redisStorage.hIncrBy('metrics', dayKey, amount || 1)
-      await redisStorage.hSetNX('metrics', totalKey, 0)
       await redisStorage.hIncrBy('metrics', totalKey, amount || 1)
     } else {
       // day
