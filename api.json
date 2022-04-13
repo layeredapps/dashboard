@@ -480,6 +480,9 @@
       "invalid-username": [
         "missing posted username"
       ],
+      "duplicate-username": [
+        "username already registered"
+      ],
       "invalid-username-length": [
         "posted username too short",
         "posted username too long"

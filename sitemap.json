@@ -263,8 +263,9 @@
     },
     "/administrator": {
       "htmlFilePath": "/src/www/administrator/index.html",
+      "jsFilePath": "/src/www/administrator/index.js",
       "templateDescription": "",
-      "verbs": "",
+      "verbs": "GET",
       "authDescription": ""
     },
     "/administrator/profile": {
@@ -387,6 +388,12 @@
     },
     "/api/administrator/deleted-accounts": {
       "jsFilePath": "/src/www/api/administrator/deleted-accounts.js",
+      "templateDescription": "",
+      "verbs": "GET",
+      "authDescription": ""
+    },
+    "/api/administrator/metric-keys": {
+      "jsFilePath": "/src/www/api/administrator/metric-keys.js",
       "templateDescription": "",
       "verbs": "GET",
       "authDescription": ""

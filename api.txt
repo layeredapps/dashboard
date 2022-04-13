@@ -1,4 +1,4 @@
-@layeredapps/dashboard 0.0.19
+@layeredapps/dashboard 0.0.20
 http://localhost:8000
 
 |------------------------------------------------------------------|
@@ -218,26 +218,28 @@ http://localhost:8000
 | RECEIVES----------------------------------| RETURNS--| EXCEPTIONS------------------------| CONFIGURATION------------------------------------|
 | required posted dob                       | object   | invalid-username                  | environment MINIMUM_USERNAME_LENGTH              |
 | required posted phone                     |          |  * missing posted username        | environment MAXIMUM_USERNAME_LENGTH              |
-| required posted occupation                |          | invalid-username-length           | environment MINIMUM_PASSWORD_LENGTH              |
-| required posted location                  |          |  * posted username too short      | environment MAXIMUM_PASSWORD_LENGTH              |
-| required posted display-email             |          |  * posted username too long       | environment REQUIRE_PROFILE                      |
-| required posted contact-email             |          | invalid-password                  | environment USER_PROFILE_FIELDS                  |
-| required posted company-name              |          |  * missing posted password        | environment MINIMUM_PROFILE_FIRST_NAME_LENGTH    |
-| required posted display-name              |          | invalid-password-length           | environment MAXIMUM_PROFILE_FIRST_NAME_LENGTH    |
-| required posted last-name                 |          |  * posted password too short      | environment MINIMUM_PROFILE_LAST_NAME_LENGTH     |
-| required posted first-name                |          |  * posted password too long       | environment MAXIMUM_PROFILE_LAST_NAME_LENGTH     |
-| required posted password                  |          | invalid-first-name                | environment MINIMUM_PROFILE_DISPLAY_NAME_LENGTH  |
-| required posted username                  |          |  * missing posted first-name      | environment MAXIMUM_PROFILE_DISPLAY_NAME_LENGTH  |
-| optionally-required posted first-name     |          | invalid-first-name-length         | environment MINIMUM_PROFILE_COMPANY_NAME_LENGTH  |
-| optionally-required posted last-name      |          |  * posted first-name too short    | environment MAXIMUM_PROFILE_COMPANY_NAME_LENGTH  |
-| optionally-required posted display-name   |          |  * posted first-name too long     | override req.userProfileFields                   |
-| optionally-required posted company-name   |          | invalid-last-name                 |                                                  |
-| optionally-required posted contact-email  |          |  * missing posted last-name       |                                                  |
-| optionally-required posted display-email  |          | invalid-last-name-length          |                                                  |
-| optionally-required posted location       |          |  * posted last-name too short     |                                                  |
-| optionally-required posted occupation     |          |  * posted last-name too long      |                                                  |
-| optionally-required posted phone          |          | invalid-display-name              |                                                  |
-| optionally-required posted dob            |          |  * missing posted display-name    |                                                  |
+| required posted occupation                |          | duplicate-username                | environment MINIMUM_PASSWORD_LENGTH              |
+| required posted location                  |          |  * username already registered    | environment MAXIMUM_PASSWORD_LENGTH              |
+| required posted display-email             |          | invalid-username-length           | environment REQUIRE_PROFILE                      |
+| required posted contact-email             |          |  * posted username too short      | environment USER_PROFILE_FIELDS                  |
+| required posted company-name              |          |  * posted username too long       | environment MINIMUM_PROFILE_FIRST_NAME_LENGTH    |
+| required posted display-name              |          | invalid-password                  | environment MAXIMUM_PROFILE_FIRST_NAME_LENGTH    |
+| required posted last-name                 |          |  * missing posted password        | environment MINIMUM_PROFILE_LAST_NAME_LENGTH     |
+| required posted first-name                |          | invalid-password-length           | environment MAXIMUM_PROFILE_LAST_NAME_LENGTH     |
+| required posted password                  |          |  * posted password too short      | environment MINIMUM_PROFILE_DISPLAY_NAME_LENGTH  |
+| required posted username                  |          |  * posted password too long       | environment MAXIMUM_PROFILE_DISPLAY_NAME_LENGTH  |
+| optionally-required posted first-name     |          | invalid-first-name                | environment MINIMUM_PROFILE_COMPANY_NAME_LENGTH  |
+| optionally-required posted last-name      |          |  * missing posted first-name      | environment MAXIMUM_PROFILE_COMPANY_NAME_LENGTH  |
+| optionally-required posted display-name   |          | invalid-first-name-length         | override req.userProfileFields                   |
+| optionally-required posted company-name   |          |  * posted first-name too short    |                                                  |
+| optionally-required posted contact-email  |          |  * posted first-name too long     |                                                  |
+| optionally-required posted display-email  |          | invalid-last-name                 |                                                  |
+| optionally-required posted location       |          |  * missing posted last-name       |                                                  |
+| optionally-required posted occupation     |          | invalid-last-name-length          |                                                  |
+| optionally-required posted phone          |          |  * posted last-name too short     |                                                  |
+| optionally-required posted dob            |          |  * posted last-name too long      |                                                  |
+|                                           |          | invalid-display-name              |                                                  |
+|                                           |          |  * missing posted display-name    |                                                  |
 |                                           |          | invalid-display-name-length       |                                                  |
 |                                           |          |  * posted display-name too short  |                                                  |
 |                                           |          |  * posted display-name too long   |                                                  |
