@@ -141,6 +141,7 @@ const dashboard = module.exports = {
       const Storage = require('./src/storage.js')
       dashboard.Storage = await Storage()
       dashboard.StorageCache = require('./src/storage-cache.js')
+      await dashboard.StorageCache.setup()
       dashboard.Metrics = require('./src/metrics.js')
       await dashboard.Metrics.setup(dashboard.Storage)
     }
