@@ -322,7 +322,7 @@ describe('/account/register', () => {
     })
 
     it('duplicate-username', async () => {
-      const user= await TestHelper.createUser()
+      const user = await TestHelper.createUser()
       const req = TestHelper.createRequest('/account/register')
       req.body = {
         username: user.account.username,

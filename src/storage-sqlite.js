@@ -270,7 +270,6 @@ module.exports = async () => {
     sequelize,
     modelName: 'metric'
   })
-  
   await sequelize.sync({ alter: true })
   return {
     sequelize,

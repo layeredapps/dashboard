@@ -70,7 +70,7 @@ async function renderPage (req, res) {
       dashboard.HTML.renderTemplate(doc, req.data.deleteRequestsChartHighlights, 'metric-highlights', 'delete-requests-highlights')
     } else {
       const deleteRequestsChartContainer = doc.getElementById('delete-requests-chart-container')
-      deleteRequestsChartContainer.parentNode.removeChild(deleteRequestsChartContainer)  
+      deleteRequestsChartContainer.parentNode.removeChild(deleteRequestsChartContainer)
     }
     if (req.data.accountsDeletedChartDays && req.data.accountsDeletedChartDays.length) {
       dashboard.HTML.renderList(doc, req.data.accountsDeletedChartDays, 'chart-column', 'accounts-deleted-chart')
@@ -78,11 +78,11 @@ async function renderPage (req, res) {
       dashboard.HTML.renderTemplate(doc, req.data.accountsDeletedChartHighlights, 'metric-highlights', 'accounts-deleted-highlights')
     } else {
       const accountsDeletedChartContainer = doc.getElementById('accounts-deleted-chart-container')
-      accountsDeletedChartContainer.parentNode.removeChild(accountsDeletedChartContainer)  
+      accountsDeletedChartContainer.parentNode.removeChild(accountsDeletedChartContainer)
     }
   } else {
     const deleteRequestsChartContainer = doc.getElementById('delete-requests-chart-container')
-    deleteRequestsChartContainer.parentNode.removeChild(deleteRequestsChartContainer)  
+    deleteRequestsChartContainer.parentNode.removeChild(deleteRequestsChartContainer)
     const accountsDeletedChartContainer = doc.getElementById('accounts-deleted-chart-container')
     accountsDeletedChartContainer.parentNode.removeChild(accountsDeletedChartContainer)
     const accountsTable = doc.getElementById('accounts-table')

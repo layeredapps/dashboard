@@ -64,7 +64,7 @@ module.exports = {
         }
         if (dateParts.length > 3) {
           throw new Error('invalid-key')
-        } 
+        }
       }
     }
     return metrics.keyRange(keys)

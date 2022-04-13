@@ -75,7 +75,7 @@ async function renderPage (req, res) {
       dashboard.HTML.renderTemplate(doc, req.data.createdChartHighlights, 'metric-highlights', 'created-highlights')
     } else {
       const createdChartContainer = doc.getElementById('created-chart-container')
-      createdChartContainer.parentNode.removeChild(createdChartContainer)  
+      createdChartContainer.parentNode.removeChild(createdChartContainer)
     }
     if (req.data.usedChartDays && req.data.usedChartDays.length) {
       dashboard.HTML.renderList(doc, req.data.usedChartDays, 'chart-column', 'used-chart')
@@ -83,13 +83,13 @@ async function renderPage (req, res) {
       dashboard.HTML.renderTemplate(doc, req.data.usedChartHighlights, 'metric-highlights', 'used-highlights')
     } else {
       const usedChartContainer = doc.getElementById('used-chart-container')
-      usedChartContainer.parentNode.removeChild(usedChartContainer)  
+      usedChartContainer.parentNode.removeChild(usedChartContainer)
     }
   } else {
     const createdChartContainer = doc.getElementById('created-chart-container')
-    createdChartContainer.parentNode.removeChild(createdChartContainer)  
+    createdChartContainer.parentNode.removeChild(createdChartContainer)
     const usedChartContainer = doc.getElementById('used-chart-container')
-    usedChartContainer.parentNode.removeChild(usedChartContainer)  
+    usedChartContainer.parentNode.removeChild(usedChartContainer)
     const resetCodesTable = doc.getElementById('reset-codes-table')
     resetCodesTable.parentNode.removeChild(resetCodesTable)
   }

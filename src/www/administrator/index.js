@@ -46,7 +46,7 @@ async function beforeRequest (req) {
     { object: 'object', value: Math.floor(resetCodesMaximum * 0.25) },
     { object: 'object', value: 0 }
   ]
-  req.data = { accountsDays, accountsHighlights, accountsValues, sessionsDays, sessionsHighlights, sessionsValues, resetCodesDays, resetCodesHighlights, resetCodesValues}
+  req.data = { accountsDays, accountsHighlights, accountsValues, sessionsDays, sessionsHighlights, sessionsValues, resetCodesDays, resetCodesHighlights, resetCodesValues }
 }
 
 function renderPage (req, res) {

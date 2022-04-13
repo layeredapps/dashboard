@@ -1,5 +1,4 @@
 const dashboard = require('../../../../index.js')
-const sequelize = require('sequelize')
 
 module.exports = {
   patch: async (req) => {

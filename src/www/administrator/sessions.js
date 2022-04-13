@@ -25,7 +25,7 @@ async function beforeRequest (req) {
     }
   }
   const offset = req.query ? req.query.offset || 0 : 0
-  let createdChartDays, createdChartHighlights, createdChartMaximum
+  let createdChartDays, createdChartHighlights, createdChartValues
   if (offset === 0) {
     // sessions-created chart
     req.query.keys = dashboard.Metrics.metricKeys('sessions-created', 365).join(',')

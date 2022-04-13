@@ -103,7 +103,7 @@ module.exports = {
       account = await dashboard.Storage.Account.create(accountInfo)
     } catch (error) {
       if (error.name === 'SequelizeUniqueConstraintError') {
-        throw new Error('duplicate-username') 
+        throw new Error('duplicate-username')
       }
     }
     if (!account) {
