@@ -11,7 +11,10 @@
   <body>
     <div class="container">
       <h1 translate="yes">Delete schedule</h1>
-      <p translate="yes">These accounts are waiting to be deleted.</p>
+      <p translate="yes">Accounts can be scheduled for deletion allowing a grace period for cancelation.</p>
+      <div id="no-organizations">
+        <p translate="yes">There are no accounts waiting to be deleted.</p>
+      </div>
       <div id="message-container"></div>
       <div class="charts" id="delete-requests-chart-container">
         <div class="chart">
@@ -52,7 +55,6 @@
         </div>
       </div>
       <div class="list-table-wrapper">
-        <h3>Pending deletes</h3>
         <table id="accounts-table" class="list-table">
           <thead>
             <tr>

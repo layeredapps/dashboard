@@ -43,12 +43,10 @@ module.exports = {
             throw new Error('invalid-key')
           }
         } catch (error) {
-          console.log(dateParts, month, error)
           throw new Error('invalid-key')
         }
         if (dateParts.length > 2) {
           const day = dateParts[2]
-          console.log(dateParts, day)
           if (day.length !== 2) {
             throw new Error('invalid-key')
           }

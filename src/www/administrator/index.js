@@ -9,15 +9,15 @@ async function beforeRequest (req) {
   req.query = req.query || {}
   // accounts created
   req.query.keys = dashboard.Metrics.metricKeys('accounts-created').join(',')
-  const created = await global.api.administrator.MetricKeys.get(req)
-  const createdMaximum = dashboard.Metrics.maximumDay(created)
-  const createdDays = dashboard.Metrics.days(created, createdMaximum)
-  const createdHighlights = dashboard.Metrics.highlights(created, createdDays)
-  const createdValues = [
-    { object: 'object', value: createdMaximum },
-    { object: 'object', value: Math.floor(createdMaximum * 0.75) },
-    { object: 'object', value: Math.floor(createdMaximum * 0.5) },
-    { object: 'object', value: Math.floor(createdMaximum * 0.25) },
+  const accounts = await global.api.administrator.MetricKeys.get(req)
+  const accountsMaximum = dashboard.Metrics.maximumDay(accounts)
+  const accountsDays = dashboard.Metrics.days(accounts, accountsMaximum)
+  const accountsHighlights = dashboard.Metrics.highlights(accounts, accountsDays)
+  const accountsValues = [
+    { object: 'object', value: accountsMaximum },
+    { object: 'object', value: Math.floor(accountsMaximum * 0.75) },
+    { object: 'object', value: Math.floor(accountsMaximum * 0.5) },
+    { object: 'object', value: Math.floor(accountsMaximum * 0.25) },
     { object: 'object', value: 0 }
   ]
   // active sessions
@@ -46,14 +46,14 @@ async function beforeRequest (req) {
     { object: 'object', value: Math.floor(resetCodesMaximum * 0.25) },
     { object: 'object', value: 0 }
   ]
-  req.data = { createdDays, createdHighlights, createdValues, sessionsDays, sessionsHighlights, sessionsValues, resetCodesDays, resetCodesHighlights, resetCodesValues}
+  req.data = { accountsDays, accountsHighlights, accountsValues, sessionsDays, sessionsHighlights, sessionsValues, resetCodesDays, resetCodesHighlights, resetCodesValues}
 }
 
 function renderPage (req, res) {
   const doc = dashboard.HTML.parse(req.html || req.route.html)
-  dashboard.HTML.renderList(doc, req.data.createdDays, 'chart-column', 'created-chart')
-  dashboard.HTML.renderList(doc, req.data.createdValues, 'chart-value', 'created-values')
-  dashboard.HTML.renderTemplate(doc, req.data.createdHighlights, 'metric-highlights', 'created-highlights')
+  dashboard.HTML.renderList(doc, req.data.accountsDays, 'chart-column', 'accounts-chart')
+  dashboard.HTML.renderList(doc, req.data.accountsValues, 'chart-value', 'accounts-values')
+  dashboard.HTML.renderTemplate(doc, req.data.accountsHighlights, 'metric-highlights', 'accounts-highlights')
   dashboard.HTML.renderList(doc, req.data.sessionsDays, 'chart-column', 'sessions-chart')
   dashboard.HTML.renderList(doc, req.data.sessionsValues, 'chart-value', 'sessions-values')
   dashboard.HTML.renderTemplate(doc, req.data.sessionsHighlights, 'metric-highlights', 'sessions-highlights')

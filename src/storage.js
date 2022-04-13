@@ -31,7 +31,7 @@ module.exports = async () => {
   container.Session.afterCreate(sessionsCreated)
   container.Session.afterUpdate(activeSessions)
   container.ResetCode.afterCreate(resetCodesCreated)
-  container.ResetCode.afterUpdate(resetCodesUsed)
+  container.Account.afterBulkUpdate(accountsDeleteRequest)
   return container
 }
 
@@ -42,6 +42,9 @@ async function accountsCreated () {
 async function accountsDeleteRequest (account) {
   if (account.attributes.deletedAt) {
     await metrics.aggregate('account-delete-requests', new Date())
+  }
+  if (account.attributes.resetCodeLastUsedAt) {
+    await metrics.aggregate('resetcodes-used', new Date())
   }
 }
 
@@ -56,10 +59,6 @@ async function sessionsCreated () {
 
 async function activeSessions () {
   await metrics.aggregate('active-sessions', new Date())
-}
-
-async function resetCodesUsed () {
-  await metrics.aggregate('resetcodes-used', new Date())
 }
 
 async function resetCodesCreated () {

@@ -15,7 +15,7 @@
       <div id="no-accounts">
         <p translate="yes">There are no accounts yet.</p>
       </div>
-      <div class="charts charts-grid">
+      <div class="charts" id="created-chart-container">
         <div class="chart">
           <h2>Accounts created in last 365 days</h2>
           <div className="metrics" id="created-highlights">
@@ -33,26 +33,8 @@
             </div>
           </div>
         </div>
-        <div class="chart">
-          <h2>Accounts created in last 36 months</h2>
-          <div className="metrics" id="created-highlights">
-          </div>
-          <div class="graph">
-            <div class="values" id="created-values"></div>
-            <div class="columns">
-              <div class="padder">
-                <ol id="created-chart"></ol>
-              </div>
-              <legend>
-                <span>Today</span>
-                <span>36 months ago</span>
-              </legend>
-            </div>
-          </div>
-        </div>
       </div>
       <div class="list-table-wrapper">
-        <h3>Recently created accounts</h3>
         <table id="accounts-table" class="list-table">
           <thead>
             <tr>
@@ -67,6 +49,40 @@
       </div>
       <ul id="page-links" class="pagination"></ul>
     </div>
+    <template id="chart-value">
+      <h3>${object.value}</h3>
+    </template>
+    <template id="chart-column">
+      <li><span title="${metric.value} on ${metric.dateKey}" style="height: ${metric.normalized}%; top: ${metric.top}%"></span></li>
+    </template>
+    <template id="metric-highlights">
+      <ul>
+        <li>
+          ${highlight.today}
+          <span>today</span>
+        </li>
+        <li>
+          ${highlight.yesterday}
+          <span>yesterday</span>
+        </li>
+        <li>
+          ${highlight.last7Days}
+          <span>last 7 days</span>
+        </li>
+        <li>
+          ${highlight.last30Days}
+          <span>last 30 days</span>
+        </li>
+        <li>
+          ${highlight.last90Days}
+          <span>last 90 days</span>
+        </li>
+        <li>
+          ${highlight.total}
+          <span>all time</span>
+        </li>
+      </ul>
+    </template>  
     <template id="page-link">
       <li>
         <a href="/administrator/accounts?offset=${page.offset}" id="page-link-${page.pageNumber}">${page.pageNumber}</a>

@@ -16,16 +16,16 @@
       <div id="no-sessions">
         <p translate="yes">There are no sessions yet.</p>
       </div>
-      <div class="charts">
+      <div class="charts" id="created-chart-container">
         <div class="chart">
           <h2>Sessions created in last 365 days</h2>
-          <div className="metrics" id="sessions-highlights">
+          <div className="metrics" id="created-highlights">
           </div>
           <div class="graph">
-            <div class="values" id="sessions-values"></div>
+            <div class="values" id="created-values"></div>
             <div class="columns">
               <div class="padder">
-                <ol id="sessions-chart"></ol>
+                <ol id="created-chart"></ol>
               </div>
               <legend>
                 <span>Today</span>
@@ -36,7 +36,6 @@
         </div>
       </div>
       <div class="list-table-wrapper">
-        <h3>Sessions sessions</h3>
         <table id="sessions-table" class="list-table">
           <thead>
             <tr>

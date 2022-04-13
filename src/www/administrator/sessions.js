@@ -25,20 +25,23 @@ async function beforeRequest (req) {
     }
   }
   const offset = req.query ? req.query.offset || 0 : 0
-  // sessions-created chart
-  req.query.keys = dashboard.Metrics.metricKeys('sessions-created', 365).join(',')
-  const sessionsChart = await global.api.administrator.MetricKeys.get(req)
-  const sessionsChartMaximum = dashboard.Metrics.maximumDay(sessionsChart)
-  const sessionsChartDays = dashboard.Metrics.days(sessionsChart, sessionsChartMaximum)
-  const sessionsChartHighlights = dashboard.Metrics.highlights(sessionsChart, sessionsChartDays)
-  const sessionsChartValues = [
-    { object: 'object', value: sessionsChartMaximum },
-    { object: 'object', value: Math.floor(sessionsChartMaximum * 0.75) },
-    { object: 'object', value: Math.floor(sessionsChartMaximum * 0.5) },
-    { object: 'object', value: Math.floor(sessionsChartMaximum * 0.25) },
-    { object: 'object', value: 0 }
-  ]
-  req.data = { sessions, total, offset, sessionsChartDays, sessionsChartValues, sessionsChartHighlights }
+  let createdChartDays, createdChartHighlights, createdChartMaximum
+  if (offset === 0) {
+    // sessions-created chart
+    req.query.keys = dashboard.Metrics.metricKeys('sessions-created', 365).join(',')
+    const createdChart = await global.api.administrator.MetricKeys.get(req)
+    const createdChartMaximum = dashboard.Metrics.maximumDay(createdChart)
+    createdChartDays = dashboard.Metrics.days(createdChart, createdChartMaximum)
+    createdChartHighlights = dashboard.Metrics.highlights(createdChart, createdChartDays)
+    createdChartValues = [
+      { object: 'object', value: createdChartMaximum },
+      { object: 'object', value: Math.floor(createdChartMaximum * 0.75) },
+      { object: 'object', value: Math.floor(createdChartMaximum * 0.5) },
+      { object: 'object', value: Math.floor(createdChartMaximum * 0.25) },
+      { object: 'object', value: 0 }
+    ]
+  }
+  req.data = { sessions, total, offset, createdChartDays, createdChartValues, createdChartHighlights }
 }
 
 async function renderPage (req, res) {
@@ -53,12 +56,19 @@ async function renderPage (req, res) {
     }
     const noSessions = doc.getElementById('no-sessions')
     noSessions.parentNode.removeChild(noSessions)
-    dashboard.HTML.renderList(doc, req.data.sessionsChartDays, 'chart-column', 'sessions-chart')
-    dashboard.HTML.renderList(doc, req.data.sessionsChartValues, 'chart-value', 'sessions-values')
-    dashboard.HTML.renderTemplate(doc, req.data.sessionsChartHighlights, 'metric-highlights', 'sessions-highlights')
+    if (req.data.createdChartDays && req.data.createdChartDays.length) {
+      dashboard.HTML.renderList(doc, req.data.createdChartDays, 'chart-column', 'created-chart')
+      dashboard.HTML.renderList(doc, req.data.createdChartValues, 'chart-value', 'created-values')
+      dashboard.HTML.renderTemplate(doc, req.data.createdChartHighlights, 'metric-highlights', 'created-highlights')
+    } else {
+      const createdChart = doc.getElementById('created-chart-container')
+      createdChart.parentNode.removeChild(createdChart)
+    }
   } else {
     const sessionsTable = doc.getElementById('sessions-table')
     sessionsTable.parentNode.removeChild(sessionsTable)
+    const createdChart = doc.getElementById('created-chart-container')
+    createdChart.parentNode.removeChild(createdChart)
   }
   return dashboard.Response.end(req, res, doc)
 }

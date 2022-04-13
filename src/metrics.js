@@ -1,4 +1,3 @@
-const sequelize = require('sequelize')
 const upsertedCache = {}
 let redisStorage, dashboardStorage
 
@@ -18,7 +17,7 @@ module.exports = {
       dashboardStorage = storage
     }
   },
-  aggregate: async (metric, date) => {
+  aggregate: async (metric, date, amount) => {
     let monthPart = (date.getUTCMonth() + 1).toString()
     if (monthPart.length === 1) {
       monthPart = `0${monthPart}`
@@ -83,7 +82,7 @@ module.exports = {
         upsertedCache[totalKey] = true
       }
       // clear cached keys except the ones we just used
-      if (Object.keys(upsertedCache).length > 100) {
+      if (Object.keys(upsertedCache).length > 100 || process.env.NODE_ENV === 'testing') {
         for (const key in upsertedCache) {
           if (key !== dayKey && key !== monthKey && key !== yearKey && key !== totalKey) {
             delete (upsertedCache[key])
@@ -92,7 +91,7 @@ module.exports = {
       }
       // increase the values for the aggregate keys
       await dashboardStorage.Metric.increment({ 
-        value: 1
+        value: amount || 1
       }, { 
         where: { 
           metricid: [
@@ -148,7 +147,6 @@ module.exports = {
 function maximumDay (data) {
   let maximum = 0
   for (const row of data) {
-    console.log(row)
     if (row.metricid.endsWith('/total')) {
       continue
     }
@@ -245,7 +243,6 @@ function metricKeys (metric, days) {
   // last 90 days
   for (let i = 0; i < days; i++) {
     const date = i > 0 ? new Date(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() - i, 0, 0, 0, 0) : now
-    console.log(i, now, date)
     keys.push(`${metric}/${date.getUTCFullYear()}-${twoDigits(date.getUTCMonth() + 1)}-${twoDigits(date.getUTCDate())}`)
   }
   return keys

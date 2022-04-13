@@ -16,7 +16,6 @@ function renderPage (req, res, messageTemplate) {
     messageTemplate = 'registration-disabled'
   }
   if (messageTemplate) {
-    console.log(messageTemplate)
     dashboard.HTML.renderTemplate(doc, null, messageTemplate, 'message-container')
     if (messageTemplate === 'registration-disabled') {
       const submitForm = doc.getElementById('form-container')
@@ -148,7 +147,6 @@ async function submitForm (req, res) {
   try {
     await global.api.user.CreateAccount.post(req)
   } catch (error) {
-    console.log(error)
     return renderPage(req, res, error.message)
   }
   req.route = global.sitemap['/account/signin']

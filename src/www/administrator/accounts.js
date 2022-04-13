@@ -27,7 +27,23 @@ async function beforeRequest (req) {
     }
   }
   const offset = req.query ? req.query.offset || 0 : 0
-  req.data = { accounts, total, offset }
+  let createdDays, createdHighlights, createdValues
+  if (offset === 0) {
+    // accounts created
+    req.query.keys = dashboard.Metrics.metricKeys('accounts-created', 365).join(',')
+    const created = await global.api.administrator.MetricKeys.get(req)
+    const createdMaximum = dashboard.Metrics.maximumDay(created)
+    createdDays = dashboard.Metrics.days(created, createdMaximum)
+    createdHighlights = dashboard.Metrics.highlights(created, createdDays)
+    createdValues = [
+      { object: 'object', value: createdMaximum },
+      { object: 'object', value: Math.floor(createdMaximum * 0.75) },
+      { object: 'object', value: Math.floor(createdMaximum * 0.5) },
+      { object: 'object', value: Math.floor(createdMaximum * 0.25) },
+      { object: 'object', value: 0 }
+    ]
+  }
+  req.data = { accounts, total, offset, createdDays, createdHighlights, createdValues }
 }
 
 async function renderPage (req, res) {
@@ -42,6 +58,14 @@ async function renderPage (req, res) {
     }
     const noAccounts = doc.getElementById('no-accounts')
     noAccounts.parentNode.removeChild(noAccounts)
+    if (req.data.createdDays) {
+      dashboard.HTML.renderList(doc, req.data.createdDays, 'chart-column', 'created-chart')
+      dashboard.HTML.renderList(doc, req.data.createdValues, 'chart-value', 'created-values')
+      dashboard.HTML.renderTemplate(doc, req.data.createdHighlights, 'metric-highlights', 'created-highlights')
+    } else {
+      const createdChart = doc.getElementById('created-chart-container')
+      createdChart.parentNode.removeChild(createdChart)
+    }
   } else {
     const accountsTable = doc.getElementById('accounts-table')
     accountsTable.parentNode.removeChild(accountsTable)
