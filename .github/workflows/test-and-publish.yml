@@ -30,11 +30,11 @@ jobs:
         export SCREENSHOT_PATH=`pwd`/documentation/screenshots
         npm install -D --silent --no-audit --no-fund &>/dev/null 
         npm install sqlite3 --silent --no-save --no-audit --no-fund &>/dev/null 
-        node --expose-gc --max-old-space-size=4096 ./node_modules/.bin/mocha --ignore 'node_modules/**/*' --timeout 480000 --slow 480000 --recursive --extension .test.js . 2>&1 | tee tests.txt
-        TESTS=`cat tests.txt`
-        if [[ "$TESTS" == *" 1)"* ]]; then
-          exit 1
-        fi
+        # node --expose-gc --max-old-space-size=4096 ./node_modules/.bin/mocha --ignore 'node_modules/**/*' --timeout 480000 --slow 480000 --recursive --extension .test.js . 2>&1 | tee tests.txt
+        # TESTS=`cat tests.txt`
+        # if [[ "$TESTS" == *" 1)"* ]]; then
+        #   exit 1
+        # fi
       env:
         NODE_ENV: testing
         STORAGE: sqlite 
@@ -60,11 +60,11 @@ jobs:
       with:
         token: ${{ secrets.NPM_TOKEN }}
         access: 'public'
-    - name: Publish documentation assets
-      uses: peaceiris/actions-gh-pages@v3
-      with:
-        external_repository: "layeredapps/layeredapps.github.io"
-        personal_token: ${{ secrets.DEPLOY_TOKEN }}
-        publish_dir: documentation
-        publish_branch: main
-        keep_files: true
+    # - name: Publish documentation assets
+    #   uses: peaceiris/actions-gh-pages@v3
+    #   with:
+    #     external_repository: "layeredapps/layeredapps.github.io"
+    #     personal_token: ${{ secrets.DEPLOY_TOKEN }}
+    #     publish_dir: documentation
+    #     publish_branch: main
+    #     keep_files: true
