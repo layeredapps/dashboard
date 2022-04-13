@@ -465,6 +465,7 @@
       ✔ should create account (screenshots)
     errors
       ✔ invalid-username
+      ✔ duplicate-username
       ✔ invalid-username-length
       ✔ invalid-password
       ✔ invalid-password-length
@@ -1004,6 +1005,8 @@
     exceptions
       invalid-username
         ✔ missing posted username
+      duplicate-username
+        ✔ username already registered
       invalid-username-length
         ✔ posted username too short
         ✔ posted username too long
@@ -1485,5 +1488,5 @@
       ✔ override req.userProfileFields
 
 
-  821 passing (14m)
+  823 passing (23m)
 
