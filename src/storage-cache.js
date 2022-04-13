@@ -76,7 +76,7 @@ module.exports = {
     return storageCache.remove(key)
   },
   close: () => {
-    if (storageCache.close) {
+    if (storageCache && storageCache.close) {
       return storageCache.close()
     }
   }
