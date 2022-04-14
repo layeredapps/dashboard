@@ -2,7 +2,7 @@ const { Sequelize } = require('sequelize')
 
 module.exports = async () => {
   const sequelize = new Sequelize(process.env.DB2_DATABASE, process.env.DB2_USERNAME, process.env.DB2_PASSWORD, {
-    logging: true,
+    logging: false,
     dialect: 'db2',
     host: process.env.DB2_HOST,
     port: process.env.DB2_PORT,
