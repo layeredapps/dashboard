@@ -135,7 +135,7 @@ module.exports = async () => {
         return rawValue ? new Date(Date.parse(rawValue)) : undefined
       }
     },
-    // 'createdAt' is specified for each model because mysql/mariadb truncate 
+    // 'createdAt' is specified for each model because mysql/mariadb truncate
     // the ms and this makes the return order unpredictable and throws off the
     // test suites expecting the write order to match the return order
     createdAt: {
