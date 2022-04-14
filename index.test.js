@@ -12,8 +12,6 @@ const properties = [
   { camelCase: 'applicationServer', raw: 'APPLICATION_SERVER', description: 'URL of application server', value: 'http://localhost:3000', noDefaultValue: true, valueDescription: 'Address' },
   { camelCase: 'applicationServerToken', raw: 'APPLICATION_SERVER_TOKEN', description: 'Secret shared between servers', value: 'secret', noDefaultValue: true, valueDescription: 'String' },
   { camelCase: 'bcryptWorkloadFactor', raw: 'BCRYPT_WORKLOAD_FACTOR', description: 'Strength to protect passwords', value: '4', default: '10', valueDescription: 'Integer' },
-  { camelCase: 'encryptionSecret', raw: 'ENCRYPTION_SECRET', description: '32-character secret string', value: '0123456789abcdef0123456789abcdef', noDefaultValue: true, valueDescription: 'String' },
-  { camelCase: 'encryptionSecretIV', raw: 'ENCRYPTION_SECRET_IV', description: '16-character secret string', value: '0123456789abcdef', noDefaultValue: true, valueDescription: 'String' },
   { camelCase: 'disableRegistration', raw: 'DISABLE_REGISTRATION', description: 'Disable UI (not API) for registering', value: 'false', default: '', valueDescription: 'Boolean' },
   { camelCase: 'minimumPasswordLength', raw: 'MINIMUM_PASSWORD_LENGTH', description: 'Shortest password length', value: '1', default: '1', valueDescription: 'Integer' },
   { camelCase: 'maximumPasswordLength', raw: 'MAXIMUM_PASSWORD_LENGTH', description: 'Longest password length', value: '1000', default: '50', valueDescription: 'Integer' },
@@ -40,13 +38,6 @@ describe('index', () => {
                 process.env.APPLICATION_SERVER = `http://localhost:${port}`
               }
             }
-            if (property.raw.startsWith('ENCRYPTION_')) {
-              if (property.raw === 'ENCRYPTION_SECRET') {
-                process.env.ENCRYPTION_SECRET_IV = '0123456789abcdef'
-              } else {
-                process.env.ENCRYPTION_SECRET = '0123456789abcdef0123456789abcdef'
-              }
-            }
             delete (process.env[property.raw])
             delete require.cache[require.resolve('./index.js')]
             require('./index.js')
@@ -62,13 +53,6 @@ describe('index', () => {
               process.env.APPLICATION_SERVER_TOKEN = 'a secret string'
             } else {
               process.env.APPLICATION_SERVER = `http://localhost:${port}`
-            }
-          }
-          if (property.raw.startsWith('ENCRYPTION_')) {
-            if (property.raw === 'ENCRYPTION_SECRET') {
-              process.env.ENCRYPTION_SECRET_IV = '0123456789abcdef'
-            } else {
-              process.env.ENCRYPTION_SECRET = '0123456789abcdef0123456789abcdef'
             }
           }
           delete require.cache[require.resolve('./index.js')]

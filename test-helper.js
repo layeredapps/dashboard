@@ -11,8 +11,6 @@ const defaultConfigurationValues = {
   language: 'en',
   enableLanguagePreference: false,
   testModuleJSON: null,
-  encryptionSecret: process.env.ENCRYPTION_SECRET || '',
-  encryptionSecretIV: process.env.ENCRYPTION_SECRET_IV || '',
   requireProfile: false,
   disableRegistration: false,
   userProfileFields: ['full-name', 'contact-email'],

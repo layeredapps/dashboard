@@ -20,19 +20,6 @@ global.bcryptWorkloadFactor = parseInt(process.env.BCRYPT_WORKLOAD_FACTOR || '10
 if (!global.dashboardSessionKey) {
   throw new Error('Invalid DASHBOARD_SESSION_KEY')
 }
-if (process.env.ENCRYPTION_SECRET &&
-  process.env.ENCRYPTION_SECRET.length !== 32) {
-  throw new Error('Invalid ENCRYPTION_SECRET length (32)')
-}
-if (process.env.ENCRYPTION_SECRET &&
-   (!process.env.ENCRYPTION_SECRET_IV ||
-  process.env.ENCRYPTION_SECRET_IV.length !== 16)) {
-  throw new Error('Invalid ENCRYPTION_SECRET_IV length (16)')
-}
-if (process.env.ENCRYPTION_SECRET) {
-  global.encryptionSecret = process.env.ENCRYPTION_SECRET
-  global.encryptionSecretIV = process.env.ENCRYPTION_SECRET_IV
-}
 global.disableRegistration = process.env.DISABLE_REGISTRATION === 'true'
 global.requireProfile = process.env.REQUIRE_PROFILE === 'true'
 global.profileFields = ['display-name', 'display-email', 'contact-email', 'full-name', 'dob', 'phone', 'occupation', 'location', 'company-name', 'website']
