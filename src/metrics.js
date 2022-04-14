@@ -112,15 +112,16 @@ module.exports = {
       })
     }
   },
-  keyRange: async (keys) => {
+  keyRange: async (appid, keys) => {
     if (process.env.STORAGE_METRICS === 'redis') {
-      const response = await redisStorage.hmGet('metrics', keys)
+      const response = await redisStorage.hmGet(`${appid}/metrics`, keys)
       const data = []
       for (const i in keys) {
         if (!response[i]) {
           continue
         }
         const object = {
+          appid,
           metricid: keys[i],
           value: parseInt(response[i], 10)
         }
@@ -130,6 +131,7 @@ module.exports = {
     } else {
       const rawData = await dashboardStorage.Metric.findAll({
         where: {
+          appid,
           metricid: keys
         }
       })

@@ -67,6 +67,6 @@ module.exports = {
         }
       }
     }
-    return metrics.keyRange(keys)
+    return metrics.keyRange(req.appid || global.appid, keys)
   }
 }
