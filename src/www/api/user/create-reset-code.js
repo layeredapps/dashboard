@@ -27,7 +27,8 @@ module.exports = {
     }
     const resetCode = await dashboard.Storage.ResetCode.create(resetCodeInfo)
     await dashboard.Storage.Account.update({
-      resetCodeLastCreatedAt: sequelize.literal('CURRENT_TIMESTAMP')
+      resetCodeLastCreatedAt: new Date(),
+      appid: req.appid || global.appid
     }, {
       where: {
         accountid: req.query.accountid

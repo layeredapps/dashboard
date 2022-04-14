@@ -11,7 +11,8 @@ module.exports = {
     }
     req.body = req.body || {}
     const profileInfo = {
-      accountid: req.query.accountid
+      accountid: req.query.accountid,
+      appid: req.appid || global.appid
     }
     const profileFields = req.userProfileFields || global.userProfileFields
     const accountProperties = {}

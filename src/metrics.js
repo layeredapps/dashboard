@@ -17,7 +17,7 @@ module.exports = {
       dashboardStorage = storage
     }
   },
-  aggregate: async (metric, date, amount) => {
+  aggregate: async (appid, metric, date, amount) => {
     let monthPart = (date.getUTCMonth() + 1).toString()
     if (monthPart.length === 1) {
       monthPart = `0${monthPart}`
@@ -31,54 +31,62 @@ module.exports = {
     const dayKey = `${monthKey}-${dayPart}`
     const totalKey = `${metric}/total`
     if (process.env.STORAGE_METRICS === 'redis') {
-      await redisStorage.hIncrBy('metrics', yearKey, amount || 1)
-      await redisStorage.hIncrBy('metrics', monthKey, amount || 1)
-      await redisStorage.hIncrBy('metrics', dayKey, amount || 1)
-      await redisStorage.hIncrBy('metrics', totalKey, amount || 1)
+      await redisStorage.hIncrBy(`${appid}/metrics`, yearKey, amount || 1)
+      await redisStorage.hIncrBy(`${appid}/metrics`, monthKey, amount || 1)
+      await redisStorage.hIncrBy(`${appid}/metrics`, dayKey, amount || 1)
+      await redisStorage.hIncrBy(`${appid}/metrics`, totalKey, amount || 1)
     } else {
       // day
-      if (!upsertedCache[dayKey]) {
+      if (!upsertedCache[`${appid}/${dayKey}`]) {
         await dashboardStorage.Metric.upsert({
-          metricid: dayKey
+          metricid: dayKey,
+          appid
         }, {
           where: {
-            metricid: dayKey
+            metricid: dayKey,
+            appid
           }
         })
-        upsertedCache[dayKey] = true
+        upsertedCache[`${appid}/${dayKey}`] = true
       }
       // month
-      if (!upsertedCache[monthKey]) {
+      if (!upsertedCache[`${appid}/${monthKey}`]) {
         await dashboardStorage.Metric.upsert({
-          metricid: monthKey
+          metricid: monthKey,
+          appid
         }, {
           where: {
-            metricid: monthKey
+            metricid: monthKey,
+            appid
           }
         })
-        upsertedCache[monthKey] = true
+        upsertedCache[`${appid}/${monthKey}`] = true
       }
       // year
-      if (!upsertedCache[yearKey]) {
+      if (!upsertedCache[`${appid}/${yearKey}`]) {
         await dashboardStorage.Metric.upsert({
-          metricid: yearKey
+          metricid: yearKey,
+          appid
         }, {
           where: {
-            metricid: yearKey
+            metricid: yearKey,
+            appid
           }
         })
-        upsertedCache[yearKey] = true
+        upsertedCache[`${appid}/${yearKey}`] = true
       }
       // total
-      if (!upsertedCache[totalKey]) {
+      if (!upsertedCache[`${appid}/${totalKey}`]) {
         await dashboardStorage.Metric.upsert({
-          metricid: totalKey
+          metricid: totalKey,
+          appid
         }, {
           where: {
-            metricid: totalKey
+            metricid: totalKey,
+            appid
           }
         })
-        upsertedCache[totalKey] = true
+        upsertedCache[`${appid}/${totalKey}`] = true
       }
       // clear cached keys except the ones we just used
       if (Object.keys(upsertedCache).length > 100 || process.env.NODE_ENV === 'testing') {
@@ -93,6 +101,7 @@ module.exports = {
         value: amount || 1
       }, {
         where: {
+          appid,
           metricid: [
             dayKey,
             monthKey,

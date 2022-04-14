@@ -87,6 +87,7 @@ module.exports = {
     const usernameHash = await dashboard.Hash.sha512Hash(req.body.username, dashboardEncryptionKey)
     const passwordHash = await dashboard.Hash.bcryptHashHash(req.body.password, dashboardEncryptionKey)
     const accountInfo = {
+      appid: req.appid || global.appid,
       usernameHash,
       passwordHash,
       sessionKey: dashboard.UUID.random(64),
