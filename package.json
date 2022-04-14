@@ -15,9 +15,15 @@
   "description": "Dashboard for building web apps and SaaS",
   "devDependencies": {
     "@faker-js/faker": "latest",
+    "ibm_db": "latest",
     "mocha": "latest",
+    "mysql2": "latest",
+    "pg": "latest",
+    "pg-hstore": "latest",
     "puppeteer": "latest",
-    "standard": "latest"
+    "sqlite3": "latest",
+    "standard": "latest",
+    "tedious": "latest"
   },
   "peerDependenciesMeta": {
     "pg": {
@@ -30,12 +36,6 @@
       "optional": true
     },
     "ibm_db": {
-      "optional": true
-    },
-    "odbc": {
-      "optional": true
-    },
-    "snowflake-sdk": {
       "optional": true
     },
     "mariadb": {
