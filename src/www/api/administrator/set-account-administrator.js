@@ -1,5 +1,4 @@
 const dashboard = require('../../../../index.js')
-const sequelize = require('sequelize')
 
 module.exports = {
   /**
@@ -19,7 +18,7 @@ module.exports = {
       throw new Error('invalid-account')
     }
     await dashboard.Storage.Account.update({
-      administratorSince: sequelize.literal('CURRENT_TIMESTAMP')
+      administratorSince: new Date()
     }, {
       where: {
         accountid: req.query.accountid

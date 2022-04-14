@@ -1,5 +1,4 @@
 const dashboard = require('../../../../index.js')
-const sequelize = require('sequelize')
 
 module.exports = {
   /**
@@ -19,7 +18,7 @@ module.exports = {
     }
     await dashboard.Storage.Account.update({
       sessionKey: dashboard.UUID.random(64),
-      sessionKeyLastResetAt: sequelize.literal('CURRENT_TIMESTAMP'),
+      sessionKeyLastResetAt: new Date(),
       sessionKeyNumber: account.sessionKeyNumber + 1
     }, {
       where: {

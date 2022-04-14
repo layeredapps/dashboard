@@ -1,5 +1,4 @@
 const dashboard = require('../../../../index.js')
-const sequelize = require('sequelize')
 
 module.exports = {
   delete: async (req) => {
@@ -19,7 +18,7 @@ module.exports = {
       }
     })
     await dashboard.Storage.Account.update({
-      profileLastDeleted: sequelize.literal('CURRENT_TIMESTAMP')
+      profileLastDeleted: new Date()
     }, {
       where: {
         accountid: profile.accountid

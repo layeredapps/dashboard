@@ -1,5 +1,4 @@
 const dashboard = require('../../../../index.js')
-const sequelize = require('sequelize')
 
 module.exports = {
   auth: false,
@@ -95,8 +94,8 @@ module.exports = {
     }
     const otherUsersExist = await dashboard.Storage.Account.findOne()
     if (!otherUsersExist) {
-      accountInfo.administratorSince = sequelize.literal('CURRENT_TIMESTAMP')
-      accountInfo.ownerSince = sequelize.literal('CURRENT_TIMESTAMP')
+      accountInfo.administratorSince = new Date()
+      accountInfo.ownerSince = new Date()
     }
     let account
     try {

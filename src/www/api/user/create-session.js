@@ -56,6 +56,7 @@ module.exports = {
     const tokenHash = await dashboard.Hash.sha512Hash(`${account.accountid}/${sessionToken}/${account.sessionKey}/${dashboardSessionKey}`, dashboardEncryptionKey)
     const sessionInfo = {
       accountid: account.accountid,
+      appid: req.appid || global.appid,
       tokenHash: tokenHash,
       sessionKeyNumber: account.sessionKeyNumber,
       duration

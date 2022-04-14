@@ -1,5 +1,4 @@
 const dashboard = require('../../../../index.js')
-const sequelize = require('sequelize')
 
 module.exports = {
   patch: async (req) => {
@@ -49,7 +48,7 @@ module.exports = {
       throw new Error('invalid-password')
     }
     await dashboard.Storage.Session.update({
-      lastVerifiedAt: sequelize.literal('CURRENT_TIMESTAMP')
+      lastVerifiedAt: new Date()
     }, {
       where: {
         sessionid: req.session.sessionid

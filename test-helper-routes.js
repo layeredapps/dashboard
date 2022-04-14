@@ -1,5 +1,4 @@
 const dashboard = require('./index.js')
-const sequelize = require('sequelize')
 
 module.exports = {
   requireVerification: {
@@ -14,14 +13,10 @@ module.exports = {
         if (req.query.sessionid !== req.session.sessionid) {
           throw new Error('invalid-session')
         }
+        const now = new Date()
         const days = req.query.days || 1
-        const updateClause = {}
-        if (!process.env.STORAGE || process.env.STORAGE === 'sqlite') {
-          updateClause.lastVerifiedAt = sequelize.fn('datetime', sequelize.literal('CURRENT_TIMESTAMP'), `-${days} days`)
-        } else if (process.env.STORAGE === 'postgresql') {
-          updateClause.lastVerifiedAt = sequelize.literal(`NOW() - interval '${days}d'`)
-        } else if (process.env.STORAGE === 'mariadb' || process.env.STORAGE === 'mysql') {
-          updateClause.lastVerifiedAt = sequelize.literal(`date_add(NOW(), interval -${global.deleteDelay} day)`)
+        const updateClause = {
+          lastVerifiedAt: new Date(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() - days, now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds())
         }
         await dashboard.Storage.Session.update(updateClause, {
           where: {

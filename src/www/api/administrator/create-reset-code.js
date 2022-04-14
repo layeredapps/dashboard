@@ -1,4 +1,3 @@
-const sequelize = require('sequelize')
 const dashboard = require('../../../../index.js')
 
 module.exports = {
@@ -27,7 +26,7 @@ module.exports = {
       secretCodeHash
     })
     await dashboard.Storage.Account.update({
-      resetCodeLastCreatedAt: sequelize.literal('CURRENT_TIMESTAMP')
+      resetCodeLastCreatedAt: new Date()
     }, {
       where: {
         accountid: req.account.accountid

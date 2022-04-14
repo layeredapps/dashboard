@@ -1,5 +1,4 @@
 const dashboard = require('../../../../index.js')
-const sequelize = require('sequelize')
 
 module.exports = {
   patch: async (req) => {
@@ -42,7 +41,7 @@ module.exports = {
     const usernameHash = await dashboard.Hash.sha512Hash(req.body['new-username'], dashboardEncryptionKey)
     await dashboard.Storage.Account.update({
       usernameHash,
-      usernameLastChanged: sequelize.literal('CURRENT_TIMESTAMP')
+      usernameLastChangedAt: new Date()
     }, {
       where: {
         accountid: req.query.accountid

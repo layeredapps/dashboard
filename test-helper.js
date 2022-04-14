@@ -52,7 +52,6 @@ const Log = require('./src/log.js')('dashboard-test-helper')
 const packageJSON = require('./src/package-json.js')
 const path = require('path')
 const querystring = require('querystring')
-const sequelize = require('sequelize')
 const TestHelperPuppeteer = require('./test-helper-puppeteer.js')
 const util = require('util')
 const mimeTypes = {
@@ -279,7 +278,7 @@ async function createOwner () {
   const owner = await createUser('owner-' + global.testConfiguration.testNumber + '-' + Math.ceil(Math.random() * 100000))
   if (!owner.account.administrator) {
     await dashboard.Storage.Account.update({
-      administratorSince: sequelize.literal('CURRENT_TIMESTAMP')
+      administratorSince: new Date()
     }, {
       where: {
         accountid: owner.account.accountid
@@ -290,7 +289,7 @@ async function createOwner () {
   }
   if (!owner.account.owner) {
     await dashboard.Storage.Account.update({
-      ownerSince: sequelize.literal('CURRENT_TIMESTAMP')
+      ownerSince: new Date()
     }, {
       where: {
         accountid: owner.account.accountid
