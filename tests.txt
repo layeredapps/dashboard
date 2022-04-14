@@ -42,12 +42,6 @@
       Strength to protect passwords
         ✔ default 10
         ✔ Integer
-    ENCRYPTION_SECRET
-      32-character secret string
-        ✔ String
-    ENCRYPTION_SECRET_IV
-      16-character secret string
-        ✔ String
     DISABLE_REGISTRATION
       Disable UI (not API) for registering
         ✔ default unset
@@ -1488,5 +1482,5 @@
       ✔ override req.userProfileFields
 
 
-  823 passing (23m)
+  821 passing (22m)
 
