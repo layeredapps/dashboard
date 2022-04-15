@@ -91,7 +91,7 @@ module.exports = async () => {
     resetCodeLastUsedAt: {
       type: dateType,
       get () {
-        const rawValue = this.getDataValue('resetCodeLastCreatedAt')
+        const rawValue = this.getDataValue('resetCodeLastUsedAt')
         return rawValue ? new Date(Date.parse(rawValue)) : undefined
       }
     },
@@ -324,7 +324,7 @@ module.exports = async () => {
       }
     },
     value: {
-      type: DataTypes.BIGINT,
+      type: DataTypes.INTEGER,
       defaultValue: 0
     },
     createdAt: {
@@ -338,21 +338,21 @@ module.exports = async () => {
   })
   await sequelize.sync({ alter: true, force: true })
   Account.afterCreate(async (object) => {
-    await metrics.aggregate(object.dataValues.appid, 'accounts-created', new Date())
+    await metrics.aggregate(object.dataValues.appid, 'accounts-created', object.dataValues.createdAt)
   })
   Account.afterBulkUpdate(async (object) => {
     if (object.attributes.deletedAt) {
       const account = await Account.findOne({ where: object.where })
-      await metrics.aggregate(account.dataValues.appid, 'account-delete-requests', new Date())
+      await metrics.aggregate(account.dataValues.appid, 'account-delete-requests', object.attributes.deletedAt)
     }
     if (object.attributes.resetCodeLastUsedAt) {
       const account = await Account.findOne({ where: object.where })
-      await metrics.aggregate(account.dataValues.appid, 'resetcodes-used', new Date())
+      await metrics.aggregate(account.dataValues.appid, 'resetcodes-used', object.attributes.resetCodeLastUsedAt)
     }
     if (object.attributes.lastSignedInAt) {
       const account = await Account.findOne({ where: object.where })
       if (account.dataValues.lastSignedInAt.getDate() !== object.attributes.lastSignedInAt.getDate()) {
-        await metrics.aggregate(object.dataValues.appid, 'active-sessions', new Date())
+        await metrics.aggregate(object.dataValues.appid, 'active-sessions', object.attributes.lastSignedInAt)
       }
     }
   })
@@ -364,11 +364,11 @@ module.exports = async () => {
     await metrics.aggregate(account.appid, 'account-deleted', new Date())
   })
   Session.afterCreate(async (object) => {
-    await metrics.aggregate(object.dataValues.appid, 'sessions-created', new Date())
-    await metrics.aggregate(object.dataValues.appid, 'active-sessions', new Date())
+    await metrics.aggregate(object.dataValues.appid, 'sessions-created', object.dataValues.createdAt)
+    await metrics.aggregate(object.dataValues.appid, 'active-sessions', object.dataValues.createdAt)
   })
   ResetCode.afterCreate(async (object) => {
-    await metrics.aggregate(object.dataValues.appid, 'resetcodes-created', new Date())
+    await metrics.aggregate(object.dataValues.appid, 'resetcodes-created', object.dataValues.createdAt)
   })
   return {
     sequelize,
