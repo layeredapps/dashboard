@@ -257,7 +257,7 @@ function nextIdentity () {
   }
 }
 
-async function createTestDataset() {
+async function createTestDataset () {
   // create 365 days of data for presentation
   const metrics = require('./src/metrics.js')
   const now = new Date()
@@ -286,7 +286,7 @@ async function createTestDataset() {
       await metrics.aggregate(global.appid, 'accounts-created', date, 1)
       await metrics.aggregate(global.appid, 'active-sessions', now, -1)
       await metrics.aggregate(global.appid, 'active-sessions', date, 1)
-      for(let k = i; k < 90; k++) {
+      for (let k = i; k < 90; k++) {
         if (Math.random() > 0.05) {
           continue
         }
@@ -305,7 +305,7 @@ async function createTestDataset() {
       // create some reset codes
       const codes = Math.floor(Math.random() * 2)
       for (let k = 0; k < codes; k++) {
-        await createResetCode(user)  
+        await createResetCode(user)
       }
     }
   }
@@ -340,9 +340,9 @@ async function createTestDataset() {
 
 async function insertTestDataset () {
   const file = fs.readFileSync('./screenshot-dataset.json').toString()
-  const baseDate = new Date(2022, 04 - 1, 15)
+  const baseDate = new Date(2022, 4 - 1, 15)
   const now = new Date()
-  const diff =  Math.floor((now.getTime() - baseDate.getTime()) / 1000 / 60 / 60 / 24)
+  const diff = Math.floor((now.getTime() - baseDate.getTime()) / 1000 / 60 / 60 / 24)
   const parsed = JSON.parse(file)
   for (const account of parsed.accounts) {
     for (const field of ['updatedAt', 'createdAt', 'lastSignedInAt', 'resetCodeLastCreatedAt']) {
@@ -396,9 +396,7 @@ async function insertTestDataset () {
     profile.appid = global.appid
     await dashboard.Storage.Profile.create(profile)
   }
-  // agggate metrics
 }
-
 
 async function createAdministrator (owner) {
   const administrator = await createUser('administrator-' + global.testConfiguration.testNumber + '-' + Math.ceil(Math.random() * 100000))
