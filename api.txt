@@ -1,4 +1,4 @@
-@layeredapps/dashboard 0.0.24
+@layeredapps/dashboard 0.0.25
 http://localhost:8000
 
 |------------------------------------------------------------------|
