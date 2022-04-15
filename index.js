@@ -20,6 +20,7 @@ global.bcryptWorkloadFactor = parseInt(process.env.BCRYPT_WORKLOAD_FACTOR || '10
 if (!global.dashboardSessionKey) {
   throw new Error('Invalid DASHBOARD_SESSION_KEY')
 }
+global.disableMetrics = process.env.DISABLE_METRICS === 'true'
 global.disableRegistration = process.env.DISABLE_REGISTRATION === 'true'
 global.requireProfile = process.env.REQUIRE_PROFILE === 'true'
 global.profileFields = ['display-name', 'display-email', 'contact-email', 'full-name', 'dob', 'phone', 'occupation', 'location', 'company-name', 'website']

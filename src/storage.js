@@ -338,9 +338,15 @@ module.exports = async () => {
   })
   await sequelize.sync({ alter: true, force: true })
   Account.afterCreate(async (object) => {
+    if (global.disableMetrics) {
+      return
+    }
     await metrics.aggregate(object.dataValues.appid, 'accounts-created', object.dataValues.createdAt)
   })
   Account.afterBulkUpdate(async (object) => {
+    if (global.disableMetrics) {
+      return
+    }
     if (object.attributes.deletedAt) {
       const account = await Account.findOne({ where: object.where, attributes: ['appid'] })
       await metrics.aggregate(account.dataValues.appid, 'account-delete-requests', object.attributes.deletedAt)
@@ -357,6 +363,9 @@ module.exports = async () => {
     }
   })
   Account.beforeBulkDestroy(async (object) => {
+    if (global.disableMetrics) {
+      return
+    }
     if (!object.where.accountid) {
       return
     }
@@ -364,10 +373,16 @@ module.exports = async () => {
     await metrics.aggregate(account.appid, 'account-deleted', new Date())
   })
   Session.afterCreate(async (object) => {
+    if (global.disableMetrics) {
+      return
+    }
     await metrics.aggregate(object.dataValues.appid, 'sessions-created', object.dataValues.createdAt)
     await metrics.aggregate(object.dataValues.appid, 'active-sessions', object.dataValues.createdAt)
   })
   ResetCode.afterCreate(async (object) => {
+    if (global.disableMetrics) {
+      return
+    }
     await metrics.aggregate(object.dataValues.appid, 'resetcodes-created', object.dataValues.createdAt)
   })
   return {
