@@ -206,8 +206,8 @@ function highlights (data, days) {
   }
   const now = new Date()
   const yesterday = new Date(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() - 1)
-  const todayKey = `/${now.getUTCFullYear()}-${twoDigits(now.getUTCMonth())}-${twoDigits(now.getUTCDate())}`
-  const yesterdayKey = `/${yesterday.getUTCFullYear()}-${twoDigits(yesterday.getUTCMonth())}-${twoDigits(yesterday.getUTCDate())}`
+  const todayKey = `/${now.getUTCFullYear()}-${twoDigits(now.getUTCMonth() + 1)}-${twoDigits(now.getUTCDate())}`
+  const yesterdayKey = `/${yesterday.getUTCFullYear()}-${twoDigits(yesterday.getUTCMonth() + 1)}-${twoDigits(yesterday.getUTCDate())}`
   for (const row of data) {
     if (row.metricid.endsWith('/total')) {
       highlight.total = row.value
