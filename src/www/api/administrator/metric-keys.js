@@ -67,6 +67,8 @@ module.exports = {
         }
       }
     }
-    return metrics.keyRange(req.appid || global.appid, keys)
+    const data = await metrics.keyRange(req.appid || global.appid, keys)
+    data.reverse()
+    return data
   }
 }
