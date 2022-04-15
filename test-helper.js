@@ -259,7 +259,6 @@ function nextIdentity () {
 
 async function createTestDataset () {
   // create 365 days of data for presentation
-  const metrics = require('./src/metrics.js')
   const now = new Date()
   for (let i = 0; i <= 365; i++) {
     const dayQuantity = Math.ceil(((Math.random() * 30) + (i / 4)))
@@ -282,10 +281,6 @@ async function createTestDataset () {
           sessionid: user.session.sessionid
         }
       })
-      await metrics.aggregate(global.appid, 'accounts-created', now, -1)
-      await metrics.aggregate(global.appid, 'accounts-created', date, 1)
-      await metrics.aggregate(global.appid, 'active-sessions', now, -1)
-      await metrics.aggregate(global.appid, 'active-sessions', date, 1)
       for (let k = i; k < 90; k++) {
         if (Math.random() > 0.05) {
           continue
@@ -299,8 +294,6 @@ async function createTestDataset () {
             sessionid: user.session.sessionid
           }
         })
-        await metrics.aggregate(global.appid, 'active-sessions', now, -1)
-        await metrics.aggregate(global.appid, 'active-sessions', date, 1)
       }
       // create some reset codes
       const codes = Math.floor(Math.random() * 2)
