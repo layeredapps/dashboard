@@ -342,17 +342,17 @@ module.exports = async () => {
   })
   Account.afterBulkUpdate(async (object) => {
     if (object.attributes.deletedAt) {
-      const account = await Account.findOne({ where: object.where })
+      const account = await Account.findOne({ where: object.where, attributes: ['appid'] })
       await metrics.aggregate(account.dataValues.appid, 'account-delete-requests', object.attributes.deletedAt)
     }
     if (object.attributes.resetCodeLastUsedAt) {
-      const account = await Account.findOne({ where: object.where })
+      const account = await Account.findOne({ where: object.where, attributes: ['appid'] })
       await metrics.aggregate(account.dataValues.appid, 'resetcodes-used', object.attributes.resetCodeLastUsedAt)
     }
     if (object.attributes.lastSignedInAt) {
-      const account = await Account.findOne({ where: object.where })
+      const account = await Account.findOne({ where: object.where, attributes: ['appid', 'lastSignedInAt'] })
       if (account.dataValues.lastSignedInAt.getDate() !== object.attributes.lastSignedInAt.getDate()) {
-        await metrics.aggregate(object.dataValues.appid, 'active-sessions', object.attributes.lastSignedInAt)
+        await metrics.aggregate(account.dataValues.appid, 'active-sessions', object.attributes.lastSignedInAt)
       }
     }
   })
