@@ -31,6 +31,7 @@ describe('/administrator/create-reset-code', () => {
 
   describe('submit', () => {
     it('should create reset code (screenshots)', async () => {
+      await TestHelper.insertTestDataset()
       const administrator = await TestHelper.createOwner()
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest(`/administrator/create-reset-code?accountid=${user.account.accountid}`)

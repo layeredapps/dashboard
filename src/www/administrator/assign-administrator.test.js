@@ -31,6 +31,7 @@ describe('/administrator/assign-administrator', () => {
 
   describe('submit', () => {
     it('should apply account update (screenshots)', async () => {
+      await TestHelper.insertTestDataset()
       const administrator = await TestHelper.createOwner()
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest(`/administrator/assign-administrator?accountid=${user.account.accountid}`)

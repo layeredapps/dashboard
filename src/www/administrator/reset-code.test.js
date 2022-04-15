@@ -18,6 +18,7 @@ describe('/administrator/reset-code', () => {
 
   describe('view', () => {
     it('should present the reset code table (screenshots)', async () => {
+      await TestHelper.insertTestDataset()
       const administrator = await TestHelper.createOwner()
       const user = await TestHelper.createUser()
       await TestHelper.createResetCode(user)

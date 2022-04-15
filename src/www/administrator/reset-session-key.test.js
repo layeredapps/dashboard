@@ -31,6 +31,7 @@ describe('/administrator/reset-session-key', () => {
 
   describe('submit', () => {
     it('should reset session key (screenshots)', async () => {
+      await TestHelper.insertTestDataset()
       const administrator = await TestHelper.createOwner()
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest(`/administrator/reset-session-key?accountid=${user.account.accountid}`)

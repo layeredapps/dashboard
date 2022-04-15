@@ -51,6 +51,7 @@ describe('/administrator/delete-account', () => {
 
   describe('submit', () => {
     it('should immediately delete (screenshots)', async () => {
+      await TestHelper.insertTestDataset()
       global.deleteDelay = -1
       const administrator = await TestHelper.createOwner()
       const user = await TestHelper.createUser()

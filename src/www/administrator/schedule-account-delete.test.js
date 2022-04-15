@@ -31,6 +31,7 @@ describe('/administrator/schedule-account-delete', () => {
 
   describe('submit', () => {
     it('should schedule account for deletion (screenshots)', async () => {
+      await TestHelper.insertTestDataset()
       const administrator = await TestHelper.createOwner()
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest(`/administrator/schedule-account-delete?accountid=${user.account.accountid}`)

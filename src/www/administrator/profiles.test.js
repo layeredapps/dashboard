@@ -7,6 +7,7 @@ describe('/administrator/profiles', function () {
   const cachedProfiles = []
   before(async () => {
     await TestHelper.setupBeforeEach()
+    await TestHelper.insertTestDataset()
     const administrator = await TestHelper.createOwner()
     cachedProfiles.unshift(administrator.profile.profileid)
     for (let i = 0, len = global.pageSize + 1; i < len; i++) {
@@ -24,6 +25,7 @@ describe('/administrator/profiles', function () {
     ]
     await req1.route.api.before(req1)
     cachedResponses.before = req1.data
+    global.pageSize = 50
     cachedResponses.returns = await req1.get()
     global.pageSize = 3
     cachedResponses.pageSize = await req1.get()
@@ -43,6 +45,7 @@ describe('/administrator/profiles', function () {
 
   describe('view', () => {
     it('should return one page (screenshots)', async () => {
+      global.pageSize = 50
       const result = cachedResponses.returns
       const doc = TestHelper.extractDoc(result.html)
       const table = doc.getElementById('profiles-table')

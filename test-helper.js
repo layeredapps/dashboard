@@ -142,7 +142,9 @@ module.exports = {
   requireVerification,
   wait,
   setupBefore,
-  setupBeforeEach
+  setupBeforeEach,
+  insertTestDataset,
+  createTestDataset
 }
 
 async function flushAllStorage () {
@@ -255,6 +257,149 @@ function nextIdentity () {
   }
 }
 
+async function createTestDataset() {
+  // create 365 days of data for presentation
+  const metrics = require('./src/metrics.js')
+  const now = new Date()
+  for (let i = 0; i <= 365; i++) {
+    const dayQuantity = Math.ceil(((Math.random() * 30) + (i / 4)))
+    for (let j = 0; j < dayQuantity; j++) {
+      const date = new Date(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() - 365 + i, now.getUTCHours(), now.getUTCMinutes() - dayQuantity + j)
+      const user = await createUser()
+      await dashboard.Storage.Account.update({
+        createdAt: date,
+        lastSignedInAt: date
+      }, {
+        where: {
+          accountid: user.account.accountid
+        }
+      })
+      // create some sessions
+      await dashboard.Storage.Session.update({
+        createdAt: date
+      }, {
+        where: {
+          sessionid: user.session.sessionid
+        }
+      })
+      await metrics.aggregate(global.appid, 'accounts-created', now, -1)
+      await metrics.aggregate(global.appid, 'accounts-created', date, 1)
+      await metrics.aggregate(global.appid, 'active-sessions', now, -1)
+      await metrics.aggregate(global.appid, 'active-sessions', date, 1)
+      for(let k = i; k < 90; k++) {
+        if (Math.random() > 0.05) {
+          continue
+        }
+        const date = new Date(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() - 365 + k, Math.floor(Math.random() * 24), Math.floor(Math.random() * 60))
+        await createSession(user)
+        await dashboard.Storage.Session.update({
+          createdAt: date
+        }, {
+          where: {
+            sessionid: user.session.sessionid
+          }
+        })
+        await metrics.aggregate(global.appid, 'active-sessions', now, -1)
+        await metrics.aggregate(global.appid, 'active-sessions', date, 1)
+      }
+      // create some reset codes
+      const codes = Math.floor(Math.random() * 2)
+      for (let k = 0; k < codes; k++) {
+        await createResetCode(user)  
+      }
+    }
+  }
+
+  const allAccounts = await global.api.administrator.Accounts.get({
+    query: {
+      all: true
+    }
+  })
+  const allProfiles = await global.api.administrator.Profiles.get({
+    query: {
+      all: true
+    }
+  })
+  const allSessions = await global.api.administrator.Sessions.get({
+    query: {
+      all: true
+    }
+  })
+  const allResetCodes = await global.api.administrator.ResetCodes.get({
+    query: {
+      all: true
+    }
+  })
+  fs.writeFileSync('./screenshot-dataset.json', JSON.stringify({
+    accounts: allAccounts,
+    sessions: allSessions,
+    profiles: allProfiles,
+    resetCodes: allResetCodes
+  }, null, '  '))
+}
+
+async function insertTestDataset () {
+  const file = fs.readFileSync('./screenshot-dataset.json').toString()
+  const baseDate = new Date(2022, 04 - 1, 15)
+  const now = new Date()
+  const diff =  Math.floor((now.getTime() - baseDate.getTime()) / 1000 / 60 / 60 / 24)
+  const parsed = JSON.parse(file)
+  for (const account of parsed.accounts) {
+    for (const field of ['updatedAt', 'createdAt', 'lastSignedInAt', 'resetCodeLastCreatedAt']) {
+      const value = account[field]
+      if (!value) {
+        continue
+      }
+      if (value.startsWith('2022') || value.startsWith('2021')) {
+        const oldDate = new Date(Date.parse(value))
+        const newDate = new Date(oldDate.getFullYear(), oldDate.getMonth(), oldDate.getDate() + diff, oldDate.getHours(), oldDate.getMinutes(), oldDate.getSeconds())
+        account[field] = newDate
+      }
+    }
+    account.appid = global.appid
+    await dashboard.Storage.Account.create(account)
+  }
+  for (const session of parsed.sessions) {
+    delete (session.expiresAt)
+    for (const field of ['updatedAt', 'createdAt', 'lastVerifiedAt']) {
+      const value = session[field]
+      if (value.startsWith('2022') || value.startsWith('2021')) {
+        const oldDate = new Date(Date.parse(value))
+        const newDate = new Date(oldDate.getFullYear(), oldDate.getMonth(), oldDate.getDate() + diff, oldDate.getHours(), oldDate.getMinutes(), oldDate.getSeconds())
+        session[field] = newDate
+      }
+    }
+    session.appid = global.appid
+    await dashboard.Storage.Session.create(session)
+  }
+  for (const resetCode of parsed.resetCodes) {
+    for (const field of ['updatedAt', 'createdAt']) {
+      const value = resetCode[field]
+      if (value.startsWith('2022') || value.startsWith('2021')) {
+        const oldDate = new Date(Date.parse(value))
+        const newDate = new Date(oldDate.getFullYear(), oldDate.getMonth(), oldDate.getDate() + diff, oldDate.getHours(), oldDate.getMinutes(), oldDate.getSeconds())
+        resetCode[field] = newDate
+      }
+    }
+    resetCode.appid = global.appid
+    await dashboard.Storage.ResetCode.create(resetCode)
+  }
+  for (const profile of parsed.profiles) {
+    for (const field of ['updatedAt', 'createdAt']) {
+      const value = profile[field]
+      if (value.startsWith('2022') || value.startsWith('2021')) {
+        const oldDate = new Date(Date.parse(value))
+        const newDate = new Date(oldDate.getFullYear(), oldDate.getMonth(), oldDate.getDate() + diff, oldDate.getHours(), oldDate.getMinutes(), oldDate.getSeconds())
+        profile[field] = newDate
+      }
+    }
+    profile.appid = global.appid
+    await dashboard.Storage.Profile.create(profile)
+  }
+  // agggate metrics
+}
+
+
 async function createAdministrator (owner) {
   const administrator = await createUser('administrator-' + global.testConfiguration.testNumber + '-' + Math.ceil(Math.random() * 100000))
   if (!administrator.account.administrator) {
@@ -299,8 +444,9 @@ async function createOwner () {
   return owner
 }
 
+let userNumber = 0
 async function createUser (username) {
-  username = username || 'user-' + global.testConfiguration.testNumber + '-' + Math.ceil(Math.random() * 100000)
+  username = username || 'user-' + userNumber++
   const password = username
   const req = createRequest('/api/user/create-account')
   const requireProfileWas = global.requireProfile

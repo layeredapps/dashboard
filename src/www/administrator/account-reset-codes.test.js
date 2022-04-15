@@ -7,8 +7,10 @@ describe('/administrator/account-reset-codes', function () {
   const cachedResetCodes = []
   before(async () => {
     await TestHelper.setupBeforeEach()
+    await TestHelper.insertTestDataset()
     const administrator = await TestHelper.createOwner()
     const user = await TestHelper.createUser()
+    global.pageSize = 2
     for (let i = 0, len = global.pageSize + 1; i < len; i++) {
       await TestHelper.createResetCode(user)
       cachedResetCodes.unshift(user.resetCode.codeid)
@@ -26,6 +28,7 @@ describe('/administrator/account-reset-codes', function () {
     ]
     await req1.route.api.before(req1)
     cachedResponses.before = req1.data
+    global.pageSize = 50
     cachedResponses.returns = await req1.get()
     global.pageSize = 3
     cachedResponses.pageSize = await req1.get()
@@ -52,6 +55,7 @@ describe('/administrator/account-reset-codes', function () {
 
     it('should return one page', async () => {
       const result = cachedResponses.returns
+      global.pageSize = 3
       const doc = TestHelper.extractDoc(result.html)
       const table = doc.getElementById('reset-codes-table')
       const rows = table.getElementsByTagName('tr')

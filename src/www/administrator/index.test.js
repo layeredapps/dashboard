@@ -5,6 +5,7 @@ const TestHelper = require('../../../test-helper.js')
 describe('/administrator', () => {
   describe('view', () => {
     it('should return page (screenshots)', async () => {
+      await TestHelper.insertTestDataset()
       const administrator = await TestHelper.createOwner()
       const req = TestHelper.createRequest('/administrator')
       req.account = administrator.account
@@ -16,8 +17,10 @@ describe('/administrator', () => {
       ]
       const result = await req.get()
       const doc = TestHelper.extractDoc(result.html)
-      assert.notStrictEqual(doc, undefined)
-      assert.notStrictEqual(doc, null)
+      const accountsChart = doc.getElementById('accounts-chart')
+      assert.strictEqual(accountsChart.child.length, 90)
+      const sessionsChart = doc.getElementById('sessions-chart')
+      assert.strictEqual(sessionsChart.child.length, 90)
     })
   })
 })

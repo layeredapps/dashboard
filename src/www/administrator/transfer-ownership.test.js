@@ -31,6 +31,7 @@ describe('/administrator/transfer-ownership', () => {
 
   describe('submit', () => {
     it('should change ownership (screenshots)', async () => {
+      await TestHelper.insertTestDataset()
       const owner = await TestHelper.createOwner()
       const administrator2 = await TestHelper.createAdministrator(owner)
       const req = TestHelper.createRequest(`/administrator/transfer-ownership?accountid=${administrator2.account.accountid}`)

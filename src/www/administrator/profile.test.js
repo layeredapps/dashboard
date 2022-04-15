@@ -17,6 +17,7 @@ describe('/administrator/profile', () => {
 
   describe('view', () => {
     it('should present the profile table (screenshots)', async () => {
+      await TestHelper.insertTestDataset()
       const administrator = await TestHelper.createOwner()
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest(`/administrator/profile?profileid=${user.profile.profileid}`)

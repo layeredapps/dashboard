@@ -6,6 +6,7 @@ describe('/administrator/account', () => {
   describe('before', () => {
     it('should bind data to req', async () => {
       const administrator = await TestHelper.createOwner()
+      await TestHelper.insertTestDataset()
       const user = await TestHelper.createUser()
       await TestHelper.createResetCode(user)
       const req = TestHelper.createRequest(`/administrator/account?accountid=${user.account.accountid}`)
