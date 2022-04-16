@@ -136,8 +136,8 @@ body.entry { background-color: #2F365F; display: flex; align-items: center; just
 	.data-table td { border: none; position: relative; padding: 0.5rem 0.5rem 1rem 0.5rem }
   .data-table tr:last-of-type th { border-bottom: 1px dotted #2F365F }
   .chart { padding: 0.25rem }
-  .chart .metrics li { font-size: 1rem; margin: 0 1rem 0 0 }
-  .chart .metrics li span { font-size: 0.7rem }
+  .chart .metrics li { font-size: 0.8rem; margin: 0 1rem 0 0 }
+  .chart .metrics li span { font-size: 0.5rem }
   .chart ol.ninety { grid-template-columns: repeat(90, 1fr); grid-gap: 1px }
   .chart ol.threesixfive { grid-template-columns: repeat(365, 1fr); grid-gap: 0 }
   .chart ol li span { border-right: none }
@@ -150,4 +150,5 @@ body.entry { background-color: #2F365F; display: flex; align-items: center; just
 .pagination li { display: inline-block; margin: 0.25rem 0.25rem 0 }
 .pagination a { border: 1px solid #CCC; display: inline-block; background-color: #EEE; padding: 0.25rem 0.5rem; font-size: 0.9rem; color: #999; text-decoration: none }
 .pagination a:hover { background-color: #666; color: #CCC }
-.pagination a.current-page { background-color: #FFF; color: #666 } 
+.pagination a.current-page { background-color: #FFF; color: #666; border-color: #666 } 
+.pagination span { pointer-events: none; display: inline-block; margin-left: 0.25rem; padding: 0 0.5rem; color: #999 }

@@ -302,9 +302,16 @@ function renderPagination (doc, offset, total, pageSize) {
     throw new Error('invalid-total')
   }
   const numPages = Math.ceil(total / pageSize)
+  const currentPage = Math.ceil(offset / pageSize) + 1
   const pageLinks = []
-  for (let i = 0, len = numPages; i < len; i++) {
-    pageLinks.push({ object: 'page', offset: (i * pageSize), pageNumber: i + 1 })
+  for (let i = 0; i < numPages; i++) {
+    if ( i < 4 || i > numPages - 4) {
+      pageLinks.push({ object: 'page', offset: (i * pageSize), pageNumber: i + 1 })
+      continue
+    }
+    if (i > currentPage - 4 && i < currentPage + 4) {
+      pageLinks.push({ object: 'page', offset: (i * pageSize), pageNumber: i + 1 })
+    }
   }
   renderList(doc, pageLinks, 'page-link', 'page-links')
   const first = doc.getElementById('page-link-1')
@@ -313,10 +320,25 @@ function renderPagination (doc, offset, total, pageSize) {
   } else {
     return
   }
-  const currentPage = Math.ceil(offset / pageSize) + 1
+  for (const i in pageLinks) {
+    if (i === '0') {
+      continue
+    }
+    const previous = pageLinks[parseInt(i, 10) - 1]
+    const link = pageLinks[parseInt(i, 10)]
+    if (link.pageNumber !== previous.pageNumber + 1) {
+      const element = doc.getElementById(`page-link-${previous.pageNumber}`)
+      const dots = doc.createElement('span')
+      dots.child.push({
+        node: 'text',
+        text: '...'
+      })
+      element.parentNode.child.push(dots)
+    }
+  }
   if (currentPage === 1) {
     return first.classList.add('current-page')
-  }
+  }  
   doc.getElementById(`page-link-${currentPage}`).classList.add('current-page')
 }
 
