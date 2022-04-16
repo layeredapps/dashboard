@@ -228,8 +228,10 @@ function addAccountObjects (array, quantity) {
       profileid: 'prof_' + faker.datatype.uuid().split('-').join('').substring(0, 16),
       sessionKeyNumber: 1,
       lastSignedInAt: new Date(),
-      createdAt: new Date(),
-      updatedAt: new Date(),
+      createdAt: date,
+      createdAtFormatted: date.getFullYear() + '-' + DashboardScreenshots.twoDigits(date.getMonth() + 1) + '-' + DashboardScreenshots.twoDigits(date.getDate()),
+      updatedAt: date,
+      updatedAtFormatted: date.getFullYear() + '-' + DashboardScreenshots.twoDigits(date.getMonth() + 1) + '-' + DashboardScreenshots.twoDigits(date.getDate()),
       createdAtFormatted: date.getFullYear() + '-' + twoDigits(date.getMonth() + 1) + '-' + twoDigits(date.getDate()),
       lastSignedInAtFormatted: date.getFullYear() + '-' + twoDigits(date.getMonth() + 1) + '-' + twoDigits(date.getDate()),
       contactEmail: identity.email,
@@ -262,10 +264,13 @@ function addSessionObjects (array, quantity) {
       accountid: 'acct_' + faker.datatype.uuid().split('-').join('').substring(0, 16),
       duration: Math.random() < 0.5 ? 1200 : 12000,
       expiresAt: now,
+      expiresAtFormatted: now.getFullYear() + '-' + DashboardScreenshots.twoDigits(now.getMonth() + 1) + '-' + DashboardScreenshots.twoDigits(now.getDate()),
       lastVerifiedAt: date,
       ended: Math.random() < 0.5 ? date : undefined,
       createdAt: date,
+      createdAtFormatted: date.getFullYear() + '-' + DashboardScreenshots.twoDigits(date.getMonth() + 1) + '-' + DashboardScreenshots.twoDigits(date.getDate()),
       updatedAt: date,
+      updatedAtFormatted: date.getFullYear() + '-' + DashboardScreenshots.twoDigits(date.getMonth() + 1) + '-' + DashboardScreenshots.twoDigits(date.getDate()),
       contactEmail: identity.email,
       firstName: identity.firstName,
       lastName: identity.lastName
@@ -292,7 +297,9 @@ function addResetCodeObjects (array, quantity) {
       appid: global.appid,
       accountid: 'acct_' + faker.datatype.uuid().split('-').join('').substring(0, 16),
       createdAt: date,
-      updatedAt: date
+      createdAtFormatted: date.getFullYear() + '-' + DashboardScreenshots.twoDigits(date.getMonth() + 1) + '-' + DashboardScreenshots.twoDigits(date.getDate()),
+      updatedAt: date,
+      updatedAtFormatted: date.getFullYear() + '-' + DashboardScreenshots.twoDigits(date.getMonth() + 1) + '-' + DashboardScreenshots.twoDigits(date.getDate()),
     }
     array.push(account)
   }
