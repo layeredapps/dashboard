@@ -1,3 +1,5 @@
+
+const Format = require('./format.js')
 const upsertedCache = {}
 let redisStorage, dashboardStorage
 
@@ -234,6 +236,12 @@ function highlights (data, days) {
     if (int < 90) {
       highlight.last90Days += days[int].value
     }
+  }
+  for (const key in highlight) {
+    if (key === 'object') {
+      continue
+    }
+    highlight[`${key}Formatted`] = Format.number(highlight[key])
   }
   return highlight
 }

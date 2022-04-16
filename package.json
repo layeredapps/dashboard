@@ -7,6 +7,7 @@
   },
   "dependencies": {
     "bcryptjs": "latest",
+    "human-readable-numbers": "^0.9.5",
     "multiparty": "latest",
     "sequelize": "latest",
     "server-html": "latest",

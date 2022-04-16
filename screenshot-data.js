@@ -1,4 +1,5 @@
 const { faker } = require('@faker-js/faker')
+const Format = require('./src/format.js')
 const TestHelper = require('./test-helper.js')
 
 const accountQuantities = []
@@ -366,6 +367,12 @@ function adjustHighlight (array, highlights) {
         }
       }
     }
+  }
+  for (const key in highlights) {
+    if (key === 'object') {
+      continue
+    }
+    highlights[`${key}Formatted`] = Format.number(highlights[key])
   }
 }
 

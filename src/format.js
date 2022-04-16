@@ -1,7 +1,10 @@
+const HRNumbers = require('human-readable-numbers')
+
 module.exports = {
   parseDate,
   date,
-  money
+  money,
+  number
 }
 
 /**
@@ -24,6 +27,14 @@ function money (amount, currency) {
     default:
       return amount
   }
+}
+
+
+/**
+ * Converts numbers to 1.4K 1.4M 1.4B etc
+ */
+function number (n) {
+  return HRNumbers.toHumanString(n)
 }
 
 /**
