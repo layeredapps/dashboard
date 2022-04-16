@@ -29,7 +29,6 @@ function money (amount, currency) {
   }
 }
 
-
 /**
  * Converts numbers to 1.4K 1.4M 1.4B etc
  */

@@ -305,7 +305,7 @@ function renderPagination (doc, offset, total, pageSize) {
   const currentPage = Math.ceil(offset / pageSize) + 1
   const pageLinks = []
   for (let i = 0; i < numPages; i++) {
-    if ( i < 4 || i > numPages - 4) {
+    if (i < 4 || i > numPages - 4) {
       pageLinks.push({ object: 'page', offset: (i * pageSize), pageNumber: i + 1 })
       continue
     }
@@ -338,7 +338,7 @@ function renderPagination (doc, offset, total, pageSize) {
   }
   if (currentPage === 1) {
     return first.classList.add('current-page')
-  }  
+  }
   doc.getElementById(`page-link-${currentPage}`).classList.add('current-page')
 }
 
