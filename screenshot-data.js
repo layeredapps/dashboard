@@ -184,6 +184,20 @@ const administratorProfiles = {
 }
 
 module.exports = {
+  accountQuantities,
+  sessionQuantities,
+  resetCodeQuantities,
+  resetCodeUsages,
+  identities,
+  addMetrics,
+  adjustHighlight,
+  adjustNormalize,
+  adjustValues,
+  twoDigits,
+  addAccountObjects,
+  addSessionObjects,
+  addProfileObjects,
+  addResetCodeObjects,
   administratorAccounts,
   administratorIndex,
   administratorProfiles,
