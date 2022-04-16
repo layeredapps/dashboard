@@ -42,6 +42,10 @@
       Strength to protect passwords
         ✔ default 10
         ✔ Integer
+    DISABLE_METRICS
+      Disable aggregated metrics
+        ✔ default unset
+        ✔ Boolean
     DISABLE_REGISTRATION
       Disable UI (not API) for registering
         ✔ default unset
@@ -1482,5 +1486,5 @@
       ✔ override req.userProfileFields
 
 
-  821 passing (37m)
+  823 passing (25m)
 
