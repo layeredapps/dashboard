@@ -299,7 +299,7 @@ function addResetCodeObjects (array, quantity) {
       createdAt: date,
       createdAtFormatted: date.getFullYear() + '-' + twoDigits(date.getMonth() + 1) + '-' + twoDigits(date.getDate()),
       updatedAt: date,
-      updatedAtFormatted: date.getFullYear() + '-' + twoDigits(date.getMonth() + 1) + '-' + twoDigits(date.getDate()),
+      updatedAtFormatted: date.getFullYear() + '-' + twoDigits(date.getMonth() + 1) + '-' + twoDigits(date.getDate())
     }
     array.push(account)
   }
