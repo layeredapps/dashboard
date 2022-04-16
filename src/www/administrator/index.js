@@ -13,39 +13,21 @@ async function beforeRequest (req) {
   const accountsMaximum = dashboard.Metrics.maximumDay(accounts)
   const accountsChartDays = dashboard.Metrics.days(accounts, accountsMaximum)
   const accountsChartHighlights = dashboard.Metrics.highlights(accounts, accountsChartDays)
-  const accountsChartValues = [
-    { object: 'object', value: accountsMaximum },
-    { object: 'object', value: Math.floor(accountsMaximum * 0.75) },
-    { object: 'object', value: Math.floor(accountsMaximum * 0.5) },
-    { object: 'object', value: Math.floor(accountsMaximum * 0.25) },
-    { object: 'object', value: 0 }
-  ]
+  const accountsChartValues = dashboard.Metrics.chartValues(accountsMaximum)
   // active sessions
   req.query.keys = dashboard.Metrics.metricKeys('active-sessions').join(',')
   const sessions = await global.api.administrator.MetricKeys.get(req)
   const sessionsMaximum = dashboard.Metrics.maximumDay(sessions)
   const sessionsChartDays = dashboard.Metrics.days(sessions, sessionsMaximum)
   const sessionsChartHighlights = dashboard.Metrics.highlights(sessions, sessionsChartDays)
-  const sessionsChartValues = [
-    { object: 'object', value: sessionsMaximum },
-    { object: 'object', value: Math.floor(sessionsMaximum * 0.75) },
-    { object: 'object', value: Math.floor(sessionsMaximum * 0.5) },
-    { object: 'object', value: Math.floor(sessionsMaximum * 0.25) },
-    { object: 'object', value: 0 }
-  ]
+  const sessionsChartValues = dashboard.Metrics.chartValues(sessionsMaximum)
   // reset code usage
   req.query.keys = dashboard.Metrics.metricKeys('resetcodes-used').join(',')
   const resetCodes = await global.api.administrator.MetricKeys.get(req)
   const resetCodesMaximum = dashboard.Metrics.maximumDay(resetCodes)
   const resetCodesChartDays = dashboard.Metrics.days(resetCodes, resetCodesMaximum)
   const resetCodesChartHighlights = dashboard.Metrics.highlights(resetCodes, resetCodesChartDays)
-  const resetCodesChartValues = [
-    { object: 'object', value: resetCodesMaximum },
-    { object: 'object', value: Math.floor(resetCodesMaximum * 0.75) },
-    { object: 'object', value: Math.floor(resetCodesMaximum * 0.5) },
-    { object: 'object', value: Math.floor(resetCodesMaximum * 0.25) },
-    { object: 'object', value: 0 }
-  ]
+  const resetCodesChartValues = dashboard.Metrics.chartValues(resetCodesMaximum)
   req.data = { accountsChartDays, accountsChartHighlights, accountsChartValues, sessionsChartDays, sessionsChartHighlights, sessionsChartValues, resetCodesChartDays, resetCodesChartHighlights, resetCodesChartValues }
 }
 

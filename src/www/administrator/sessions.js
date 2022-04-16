@@ -33,13 +33,7 @@ async function beforeRequest (req) {
     const createdChartMaximum = dashboard.Metrics.maximumDay(createdChart)
     createdChartDays = dashboard.Metrics.days(createdChart, createdChartMaximum)
     createdChartHighlights = dashboard.Metrics.highlights(createdChart, createdChartDays)
-    createdChartValues = [
-      { object: 'object', value: createdChartMaximum },
-      { object: 'object', value: Math.floor(createdChartMaximum * 0.75) },
-      { object: 'object', value: Math.floor(createdChartMaximum * 0.5) },
-      { object: 'object', value: Math.floor(createdChartMaximum * 0.25) },
-      { object: 'object', value: 0 }
-    ]
+    createdChartValues = dashboard.Metrics.chartValues(createdChartMaximum)
   }
   req.data = { sessions, total, offset, createdChartDays, createdChartValues, createdChartHighlights }
 }

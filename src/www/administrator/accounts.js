@@ -31,17 +31,11 @@ async function beforeRequest (req) {
   if (offset === 0) {
     // accounts created
     req.query.keys = dashboard.Metrics.metricKeys('accounts-created', 365).join(',')
-    const created = await global.api.administrator.MetricKeys.get(req)
-    const createdMaximum = dashboard.Metrics.maximumDay(created)
-    createdChartDays = dashboard.Metrics.days(created, createdMaximum)
-    createdChartHighlights = dashboard.Metrics.highlights(created, createdChartDays)
-    createdChartValues = [
-      { object: 'object', value: createdMaximum },
-      { object: 'object', value: Math.floor(createdMaximum * 0.75) },
-      { object: 'object', value: Math.floor(createdMaximum * 0.5) },
-      { object: 'object', value: Math.floor(createdMaximum * 0.25) },
-      { object: 'object', value: 0 }
-    ]
+    const createdChart = await global.api.administrator.MetricKeys.get(req)
+    const createdChartMaximum = dashboard.Metrics.maximumDay(createdChart)
+    createdChartDays = dashboard.Metrics.days(createdChart, createdChartMaximum)
+    createdChartHighlights = dashboard.Metrics.highlights(createdChart, createdChartDays)
+    createdChartValues = dashboard.Metrics.chartValues(createdChartMaximum)
   }
   req.data = { accounts, total, offset, createdChartDays, createdChartHighlights, createdChartValues }
 }

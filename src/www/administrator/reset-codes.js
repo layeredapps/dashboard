@@ -33,26 +33,14 @@ async function beforeRequest (req) {
     const createdChartMaximum = dashboard.Metrics.maximumDay(createdChart)
     createdChartDays = dashboard.Metrics.days(createdChart, createdChartMaximum)
     createdChartHighlights = dashboard.Metrics.highlights(createdChart, createdChartDays)
-    createdChartValues = [
-      { object: 'object', value: createdChartMaximum },
-      { object: 'object', value: Math.floor(createdChartMaximum * 0.75) },
-      { object: 'object', value: Math.floor(createdChartMaximum * 0.5) },
-      { object: 'object', value: Math.floor(createdChartMaximum * 0.25) },
-      { object: 'object', value: 0 }
-    ]
+    createdChartValues = dashboard.Metrics.chartValues(createdChartMaximum)
     // resetcodes-used chart
     req.query.keys = dashboard.Metrics.metricKeys('resetcodes-used', 365).join(',')
     const usedChart = await global.api.administrator.MetricKeys.get(req)
     const usedChartMaximum = dashboard.Metrics.maximumDay(usedChart)
     usedChartDays = dashboard.Metrics.days(usedChart, usedChartMaximum)
     usedChartHighlights = dashboard.Metrics.highlights(usedChart, usedChartDays)
-    usedChartValues = [
-      { object: 'object', value: usedChartMaximum },
-      { object: 'object', value: Math.floor(usedChartMaximum * 0.75) },
-      { object: 'object', value: Math.floor(usedChartMaximum * 0.5) },
-      { object: 'object', value: Math.floor(usedChartMaximum * 0.25) },
-      { object: 'object', value: 0 }
-    ]
+    usedChartValues = dashboard.Metrics.chartValues(usedChartMaximum)
   }
   req.data = { resetCodes, total, offset, createdChartDays, createdChartHighlights, createdChartValues, usedChartDays, usedChartHighlights, usedChartValues }
 }

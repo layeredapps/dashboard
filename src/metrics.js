@@ -156,7 +156,8 @@ module.exports = {
   maximumDay,
   days,
   highlights,
-  metricKeys
+  metricKeys,
+  chartValues
 }
 
 function maximumDay (data) {
@@ -274,4 +275,32 @@ function twoDigits (n) {
     return `0${n}`
   }
   return n.toString()
+}
+
+function chartValues (maximum) {
+  if (maximum === 0) {
+    return [
+      { object: 'object', value: 0 },
+      { object: 'object', value: '' },
+      { object: 'object', value: '' },
+      { object: 'object', value: '' },
+      { object: 'object', value: '' }
+    ]
+  }
+  if (maximum < 4) {
+    return [
+      { object: 'object', value: maximum },
+      { object: 'object', value: '' },
+      { object: 'object', value: '' },
+      { object: 'object', value: '' },
+      { object: 'object', value: 0 }
+    ]
+  }
+  return [
+    { object: 'object', value: Format.number(maximum) },
+    { object: 'object', value: Format.number(Math.floor(maximum * 0.75)) },
+    { object: 'object', value: Format.number(Math.floor(maximum * 0.5)) },
+    { object: 'object', value: Format.number(Math.floor(maximum * 0.25)) },
+    { object: 'object', value: 0 }
+  ]
 }

@@ -30,26 +30,14 @@ async function beforeRequest (req) {
     const deleteRequestsChartMaximum = dashboard.Metrics.maximumDay(deleteRequestsChart)
     deleteRequestsChartDays = dashboard.Metrics.days(deleteRequestsChart, deleteRequestsChartMaximum)
     deleteRequestsChartHighlights = dashboard.Metrics.highlights(deleteRequestsChart, deleteRequestsChartDays)
-    deleteRequestsChartValues = [
-      { object: 'object', value: deleteRequestsChartMaximum },
-      { object: 'object', value: Math.floor(deleteRequestsChartMaximum * 0.75) },
-      { object: 'object', value: Math.floor(deleteRequestsChartMaximum * 0.5) },
-      { object: 'object', value: Math.floor(deleteRequestsChartMaximum * 0.25) },
-      { object: 'object', value: 0 }
-    ]
+    deleteRequestsChartValues = dashboard.Metrics.chartValues(deleteRequestsChartMaximum)
     // accounts-deleted chart
     req.query.keys = dashboard.Metrics.metricKeys('accounts-deleted', 365).join(',')
     const accountsDeletedChart = await global.api.administrator.MetricKeys.get(req)
     const accountsDeletedChartMaximum = dashboard.Metrics.maximumDay(accountsDeletedChart)
     accountsDeletedChartDays = dashboard.Metrics.days(accountsDeletedChart, accountsDeletedChartMaximum)
     accountsDeletedChartHighlights = dashboard.Metrics.highlights(accountsDeletedChart, accountsDeletedChartDays)
-    accountsDeletedChartValues = [
-      { object: 'object', value: accountsDeletedChartMaximum },
-      { object: 'object', value: Math.floor(accountsDeletedChartMaximum * 0.75) },
-      { object: 'object', value: Math.floor(accountsDeletedChartMaximum * 0.5) },
-      { object: 'object', value: Math.floor(accountsDeletedChartMaximum * 0.25) },
-      { object: 'object', value: 0 }
-    ]
+    accountsDeletedChartValues = dashboard.Metrics.chartValues(accountsDeletedChartMaximum)
   }
   req.data = { accounts, total, offset, deleteRequestsChartDays, deleteRequestsChartHighlights, deleteRequestsChartValues, accountsDeletedChartDays, accountsDeletedChartHighlights, accountsDeletedChartValues }
 }
