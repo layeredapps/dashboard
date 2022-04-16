@@ -11,7 +11,7 @@ for (let i = 0; i < 365; i++) {
   if (i === 0) {
     accountQuantities[i] = 100 + Math.ceil(Math.random() * 100)
   } else {
-    accountQuantities[i] = Math.ceil(accountQuantities[i-1] * (0.85 + (Math.random() * 0.25)))
+    accountQuantities[i] = Math.ceil(accountQuantities[i - 1] * (0.85 + (Math.random() * 0.25)))
   }
   total += accountQuantities[i]
   sessionQuantities[i] = Math.ceil(accountQuantities[i] * (1 + (Math.random() * 0.8)))
@@ -31,7 +31,7 @@ const administratorIndex = {
     const oldAPI = req.route.api
     req.route = {}
     for (const key in route) {
-      req.route[key] = route[key] 
+      req.route[key] = route[key]
     }
     req.route.api = {
       before: oldAPI.before,
@@ -40,7 +40,7 @@ const administratorIndex = {
       patch: oldAPI.patch,
       put: oldAPI.put,
       delete: oldAPI.delete
-    } 
+    }
     req.route.api.before = async (req) => {
       await oldAPI.before(req)
       addMetrics(req.data.accountsDays, 90, accountQuantities)
@@ -68,7 +68,7 @@ const administratorAccounts = {
     const oldAPI = req.route.api
     req.route = {}
     for (const key in route) {
-      req.route[key] = route[key] 
+      req.route[key] = route[key]
     }
     req.route.api = {
       before: oldAPI.before,
@@ -77,7 +77,7 @@ const administratorAccounts = {
       patch: oldAPI.patch,
       put: oldAPI.put,
       delete: oldAPI.delete
-    } 
+    }
     req.route.api.before = async (req) => {
       await oldAPI.before(req)
       addMetrics(req.data.createdChartDays, 365, accountQuantities)
@@ -99,7 +99,7 @@ const administratorResetCodes = {
     const oldAPI = req.route.api
     req.route = {}
     for (const key in route) {
-      req.route[key] = route[key] 
+      req.route[key] = route[key]
     }
     req.route.api = {
       before: oldAPI.before,
@@ -108,7 +108,7 @@ const administratorResetCodes = {
       patch: oldAPI.patch,
       put: oldAPI.put,
       delete: oldAPI.delete
-    } 
+    }
     req.route.api.before = async (req) => {
       await oldAPI.before(req)
       addMetrics(req.data.createdChartDays, 365, accountQuantities)
@@ -130,7 +130,7 @@ const administratorSessions = {
     const oldAPI = req.route.api
     req.route = {}
     for (const key in route) {
-      req.route[key] = route[key] 
+      req.route[key] = route[key]
     }
     req.route.api = {
       before: oldAPI.before,
@@ -139,7 +139,7 @@ const administratorSessions = {
       patch: oldAPI.patch,
       put: oldAPI.put,
       delete: oldAPI.delete
-    } 
+    }
     req.route.api.before = async (req) => {
       await oldAPI.before(req)
       addMetrics(req.data.createdChartDays, 365, accountQuantities)
@@ -161,7 +161,7 @@ const administratorProfiles = {
     const oldAPI = req.route.api
     req.route = {}
     for (const key in route) {
-      req.route[key] = route[key] 
+      req.route[key] = route[key]
     }
     req.route.api = {
       before: oldAPI.before,
@@ -170,7 +170,7 @@ const administratorProfiles = {
       patch: oldAPI.patch,
       put: oldAPI.put,
       delete: oldAPI.delete
-    } 
+    }
     req.route.api.before = async (req) => {
       await oldAPI.before(req)
       // addMetrics(req.data.createdChartDays, 365, accountQuantities)
@@ -191,7 +191,7 @@ module.exports = {
   administratorSessions
 }
 
-function addAccountObjects(array, quantity) {
+function addAccountObjects (array, quantity) {
   const now = new Date()
   let date = new Date(now.getFullYear(), now.getMonth(), now.getDate())
   let day = 0
@@ -199,7 +199,7 @@ function addAccountObjects(array, quantity) {
   let identityNumber = 0
   for (let i = 0; i < quantity; i++) {
     dayCount++
-    if (dayCount == accountQuantities[day]) {
+    if (dayCount === accountQuantities[day]) {
       day++
       dayCount = 0
       date = new Date(now.getFullYear(), now.getMonth(), now.getDate() - day)
@@ -233,7 +233,7 @@ function addSessionObjects (array, quantity) {
   let identityNumber = 0
   for (let i = 0; i < quantity; i++) {
     dayCount++
-    if (dayCount == accountQuantities[day]) {
+    if (dayCount === accountQuantities[day]) {
       day++
       dayCount = 0
       date = new Date(now.getFullYear(), now.getMonth(), now.getDate() - day)
@@ -266,7 +266,7 @@ function addResetCodeObjects (array, quantity) {
   let dayCount = 0
   for (let i = 0; i < quantity; i++) {
     dayCount++
-    if (dayCount == accountQuantities[day]) {
+    if (dayCount === accountQuantities[day]) {
       day++
       dayCount = 0
       date = new Date(now.getFullYear(), now.getMonth(), now.getDate() - day)
@@ -276,14 +276,14 @@ function addResetCodeObjects (array, quantity) {
       object: 'resetCode',
       appid: global.appid,
       accountid: 'acct_' + faker.datatype.uuid().split('-').join('').substring(0, 16),
-      createdAt: new Date(),
-      updatedAt: new Date()
+      createdAt: date,
+      updatedAt: date
     }
     array.push(account)
   }
 }
 
-function addProfileObjects(array, quantity) {
+function addProfileObjects (array, quantity) {
   const now = new Date()
   let date = new Date(now.getFullYear(), now.getMonth(), now.getDate())
   let day = 0
@@ -291,7 +291,7 @@ function addProfileObjects(array, quantity) {
   let identityNumber = 0
   for (let i = 0; i < quantity; i++) {
     dayCount++
-    if (dayCount == accountQuantities[day]) {
+    if (dayCount === accountQuantities[day]) {
       day++
       dayCount = 0
       date = new Date(now.getFullYear(), now.getMonth(), now.getDate() - day)
@@ -303,8 +303,8 @@ function addProfileObjects(array, quantity) {
       object: 'profile',
       appid: global.appid,
       profileid: 'prof_' + faker.datatype.uuid().split('-').join('').substring(0, 16),
-      createdAt: new Date(),
-      updatedAt: new Date(),
+      createdAt: date,
+      updatedAt: date,
       createdAtFormatted: date.getFullYear() + '-' + twoDigits(date.getMonth() + 1) + '-' + twoDigits(date.getDate()),
       contactEmail: identity.email,
       firstName: identity.firstName,
