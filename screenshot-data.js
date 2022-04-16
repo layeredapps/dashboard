@@ -232,7 +232,6 @@ function addAccountObjects (array, quantity) {
       createdAtFormatted: date.getFullYear() + '-' + twoDigits(date.getMonth() + 1) + '-' + twoDigits(date.getDate()),
       updatedAt: date,
       updatedAtFormatted: date.getFullYear() + '-' + twoDigits(date.getMonth() + 1) + '-' + twoDigits(date.getDate()),
-      createdAtFormatted: date.getFullYear() + '-' + twoDigits(date.getMonth() + 1) + '-' + twoDigits(date.getDate()),
       lastSignedInAtFormatted: date.getFullYear() + '-' + twoDigits(date.getMonth() + 1) + '-' + twoDigits(date.getDate()),
       contactEmail: identity.email,
       firstName: identity.firstName,
