@@ -43,18 +43,18 @@ const administratorIndex = {
     }
     req.route.api.before = async (req) => {
       await oldAPI.before(req)
-      addMetrics(req.data.accountsDays, 90, accountQuantities)
-      addMetrics(req.data.sessionsDays, 90, sessionQuantities)
-      addMetrics(req.data.resetCodesDays, 90, resetCodeQuantities)
-      adjustNormalize(req.data.accountsDays)
-      adjustNormalize(req.data.sessionsDays)
-      adjustNormalize(req.data.resetCodesDays)
-      adjustHighlight(accountQuantities, req.data.accountsHighlights)
-      adjustHighlight(sessionQuantities, req.data.sessionsHighlights)
-      adjustHighlight(resetCodeQuantities, req.data.resetCodesHighlights)
-      adjustValues(req.data.accountsDays, req.data.accountsValues)
-      adjustValues(req.data.sessionsDays, req.data.sessionsValues)
-      adjustValues(req.data.resetCodesDays, req.data.resetCodesValues)
+      addMetrics(req.data.accountsChartDays, 90, accountQuantities)
+      addMetrics(req.data.sessionsChartDays, 90, sessionQuantities)
+      addMetrics(req.data.resetCodesChartDays, 90, resetCodeQuantities)
+      adjustNormalize(req.data.accountsChartDays)
+      adjustNormalize(req.data.sessionsChartDays)
+      adjustNormalize(req.data.resetCodesChartDays)
+      adjustHighlight(accountQuantities, req.data.accountsChartHighlights)
+      adjustHighlight(sessionQuantities, req.data.sessionsChartHighlights)
+      adjustHighlight(resetCodeQuantities, req.data.resetCodesChartHighlights)
+      adjustValues(req.data.accountsChartDays, req.data.accountsChartValues)
+      adjustValues(req.data.sessionsChartDays, req.data.sessionsChartValues)
+      adjustValues(req.data.resetCodesChartDays, req.data.resetCodesChartValues)
     }
   }
 }
