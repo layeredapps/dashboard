@@ -1,13 +1,13 @@
 /* eslint-env mocha */
 const assert = require('assert')
 const TestHelper = require('../../../test-helper.js')
+const ScreenshotData = require('../../../screenshot-data.js')
 
 describe('/administrator/account-sessions', function () {
   const cachedResponses = {}
   const cachedSessions = []
   before(async () => {
     await TestHelper.setupBeforeEach()
-    await TestHelper.insertTestDataset()
     const administrator = await TestHelper.createOwner()
     const user = await TestHelper.createUser()
     cachedSessions.unshift(user.session.sessionid)
@@ -30,8 +30,12 @@ describe('/administrator/account-sessions', function () {
     await req1.route.api.before(req1)
     cachedResponses.before = req1.data
     global.pageSize = 50
+    global.packageJSON.dashboard.server.push(ScreenshotData.administratorIndex)
+    global.packageJSON.dashboard.server.push(ScreenshotData.administratorAccounts)
     cachedResponses.returns = await req1.get()
     global.pageSize = 3
+    delete (req1.filename)
+    delete (req1.screenshots)
     cachedResponses.pageSize = await req1.get()
     const req2 = TestHelper.createRequest(`/administrator/account-sessions?accountid=${user.account.accountid}&offset=1`)
     req2.account = administrator.account

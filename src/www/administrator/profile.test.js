@@ -1,6 +1,7 @@
 /* eslint-env mocha */
 const assert = require('assert')
 const TestHelper = require('../../../test-helper.js')
+const ScreenshotData = require('../../../screenshot-data.js')
 
 describe('/administrator/profile', () => {
   describe('before', () => {
@@ -17,7 +18,6 @@ describe('/administrator/profile', () => {
 
   describe('view', () => {
     it('should present the profile table (screenshots)', async () => {
-      await TestHelper.insertTestDataset()
       const administrator = await TestHelper.createOwner()
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest(`/administrator/profile?profileid=${user.profile.profileid}`)
@@ -30,6 +30,9 @@ describe('/administrator/profile', () => {
         { click: '/administrator/profiles' },
         { click: `/administrator/profile?profileid=${user.profile.profileid}` }
       ]
+      global.pageSize = 50
+      global.packageJSON.dashboard.server.push(ScreenshotData.administratorIndex)
+      global.packageJSON.dashboard.server.push(ScreenshotData.administratorProfiles)
       const result = await req.get()
       const doc = TestHelper.extractDoc(result.html)
       const table = doc.getElementById('profiles-table')

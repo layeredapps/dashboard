@@ -1,6 +1,7 @@
 /* eslint-env mocha */
 const assert = require('assert')
 const TestHelper = require('../../../test-helper.js')
+const ScreenshotData = require('../../../screenshot-data.js')
 
 describe('/administrator/delete-schedule', () => {
   describe('before', () => {
@@ -22,7 +23,6 @@ describe('/administrator/delete-schedule', () => {
 
   describe('view', () => {
     it('should present the deleted accounts table (screenshots)', async () => {
-      await TestHelper.insertTestDataset()
       const administrator = await TestHelper.createOwner()
       const user = await TestHelper.createUser()
       await TestHelper.setDeleted(user)
@@ -35,6 +35,8 @@ describe('/administrator/delete-schedule', () => {
         { click: '/administrator' },
         { click: '/administrator/delete-schedule' }
       ]
+      global.pageSize = 50
+      global.packageJSON.dashboard.server.push(ScreenshotData.administratorIndex)
       const result = await req.get()
       const doc = TestHelper.extractDoc(result.html)
       const row = doc.getElementById(user.account.accountid)

@@ -512,7 +512,13 @@ async function execute (action, page, identifier) {
         return button.click()
       }
       if (action === 'hover') {
-        element.focus()
+        if (identifier === '#administrator-menu-container' || identifier === '#account-menu-container') {
+          element.click()
+        } else if (element.hover) {
+          element.hover()
+        } else if (element.focus) {
+          element.focus()
+        }
       } else if (action === 'click') {
         element.click()
       }

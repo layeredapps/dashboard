@@ -27,15 +27,15 @@ async function beforeRequest (req) {
     }
   }
   const offset = req.query ? req.query.offset || 0 : 0
-  let createdDays, createdHighlights, createdValues
+  let createdChartDays, createdChartHighlights, createdChartValues
   if (offset === 0) {
     // accounts created
     req.query.keys = dashboard.Metrics.metricKeys('accounts-created', 365).join(',')
     const created = await global.api.administrator.MetricKeys.get(req)
     const createdMaximum = dashboard.Metrics.maximumDay(created)
-    createdDays = dashboard.Metrics.days(created, createdMaximum)
-    createdHighlights = dashboard.Metrics.highlights(created, createdDays)
-    createdValues = [
+    createdChartDays = dashboard.Metrics.days(created, createdMaximum)
+    createdChartHighlights = dashboard.Metrics.highlights(created, createdChartDays)
+    createdChartValues = [
       { object: 'object', value: createdMaximum },
       { object: 'object', value: Math.floor(createdMaximum * 0.75) },
       { object: 'object', value: Math.floor(createdMaximum * 0.5) },
@@ -43,7 +43,7 @@ async function beforeRequest (req) {
       { object: 'object', value: 0 }
     ]
   }
-  req.data = { accounts, total, offset, createdDays, createdHighlights, createdValues }
+  req.data = { accounts, total, offset, createdChartDays, createdChartHighlights, createdChartValues }
 }
 
 async function renderPage (req, res) {
@@ -58,10 +58,10 @@ async function renderPage (req, res) {
     }
     const noAccounts = doc.getElementById('no-accounts')
     noAccounts.parentNode.removeChild(noAccounts)
-    if (req.data.createdDays) {
-      dashboard.HTML.renderList(doc, req.data.createdDays, 'chart-column', 'created-chart')
-      dashboard.HTML.renderList(doc, req.data.createdValues, 'chart-value', 'created-values')
-      dashboard.HTML.renderTemplate(doc, req.data.createdHighlights, 'metric-highlights', 'created-highlights')
+    if (req.data.createdChartDays) {
+      dashboard.HTML.renderList(doc, req.data.createdChartDays, 'chart-column', 'created-chart')
+      dashboard.HTML.renderList(doc, req.data.createdChartValues, 'chart-value', 'created-values')
+      dashboard.HTML.renderTemplate(doc, req.data.createdChartHighlights, 'metric-highlights', 'created-highlights')
     } else {
       const createdChart = doc.getElementById('created-chart-container')
       createdChart.parentNode.removeChild(createdChart)

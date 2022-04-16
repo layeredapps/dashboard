@@ -1,6 +1,7 @@
 /* eslint-env mocha */
 const assert = require('assert')
 const TestHelper = require('../../../test-helper.js')
+const ScreenshotData = require('../../../screenshot-data.js')
 
 describe('/administrator/assign-administrator', () => {
   describe('before', () => {
@@ -31,7 +32,6 @@ describe('/administrator/assign-administrator', () => {
 
   describe('submit', () => {
     it('should apply account update (screenshots)', async () => {
-      await TestHelper.insertTestDataset()
       const administrator = await TestHelper.createOwner()
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest(`/administrator/assign-administrator?accountid=${user.account.accountid}`)
@@ -46,6 +46,9 @@ describe('/administrator/assign-administrator', () => {
         { click: `/administrator/assign-administrator?accountid=${user.account.accountid}` },
         { fill: '#submit-form' }
       ]
+      global.pageSize = 50
+      global.packageJSON.dashboard.server.push(ScreenshotData.administratorIndex)
+      global.packageJSON.dashboard.server.push(ScreenshotData.administratorAccounts)
       const result = await req.post()
       const doc = TestHelper.extractDoc(result.html)
       const messageContainer = doc.getElementById('message-container')

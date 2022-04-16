@@ -1,6 +1,7 @@
 /* eslint-env mocha */
 const assert = require('assert')
 const TestHelper = require('../../../test-helper.js')
+const ScreenshotData = require('../../../screenshot-data.js')
 
 describe('/administrator/reset-code', () => {
   describe('before', () => {
@@ -18,7 +19,6 @@ describe('/administrator/reset-code', () => {
 
   describe('view', () => {
     it('should present the reset code table (screenshots)', async () => {
-      await TestHelper.insertTestDataset()
       const administrator = await TestHelper.createOwner()
       const user = await TestHelper.createUser()
       await TestHelper.createResetCode(user)
@@ -32,6 +32,9 @@ describe('/administrator/reset-code', () => {
         { click: '/administrator/reset-codes' },
         { click: `/administrator/reset-code?codeid=${user.resetCode.codeid}` }
       ]
+      global.pageSize = 50
+      global.packageJSON.dashboard.server.push(ScreenshotData.administratorIndex)
+      global.packageJSON.dashboard.server.push(ScreenshotData.administratorResetCodes)
       const result = await req.get()
       const doc = TestHelper.extractDoc(result.html)
       const table = doc.getElementById('reset-codes-table')

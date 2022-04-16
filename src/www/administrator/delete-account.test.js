@@ -1,6 +1,7 @@
 /* eslint-env mocha */
 const assert = require('assert')
 const TestHelper = require('../../../test-helper.js')
+const ScreenshotData = require('../../../screenshot-data.js')
 
 describe('/administrator/delete-account', () => {
   describe('exceptions', () => {
@@ -51,7 +52,6 @@ describe('/administrator/delete-account', () => {
 
   describe('submit', () => {
     it('should immediately delete (screenshots)', async () => {
-      await TestHelper.insertTestDataset()
       global.deleteDelay = -1
       const administrator = await TestHelper.createOwner()
       const user = await TestHelper.createUser()
@@ -68,6 +68,9 @@ describe('/administrator/delete-account', () => {
         { click: `/administrator/delete-account?accountid=${user.account.accountid}` },
         { fill: '#submit-form' }
       ]
+      global.pageSize = 50
+      global.packageJSON.dashboard.server.push(ScreenshotData.administratorIndex)
+      global.packageJSON.dashboard.server.push(ScreenshotData.administratorAccounts)
       const result = await req.post()
       const doc = TestHelper.extractDoc(result.html)
       const messageContainer = doc.getElementById('message-container')

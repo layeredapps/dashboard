@@ -64,15 +64,12 @@ input, select, textarea, a, button, div { outline: 0 }
 .charts-grid { display: grid; grid-template-columns: 1fr 1fr; grid-gap: 1rem; margin-bottom: 2rem }
 .charts-grid3 { grid-template-columns: 1fr 1fr 1fr }
 .chart { margin-top: 1rem; background-color: rgba(255, 255, 255, 0.5); border-radius: 0.5rem; padding: 1rem }
-.chart ol,
-.chart ul,
-.chart li { list-style-type: none; padding: 0; margin: 0 }
-.chart ul { display: flex }
 .chart legend { display: flex; margin: 0; padding: 0.5rem 0; width: 100% }
 .chart legend span { width: 50%; display: block; font-size: 0.5rem; text-transform: uppercase; color: rgba(0, 0, 0, 0.5) }
 .chart legend span:last-of-type { text-align: right }
-.chart ul li { font-size: 1.5rem; display: flex; flex-direction: column; align-content: center; color: rgba(0, 0, 0, 0.75); margin: 0 2rem 0 0 }
-.chart ul li span { font-size: 0.8rem; display: block; color: rgba(0, 0, 0, 0.5)}
+.chart .metrics ul { display: flex }
+.chart .metrics li { font-size: 1.5rem; display: flex; flex-direction: column; align-content: center; color: rgba(0, 0, 0, 0.75); margin: 0 2rem 0 0 }
+.chart .metrics li span { font-size: 0.8rem; display: block; color: rgba(0, 0, 0, 0.5) }
 .chart .graph { display: flex; width: 100%; margin-top: 1rem }
 .chart .values { display: grid; grid-template-rows: repeat(5, 1fr); padding: 0 0.5rem; text-align: right; }
 .chart .values h3 { margin: 0; padding: 0; font-size: 0.5rem; line-height: 0.5rem; color: rgba(0, 0, 0, 0.5) }
@@ -138,6 +135,14 @@ body.entry { background-color: #2F365F; display: flex; align-items: center; just
   .data-table th { padding: 0.5rem }
 	.data-table td { border: none; position: relative; padding: 0.5rem 0.5rem 1rem 0.5rem }
   .data-table tr:last-of-type th { border-bottom: 1px dotted #2F365F }
+  .chart { padding: 0.25rem }
+  .chart .metrics li { font-size: 1rem; margin: 0 1rem 0 0 }
+  .chart .metrics li span { font-size: 0.7rem }
+  .chart ol.ninety { grid-template-columns: repeat(90, 1fr); grid-gap: 1px }
+  .chart ol.threesixfive { grid-template-columns: repeat(365, 1fr); grid-gap: 0 }
+  .chart ol li span { border-right: none }
+  .chart .values { padding: 0 0.125rem }
+  .chart .legend { padding-bottom: 0 }
 }
 
 /* pagination */

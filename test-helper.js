@@ -12,6 +12,7 @@ const defaultConfigurationValues = {
   enableLanguagePreference: false,
   testModuleJSON: null,
   requireProfile: false,
+  disableMetrics: false,
   disableRegistration: false,
   userProfileFields: ['full-name', 'contact-email'],
   apiDependencies: [],
@@ -142,28 +143,13 @@ module.exports = {
   requireVerification,
   wait,
   setupBefore,
-  setupBeforeEach,
-  insertTestDataset,
-  createTestDataset
+  setupBeforeEach
 }
 
 async function flushAllStorage () {
   if (dashboard.Storage && dashboard.Storage.flush) {
     await dashboard.Storage.flush()
   }
-  // if (global.packageJSON.dashboard.modules && global.packageJSON.dashboard.modules.length) {
-  //   for (const addition of global.packageJSON.dashboard.modules) {
-  //     if (addition.Storage === dashboard.Storage) {
-  //       continue
-  //     }
-  //     if (addition.Storage && addition.Storage.flush) {
-  //       await addition.Storage.flush()
-  //     }
-  //     if (addition.StorageList && addition.StorageList.flush) {
-  //       await addition.StorageList.flush()
-  //     }
-  //   }
-  // }
 }
 
 function createRequest (rawURL) {
@@ -254,140 +240,6 @@ function nextIdentity () {
     firstName,
     lastName,
     email: faker.internet.email(firstName, lastName)
-  }
-}
-
-async function createTestDataset () {
-  // create 365 days of data for presentation
-  const now = new Date()
-  for (let i = 0; i <= 365; i++) {
-    const dayQuantity = Math.ceil(((Math.random() * 30) + (i / 4)))
-    for (let j = 0; j < dayQuantity; j++) {
-      const date = new Date(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() - 365 + i, now.getUTCHours(), now.getUTCMinutes() - dayQuantity + j)
-      const user = await createUser()
-      await dashboard.Storage.Account.update({
-        createdAt: date,
-        lastSignedInAt: date
-      }, {
-        where: {
-          accountid: user.account.accountid
-        }
-      })
-      // create some sessions
-      await dashboard.Storage.Session.update({
-        createdAt: date
-      }, {
-        where: {
-          sessionid: user.session.sessionid
-        }
-      })
-      for (let k = i; k < 90; k++) {
-        if (Math.random() > 0.05) {
-          continue
-        }
-        const date = new Date(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() - 365 + k, Math.floor(Math.random() * 24), Math.floor(Math.random() * 60))
-        await createSession(user)
-        await dashboard.Storage.Session.update({
-          createdAt: date
-        }, {
-          where: {
-            sessionid: user.session.sessionid
-          }
-        })
-      }
-      // create some reset codes
-      const codes = Math.floor(Math.random() * 2)
-      for (let k = 0; k < codes; k++) {
-        await createResetCode(user)
-      }
-    }
-  }
-
-  const allAccounts = await global.api.administrator.Accounts.get({
-    query: {
-      all: true
-    }
-  })
-  const allProfiles = await global.api.administrator.Profiles.get({
-    query: {
-      all: true
-    }
-  })
-  const allSessions = await global.api.administrator.Sessions.get({
-    query: {
-      all: true
-    }
-  })
-  const allResetCodes = await global.api.administrator.ResetCodes.get({
-    query: {
-      all: true
-    }
-  })
-  fs.writeFileSync('./screenshot-dataset.json', JSON.stringify({
-    accounts: allAccounts,
-    sessions: allSessions,
-    profiles: allProfiles,
-    resetCodes: allResetCodes
-  }, null, '  '))
-}
-
-async function insertTestDataset () {
-  const file = fs.readFileSync('./screenshot-dataset.json').toString()
-  const baseDate = new Date(2022, 4 - 1, 15)
-  const now = new Date()
-  const diff = Math.floor((now.getTime() - baseDate.getTime()) / 1000 / 60 / 60 / 24)
-  const parsed = JSON.parse(file)
-  for (const account of parsed.accounts) {
-    for (const field of ['updatedAt', 'createdAt', 'lastSignedInAt', 'resetCodeLastCreatedAt']) {
-      const value = account[field]
-      if (!value) {
-        continue
-      }
-      if (value.startsWith('2022') || value.startsWith('2021')) {
-        const oldDate = new Date(Date.parse(value))
-        const newDate = new Date(oldDate.getFullYear(), oldDate.getMonth(), oldDate.getDate() + diff, oldDate.getHours(), oldDate.getMinutes(), oldDate.getSeconds())
-        account[field] = newDate
-      }
-    }
-    account.appid = global.appid
-    await dashboard.Storage.Account.create(account)
-  }
-  for (const session of parsed.sessions) {
-    delete (session.expiresAt)
-    for (const field of ['updatedAt', 'createdAt', 'lastVerifiedAt']) {
-      const value = session[field]
-      if (value.startsWith('2022') || value.startsWith('2021')) {
-        const oldDate = new Date(Date.parse(value))
-        const newDate = new Date(oldDate.getFullYear(), oldDate.getMonth(), oldDate.getDate() + diff, oldDate.getHours(), oldDate.getMinutes(), oldDate.getSeconds())
-        session[field] = newDate
-      }
-    }
-    session.appid = global.appid
-    await dashboard.Storage.Session.create(session)
-  }
-  for (const resetCode of parsed.resetCodes) {
-    for (const field of ['updatedAt', 'createdAt']) {
-      const value = resetCode[field]
-      if (value.startsWith('2022') || value.startsWith('2021')) {
-        const oldDate = new Date(Date.parse(value))
-        const newDate = new Date(oldDate.getFullYear(), oldDate.getMonth(), oldDate.getDate() + diff, oldDate.getHours(), oldDate.getMinutes(), oldDate.getSeconds())
-        resetCode[field] = newDate
-      }
-    }
-    resetCode.appid = global.appid
-    await dashboard.Storage.ResetCode.create(resetCode)
-  }
-  for (const profile of parsed.profiles) {
-    for (const field of ['updatedAt', 'createdAt']) {
-      const value = profile[field]
-      if (value.startsWith('2022') || value.startsWith('2021')) {
-        const oldDate = new Date(Date.parse(value))
-        const newDate = new Date(oldDate.getFullYear(), oldDate.getMonth(), oldDate.getDate() + diff, oldDate.getHours(), oldDate.getMinutes(), oldDate.getSeconds())
-        profile[field] = newDate
-      }
-    }
-    profile.appid = global.appid
-    await dashboard.Storage.Profile.create(profile)
   }
 }
 

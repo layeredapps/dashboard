@@ -1,6 +1,7 @@
 /* eslint-env mocha */
 const assert = require('assert')
 const TestHelper = require('../../../test-helper.js')
+const ScreenshotData = require('../../../screenshot-data.js')
 
 describe('/administrator/revoke-administrator', () => {
   describe('before', () => {
@@ -31,7 +32,6 @@ describe('/administrator/revoke-administrator', () => {
 
   describe('submit', () => {
     it('should revoke administrator status (screenshots)', async () => {
-      await TestHelper.insertTestDataset()
       const owner = await TestHelper.createOwner()
       const administrator2 = await TestHelper.createAdministrator(owner)
       const req = TestHelper.createRequest(`/administrator/revoke-administrator?accountid=${administrator2.account.accountid}`)
@@ -46,6 +46,8 @@ describe('/administrator/revoke-administrator', () => {
         { click: `/administrator/revoke-administrator?accountid=${administrator2.account.accountid}` },
         { fill: '#submit-form' }
       ]
+      global.pageSize = 50
+      global.packageJSON.dashboard.server.push(ScreenshotData.administratorIndex)
       const result = await req.post()
       const doc = TestHelper.extractDoc(result.html)
       const messageContainer = doc.getElementById('message-container')

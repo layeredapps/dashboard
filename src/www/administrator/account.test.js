@@ -1,12 +1,12 @@
 /* eslint-env mocha */
 const assert = require('assert')
 const TestHelper = require('../../../test-helper.js')
+const ScreenshotData = require('../../../screenshot-data.js')
 
 describe('/administrator/account', () => {
   describe('before', () => {
     it('should bind data to req', async () => {
       const administrator = await TestHelper.createOwner()
-      await TestHelper.insertTestDataset()
       const user = await TestHelper.createUser()
       await TestHelper.createResetCode(user)
       const req = TestHelper.createRequest(`/administrator/account?accountid=${user.account.accountid}`)
@@ -36,6 +36,9 @@ describe('/administrator/account', () => {
         { click: '/administrator/accounts' },
         { click: `/administrator/account?accountid=${user.account.accountid}` }
       ]
+      global.pageSize = 50
+      global.packageJSON.dashboard.server.push(ScreenshotData.administratorIndex)
+      global.packageJSON.dashboard.server.push(ScreenshotData.administratorAccounts)
       const result = await req.get()
       const doc = TestHelper.extractDoc(result.html)
       const tbody = doc.getElementById(user.account.accountid)

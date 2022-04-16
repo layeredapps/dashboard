@@ -1,11 +1,11 @@
 /* eslint-env mocha */
 const assert = require('assert')
 const TestHelper = require('../../../test-helper.js')
+const ScreenshotData = require('../../../screenshot-data.js')
 
 describe('/administrator', () => {
   describe('view', () => {
     it('should return page (screenshots)', async () => {
-      await TestHelper.insertTestDataset()
       const administrator = await TestHelper.createOwner()
       const req = TestHelper.createRequest('/administrator')
       req.account = administrator.account
@@ -15,6 +15,8 @@ describe('/administrator', () => {
         { hover: '#administrator-menu-container' },
         { click: '/administrator' }
       ]
+      global.pageSize = 50
+      global.packageJSON.dashboard.server.push(ScreenshotData.administratorIndex)
       const result = await req.get()
       const doc = TestHelper.extractDoc(result.html)
       const accountsChart = doc.getElementById('accounts-chart')
