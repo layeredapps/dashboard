@@ -1,5 +1,5 @@
 @layeredapps/dashboard 0.0.27
-http://localhost:8000
+http://localhost:8854
 
 Administrator menu:
 /administrator "Dashboard administration"
