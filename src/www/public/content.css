@@ -28,8 +28,8 @@ input, select, textarea, a, button, div { outline: 0 }
 
 .data-table { border-collapse: collapse; margin-bottom: 2rem; white-space: nowrap; word-break: keep-all }
 .data-table th,
-.data-table td { border-bottom: 1px solid #F7F1ED; border-bottom: 1px dotted #2F365F; padding: 0.5rem; white-space: nowrap; word-break: keep-all }
-.data-table th { font-size: 0.8rem; font-weight: normal; text-align: right; padding-right: 1rem; padding-left: 3rem; color: #2F365F }
+.data-table td { font-size: 0.8rem; border-bottom: 1px solid #F7F1ED; border-bottom: 1px dotted #2F365F; padding: 0.5rem; white-space: nowrap; word-break: keep-all }
+.data-table th { font-weight: normal; text-align: right; padding-right: 1rem; padding-left: 3rem; color: #2F365F }
 .data-table tr:last-of-type th,
 .data-table tr:last-of-type td { border-bottom: none }
 
@@ -38,7 +38,7 @@ input, select, textarea, a, button, div { outline: 0 }
 .list-table th { background-color: #2F365F; color: #F7F1ED; font-weight: normal; padding: 0.5rem; text-align: left }
 .list-table td { padding: 0.5rem }
 .list-table td,
-.list-table th { padding-right: 4rem; white-space: nowrap; word-break: keep-all }
+.list-table th { font-size: 0.8rem; padding-right: 4rem; white-space: nowrap; word-break: keep-all }
 
 .input-fields { margin: 0 0 2rem 0; border: none; display: grid; grid-template-columns: 1fr 3fr; max-width: 60rem }
 .checkbox-fields { margin: 0 0 0.5rem 0; border: none; display: flex; flex-direction: column; text-align: left }
@@ -126,18 +126,16 @@ body.entry { background-color: #2F365F; display: flex; align-items: center; just
   .data-table tbody,
   .data-table th, 
   .data-table td, 
-  .data-table tr { 
-		display: block;
-    padding: 0;
-    text-align: left
-	}
+  .data-table tr { display: block; padding: 0; text-align: left }
 	.data-table thead tr {  position: absolute; top: -9999px; left: -9999px }
   .data-table th { padding: 0.5rem }
 	.data-table td { border: none; position: relative; padding: 0.5rem 0.5rem 1rem 0.5rem }
   .data-table tr:last-of-type th { border-bottom: 1px dotted #2F365F }
+  .list-table th,
+  .list-table td { font-size: 0.7rem }
   .chart { padding: 0.25rem }
   .chart .metrics li { font-size: 0.8rem; margin: 0 1rem 0 0 }
-  .chart .metrics li span { font-size: 0.5rem }
+  .chart .metrics li span { font-size: 0.5rem; line-height: 0.8rem }
   .chart ol.ninety { grid-template-columns: repeat(90, 1fr); grid-gap: 1px }
   .chart ol.threesixfive { grid-template-columns: repeat(365, 1fr); grid-gap: 0 }
   .chart ol li span { border-right: none }
