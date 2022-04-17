@@ -221,7 +221,7 @@ This example fetches the user's session information using NodeJS, you can do thi
 
 Dashboard uses the [Sequelize](github.com/sequelize/) library and is compatible with PostgreSQL, MySQL, MariaDB and SQLite.  Support for Microsoft SQL Server and IBM DB2 is possible but [has issues]().
 
-| Storage     | Environemnt variables                          |
+| Storage     | Environment variables                          |
 |-------------|------------------------------------------------|
 | SQLITE      | STORAGE=sqlite                                 |
 |             | SQLITE_DATABASE=dashboard                      |
