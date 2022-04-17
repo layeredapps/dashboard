@@ -19,11 +19,18 @@ function money (amount, currency) {
   currency = currency.toLowerCase()
   switch (currency) {
     case 'usd':
+    case 'aud':
+    case 'nzd':
+    case 'cad':
+    case 'hkd':
+    case 'sgd':
       return amount >= 0 ? `$${(amount / 100).toFixed(2)}` : `-$${(amount / -100).toFixed(2)}`
-    case 'eu':
+    case 'eur':
       return amount >= 0 ? `€${(amount / 100).toFixed(2)}` : `-€${(amount / -100).toFixed(2)}`
     case 'gbp':
       return amount > 0 ? `£${(amount / 100).toFixed(2)}` : `-£${(amount / -100).toFixed(2)}`
+    case 'jpy':
+      return amount > 0 ? `¥${(amount / 100).toFixed(2)}` : `-¥${(amount / -100).toFixed(2)}`
     default:
       return amount
   }
