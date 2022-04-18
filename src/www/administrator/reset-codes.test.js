@@ -31,7 +31,6 @@ describe('/administrator/reset-codes', function () {
     global.packageJSON.dashboard.server.push(ScreenshotData.administratorResetCodes)
     cachedResponses.returns = await req1.get()
     global.pageSize = 3
-    delete (req1.filename)
     delete (req1.screenshots)
     cachedResponses.pageSize = await req1.get()
     const req2 = TestHelper.createRequest('/administrator/reset-codes?offset=1')

@@ -31,7 +31,6 @@ describe('/administrator/accounts', function () {
     global.packageJSON.dashboard.server.push(ScreenshotData.administratorAccounts)
     cachedResponses.returns = await req1.get()
     global.pageSize = 3
-    delete (req1.filename)
     delete (req1.screenshots)
     cachedResponses.pageSize = await req1.get()
     const req2 = TestHelper.createRequest('/administrator/accounts?offset=1')
