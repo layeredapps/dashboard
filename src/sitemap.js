@@ -12,7 +12,7 @@ module.exports = {
 function generate () {
   const routes = {}
   mergeRoutes(routes, '@layeredapps/dashboard')
-  for (const moduleName of global.packageJSON.dashboard.modules) {
+  for (const moduleName of global.packageJSON.dashboard.moduleNames) {
     mergeRoutes(routes, moduleName)
   }
   mergeRoutes(routes)
