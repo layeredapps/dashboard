@@ -222,10 +222,10 @@ function addAccountObjects (array, quantity) {
     const identity = identities[identityNumber]
     identityNumber++
     const account = {
-      accountid: 'acct_' + faker.datatype.uuid().split('-').join('').substring(0, 16),
+      accountid: 'acct_' + faker.datatype.uuid().split('-').join('').substring(0, 24),
       object: 'account',
       appid: global.appid,
-      profileid: 'prof_' + faker.datatype.uuid().split('-').join('').substring(0, 16),
+      profileid: 'prof_' + faker.datatype.uuid().split('-').join('').substring(0, 24),
       sessionKeyNumber: 1,
       lastSignedInAt: new Date(),
       createdAt: date,
@@ -257,10 +257,10 @@ function addSessionObjects (array, quantity) {
     const identity = identities[identityNumber]
     identityNumber++
     const session = {
-      sessionid: 'sess_' + faker.datatype.uuid().split('-').join('').substring(0, 16),
+      sessionid: 'sess_' + faker.datatype.uuid().split('-').join('').substring(0, 24),
       object: 'session',
       appid: global.appid,
-      accountid: 'acct_' + faker.datatype.uuid().split('-').join('').substring(0, 16),
+      accountid: 'acct_' + faker.datatype.uuid().split('-').join('').substring(0, 24),
       duration: Math.random() < 0.5 ? 1200 : 12000,
       expiresAt: now,
       expiresAtFormatted: now.getFullYear() + '-' + twoDigits(now.getMonth() + 1) + '-' + twoDigits(now.getDate()),
@@ -291,10 +291,10 @@ function addResetCodeObjects (array, quantity) {
       date = new Date(now.getFullYear(), now.getMonth(), now.getDate() - day)
     }
     const account = {
-      codeid: 'code_' + faker.datatype.uuid().split('-').join('').substring(0, 16),
+      codeid: 'code_' + faker.datatype.uuid().split('-').join('').substring(0, 24),
       object: 'resetCode',
       appid: global.appid,
-      accountid: 'acct_' + faker.datatype.uuid().split('-').join('').substring(0, 16),
+      accountid: 'acct_' + faker.datatype.uuid().split('-').join('').substring(0, 24),
       createdAt: date,
       createdAtFormatted: date.getFullYear() + '-' + twoDigits(date.getMonth() + 1) + '-' + twoDigits(date.getDate()),
       updatedAt: date,
@@ -320,10 +320,10 @@ function addProfileObjects (array, quantity) {
     const identity = identities[identityNumber]
     identityNumber++
     const profile = {
-      accountid: 'acct_' + faker.datatype.uuid().split('-').join('').substring(0, 16),
+      accountid: 'acct_' + faker.datatype.uuid().split('-').join('').substring(0, 24),
       object: 'profile',
       appid: global.appid,
-      profileid: 'prof_' + faker.datatype.uuid().split('-').join('').substring(0, 16),
+      profileid: 'prof_' + faker.datatype.uuid().split('-').join('').substring(0, 24),
       createdAt: date,
       updatedAt: date,
       createdAtFormatted: date.getFullYear() + '-' + twoDigits(date.getMonth() + 1) + '-' + twoDigits(date.getDate()),
