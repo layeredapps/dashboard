@@ -39,6 +39,8 @@ input, select, textarea, a, button, div { outline: 0 }
 .list-table td { padding: 0.5rem }
 .list-table td,
 .list-table th { font-size: 0.8rem; padding-right: 4rem; white-space: nowrap; word-break: keep-all }
+.list-table th.right,
+.list-table td.right { text-align: right }
 
 .input-fields { margin: 0 0 2rem 0; border: none; display: grid; grid-template-columns: 1fr 3fr; max-width: 60rem }
 .checkbox-fields { margin: 0 0 0.5rem 0; border: none; display: flex; flex-direction: column; text-align: left }
@@ -49,7 +51,13 @@ input, select, textarea, a, button, div { outline: 0 }
 .field select,
 .field input[type=number],
 .field input[type=text],
-.field input[type=password] { padding: 0.5rem; border-radius: 0.25rem; border: none; background-color: rgba(0, 0, 0, 0.125); color: #2F365F }
+.field input[type=password],
+.field input[type=datetime-local] { padding: 0.5rem; border-radius: 0.25rem; border: none; background-color: rgba(0, 0, 0, 0.125); color: #2F365F; margin-right: 1rem }
+.field select:last-of-type,
+.field input[type=number]:last-of-type,
+.field input[type=text]:last-of-type,
+.field input[type=password]:last-of-type,
+.field input[type=datetime-local]:last-of-type { margin-right: 0 }
 .field select:active,
 .field select:focus,
 .field input[type=number]:active,
