@@ -164,7 +164,6 @@ function mergeModuleArray (baseJSON, otherJSON) {
     if (!moduleJSON) {
       throw new Error('invalid-module')
     }
-    baseJSON.dashboard.modules.push(moduleName)
     baseJSON.dashboard.modules.push(loadModule(moduleName))
     baseJSON.dashboard.moduleNames.push(moduleName)
     baseJSON.dashboard.moduleVersions.push(moduleJSON.version)

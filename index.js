@@ -136,7 +136,7 @@ const dashboard = module.exports = {
     Log.info('setting up module storage')
     if (global.packageJSON.dashboard.modules && global.packageJSON.dashboard.modules.length) {
       for (const addition of global.packageJSON.dashboard.modules) {
-        Log.info('setting up module', addition)
+        Log.info('setting up module', addition.name)
         if (addition.setup) {
           try {
             await addition.setup()
