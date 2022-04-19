@@ -215,14 +215,14 @@ async function wrapSrcDocWithTemplate (req, res, doc) {
   const metaTags = doc.getElementsByTagName('meta')
   if (packageJSON.dashboard.tileColor) {
     for (const tag of metaTags) {
-      if (tag.attr && tag.attr.name === "msapplication-TileColor") {
+      if (tag.attr && tag.attr.name === 'msapplication-TileColor') {
         tag.attr.contnet = packageJSON.dashboard.tileColor
       }
     }
   }
   if (packageJSON.dashboard.themeColor) {
     for (const tag of metaTags) {
-      if (tag.attr && tag.attr.name === "theme-color") {
+      if (tag.attr && tag.attr.name === 'theme-color') {
         tag.attr.contnet = packageJSON.dashboard.themeColor
       }
     }
