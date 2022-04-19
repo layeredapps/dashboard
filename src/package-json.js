@@ -53,7 +53,7 @@ function merge (applicationJSON, dashboardJSON) {
   mergeSpecialHTML(packageJSON, '@layeredapps/dashboard')
   mergeSpecialHTML(packageJSON)
   mergeHTMLFileMenuLinks(packageJSON)
-  for (const moduleName of packageJSON.dashboard.modules) {
+  for (const moduleName of packageJSON.dashboard.moduleNames) {
     mergeHTMLFileMenuLinks(packageJSON, moduleName)
   }
   mergeHTMLFileMenuLinks(packageJSON, '@layeredapps/dashboard')
