@@ -97,17 +97,7 @@ async function pass (req, res) {
               return Response.end(req, res, doc)
             }
           }
-          if (proxyResponse.headers['content-type']) {
-            res.setHeader('content-type', proxyResponse.headers['content-type'])
-          }
-          if (proxyResponse.headers['content-disposition']) {
-            res.setHeader('content-disposition', proxyResponse.headers['content-disposition'])
-          }
-          if (proxyResponse.headers['content-length']) {
-            res.setHeader('content-length', proxyResponse.headers['content-length'])
-          }
-          res.statusCode = 200
-          return res.end(body)
+          return Response.end(req, res, null, body)
         case 302:
           return Response.redirect(req, res, proxyResponse.headers.location)
         case 304:
@@ -172,9 +162,9 @@ async function get (req, callback) {
   }
   const protocol = global.applicationServer.startsWith('http://') ? 'http' : 'https'
   const proxyRequest = require(protocol).request(requestOptions, (proxyResponse) => {
-    let body = ''
+    let body
     proxyResponse.on('data', (chunk) => {
-      body += chunk
+      body = body ? Buffer.append(chunk) : Buffer.from(chunk)
     })
     return proxyResponse.on('end', () => {
       return callback(null, body)
