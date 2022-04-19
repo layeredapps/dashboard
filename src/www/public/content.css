@@ -56,18 +56,17 @@ input, select, textarea, a, button, div { outline: 0 }
 .checkbox-fields .field-label:last-of-type { margin-bottom: 0 }
 .field-label { font-size: 1rem }
 .field { max-width: 100% }
+.field .tiny-field div,
 .field .tiny-field input,
 .field .tiny-field select { max-width: 3rem }
 .field select,
 .field input[type=number],
 .field input[type=text],
-.field input[type=password],
-.field input[type=datetime-local] { padding: 0.5rem; border-radius: 0.25rem; border: none; background-color: rgba(0, 0, 0, 0.125); color: #2F365F; margin-right: 1rem }
+.field input[type=password] { padding: 0.5rem; border-radius: 0.25rem; border: none; background-color: rgba(0, 0, 0, 0.125); color: #2F365F; margin-right: 1rem }
 .field select:last-of-type,
 .field input[type=number]:last-of-type,
 .field input[type=text]:last-of-type,
-.field input[type=password]:last-of-type,
-.field input[type=datetime-local]:last-of-type { margin-right: 0 }
+.field input[type=password]:last-of-type { margin-right: 0 }
 .field select:active,
 .field select:focus,
 .field input[type=number]:active,
@@ -137,6 +136,11 @@ body.entry { background-color: #2F365F; display: flex; align-items: center; just
   .container { padding: 1rem 0.5rem }
   .entry-form { width: unset; box-shadow: none; transform: none; position: unset }
   .input-fields { display: block }
+  .field { display: flex }
+  .field select,
+  .field input[type=number],
+  .field input[type=text],
+  .field input[type=password] { max-width: 100%; width: 100% }
   .field-label { display: inline-block; font-size: 0.75rem; margin-bottom: 0.5rem }
   .button { padding: 0 0.5rem }
   .data-table, 
@@ -159,6 +163,7 @@ body.entry { background-color: #2F365F; display: flex; align-items: center; just
   .chart ol li span { border-right: none }
   .chart .values { padding: 0 0.125rem }
   .chart .legend { padding-bottom: 0 }
+
 }
 
 /* pagination */
