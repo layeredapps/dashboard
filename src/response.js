@@ -12,7 +12,11 @@ const mimeTypes = {
   jpg: 'image/jpeg',
   png: 'image/png',
   ico: 'image/x-icon',
-  svg: 'image/svg+xml; charset=utf-8'
+  svg: 'image/svg+xml; charset=utf-8',
+  eot: 'application/vnd.ms-fontobject',
+  ttf: 'application/x-font-ttf',
+  woff: 'application/font-woff',
+  woff2: 'application/font-woff2'
 }
 
 module.exports = {
