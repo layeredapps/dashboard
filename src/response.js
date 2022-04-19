@@ -211,6 +211,22 @@ async function wrapSrcDocWithTemplate (req, res, doc) {
     text: newTitle
   }
   HTML.renderTemplate(templateDoc, headingLink, 'heading-link', 'heading')
+  // icon theming
+  const metaTags = doc.getElementsByTagName('meta')
+  if (packageJSON.dashboard.tileColor) {
+    for (const tag of metaTags) {
+      if (tag.attr && tag.attr.name === "msapplication-TileColor") {
+        tag.attr.contnet = packageJSON.dashboard.tileColor
+      }
+    }
+  }
+  if (packageJSON.dashboard.themeColor) {
+    for (const tag of metaTags) {
+      if (tag.attr && tag.attr.name === "theme-color") {
+        tag.attr.contnet = packageJSON.dashboard.themeColor
+      }
+    }
+  }
   // template navigation
   const navbarTemplate = doc.getElementById('navbar')
   const navigation = templateDoc.getElementById('navigation')

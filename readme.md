@@ -65,7 +65,9 @@ Dashboard is configured with a combination of environment variables and hard-cod
             ],
             "proxy": [
                 "/src/to/script/to/modify/proxy/requests.js
-            ]
+            ],
+            "themeColor": "#abcdef",
+            "tileColor": "#abcdef"
         }
     }
 
@@ -99,6 +101,16 @@ Proxy handlers can add to the headers sent to your application servers:
         proxyRequestOptions.headers.include = 'something'
     }
     
+
+The "themeColor" and "tileColor" will replace the META tag values in template and template-less pages of Dashboard, allowing you to style your favicon and other icons.  Dashboard will check your application server for replacement icons:
+
+    /public/favicon.ico
+    /public/favicon-16x16.png
+    /public/favicon-32x32.png
+    /public/apple-touch-icon.png
+
+For additional icons you can specify <>
+
 # Dashboard modules
 
 Dashboard is modular and by itself it provides only the signing in, account management and basic administration.  Modules add new pages and API routes for additional functionality.
