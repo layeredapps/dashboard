@@ -73,6 +73,7 @@ describe('/account/reset-account', () => {
         { click: '/account/reset-account' },
         { fill: '#submit-form' }
       ]
+      global.pageSize = 50
       const result = await req.post()
       assert.strictEqual(result.redirect, '/home')
     })

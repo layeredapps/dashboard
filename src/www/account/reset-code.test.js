@@ -29,6 +29,7 @@ describe('/account/reset-code', () => {
         { click: '/account/reset-codes' },
         { click: `/account/reset-code?codeid=${user.resetCode.codeid}` }
       ]
+      global.pageSize = 50
       const result = await req.get()
       const doc = TestHelper.extractDoc(result.html)
       const table = doc.getElementById('reset-codes-table')

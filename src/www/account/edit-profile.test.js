@@ -211,6 +211,7 @@ describe('/account/edit-profile', () => {
         { click: `/account/edit-profile?profileid=${user.profile.profileid}` },
         { fill: '#submit-form' }
       ]
+      global.pageSize = 50
       const result = await req.post()
       const doc = TestHelper.extractDoc(result.html)
       const messageContainer = doc.getElementById('message-container')

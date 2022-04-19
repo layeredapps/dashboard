@@ -28,11 +28,6 @@ describe('/account', () => {
       const req = TestHelper.createRequest('/account')
       req.account = user.account
       req.session = user.session
-      req.filename = __filename
-      req.screenshots = [
-        { hover: '#account-menu-container' },
-        { click: '/account' }
-      ]
       const result = await req.get()
       const doc = TestHelper.extractDoc(result.html)
       const accountPreferences = doc.getElementById('account-preferences-container')
@@ -45,11 +40,6 @@ describe('/account', () => {
       const req = TestHelper.createRequest('/account')
       req.account = user.account
       req.session = user.session
-      req.filename = __filename
-      req.screenshots = [
-        { hover: '#account-menu-container' },
-        { click: '/account' }
-      ]
       const result = await req.get()
       const doc = TestHelper.extractDoc(result.html)
       const accountPreferences = doc.getElementById('language-preference-container')

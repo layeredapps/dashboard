@@ -77,6 +77,7 @@ describe('/account/delete-reset-code', () => {
         { click: `/account/delete-reset-code?codeid=${user.resetCode.codeid}` },
         { fill: '#submit-form' }
       ]
+      global.pageSize = 50
       await req.post()
       const req2 = TestHelper.createRequest(`/api/user/reset-code?codeid=${user.resetCode.codeid}`)
       req2.account = user.account

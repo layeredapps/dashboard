@@ -33,6 +33,7 @@ describe('/account/restore-account', () => {
         { click: '/account/restore-account' },
         { fill: '#submit-form' }
       ]
+      global.pageSize = 50
       await req.post()
       const req2 = TestHelper.createRequest(`/api/administrator/account?accountid=${user.account.accountid}`)
       req2.account = administrator.account

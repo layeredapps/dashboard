@@ -149,6 +149,7 @@ describe('/account/create-profile', () => {
         { click: '/account/create-profile' },
         { fill: '#submit-form' }
       ]
+      global.pageSize = 50
       const result = await req.post()
       const doc = TestHelper.extractDoc(result.html)
       const messageContainer = doc.getElementById('message-container')

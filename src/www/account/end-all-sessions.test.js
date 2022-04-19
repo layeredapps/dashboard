@@ -36,6 +36,7 @@ describe('/account/end-all-sessions', () => {
         { click: '/account/end-all-sessions' },
         { fill: '#submit-form' }
       ]
+      global.pageSize = 50
       const result = await req.post()
       assert.strictEqual(result.redirect, '/account/signin?return-url=/home')
       const current = await dashboard.Storage.Account.findOne({

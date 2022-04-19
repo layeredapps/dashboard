@@ -27,6 +27,7 @@ describe('/account/profile', () => {
         { click: '/account/profiles' },
         { click: `/account/profile?profileid=${user.profile.profileid}` }
       ]
+      global.pageSize = 50
       const result = await req.get()
       const doc = TestHelper.extractDoc(result.html)
       const table = doc.getElementById('profiles-table')
