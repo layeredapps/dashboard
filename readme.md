@@ -1,5 +1,13 @@
 # Documentation for Dashboard
 
+#### Shortcuts
+
+- [Documentation website](https://layeredapps.github.io)
+- [Dashboard documentation](https://layeredapps.github.io/dashboard)
+- [UI screenshots](https://layeredapps.github.io/dashboard-ui)
+- [API documentation](https://layeredapps.github.io/dashboard-api)
+- [Environment configuration](https://layeredapps.github.io/dashboard-configuration)
+
 #### Index
 
 - [Introduction](#introduction)
@@ -22,14 +30,9 @@
 
 Web applications often require coding a user account system, organizations, subscriptions and other 'boilerplate' again and again.  
 
-Dashboard packages everything web apps need into reusable, modular software.  It runs separately to your application so you have two web servers instead of one, and Dashboard fuses their content together to provide a single website or interface for your users.  To get started your web app just needs a `/` for guests and `/home` for signed in users.
+Dashboard packages everything web apps need into reusable, modular software.  It runs separately to your application so you have two web servers instead of one, and Dashboard fuses their content together to provide a single website or interface for your users.  To get started your web app just needs to serve something on `/` for your guest home page and `/home` for signed in users.
 
-| Your application | Dashboard server   | Dashboard modules  | Dashboard APIs         |
-|------------------|--------------------|--------------------|------------------------|
-| /                | /account           | /account/...       | /api/user/...          |
-| /home            | /administrator     | /administrator/... | /api/administrator/... |
-
-Dashboard uses a `template.html` with header, navigation and content structure.  Dashboard and modules use HTML pages and CSS for all the functionality users need.  Your application server can serve two special CSS files at `/public/template-additional.css` and `/public/content-additional.css` to theme the template and pages to match your application design.  Dashboard assumes you must be signed in to access any URL outside of `/` and `/public/*`.
+Dashboard uses a `template.html` with header, navigation and content structure.  Dashboard and module content is provided in HTML pages.  Your application server can serve two special CSS files at `/public/template-additional.css` and `/public/content-additional.css` to theme the template and pages to match your application design.
 
 Your application server can return special HTML attributes and tags to interoperate with the Dashboard server.  Your content can be accessible to guests by specifying `<html data-auth="false">` and you can serve full-page content by specifying `<html data-template="false">` in your HTML.  Otherwise the routes will require authentication, and Dashboard will inject the template's header and navigation int the top of the page and merge the head tag's script and CSS references.
 
