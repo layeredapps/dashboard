@@ -421,6 +421,8 @@ async function saveScreenshot (device, page, number, action, identifier, scriptN
     }, identifier)
     if (text.indexOf('_') > -1) {
       text = text.substring(0, text.indexOf('_'))
+    } else if (text.indexOf('\n') > -1) {
+      text = text.substring(0, text.indexOf('\n')) 
     } else {
       text = text.split(' ').join('-').toLowerCase()
     }
@@ -454,6 +456,8 @@ async function saveScreenshot (device, page, number, action, identifier, scriptN
     }, identifier, global.dashboardServer)
     if (text.indexOf('_') > -1) {
       text = text.substring(0, text.indexOf('_'))
+    } else if (text.indexOf('\n') > -1) {
+      text = text.substring(0, text.indexOf('\n')) 
     } else {
       text = text.split(' ').join('-').toLowerCase()
     }
