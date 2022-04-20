@@ -422,7 +422,7 @@ async function saveScreenshot (device, page, number, action, identifier, scriptN
     if (text.indexOf('_') > -1) {
       text = text.substring(0, text.indexOf('_'))
     } else if (text.indexOf('\n') > -1) {
-      text = text.substring(0, text.indexOf('\n')) 
+      text = text.substring(0, text.indexOf('\n'))
     } else {
       text = text.split(' ').join('-').toLowerCase()
     }
@@ -457,7 +457,7 @@ async function saveScreenshot (device, page, number, action, identifier, scriptN
     if (text.indexOf('_') > -1) {
       text = text.substring(0, text.indexOf('_'))
     } else if (text.indexOf('\n') > -1) {
-      text = text.substring(0, text.indexOf('\n')) 
+      text = text.substring(0, text.indexOf('\n'))
     } else {
       text = text.split(' ').join('-').toLowerCase()
     }
