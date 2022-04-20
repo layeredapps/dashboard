@@ -196,7 +196,7 @@ function writeAPI () {
     output.push('|\n')
   }
   const filePath = path.join(global.applicationPath, 'api.txt')
-  fs.writeFileSync(filePath, output.join(''))
+  fs.writeFileSync(filePath, output.join('') + '\n\n' + new Date().toISOString())
 }
 
 function writeEnvironment () {
@@ -322,7 +322,7 @@ function writeEnvironment () {
   output.unshift(dotted)
   output.push(dotted)
   const filePath = path.join(global.applicationPath, 'env.txt')
-  fs.writeFileSync(filePath, output.join('\n'))
+  fs.writeFileSync(filePath, output.join('\n') + '\n\n' + new Date().toISOString())
   return output.join('\n')
 }
 
@@ -414,7 +414,7 @@ function writeSitemap () {
   const routeHTML = underlineRight('HTML ', widestHTML)
   output.splice(output.length - sortedURLs.length, 0, `\n${routeURL} ${routeAuth} ${routeTemplate} ${routeVerbs} ${routeJS} ${routeHTML}`)
   const filePath = path.join(global.applicationPath, 'sitemap.txt')
-  fs.writeFileSync(filePath, output.join('\n'))
+  fs.writeFileSync(filePath, output.join('\n') + '\n\n' + new Date().toISOString())
   return output.join('\n')
 }
 
