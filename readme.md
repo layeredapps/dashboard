@@ -7,6 +7,9 @@
 - [UI screenshots](https://layeredapps.github.io/dashboard-ui)
 - [API documentation](https://layeredapps.github.io/dashboard-api)
 - [Environment configuration](https://layeredapps.github.io/dashboard-configuration)
+- [Example web app](https://github.com/layeredapps/example-web-app)
+- [Example subscription web app](https://github.com/layeredapps/example-subscription-web-app)
+- [Dashboard hosting at Layered Apps](https://layeredapps.com)
 
 #### Index
 
@@ -31,6 +34,8 @@
 Web applications often require coding a user account system, organizations, subscriptions and other 'boilerplate' again and again.  
 
 Dashboard packages everything web apps need into reusable, modular software.  It runs separately to your application so you have two web servers instead of one, and Dashboard fuses their content together to provide a single website or interface for your users.  To get started your web app just needs to serve something on `/` for your guest home page and `/home` for signed in users.
+
+Dashboard is stateless and designed to scale 'horizontally', that is you can run multiple instances of your Dashboard server in parallel to handle user requests using Heroku, Kubernetes, etc.  Managed hosting is avilable at [Layered Apps](https://layeredapps.com).
 
 Dashboard uses a `template.html` with header, navigation and content structure.  Dashboard and module content is provided in HTML pages.  Your application server can serve two special CSS files at `/public/template-additional.css` and `/public/content-additional.css` to theme the template and pages to match your application design.
 
