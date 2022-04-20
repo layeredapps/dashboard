@@ -58,11 +58,12 @@ input, select, textarea, a, button, div { outline: 0 }
 .field { max-width: 100% }
 .field .tiny-field div,
 .field .tiny-field input,
-.field .tiny-field select { max-width: 3rem }
+.field .tiny-field select { max-width: 6rem }
+.field .normal-field div { max-width: 12rem }
 .field select,
 .field input[type=number],
 .field input[type=text],
-.field input[type=password] { padding: 0.5rem; border-radius: 0.25rem; border: none; background-color: rgba(0, 0, 0, 0.125); color: #2F365F; margin-right: 1rem }
+.field input[type=password] { width: 12rem; padding: 0.5rem; border-radius: 0.25rem; border: none; background-color: rgba(0, 0, 0, 0.125); color: #2F365F; margin-right: 1rem }
 .field select:last-of-type,
 .field input[type=number]:last-of-type,
 .field input[type=text]:last-of-type,
