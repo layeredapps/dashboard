@@ -123,12 +123,15 @@ For additional icons you can specify <>
 
 Dashboard is modular and by itself it provides only the signing in, account management and basic administration.  Modules add new pages and API routes for additional functionality.
 
-| Name                                                                                                | Description                               |
-|-----------------------------------------------------------------------------------------------------|-------------------------------------------|
+| Name                                                                                            | Description                               |
+|-------------------------------------------------------------------------------------------------|-------------------------------------------|
 | [@layeredapps/maxmind-geoip](https://npmjs.com/package/layeredapps/maxmind-geoip)               | IP address-based geolocation by MaxMind   |
 | [@layeredapps/organizations](https://npmjs.com/package/layeredapps/organizations)               | User created groups                       |
+| [@layeredapps/maxmind-geoip](https://npmjs.com/package/layeredapps/maxmind-geoip)               | IP-to-country mapping by MaxMind          |
 | [@layeredapps/stripe-connect](https://npmjs.com/package/layeredapps/stripe-connect)             | Marketplace functionality by Stripe       |
 | [@layeredapps/stripe-subscriptions](https://npmjs.com/package/layeredapps/stripe-subscriptions) | SaaS functionality by Stripe              |
+| [@layeredapps/oauth](https://npmjs.com/package/layeredapps/oauth)                               | Oauth framework for providers             |
+| [@layeredapps/oauth-github](https://npmjs.com/package/layeredapps/oauth-github)                 | "Sign in with GitHub" using OAuth         |
 
 Modules are NodeJS packages that you install with NPM:
 
