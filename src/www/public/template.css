@@ -5,8 +5,7 @@ body { line-height: 100%;  min-width: 320px }
 ul, li, nav, menu { list-style-type: none; padding: 0; margin: 0 }
 a { text-decoration: none }
 input, select, textarea, a, button, div { outline: 0 }
-
-.template { color: #F7F1ED; background-color: #2F365F; }
+.template { color: var(--template-text-color); background-color: var(--template-background-color) }
 
 /* header */
 .header { display: flex; justify-content: space-between; flex-direction: row; flex-wrap: nowrap; align-content: stretch; height: 4rem }
@@ -18,7 +17,7 @@ input, select, textarea, a, button, div { outline: 0 }
 .template .menu-group { display: inline-block; position: relative; margin: 0 0 0 1rem; padding: 0 0 0 1rem; min-height: 4rem; cursor: pointer; font-size: 0.8rem; color: inherit }
 .template .menu-icon { position: absolute; right: 0.5rem; top: 1rem; height: 2rem; width: 2rem; opacity: 0.75 }
 .template .menu-group-label { padding-right: 4rem } 
-.template .menu-trigger { cursor: pointer; height: 4rem; color: inherit; border: none; background-color: transparent; padding: 0 0 0 1rem; margin: 0; border-radius: 0.5rem; }
+.template .menu-trigger { cursor: pointer; height: 4rem; color: inherit; border: none; background-color: transparent; padding: 0 0 0 1rem; margin: 0; border-radius: 0.5rem }
 .template .menus .menu-group:first-of-type { margin-left: 0; padding-left: 0 }
 .template .menu-group-active .dropdown-menu,
 .template .menu-group:hover .dropdown-menu,
@@ -26,36 +25,36 @@ input, select, textarea, a, button, div { outline: 0 }
 .template .menu-group-active .menu-trigger,
 .template .menu-group:hover .menu-trigger,
 .template .menu-group:focus .menu-trigger,
-.template .menu-trigger:focus { background-color: #1E90FF }
-.template .dropdown-menu { padding: 0.5rem 0.5rem 0.5rem 4rem; position: absolute; border-radius: 0.5rem; border-top-right-radius: 0; background-color: #1E90FF; box-shadow: 0 0.25rem 0.25rem rgba(0, 0, 0, 0.25); text-align: right; z-index: 1; top: 3.5rem; right: 0; display: none }
-.template .menu-link { white-space: nowrap; line-height: 2rem; padding: 0 1rem; margin-bottom: 0.5rem; white-space: nowrap; font-size: 0.8rem; color: #FFF; display: block; text-decoration: none }
+.template .menu-trigger:focus { background-color: var(--template-focus-color) }
+.template .dropdown-menu { padding: 0.5rem 0.5rem 0.5rem 4rem; position: absolute; border-radius: 0.5rem; border-top-right-radius: 0; background-color: var(--template-focus-color); box-shadow: 0 0.25rem 0.25rem var(--template-shadow-color); text-align: right; z-index: 1; top: 3.5rem; right: 0; display: none }
+.template .menu-link { white-space: nowrap; line-height: 2rem; padding: 0 1rem; margin-bottom: 0.5rem; white-space: nowrap; font-size: 0.8rem; color: var(--template-text-color); display: block; text-decoration: none }
 .template .menu-link:hover,
-.template .menu-link:focus { background-color: rgba(255, 255, 255, 0.5); color: #2F365F; border-radius: 0.5rem }
-.template .menu-link.current-page { color: #999 }
+.template .menu-link:focus { background-color: var(--template-highlight-focus-color); color: var(--template-background-color); border-radius: 0.5rem }
+.template .menu-link.current-page { color: var(--template-text-color) }
 .template .menu-group .menu-link:last-of-type { margin-bottom: 0 }
 
 /* navigation bar and "spillage" when links don't fit */
-.template .navigation { color: #F7F1ED; background-color: #2F365F; display: flex; position: relative; height: 3rem }
+.template .navigation { color: var(--template-text-color); background-color: var(--template-background-color); display: flex; position: relative; height: 3rem }
 .template .navigation-links { display: flex; white-space: nowrap; height: 2rem; line-height: 2rem; overflow: hidden; width: 100% }
 .template .navigation-links ul { margin: 0 0 0 1rem }
 .template .navigation-link { display: flex; white-space: nowrap; border-radius: 0.5rem; color: inherit; margin: 0 0.5rem; height: 2rem; line-height: 2rem; padding: 0 0.5rem; opacity: 0.8; font-size: 0.9rem; cursor: pointer }
 .template .navigation-link.current-page { background-color: rgba(255, 255, 255, 0.25); border-radius: 0.5rem }
 .template .navigation-link:hover,
-.template .navigation-link:active { background-color: #1E90FF }
-.template .navigation-link:focus { background-color: #1E90FF; }
+.template .navigation-link:active { background-color: var(--template-focus-color) }
+.template .navigation-link:focus { background-color: var(--template-focus-color) }
 .template .navigation-link span { height: 2rem; display: block }
 .template .navigation-link img { margin: 0.5rem; height: 1rem; width: 1rem }
 .template .spillage { flex-direction: column; height: 3rem; padding: 0 0.5rem; cursor: pointer; overflow: hidden }
 .template .spillage-active,
 .template .spillage:hover,
-.template .spillage:focus { background-color: #121527; border-top-left-radius: 0.5rem } 
-.template .spillage-trigger { cursor: pointer; height: 2rem; color: inherit; border: none; background-color: transparent; padding: 0 0 0 1rem; margin: 0; border-radius: 0.5rem; }
-.template .spillage-trigger:focus { background-color: #1E90FF }
+.template .spillage:focus { background-color: var(--template-darkest-color); border-top-left-radius: 0.5rem } 
+.template .spillage-trigger { cursor: pointer; height: 2rem; color: inherit; border: none; background-color: transparent; padding: 0 0 0 1rem; margin: 0; border-radius: 0.5rem }
+.template .spillage-trigger:focus { background-color: var(--template-focus-color) }
 .template .spillage-icon { width: 1rem; height: 1rem; margin-top: 0.25rem; margin-right: 1rem }
-.template .spillage-links { display: none; background-color: #121527; position: absolute; top: 3rem; right: 0; padding: 0.5rem 0.5rem 0.5rem 4rem; text-align: right; border-bottom-left-radius: 0.5rem }
-.template .spillage-link { line-height: 2rem; font-size: 0.8rem; display: block; margin-bottom: 0.5rem; padding: 0 0.5rem; color: #F7F1ED }
+.template .spillage-links { display: none; background-color: var(--template-darkest-color); position: absolute; top: 3rem; right: 0; padding: 0.5rem 0.5rem 0.5rem 4rem; text-align: right; border-bottom-left-radius: 0.5rem }
+.template .spillage-link { line-height: 2rem; font-size: 0.8rem; display: block; margin-bottom: 0.5rem; padding: 0 0.5rem; color: var(--template-text-color) }
 .template .spillage-link:hover,
-.template .spillage-link:focus { background-color: #1E90FF; border-radius: 0.5rem; color: #FFF }
+.template .spillage-link:focus { background-color: var(--template-focus-color); border-radius: 0.5rem; color: var(--template-text-color) }
 .template .spillage-links .spillage-link:last-of-type { margin-bottom: 0 }
 .template .spillage-active .spillage-links,
 .template .spillage:hover .spillage-links,
@@ -66,7 +65,7 @@ input, select, textarea, a, button, div { outline: 0 }
 
 @media (max-width: 960px) {
   .template .header { height: 3rem }
-  .template .heading { padding-left: 0.5rem; font-size: 1rem; line-height: 3rem; }
+  .template .heading { padding-left: 0.5rem; font-size: 1rem; line-height: 3rem }
   .template .menus { margin-right: 0; min-height: 2rem; line-height: 2rem }
   .template .menu-group .dropdown-menu:first-of-type { right: 0 }
   .template .menus .menu-group:last-of-type { margin-left: 0.5rem; padding-left: 0.5rem }
@@ -82,4 +81,24 @@ input, select, textarea, a, button, div { outline: 0 }
   .template .spillage-links a { font-size: 0.8rem }
   .template .navigation-links span { display: none }
   .template .spillage img { padding-right: 0 }
+}
+
+:root {
+  --template-background-color: #2F365F;
+  --template-text-color: #F7F1ED;
+  --template-focus-color: #1E90FF;
+  --template-darkest-color: #121527;
+  --template-highlight-focus-color: rgba(255, 255, 255, 0.5);
+  --template-shadow-color: rgba(0, 0, 0, 0.25);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --template-background-color: #191927;
+    --template-text-color: rgba(247, 241, 237, 0.75);
+    --template-focus-color: #1665b4;
+    --template-darkest-color: #2F365F;
+    --template-highlight-focus-color: rgba(255, 255, 255, 0.25);
+    --template-shadow-color: #000;
+  }
 }

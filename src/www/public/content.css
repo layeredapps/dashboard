@@ -1,6 +1,6 @@
 /* basic resetting */
 html { height: 100%; width: 100% }
-body { min-height: 100%; width: 100%; padding: 0; margin: 0; font-family: sans-serif; background-color: #F7F1ED; color: #2F365F }
+body { min-height: 100%; width: 100%; padding: 0; margin: 0; font-family: sans-serif; background-color: var(--content-background-color); color: var(--content-text-color) }
 ul, ol, li, nav, menu, p, h1, h2, h3, fieldset, form { list-style-type: none; padding: 0; margin: 0 }
 a { text-decoration: none }
 p { margin-bottom: 2rem }
@@ -11,38 +11,38 @@ input, select, textarea, a, button, div { outline: 0 }
 .container h2 { font-weight: normal; font-size: 1.2rem; line-height: 1.8rem; margin: 0 0 1rem 0 }
 .container h3 { font-weight: normal; font-size: 1rem; line-height: 1.6rem; margin: 0 0 1rem 0 }
 .container p { font-size: 0.8rem; line-height: 1.4rem }
-.container a { color: #1E90FF }
-.container a:hover { color: #2F365F; text-decoration: underline }
+.container a { color: var(--content-link-color) }
+.container a:hover { color: var(--content-text-color); text-decoration: underline }
 .container label:focus, 
-.container input:focus { box-shadow: 0 0 0 0.2rem #1E90FF }
+.container input:focus { box-shadow: 0 0 0 0.2rem var(--content-focus-color) }
 
-.container .button { display: inline-block; line-height: 2rem; font-size: 0.8rem; padding: 0 1rem; background-color: #2F365F; border: 1px solid #2F365F; border-radius: 0.5rem; color: #F7F1ED; cursor: pointer; box-shadow: 0 0.125rem 0.125rem rgba(0, 0, 0, 0.25) }
-.container .button:hover { background-color: #1E90FF; border-color: #1E90FF; color: #FFF; text-decoration: none }
-.container .button:disabled { background-color: #666 }
-.container .button:focus { border-color: #1E90FF; background-color: #1E90FF }
-.container .small-button { font-size: 0.8rem; padding: 0.25rem 0.5rem; background-color: #1E90FF; border-radius: 0.25rem; border: 1px solid #1E90FF; color: #FFF; }
-.container .small-button:hover { background-color: #2F365F; border: 1px solid #2F365F; }
-.container .small-button:disabled { background-color: #666; border: 1px solid #666; }
-.container .small-button:focus { background-color: #2F365F; border: 1px solid #2F365F; }
+.container .button { display: inline-block; line-height: 2rem; font-size: 0.8rem; padding: 0 1rem; background-color: var(--button-primary-background-color); border: 1px solid var(--content-darkest-color); border-radius: 0.5rem; color: var(--button-primary-text-color); cursor: pointer; box-shadow: 0 0.125rem 0.125rem var(--content-shadow-color) }
+.container .button:hover { background-color: var(--button-primary-focus-background-color); border-color: var(--button-primary-focus-background-color); color: var(--button-primary-focus-text-color); text-decoration: none }
+.container .button:disabled { background-color: var(--content-disabled-color) }
+.container .button:focus { border-color: var(--button-primary-focus-background-color); background-color: var(--button-primary-focus-background-color) }
+.container .small-button { font-size: 0.8rem; padding: 0.25rem 0.5rem; background-color: var(--button-small-background-color); border-radius: 0.25rem; border: 1px solid var(--button-small-background-color); color: var(--button-small-text-color) }
+.container .small-button:hover { background-color: var(--button-small-background-color); border: 1px solid var(--button-small-background-color); }
+.container .small-button:disabled { background-color: var(--button-small-disabled-background-color); border: 1px solid var(--button-small-disabled-background-color); }
+.container .small-button:focus { background-color: var(--button-small-background-color); border: 1px solid var(--button-small-background-color); }
 .container .nested-button { margin-top: 1rem }
 .container .spaced-buttons .button { margin-right: 1rem }
 .container .single-button,
 .container .button-group { margin-bottom: 2rem; text-align: left }
-.container .button-group .button { border-right: 1px solid rgba(255, 255, 255, 0.5); border-radius: 0 }
+.container .button-group .button { border-right: 1px solid var(--content-background-color); border-radius: 0 }
 .container .button-group .button:last-of-type { border-right: none; border-top-right-radius: 0.5rem; border-bottom-right-radius: 0.5rem }
-.container .button-group .button:first-of-type { border-right: 1px solid rgba(255, 255, 255, 0.5); border-top-left-radius: 0.5rem; border-bottom-left-radius: 0.5rem }
+.container .button-group .button:first-of-type { border-right: 1px solid var(--content-background-color); border-top-left-radius: 0.5rem; border-bottom-left-radius: 0.5rem }
 
 .data-table { border-collapse: collapse; margin-bottom: 2rem; white-space: nowrap; word-break: keep-all }
 .data-table th,
-.data-table td { font-size: 0.8rem; border-bottom: 1px solid #F7F1ED; border-bottom: 1px dotted #2F365F; padding: 0.5rem; white-space: nowrap; word-break: keep-all }
-.data-table th { font-weight: normal; text-align: right; padding-right: 1rem; padding-left: 3rem; color: #2F365F }
+.data-table td { font-size: 0.8rem; border-bottom: 1px solid var(--content-background-color); border-bottom: 1px dotted var(--content-text-color); padding: 0.5rem; white-space: nowrap; word-break: keep-all }
+.data-table th { font-weight: normal; text-align: right; padding-right: 1rem; padding-left: 3rem; color: var(--content-text-color) }
 .data-table tr:last-of-type th,
 .data-table tr:last-of-type td { border-bottom: none }
 .data-table .small-button { margin: 0.25rem }
 
 .list-table-wrapper { max-width: 100%; overflow-x: auto }
 .list-table { border-collapse: collapse; margin-bottom: 2rem; white-space: nowrap; word-break: keep-all }
-.list-table th { background-color: #2F365F; color: #F7F1ED; font-weight: normal; padding: 0.5rem; text-align: left }
+.list-table th { background-color: var(--content-th-background-color); color: var(--content-th-text-color); font-weight: normal; padding: 0.5rem; text-align: left }
 .list-table td { padding: 0.5rem }
 .list-table td,
 .list-table th { font-size: 0.8rem; padding-right: 4rem; white-space: nowrap; word-break: keep-all }
@@ -50,6 +50,15 @@ input, select, textarea, a, button, div { outline: 0 }
 .list-table td.right { text-align: right }
 .list-table .small-button { margin: 0.125rem 0.25rem }
 
+/* pagination links */
+.pagination { list-style-type: none; margin: 1rem 0 }
+.pagination li { display: inline-block; margin: 0.25rem 0.25rem 0 }
+.pagination a { border: 1px solid var(--content-light-contrast-background); display: inline-block; padding: 0.25rem 0.5rem; font-size: 0.9rem; text-decoration: none }
+.pagination a:hover { background-color: var(--content-text-color); color: var(--content-background-color) }
+.pagination a.current-page { color: var(--content-text-color); border-color: var(--content-text-color) } 
+.pagination span { pointer-events: none; display: inline-block; margin-left: 0.25rem; padding: 0 0.5rem; color: var(--content-light-contrast-background) }
+
+/* form fields */
 .input-fields { margin: 0 0 2rem 0; border: none; display: grid; grid-template-columns: 1fr 3fr; max-width: 60rem }
 .checkbox-fields { margin: 0 0 0.5rem 0; border: none; display: flex; flex-direction: column; text-align: left }
 .checkbox-fields .field-label { margin-bottom: 1rem }
@@ -63,7 +72,7 @@ input, select, textarea, a, button, div { outline: 0 }
 .field select,
 .field input[type=number],
 .field input[type=text],
-.field input[type=password] { width: 12rem; padding: 0.5rem; border-radius: 0.25rem; border: none; background-color: rgba(0, 0, 0, 0.125); color: #2F365F; margin-right: 1rem }
+.field input[type=password] { width: 12rem; padding: 0.5rem; border-radius: 0.25rem; border: none; background-color: var(--content-light-contrast-background); color: var(--content-text-color); margin-right: 1rem }
 .field select:last-of-type,
 .field input[type=number]:last-of-type,
 .field input[type=text]:last-of-type,
@@ -75,64 +84,66 @@ input, select, textarea, a, button, div { outline: 0 }
 .field input[type=text]:active,
 .field input[type=text]:focus,
 .field input[type=password]:active,
-.field input[type=password]:focus { background-color: rgba(255, 255, 255, 0.75) }
+.field input[type=password]:focus { border-color: var(--content-focus-color) }
 .field select { max-width: 100% }
 
+/* administrator charts */
 .charts { margin-bottom: 2rem }
 .charts-grid { display: grid; grid-template-columns: 1fr 1fr; grid-gap: 1rem; margin-bottom: 2rem }
 .charts-grid3 { grid-template-columns: 1fr 1fr 1fr }
-.chart { margin-top: 1rem; background-color: rgba(255, 255, 255, 0.5); border-radius: 0.5rem; padding: 1rem }
+.chart { margin-top: 1rem; background-color: var(--content-highlight-focus-color); border-radius: 0.5rem; padding: 1rem }
 .chart legend { display: flex; margin: 0; padding: 0.5rem 0; width: 100% }
-.chart legend span { width: 50%; display: block; font-size: 0.5rem; text-transform: uppercase; color: rgba(0, 0, 0, 0.5) }
+.chart legend span { width: 50%; display: block; font-size: 0.5rem; text-transform: uppercase; color: var(--content-text-color); opacity: 0.75 }
 .chart legend span:last-of-type { text-align: right }
 .chart .metrics ul { display: flex }
-.chart .metrics li { font-size: 1.5rem; display: flex; flex-direction: column; align-content: center; color: rgba(0, 0, 0, 0.75); margin: 0 2rem 0 0 }
-.chart .metrics li span { font-size: 0.8rem; display: block; color: rgba(0, 0, 0, 0.5) }
+.chart .metrics li { font-size: 1.5rem; display: flex; flex-direction: column; align-content: center; color: var(--content-text-color); margin: 0 2rem 0 0 }
+.chart .metrics li span { font-size: 0.8rem; display: block; color: var(--content-text-color); margin-top: 0.5rem; opacity: 0.75 }
 .chart .graph { display: flex; width: 100%; margin-top: 1rem }
 .chart .values { display: grid; grid-template-rows: repeat(5, 1fr); padding: 0 0.5rem; text-align: right; }
-.chart .values h3 { margin: 0; padding: 0; font-size: 0.5rem; line-height: 0.5rem; color: rgba(0, 0, 0, 0.5) }
+.chart .values h3 { margin: 0; padding: 0; font-size: 0.5rem; line-height: 0.5rem; color: var(--content-text-color); opacity: 0.75 }
 .chart .columns { width: 100% }
-.chart .padder { padding: 0.25rem; border-left: 1px solid rgba(0, 0, 0, 0.25); border-bottom: 1px solid rgba(0, 0, 0, 0.25) }
+.chart .padder { padding: 0.25rem; border-left: 1px solid var(--content-text-color); border-bottom: 1px solid var(--content-text-color) }
 .chart ol { width: 100%; height: 10rem; display: grid; vertical-align: bottom }
 .chart ol.ninety { grid-template-columns: repeat(90, 1fr); grid-gap: 2px }
 .chart ol.threesixfive { grid-template-columns: repeat(365, 1fr); grid-gap: 1px }
 .chart ol li { height: 100%; position: relative }
-.chart ol li span { position: absolute; display: block; background-color: rgba(47, 54, 95, 0.5); border-bottom: 1px solid rgba(0, 0, 0, 0.125); border-right: 1px solid rgba(0, 0, 0, 0.125); width: 100% }
-.chart ol li span:hover { background-color: rgba(47, 54, 95, 0.5) }
+.chart ol li span { position: absolute; display: block; background-color: var(--content-text-color); opacity: 0.5; border-bottom: 1px solid var(--content-shadow-color); border-right: 1px solid var(--content-shadow-color); width: 100% }
+.chart ol li span:hover { opacity: 1 }
 
 /* alerts */
 .message { font-weight: bold; font-size: 0.9rem; margin-bottom: 1rem }
-.success.message { color: #060 }
-.error.message { color: #900 }
-.info.message { color: #666 }
+.success.message { color: var(--success-color) }
+.error.message { color: var(--error-color) }
 
 /* entry forms for signing in, registration */
-body.entry { background-color: #2F365F; display: flex; align-items: center; justify-content: center; width: 100%; min-height: 100% }
-.entry p { color: rgba(255, 255, 255, 0.5) }
-.entry p a { color: rgba(255, 255, 255, 0.75); text-decoration: underline }
-.entry p a:hover { color: #FFF }
-.redirect-message { color: #FFF }
-.redirect-message a { color: rgba(255, 255, 255, 0.5); text-decoration: underline;}
-.redirect-message a:hover { color: #FFF }
+body.entry { background-color: var(--entry-form-background-color); display: flex; align-items: center; justify-content: center; width: 100%; min-height: 100% }
+.entry p { color: var(--entry-form-text-color); opacity: 0.5 }
+.entry p a { color: var(--entry-form-text-color); opacity: 0.75; text-decoration: underline }
+.entry p a:hover { opacity: 1 }
+.redirect-message { opacity: 1 }
+.redirect-message a { color: var(--entry-form-text-color); opacity: 0.75; text-decoration: underline;}
+.redirect-message a:hover { opacity: 1 }
 .entry-form { width: 20rem; padding: 1rem; text-align: center }
-.entry-form h1 { text-align: left; font-size: 1.2rem; color: rgba(255, 255, 255, 0.75) }
-
+.entry-form h1 { text-align: left; font-size: 1.2rem; color: var(--entry-form-text-color); opacity: 0.75 }
 .entry-form .list { text-align: left }
 .entry-form .list li { margin-bottom: 0.5rem }
-.entry-form .list-link { color: rgba(255, 255, 255, 0.5); line-height: 1.5rem; font-size: 0.8rem; padding: 0.25rem; border-radius: 0.5rem }
-.entry-form .list-link:hover { color: #FFF; text-decoration: underline }
+.entry-form .list-link { color: var(--entry-form-text-color); opacity: 0.75; line-height: 1.5rem; font-size: 0.8rem; padding: 0.25rem; border-radius: 0.5rem }
+.entry-form .list-link:hover { opacity: 1; text-decoration: underline }
 .entry-form .list-link:active,
-.entry-form .list-link:focus { background-color: rgba(255, 255, 255, 0.25) }
+.entry-form .list-link:focus { background-color: var(--content-highlight-focus-color) }
 .entry-form .input-fields { display: block; text-align: left }
 .entry-form .field input[type="text"], 
 .entry-form .field input[type="password"],
-.entry-form .field input[type="email"]{ width: 100%; background-color: rgba(255, 255, 255, 0.125); color: rgba(255, 255, 255, 0.75); font-size: 1rem }
-.entry-form .field-label { display: inline-block; text-transform: uppercase; font-size: 0.75rem; color: rgba(255, 255, 255, 0.5); margin-bottom: 0.5rem }
+.entry-form .field input[type="email"]{ width: 100%; background-color: var(--content-light-contrast-background); color: var(--entry-form-text-color); font-size: 1rem }
+.entry-form .field-label { display: inline-block; text-transform: uppercase; font-size: 0.75rem; color: var(--entry-form-text-color); margin-bottom: 0.5rem }
 .entry-form .field-label span { border: none; background-color: transparent; margin-left: 0.5rem }
 .entry-form .form-buttons { text-align: left; margin-bottom: 2rem }
-.entry-form .button { padding: 0 2rem; background-color: rgba(0, 0, 0, 0.5); border: 1px solid rgba(0, 0, 0, 0.5); color: #FFF }
-.entry-form .message { color: #FFF; padding: 0.5rem; background-color: rgba(0, 0, 0, 0.5) }
+.entry-form .button { padding: 0 2rem; background-color: var(--entry-form-button-background-color); border-color: var(--entry-form-button-background-color); color: var(--entry-form-button-text-color) }
+.entry-form .message { padding: 0.5rem }
+.entry-form .message.success { color: var(--entry-form-success-color) }
+.entry-form .message.error { color: var(--entry-form-error-color) }
 
+/* mobile tweaks */
 @media (max-width: 600px) {
   .container { padding: 1rem 0.5rem }
   .entry-form { width: unset; box-shadow: none; transform: none; position: unset }
@@ -153,7 +164,7 @@ body.entry { background-color: #2F365F; display: flex; align-items: center; just
 	.data-table thead tr {  position: absolute; top: -9999px; left: -9999px }
   .data-table th { padding: 0.5rem }
 	.data-table td { border: none; position: relative; padding: 0.5rem 0.5rem 1rem 0.5rem }
-  .data-table tr:last-of-type th { border-bottom: 1px dotted #2F365F }
+  .data-table tr:last-of-type th { border-bottom: 1px dotted var(--content-text-color) }
   .list-table th,
   .list-table td { font-size: 0.7rem }
   .chart { padding: 0.25rem }
@@ -164,13 +175,82 @@ body.entry { background-color: #2F365F; display: flex; align-items: center; just
   .chart ol li span { border-right: none }
   .chart .values { padding: 0 0.125rem }
   .chart .legend { padding-bottom: 0 }
-
 }
 
-/* pagination */
-.pagination { list-style-type: none; margin: 1rem 0 }
-.pagination li { display: inline-block; margin: 0.25rem 0.25rem 0 }
-.pagination a { border: 1px solid #CCC; display: inline-block; background-color: #EEE; padding: 0.25rem 0.5rem; font-size: 0.9rem; color: #999; text-decoration: none }
-.pagination a:hover { background-color: #666; color: #CCC }
-.pagination a.current-page { background-color: #FFF; color: #666; border-color: #666 } 
-.pagination span { pointer-events: none; display: inline-block; margin-left: 0.25rem; padding: 0 0.5rem; color: #999 }
+/* color settings */
+:root {
+  --content-text-color: #2F365F;
+  --content-link-color: #1E90FF;
+  --content-background-color: #F7F1ED;
+  --content-focus-color: #1E90FF;
+  --content-darkest-color: #121527;
+  --content-disabled-color: #666;
+  --content-highlight-focus-color: rgba(255, 255, 255, 0.5);
+  --content-light-contrast-background: rgba(0, 0, 0, 0.125);
+  --content-shadow-color: rgba(0, 0, 0, 0.25);
+  --content-th-text-color: #F7F1ED;
+  --content-th-background-color: #2F365F;
+  --success-color: #060;
+  --error-color: #900;
+  --button-primary-background-color: #2F365F;
+  --button-primary-text-color: #F7F1ED;
+  --button-primary-focus-background-color: #1E90FF;
+  --button-primary-focus-text-color:  #F7F1ED;
+  --button-primary-disabled-background-color: #666;
+  --button-primary-disabled-text-color: #000;
+  --button-small-background-color: #2F365F;
+  --button-small-text-color: #F7F1ED;
+  --button-small-focus-background-color: #1E90FF;
+  --button-small-focus-text-color: #F7F1ED;
+  --button-small-disabled-background-color: #666;
+  --button-small-disabled-text-color: #FFF;
+  --entry-form-success-color: #F7F1ED;
+  --entry-form-error-color: #CCC;
+  --entry-form-background-color: #2F365F;
+  --entry-form-text-color: #F7F1ED;
+  --entry-form-button-background-color: #2F365F;
+  --entry-form-button-text-color: #F7F1ED;
+  --entry-form-button-focus-background-color: #1E90FF;
+  --entry-form-button-focus-text-color:  #F7F1ED;
+  --entry-form-button-disabled-background-color: #666;
+  --entry-form-button-disabled-text-color: #000;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --content-background-color: #11111b;
+    --content-text-color: rgba(247, 241, 237, 0.75);
+    --content-link-color: #7d9fc1;
+    --content-focus-color: #1665b4;
+    --content-darkest-color: #2F365F;
+    --content-highlight-focus-color: rgba(255, 255, 255, 0.25);
+    --content-light-contrast-background: rgba(255, 255, 255, 0.25);
+    --content-shadow-color: #000;
+    --content-th-text-color: #F7F1ED;
+    --content-th-background-color: #2a2a2a;
+    --success-color: #1E90FF;
+    --error-color: #7d9fc1;
+    --button-primary-background-color: #2F365F;
+    --button-primary-text-color: #F7F1ED;
+    --button-primary-focus-background-color: #1E90FF;
+    --button-primary-focus-text-color:  #F7F1ED;
+    --button-primary-disabled-background-color: #666;
+    --button-primary-disabled-text-color: #000;
+    --button-small-background-color: #2F365F;
+    --button-small-text-color: #F7F1ED;
+    --button-small-focus-background-color: #1E90FF;
+    --button-small-focus-text-color: #F7F1ED;
+    --button-small-disabled-background-color: #666;
+    --button-small-disabled-text-color: #FFF;
+    --entry-form-success-color: #1E90FF;
+    --entry-form-error-color: #7d9fc1;
+    --entry-form-background-color: #11111b;
+    --entry-form-text-color: #F7F1ED;
+    --entry-form-button-background-color: #2a2a2a;
+    --entry-form-button-text-color: #F7F1ED;
+    --entry-form-button-focus-background-color: #1E90FF;
+    --entry-form-button-focus-text-color:  #F7F1ED;
+    --entry-form-button-disabled-background-color: #666;
+    --entry-form-button-disabled-text-color: #000;
+  }
+}

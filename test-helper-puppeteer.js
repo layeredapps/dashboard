@@ -46,6 +46,9 @@ async function fetch (method, req) {
   const result = {}
   const page = await launchBrowserPage()
   await page.emulate(devices[0])
+  if (process.env.DARK_MODE) {
+    await page.emulateMediaFeatures([{ name: 'prefers-color-scheme', value: 'dark' }])
+  }
   page.on('error', (msg) => {
     if (msg && msg.text) {
       Log.error('puppeteer page error', msg.text())
@@ -286,16 +289,17 @@ async function relaunchBrowser () {
     await browser.close()
     browser = null
   }
+  const launchArguments = [
+    '--no-sandbox',
+    '--disable-setuid-sandbox',
+    '--window-size=1920,1080',
+    '--incognito',
+    '--disable-dev-shm-usage',
+    '--disable-features=site-per-process'
+  ]
   const launchOptions = {
     headless: !(process.env.SHOW_BROWSERS === 'true'),
-    args: [
-      '--no-sandbox',
-      '--disable-setuid-sandbox',
-      '--window-size=1920,1080',
-      '--incognito',
-      '--disable-dev-shm-usage',
-      '--disable-features=site-per-process'
-    ],
+    args: launchArguments,
     slowMo: 10
   }
   if (process.env.CHROMIUM_EXECUTABLE) {
@@ -469,14 +473,15 @@ async function saveScreenshot (device, page, number, action, identifier, scriptN
   } else {
     title = ''
   }
+  let darkMode = process.env.DARK_MODE ? 'dark' : 'light'
   let filename
   if (overrideTitle) {
-    filename = `${number}-${action}-${overrideTitle}-${device.name.split(' ').join('-')}-${global.language}.png`.toLowerCase()
+    filename = `${number}-${action}-${overrideTitle}-${device.name.split(' ').join('-')}-${global.language}-${darkMode}.png`.toLowerCase()
   } else {
     if (title) {
-      filename = `${number}-${action}-${title}-${device.name.split(' ').join('-')}-${global.language}.png`.toLowerCase()
+      filename = `${number}-${action}-${title}-${device.name.split(' ').join('-')}-${global.language}-${darkMode}.png`.toLowerCase()
     } else {
-      filename = `${number}-${action}-${device.name.split(' ').join('-')}-${global.language}.png`.toLowerCase()
+      filename = `${number}-${action}-${device.name.split(' ').join('-')}-${global.language}-${darkMode}.png`.toLowerCase()
     }
   }
   if (screenshotCache[filename]) {
