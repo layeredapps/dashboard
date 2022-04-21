@@ -80,7 +80,7 @@ async function fetch (method, req) {
     return status === 200
   })
   if (req.screenshots) {
-    const colorSchemes = [ 'light', 'dark' ]
+    const colorSchemes = ['light', 'dark']
     if (req.account) {
       await setCookie(page, req)
       await gotoURL(page, `${global.dashboardServer}/home`)
