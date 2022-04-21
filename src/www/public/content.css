@@ -234,7 +234,7 @@ body.entry { background-color: var(--entry-form-background-color); display: flex
     --content-shadow-color: #000;
     --content-th-text-color: #F7F1ED;
     --content-th-background-color: #2a2a2a;
-    --content-chart-background-color: rgba(255, 255, 255, 0.5);
+    --content-chart-background-color: rgba(255, 255, 255, 0.15);
     --content-chart-legend-text-color: rgba(247, 241, 237, 0.7);
     --content-chart-legend-metrics-color: rgba(247, 241, 237, 0.75);
     --content-chart-border-color: rgba(247, 241, 237, 0.25);
