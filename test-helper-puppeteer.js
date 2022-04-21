@@ -473,7 +473,7 @@ async function saveScreenshot (device, page, number, action, identifier, scriptN
   } else {
     title = ''
   }
-  let darkMode = process.env.DARK_MODE ? 'dark' : 'light'
+  const darkMode = process.env.DARK_MODE ? 'dark' : 'light'
   let filename
   if (overrideTitle) {
     filename = `${number}-${action}-${overrideTitle}-${device.name.split(' ').join('-')}-${global.language}-${darkMode}.png`.toLowerCase()
