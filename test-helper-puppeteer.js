@@ -46,9 +46,6 @@ async function fetch (method, req) {
   const result = {}
   const page = await launchBrowserPage()
   await page.emulate(devices[0])
-  if (process.env.DARK_MODE) {
-    await page.emulateMediaFeatures([{ name: 'prefers-color-scheme', value: 'dark' }])
-  }
   page.on('error', (msg) => {
     if (msg && msg.text) {
       Log.error('puppeteer page error', msg.text())
@@ -83,6 +80,7 @@ async function fetch (method, req) {
     return status === 200
   })
   if (req.screenshots) {
+    const colorSchemes = [ 'light', 'dark' ]
     if (req.account) {
       await setCookie(page, req)
       await gotoURL(page, `${global.dashboardServer}/home`)
@@ -103,13 +101,16 @@ async function fetch (method, req) {
       if (step.save) {
         if (process.env.GENERATE_SCREENSHOTS && process.env.SCREENSHOT_PATH) {
           let firstTitle
-          for (const language of languages) {
-            global.language = language.code
-            for (const device of devices) {
-              await page.emulate(device)
-              await page.setViewport(device.viewport)
-              const thisTitle = await saveScreenshot(device, page, screenshotNumber, 'index', 'page', req.filename, firstTitle)
-              firstTitle = firstTitle || thisTitle
+          for (const colorScheme of colorSchemes) {
+            await page.emulateMediaFeatures([{ name: 'prefers-color-scheme', value: colorScheme }])
+            for (const language of languages) {
+              global.language = language.code
+              for (const device of devices) {
+                await page.emulate(device)
+                await page.setViewport(device.viewport)
+                const thisTitle = await saveScreenshot(device, page, screenshotNumber, 'index', 'page', req.filename, firstTitle, colorScheme)
+                firstTitle = firstTitle || thisTitle
+              }
             }
           }
         }
@@ -119,14 +120,17 @@ async function fetch (method, req) {
       if (step.hover) {
         if (process.env.GENERATE_SCREENSHOTS && process.env.SCREENSHOT_PATH) {
           let firstTitle
-          for (const language of languages) {
-            for (const device of devices) {
-              global.language = language.code
-              await page.emulate(device)
-              await page.setViewport(device.viewport)
-              await execute('hover', page, step.hover)
-              const thisTitle = await saveScreenshot(device, page, screenshotNumber, 'hover', step.hover, req.filename, firstTitle)
-              firstTitle = firstTitle || thisTitle
+          for (const colorScheme of colorSchemes) {
+            await page.emulateMediaFeatures([{ name: 'prefers-color-scheme', value: colorScheme }])
+            for (const language of languages) {
+              for (const device of devices) {
+                global.language = language.code
+                await page.emulate(device)
+                await page.setViewport(device.viewport)
+                await execute('hover', page, step.hover)
+                const thisTitle = await saveScreenshot(device, page, screenshotNumber, 'hover', step.hover, req.filename, firstTitle, colorScheme)
+                firstTitle = firstTitle || thisTitle
+              }
             }
           }
         } else {
@@ -136,20 +140,23 @@ async function fetch (method, req) {
       } else if (step.click) {
         if (process.env.GENERATE_SCREENSHOTS && process.env.SCREENSHOT_PATH) {
           let firstTitle
-          for (const language of languages) {
-            global.language = language.code
-            for (const device of devices) {
-              await page.emulate(device)
-              await page.setViewport(device.viewport)
-              if (lastStep && lastStep.hover === '#account-menu-container') {
-                await execute('hover', page, '#account-menu-container')
-              } else if (lastStep && lastStep.hover === '#administrator-menu-container') {
-                await execute('hover', page, '#administrator-menu-container')
+          for (const colorScheme of colorSchemes) {
+            await page.emulateMediaFeatures([{ name: 'prefers-color-scheme', value: colorScheme }])
+            for (const language of languages) {
+              global.language = language.code
+              for (const device of devices) {
+                await page.emulate(device)
+                await page.setViewport(device.viewport)
+                if (lastStep && lastStep.hover === '#account-menu-container') {
+                  await execute('hover', page, '#account-menu-container')
+                } else if (lastStep && lastStep.hover === '#administrator-menu-container') {
+                  await execute('hover', page, '#administrator-menu-container')
+                }
+                await execute('hover', page, step.click)
+                await execute('focus', page, step.click)
+                const thisTitle = await saveScreenshot(device, page, screenshotNumber, 'click', step.click, req.filename, firstTitle, colorScheme)
+                firstTitle = firstTitle || thisTitle
               }
-              await execute('hover', page, step.click)
-              await execute('focus', page, step.click)
-              const thisTitle = await saveScreenshot(device, page, screenshotNumber, 'click', step.click, req.filename, firstTitle)
-              firstTitle = firstTitle || thisTitle
             }
           }
         } else {
@@ -180,18 +187,21 @@ async function fetch (method, req) {
         }
         if (process.env.GENERATE_SCREENSHOTS && process.env.SCREENSHOT_PATH) {
           let firstTitle
-          for (const language of languages) {
-            global.language = language.code
-            for (const device of devices) {
-              await page.emulate(device)
-              await page.setViewport(device.viewport)
-              if (step.waitFormLoad) {
-                await step.waitFormLoad(page)
+          for (const colorScheme of colorSchemes) {
+            await page.emulateMediaFeatures([{ name: 'prefers-color-scheme', value: colorScheme }])
+            for (const language of languages) {
+              global.language = language.code
+              for (const device of devices) {
+                await page.emulate(device)
+                await page.setViewport(device.viewport)
+                if (step.waitFormLoad) {
+                  await step.waitFormLoad(page)
+                }
+                await fill(page, step.fill, step.body || req.body, req.uploads)
+                await execute('hover', page, req.button || '#submit-button')
+                const thisTitle = await saveScreenshot(device, page, screenshotNumber, 'submit', step.fill, req.filename, firstTitle, colorScheme)
+                firstTitle = firstTitle || thisTitle
               }
-              await fill(page, step.fill, step.body || req.body, req.uploads)
-              await execute('hover', page, req.button || '#submit-button')
-              const thisTitle = await saveScreenshot(device, page, screenshotNumber, 'submit', step.fill, req.filename, firstTitle)
-              firstTitle = firstTitle || thisTitle
             }
           }
         } else {
@@ -229,13 +239,16 @@ async function fetch (method, req) {
     }
     if (process.env.GENERATE_SCREENSHOTS && process.env.SCREENSHOT_PATH) {
       let firstTitle
-      for (const language of languages) {
-        global.language = language.code
-        for (const device of devices) {
-          await page.emulate(device)
-          await page.setViewport(device.viewport)
-          const thisTitle = await saveScreenshot(device, page, screenshotNumber, 'complete', null, req.filename, firstTitle)
-          firstTitle = firstTitle || thisTitle
+      for (const colorScheme of colorSchemes) {
+        await page.emulateMediaFeatures([{ name: 'prefers-color-scheme', value: colorScheme }])
+        for (const language of languages) {
+          global.language = language.code
+          for (const device of devices) {
+            await page.emulate(device)
+            await page.setViewport(device.viewport)
+            const thisTitle = await saveScreenshot(device, page, screenshotNumber, 'complete', null, req.filename, firstTitle, colorScheme)
+            firstTitle = firstTitle || thisTitle
+          }
         }
       }
     }
@@ -393,7 +406,7 @@ async function setCookie (page, req) {
 const screenshotCache = {
 }
 
-async function saveScreenshot (device, page, number, action, identifier, scriptName, overrideTitle) {
+async function saveScreenshot (device, page, number, action, identifier, scriptName, overrideTitle, colorScheme) {
   Log.info('taking screenshot', number, action, identifier, scriptName)
   global.language = global.language || 'en'
   let filePath = scriptName.substring(scriptName.indexOf('/src/www/') + '/src/www/'.length)
@@ -473,15 +486,14 @@ async function saveScreenshot (device, page, number, action, identifier, scriptN
   } else {
     title = ''
   }
-  const darkMode = process.env.DARK_MODE ? 'dark' : 'light'
   let filename
   if (overrideTitle) {
-    filename = `${number}-${action}-${overrideTitle}-${device.name.split(' ').join('-')}-${global.language}-${darkMode}.png`.toLowerCase()
+    filename = `${number}-${action}-${overrideTitle}-${device.name.split(' ').join('-')}-${global.language}-${colorScheme}.png`.toLowerCase()
   } else {
     if (title) {
-      filename = `${number}-${action}-${title}-${device.name.split(' ').join('-')}-${global.language}-${darkMode}.png`.toLowerCase()
+      filename = `${number}-${action}-${title}-${device.name.split(' ').join('-')}-${global.language}-${colorScheme}.png`.toLowerCase()
     } else {
-      filename = `${number}-${action}-${device.name.split(' ').join('-')}-${global.language}-${darkMode}.png`.toLowerCase()
+      filename = `${number}-${action}-${device.name.split(' ').join('-')}-${global.language}-${colorScheme}.png`.toLowerCase()
     }
   }
   if (screenshotCache[filename]) {
