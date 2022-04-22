@@ -389,8 +389,9 @@ async function setDeleted (user) {
   return user.account
 }
 
+let resetCodeNumber = 0
 async function createResetCode (user) {
-  const code = 'resetCode-' + global.testConfiguration.testNumber + '-' + Math.ceil(Math.random() * 100000)
+  const code = 'secret' + resetCodeNumber++
   const req = createRequest(`/api/user/create-reset-code?accountid=${user.account.accountid}`)
   req.account = user.account
   req.session = user.session

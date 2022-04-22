@@ -38,7 +38,7 @@ describe('/administrator/create-reset-code', () => {
       req.account = administrator.account
       req.session = administrator.session
       req.body = {
-        'secret-code': 'code-' + new Date().getTime() + '-' + Math.ceil(Math.random() * 1000)
+        'secret-code': 'secret1234'
       }
       req.filename = __filename
       req.screenshots = [
@@ -61,7 +61,7 @@ describe('/administrator/create-reset-code', () => {
   })
 
   describe('errors', () => {
-    it('invalid-secret-code', async () => {
+    it('invalid-secret-code (missing)', async () => {
       const administrator = await TestHelper.createOwner()
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest(`/administrator/create-reset-code?accountid=${user.account.accountid}`)
@@ -69,6 +69,22 @@ describe('/administrator/create-reset-code', () => {
       req.session = administrator.session
       req.body = {
         'secret-code': '',
+        post: 'at least one field'
+      }
+      const result = await req.post()
+      const doc = TestHelper.extractDoc(result.html)
+      const message = doc.getElementById('message-container').child[0]
+      assert.strictEqual(message.attr.template, 'invalid-secret-code')
+    })
+
+    it('invalid-secret-code (non-alphanumeric)', async () => {
+      const administrator = await TestHelper.createOwner()
+      const user = await TestHelper.createUser()
+      const req = TestHelper.createRequest(`/administrator/create-reset-code?accountid=${user.account.accountid}`)
+      req.account = administrator.account
+      req.session = administrator.session
+      req.body = {
+        'secret-code': 'invalid!!!!!',
         post: 'at least one field'
       }
       const result = await req.post()

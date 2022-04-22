@@ -86,7 +86,7 @@ describe('/account/reset-account', () => {
         username: '',
         'new-password': 'new-password',
         'confirm-password': 'new-password',
-        'secret-code': 'reset-code'
+        'secret-code': 'secret0001234'
       }
       const result = await req.post()
       const doc = TestHelper.extractDoc(result.html)
@@ -114,7 +114,7 @@ describe('/account/reset-account', () => {
         username: 'username',
         'new-password': '',
         'confirm-password': 'new-password',
-        'secret-code': 'reset-code'
+        'secret-code': 'secret0001233'
       }
       const result = await req.post()
       const doc = TestHelper.extractDoc(result.html)
@@ -128,7 +128,7 @@ describe('/account/reset-account', () => {
         username: 'username',
         'new-password': '1',
         'confirm-password': '1',
-        'secret-code': 'reset-code'
+        'secret-code': 'secret0001232'
       }
       global.minimumPasswordLength = 100
       const result = await req.post()
@@ -143,7 +143,7 @@ describe('/account/reset-account', () => {
         username: 'username',
         'new-password': 'new-password',
         'confirm-password': '',
-        'secret-code': 'reset-code'
+        'secret-code': 'secret0001231'
       }
       const result = await req.post()
       const doc = TestHelper.extractDoc(result.html)

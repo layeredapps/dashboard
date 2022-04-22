@@ -23,7 +23,7 @@ describe('/account/create-reset-code', () => {
       req.account = user.account
       req.session = user.session
       req.body = {
-        'secret-code': '123456890'
+        'secret-code': 'secret123456890'
       }
       req.filename = __filename
       req.screenshots = [
@@ -44,13 +44,28 @@ describe('/account/create-reset-code', () => {
   })
 
   describe('errors', () => {
-    it('invalid-secret-code', async () => {
+    it('invalid-secret-code (missing)', async () => {
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest('/account/create-reset-code')
       req.account = user.account
       req.session = user.session
       req.body = {
         'secret-code': '',
+        post: 'at least one field'
+      }
+      const result = await req.post()
+      const doc = TestHelper.extractDoc(result.html)
+      const message = doc.getElementById('message-container').child[0]
+      assert.strictEqual(message.attr.template, 'invalid-secret-code')
+    })
+
+    it('invalid-secret-code (non-alphanumeric)', async () => {
+      const user = await TestHelper.createUser()
+      const req = TestHelper.createRequest('/account/create-reset-code')
+      req.account = user.account
+      req.session = user.session
+      req.body = {
+        'secret-code': 'this has spaces',
         post: 'at least one field'
       }
       const result = await req.post()

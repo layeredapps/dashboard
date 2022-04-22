@@ -12,6 +12,9 @@ module.exports = {
     if (!req.body || !req.body['secret-code'] || !req.body['secret-code'].length) {
       throw new Error('invalid-secret-code')
     }
+    if (req.body['secret-code'].match(/^[a-z0-9]+$/i) === null) {
+      throw new Error('invalid-secret-code')
+    }
     if (global.minimumResetCodeLength > req.body['secret-code'].length ||
       global.maximumResetCodeLength < req.body['secret-code'].length) {
       throw new Error('invalid-secret-code-length')

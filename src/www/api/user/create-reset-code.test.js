@@ -67,6 +67,23 @@ describe('/api/user/create-reset-code', () => {
         }
         assert.strictEqual(errorMessage, 'invalid-secret-code')
       })
+
+      it('invalid posted secret-code (non-alphanumeric)', async () => {
+          const user = await TestHelper.createUser()
+        const req = TestHelper.createRequest(`/api/user/create-reset-code?accountid=${user.account.accountid}`)
+        req.account = user.account
+        req.session = user.session
+        req.body = {
+          'secret-code': 'this has spaces'
+        }
+        let errorMessage
+        try {
+          await req.post()
+        } catch (error) {
+          errorMessage = error.message
+        }
+        assert.strictEqual(errorMessage, 'invalid-secret-code')
+      })
     })
 
     describe('invalid-secret-code-length', () => {
@@ -117,7 +134,7 @@ describe('/api/user/create-reset-code', () => {
       req.filename = __filename
       req.saveResponse = true
       req.body = {
-        'secret-code': 'this-is-the-code'
+        'secret-code': 'secret000'
       }
       const code = await req.post()
       assert.strictEqual(code.object, 'resetCode')

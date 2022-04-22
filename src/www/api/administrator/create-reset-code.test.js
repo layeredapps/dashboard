@@ -59,6 +59,25 @@ describe('/api/administrator/create-reset-code', () => {
         }
         assert.strictEqual(errorMessage, 'invalid-secret-code')
       })
+
+      it('invalid posted secret-code (non-alphanumeric)', async () => {
+        const administrator = await TestHelper.createOwner()
+        const user = await TestHelper.createUser()
+        const req = TestHelper.createRequest(`/api/administrator/create-reset-code?accountid=${user.account.accountid}`)
+        req.account = administrator.account
+        req.session = administrator.session
+        req.body = {
+          'secret-code': 'this has spaces'
+        }
+        global.minimumResetCodeLength = 100
+        let errorMessage
+        try {
+          await req.post()
+        } catch (error) {
+          errorMessage = error.message
+        }
+        assert.strictEqual(errorMessage, 'invalid-secret-code')
+      })
     })
 
     describe('invalid-secret-code-length', () => {
