@@ -314,7 +314,8 @@
     submit
       ✔ should create reset code (screenshots)
     errors
-      ✔ invalid-secret-code
+      ✔ invalid-secret-code (missing)
+      ✔ invalid-secret-code (non-alphanumeric)
       ✔ invalid-secret-code-length
 
   /account/delete-account-complete
@@ -649,7 +650,8 @@
     submit
       ✔ should create reset code (screenshots)
     errors
-      ✔ invalid-secret-code
+      ✔ invalid-secret-code (missing)
+      ✔ invalid-secret-code (non-alphanumeric)
       ✔ invalid-secret-code-length
 
   /administrator/delete-account
@@ -808,6 +810,7 @@
         ✔ invalid querystring accountid
       invalid-secret-code
         ✔ missing posted secret-code
+        ✔ invalid posted secret-code (non-alphanumeric)
       invalid-secret-code-length
         ✔ invalid posted secret-code length
     returns
@@ -1145,6 +1148,7 @@
         ✔ ineligible accessing account
       invalid-secret-code
         ✔ missing posted secret-code
+        ✔ invalid posted secret-code (non-alphanumeric)
       invalid-secret-code-length
         ✔ posted secret code too short
         ✔ posted secret code too long
@@ -1486,5 +1490,5 @@
       ✔ override req.userProfileFields
 
 
-  823 passing (24m)
+  827 passing (31m)
 
