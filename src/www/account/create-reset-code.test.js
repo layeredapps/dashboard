@@ -34,7 +34,6 @@ describe('/account/create-reset-code', () => {
         { fill: '#submit-form' }
       ]
       global.pageSize = 50
-      global.minimumResetCodeLength = 1
       const result = await req.post()
       const doc = TestHelper.extractDoc(result.html)
       const messageContainer = doc.getElementById('message-container')

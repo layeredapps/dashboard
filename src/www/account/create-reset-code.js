@@ -44,7 +44,7 @@ async function submitForm (req, res) {
   if (req.body['secret-code'].match(/^[a-z0-9]+$/i) === null) {
     return renderPage(req, res, 'invalid-secret-code')
   }
-  if (global.minimumResetCodeLength > req.body['secret-code'].length || global.minimumResetCodeLength < req.body['secret-code'].length) {
+  if (global.minimumResetCodeLength > req.body['secret-code'].length || global.maximumResetCodeLength < req.body['secret-code'].length) {
     return renderPage(req, res, 'invalid-secret-code-length')
   }
   req.query = req.query || {}
