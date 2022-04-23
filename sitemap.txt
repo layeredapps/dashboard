@@ -1,4 +1,4 @@
-@layeredapps/dashboard 0.0.54
+@layeredapps/dashboard 0.0.55
 http://localhost:8000
 
 Administrator menu:
@@ -113,4 +113,4 @@ URL ------------------------------------------- AUTH - TEMPLATE - HTTP REQUESTS 
 /api/user/update-profile                                          PATCH           /src/www                 
 /home                                                                             static-page  /src/www    
 
-2022-04-23T01:48:16.979Z
+2022-04-23T07:32:52.492Z
