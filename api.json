@@ -99,7 +99,8 @@
         "invalid querystring accountid"
       ],
       "invalid-secret-code": [
-        "missing posted secret-code"
+        "missing posted secret-code",
+        "invalid posted secret-code (non-alphanumeric)"
       ],
       "invalid-secret-code-length": [
         "invalid posted secret-code length"
@@ -654,7 +655,8 @@
         "ineligible accessing account"
       ],
       "invalid-secret-code": [
-        "missing posted secret-code"
+        "missing posted secret-code",
+        "invalid posted secret-code is not alphanumeric"
       ],
       "invalid-secret-code-length": [
         "posted secret code too short",

@@ -1,4 +1,4 @@
-@layeredapps/dashboard 0.0.53
+@layeredapps/dashboard 0.0.54
 http://localhost:8000
 
 |------------------------------------------------------------------|
@@ -37,17 +37,18 @@ http://localhost:8000
 | integer                                          |
 |--------------------------------------------------|
 
-|--------------------------------------------------------------------------------------------------------------------------|
-| /api/administrator/create-reset-code                                                                                     |
-| RECEIVES---------------------| RETURNS--| EXCEPTIONS----------------------------| CONFIGURATION--------------------------|
-| required posted secret-code  | object   | invalid-accountid                     | environment MINIMUM_RESET_CODE_LENGTH  |
-|                              |          |  * unspecified querystring accountid  | environment MAXIMUM_RESET_CODE_LENGTH  |
-|                              |          |  * invalid querystring accountid      |                                        |
-|                              |          | invalid-secret-code                   |                                        |
-|                              |          |  * missing posted secret-code         |                                        |
-|                              |          | invalid-secret-code-length            |                                        |
-|                              |          |  * invalid posted secret-code length  |                                        |
-|------------------------------|----------|---------------------------------------|----------------------------------------|
+|--------------------------------------------------------------------------------------------------------------------------------------|
+| /api/administrator/create-reset-code                                                                                                 |
+| RECEIVES---------------------| RETURNS--| EXCEPTIONS----------------------------------------| CONFIGURATION--------------------------|
+| required posted secret-code  | object   | invalid-accountid                                 | environment MINIMUM_RESET_CODE_LENGTH  |
+|                              |          |  * unspecified querystring accountid              | environment MAXIMUM_RESET_CODE_LENGTH  |
+|                              |          |  * invalid querystring accountid                  |                                        |
+|                              |          | invalid-secret-code                               |                                        |
+|                              |          |  * missing posted secret-code                     |                                        |
+|                              |          |  * invalid posted secret-code (non-alphanumeric)  |                                        |
+|                              |          | invalid-secret-code-length                        |                                        |
+|                              |          |  * invalid posted secret-code length              |                                        |
+|------------------------------|----------|---------------------------------------------------|----------------------------------------|
 
 |--------------------------------------------------------------------------------|
 | /api/administrator/delete-account                                              |
@@ -298,19 +299,20 @@ http://localhost:8000
 |                                           |          |  * missing posted dob             |                                                  |
 |-------------------------------------------|----------|-----------------------------------|--------------------------------------------------|
 
-|--------------------------------------------------------------------------------|
-| /api/user/create-reset-code                                                    |
-| RECEIVES------------------------| RETURNS--| EXCEPTIONS------------------------|
-| required posted secret-code     | object   | invalid-accountid                 |
-| required querystring accountid  |          |  * missing querystring accountid  |
-|                                 |          |  * invalid querystring accountid  |
-|                                 |          |  * ineligible accessing account   |
-|                                 |          | invalid-secret-code               |
-|                                 |          |  * missing posted secret-code     |
-|                                 |          | invalid-secret-code-length        |
-|                                 |          |  * posted secret code too short   |
-|                                 |          |  * posted secret code too long    |
-|---------------------------------|----------|-----------------------------------|
+|-------------------------------------------------------------------------------------------------|
+| /api/user/create-reset-code                                                                     |
+| RECEIVES------------------------| RETURNS--| EXCEPTIONS-----------------------------------------|
+| required posted secret-code     | object   | invalid-accountid                                  |
+| required querystring accountid  |          |  * missing querystring accountid                   |
+|                                 |          |  * invalid querystring accountid                   |
+|                                 |          |  * ineligible accessing account                    |
+|                                 |          | invalid-secret-code                                |
+|                                 |          |  * missing posted secret-code                      |
+|                                 |          |  * invalid posted secret-code is not alphanumeric  |
+|                                 |          | invalid-secret-code-length                         |
+|                                 |          |  * posted secret code too short                    |
+|                                 |          |  * posted secret code too long                     |
+|---------------------------------|----------|----------------------------------------------------|
 
 |---------------------------------------------------------------------------------|
 | /api/user/create-session                                                        |
@@ -596,4 +598,4 @@ http://localhost:8000
 |-------------------------------------------|----------|--------------------------------------|--------------------------------------------------|
 
 
-2022-04-22T01:07:15.990Z
+2022-04-23T01:48:16.984Z
