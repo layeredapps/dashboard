@@ -100,7 +100,7 @@
       ],
       "invalid-secret-code": [
         "missing posted secret-code",
-        "invalid posted secret-code (non-alphanumeric)"
+        "invalid posted secret-code is not alphanumeric"
       ],
       "invalid-secret-code-length": [
         "invalid posted secret-code length"
