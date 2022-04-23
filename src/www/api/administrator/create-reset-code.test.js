@@ -60,7 +60,7 @@ describe('/api/administrator/create-reset-code', () => {
         assert.strictEqual(errorMessage, 'invalid-secret-code')
       })
 
-      it('invalid posted secret-code (non-alphanumeric)', async () => {
+      it('invalid posted secret-code is not alphanumeric', async () => {
         const administrator = await TestHelper.createOwner()
         const user = await TestHelper.createUser()
         const req = TestHelper.createRequest(`/api/administrator/create-reset-code?accountid=${user.account.accountid}`)
