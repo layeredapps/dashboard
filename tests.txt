@@ -1148,7 +1148,7 @@
         ✔ ineligible accessing account
       invalid-secret-code
         ✔ missing posted secret-code
-        ✔ invalid posted secret-code (non-alphanumeric)
+        ✔ invalid posted secret-code is not alphanumeric
       invalid-secret-code-length
         ✔ posted secret code too short
         ✔ posted secret code too long
