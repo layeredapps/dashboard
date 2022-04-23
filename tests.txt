@@ -315,7 +315,7 @@
       ✔ should create reset code (screenshots)
     errors
       ✔ invalid-secret-code (missing)
-      ✔ invalid-secret-code (non-alphanumeric)
+      ✔ invalid-secret-code is not alphanumeric
       ✔ invalid-secret-code-length
 
   /account/delete-account-complete
@@ -651,7 +651,7 @@
       ✔ should create reset code (screenshots)
     errors
       ✔ invalid-secret-code (missing)
-      ✔ invalid-secret-code (non-alphanumeric)
+      ✔ invalid-secret-code is not alphanumeric
       ✔ invalid-secret-code-length
 
   /administrator/delete-account
@@ -810,7 +810,7 @@
         ✔ invalid querystring accountid
       invalid-secret-code
         ✔ missing posted secret-code
-        ✔ invalid posted secret-code (non-alphanumeric)
+        ✔ invalid posted secret-code is not alphanumeric
       invalid-secret-code-length
         ✔ invalid posted secret-code length
     returns
@@ -1490,5 +1490,5 @@
       ✔ override req.userProfileFields
 
 
-  827 passing (31m)
+  827 passing (30m)
 
