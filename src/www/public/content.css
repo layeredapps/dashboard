@@ -73,7 +73,7 @@ input, select, textarea, a, button, div { outline: 0 }
 .field select,
 .field input[type=number],
 .field input[type=text],
-.field input[type=password] { width: 12rem; padding: 0.5rem; border-radius: 0.25rem; border: none; background-color: var(--content-light-contrast-background); color: var(--content-text-color); margin-right: 1rem }
+.field input[type=password] { box-sizing: border-box; width: 12rem; padding: 0.5rem; border-radius: 0.25rem; border: none; background-color: var(--content-light-contrast-background); color: var(--content-text-color); margin-right: 1rem }
 .field select:last-of-type,
 .field input[type=number]:last-of-type,
 .field input[type=text]:last-of-type,
