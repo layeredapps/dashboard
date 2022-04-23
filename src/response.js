@@ -198,7 +198,7 @@ async function wrapSrcDocWithTemplate (req, res, doc) {
   const packageJSON = req.packageJSON || global.packageJSON
   const templateDoc = HTML.parse(req.templateHTML || packageJSON.dashboard.templateHTML)
   if (!templateDoc) {
-    throw new Error()
+    throw new Error('invalid-template')
   }
   // template title
   let newTitle = packageJSON.dashboard.title
