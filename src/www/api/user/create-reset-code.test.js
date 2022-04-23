@@ -68,8 +68,8 @@ describe('/api/user/create-reset-code', () => {
         assert.strictEqual(errorMessage, 'invalid-secret-code')
       })
 
-      it('invalid posted secret-code (non-alphanumeric)', async () => {
-          const user = await TestHelper.createUser()
+      it('invalid posted secret-code is not alphanumeric', async () => {
+        const user = await TestHelper.createUser()
         const req = TestHelper.createRequest(`/api/user/create-reset-code?accountid=${user.account.accountid}`)
         req.account = user.account
         req.session = user.session
