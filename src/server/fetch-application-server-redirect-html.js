@@ -14,7 +14,6 @@ module.exports = {
       }
     }
     if (cache) {
-      req[key] = contents
       return
     }
     let contents
