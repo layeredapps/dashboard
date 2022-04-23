@@ -30,6 +30,12 @@ async function renderPage (req, res, messageTemplate) {
       return dashboard.Response.end(req, res, doc)
     }
   }
+  const note = {
+    object: 'note',
+    min: global.minimumResetCodeLength,
+    max: global.maximumResetCodeLength
+  }
+  dashboard.HTML.renderTemplate(doc, note, 'alphanumeric-note', 'note-container')
   const codeField = doc.getElementById('secret-code')
   if (req.body && req.body['secret-code']) {
     codeField.setAttribute('value', dashboard.Format.replaceQuotes(req.body['secret-code']))

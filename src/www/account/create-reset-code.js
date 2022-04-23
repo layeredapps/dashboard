@@ -15,6 +15,12 @@ function renderPage (req, res, messageTemplate) {
   if (messageTemplate) {
     dashboard.HTML.renderTemplate(doc, null, messageTemplate, 'message-container')
   }
+  const note = {
+    object: 'note',
+    min: global.minimumResetCodeLength,
+    max: global.maximumResetCodeLength
+  }
+  dashboard.HTML.renderTemplate(doc, note, 'alphanumeric-note', 'note-container')
   const codeField = doc.getElementById('secret-code')
   if (req.body && req.body['secret-code']) {
     codeField.setAttribute('value', dashboard.Format.replaceQuotes(req.body['secret-code']))
@@ -38,7 +44,7 @@ async function submitForm (req, res) {
   if (req.body['secret-code'].match(/^[a-z0-9]+$/i) === null) {
     return renderPage(req, res, 'invalid-secret-code')
   }
-  if (global.minimumResetCodeLength > req.body['secret-code'].length) {
+  if (global.minimumResetCodeLength > req.body['secret-code'].length || global.minimumResetCodeLength < req.body['secret-code'].length) {
     return renderPage(req, res, 'invalid-secret-code-length')
   }
   req.query = req.query || {}

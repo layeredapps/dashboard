@@ -64,7 +64,7 @@ input, select, textarea, a, button, div { outline: 0 }
 .checkbox-fields .field-label { margin-bottom: 1rem }
 .checkbox-fields .field-label:last-of-type { margin-bottom: 0 }
 .field-label { font-size: 1rem }
-.field-note { display: block; font-size: 0.8rem; margin-top: 0.25rem }
+.field-note { display: block; font-size: 0.7rem; margin-top: 0.25rem }
 .field { max-width: 100% }
 .field .tiny-field div,
 .field .tiny-field input,
