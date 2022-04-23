@@ -3,7 +3,7 @@ let cache
 let lastFetched
 
 module.exports = {
-  before: async (req) => {
+  before: async () => {
     if (!global.applicationServer) {
       return
     }
