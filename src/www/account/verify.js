@@ -12,7 +12,7 @@ function renderPage (req, res, messageTemplate) {
   }
   if (req.body && req.body.username) {
     const usernameField = doc.getElementById('username')
-    usernameField.setAttribute('value', req.body.username.split("'").join('&quot;'))
+    usernameField.setAttribute('value', dashboard.Format.replaceQuotes(req.body.username))
   }
   return dashboard.Response.end(req, res, doc)
 }

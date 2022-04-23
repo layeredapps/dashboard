@@ -51,7 +51,7 @@ function renderPage (req, res, messageTemplate) {
       if (!element) {
         continue
       }
-      element.attr.value = req.data.profile[field]
+      element.setAttribute('value', dashboard.Format.replaceQuotes(req.data.profile[field]))
     }
   }
   return dashboard.Response.end(req, res, doc)

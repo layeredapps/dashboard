@@ -1,10 +1,25 @@
 const HRNumbers = require('human-readable-numbers')
 
 module.exports = {
+  replaceQuotes,
   parseDate,
   date,
   money,
   number
+}
+
+/**
+ * Replaces ' and " with &apos; and &quot; so HTML fields don't get
+ * posted values rendered in a broken way
+ * @param {*} amount
+ * @param {*} currency
+ * @returns
+ */
+function replaceQuotes (value) {
+  if (!value || !value.length) {
+    return ''
+  }
+  return value.split("'").join('&apos;').split('"').join('&quot;')
 }
 
 /**

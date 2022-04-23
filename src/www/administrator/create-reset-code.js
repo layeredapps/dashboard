@@ -32,7 +32,7 @@ async function renderPage (req, res, messageTemplate) {
   }
   const codeField = doc.getElementById('secret-code')
   if (req.body && req.body['secret-code']) {
-    codeField.setAttribute('value', req.body['secret-code'].split("'").join('&quot;'))
+    codeField.setAttribute('value', dashboard.Format.replaceQuotes(req.body['secret-code']))
   } else {
     codeField.setAttribute('value', dashboard.UUID.random(10))
   }
