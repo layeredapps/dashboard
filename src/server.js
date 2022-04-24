@@ -367,15 +367,17 @@ async function staticFile (req, res) {
     }
     if (req.urlPath.startsWith('/public/favicon') || req.urlPath === '/public/apple-touch-icon.png') {
       if (global.applicationServer) {
-        const blob = fileCache[filePath] || await Proxy.get(req) || fs.readFileSync(resolvedPath)
-        fileCache[filePath] = fileCache[filePath] || blob
-        const browserCached = req.headers['if-none-match']
-        req.eTag = dashboard.Response.eTag(blob)
-        if (browserCached && browserCached === req.eTag) {
-          res.statusCode = 304
-          return res.end()
+        const blob = fileCache[filePath] || await Proxy.get(req)
+        if (blob) {
+          fileCache[filePath] = fileCache[filePath] || blob
+          const browserCached = req.headers['if-none-match']
+          req.eTag = dashboard.Response.eTag(blob)
+          if (browserCached && browserCached === req.eTag) {
+            res.statusCode = 304
+            return res.end()
+          }
+          return dashboard.Response.end(req, res, null, blob)
         }
-        return dashboard.Response.end(req, res, null, blob)
       }
     }
     filePath = `@layeredapps/dashboard/src/www${req.urlPath}`
