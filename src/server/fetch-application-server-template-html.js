@@ -21,6 +21,9 @@ module.exports = {
       contents = await Proxy.get({
         url: `${global.applicationServer}/template.html`
       })
+      if (contents && contents.toString) {
+        contents = contents.toString()
+      }
     } catch (error) {
       contents = ''
     }
