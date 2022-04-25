@@ -47,10 +47,7 @@ async function end (req, res, doc, blob) {
     res.setHeader('expires', new Date(Date.now() + eightDays).toUTCString())
     res.setHeader('etag', tag)
     res.setHeader('vary', 'Accept-Encoding')
-    if (mimeTypes[req.extension]) {
-      res.setHeader('content-type', mimeTypes[req.extension])
-    }
-    if (req.extension === 'jpg' || req.extension === 'jpeg') {
+    if (mimeType !== mimeTypes.html) {
       return res.end(blob, 'binary')
     } else {
       return compress(req, res, blob)
