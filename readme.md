@@ -16,6 +16,8 @@
 - [Introduction](#introduction)
 - [Hosting Dashboard yourself](#hosting-dashboard-yourself)
 - [Configuring Dashboard](#configuring-dashboard)
+- [Provided server, content and proxy handlers](#provided-server-content-and-proxy-handlers)
+- [Favicon and icon settings](#favicon-and-icon-settings)
 - [Dashboard modules](#dashboard-modules)
 - [Customize registration information](#customize-registration-information)
 - [Adding links to the header menus](#adding-links-to-the-header-menus)
@@ -108,7 +110,24 @@ Proxy handlers can add to the headers sent to your application servers:
     module.exports = async (req, proxyRequestOptions) => {
         proxyRequestOptions.headers.include = 'something'
     }
-    
+
+# Provided server, content and proxy handlers
+
+Dashboard comes with some convenience scripts you can add to your `package.json`:
+
+| Type     | Script path                                                                  | Description                                                                                                                                                                                                                                                                                                                                                                       |
+|----------|------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| proxy    | @layeredapps/dashboard/src/proxy/x-account.js                                | Dashboard will bundle the user's Account object in `x-account` header.                                                                                                                                                                                                                                                                                                            |
+| proxy    | @layeredapps/dashboard/src/proxy/x-profile.js                                | Dashboard will bundle the user's Profile object in `x-account` header.                                                                                                                                                                                                                                                                                                            |
+| proxy    | @layeredapps/dashboard/src/proxy/x-session.js                                | Dashboard will bundle the user's Session object in `x-account` header.                                                                                                                                                                                                                                                                                                            |
+| server   | @layeredapps/dashboard/src/server/check-before-delete-account.js             | Require users complete steps, such as deleting subscriptions, before deleting their account.  Set a `CHECK_BEFORE_DELETE_ACCOUNT` path such as `/check-delete` on your Application server, Dashboard will query this API passing `?accountid=xxxxx` and you may respond with { "redirect": "/your-delete-requirements" } or { "redirect": false }" to enforce the requirements.   |
+| server   | @layeredapps/dashboard/src/server/fetch-application-server-error-html.js     | Serve a custom `error.html` from your application server at `/error.html`.  Dashboard will cache this for 60 seconds.                                                                                                                                                                                                                                                             |
+| server   | @layeredapps/dashboard/src/server/fetch-application-server-redirect-html.js  | Serve a custom `redirect.html` from your application server at `/redirect.html`.  Dashboard will cache this for 60 seconds.                                                                                                                                                                                                                                                       |
+| server   | @layeredapps/dashboard/src/server/fetch-application-server-template-html.js  | Serve a custom `template.html` from your application server at `/template.html`,  Dashboard will cache this for 60 seconds.                                                                                                                                                                                                                                                       |
+| server   | @layeredapps/dashboard/src/server/forward-api-requests.js                    | When an unknown `/api/*` request occurs it will be passed to your application server while Dashboard's API is not publicly shared.                                                                                                                                                                                                                                                |
+| server   | @layeredapps/dashboard/src/server/internal-api-requests.js                   | Allows your application server to query `/api/*` while Dashboard's API is not p[ublicly shared.                                                                                                                                                                                                                                                                                   |
+
+# Favicon and icon settings 
 
 The "themeColor" and "tileColor" will replace the META tag values in template and template-less pages of Dashboard, allowing you to style your favicon and other icons.  Dashboard will check your application server for replacement icons:
 
@@ -116,8 +135,6 @@ The "themeColor" and "tileColor" will replace the META tag values in template an
     /public/favicon-16x16.png
     /public/favicon-32x32.png
     /public/apple-touch-icon.png
-
-For additional icons you can specify <>
 
 # Dashboard modules
 
