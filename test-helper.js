@@ -138,6 +138,8 @@ module.exports = {
   createResetCode,
   createUser,
   deleteResetCode,
+  disableMetrics,
+  enableMetrics,
   endSession,
   nextIdentity,
   setDeleted,
@@ -154,6 +156,14 @@ async function flushAllStorage () {
   if (dashboard.Storage && dashboard.Storage.flush) {
     await dashboard.Storage.flush()
   }
+}
+
+function enableMetrics () {
+  global.disableMetrics = false
+}
+
+function disableMetrics () {
+  global.disableMetrics = true
 }
 
 function createRequest (rawURL) {
