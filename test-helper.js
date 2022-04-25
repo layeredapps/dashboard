@@ -89,8 +89,6 @@ async function setupBefore () {
       global.testConfiguration.dashboardServer = `${dashboardServer}:${global.testConfiguration.port}`
     }
   }
-  global.testConfiguration.testNumber = Math.floor(new Date().getTime() / 1000)
-  global.testConfiguration.appid = `tests_${global.testConfiguration.testNumber}`
 }
 
 async function setupBeforeEach () {
@@ -103,6 +101,8 @@ async function setupBeforeEach () {
   if (global.gc) {
     global.gc()
   }
+  global.testConfiguration.testNumber = Math.floor(new Date().getTime() / 1000)
+  global.testConfiguration.appid = `tests_${global.testConfiguration.testNumber}`
 }
 
 before(setupBefore)
