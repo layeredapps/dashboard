@@ -46,18 +46,18 @@ async function fetch (method, req) {
   const result = {}
   const page = await launchBrowserPage()
   await page.emulate(devices[0])
-  page.on('error', (msg) => {
-    if (msg && msg.text) {
-      Log.error('puppeteer page error', msg.text())
+  page.on('error', (error) => {
+    if (error && error.text) {
+      Log.error('page error', error.text())
     } else {
-      Log.error('puppeteer page error', msg)
+      Log.error('page error', error)
     }
   })
-  page.on('console', (msg) => {
-    if (msg && msg.text) {
-      Log.error('puppeteer console msg', msg.text())
+  page.on('console', (message) => {
+    if (message && message.text) {
+      Log.info('console', message.text())
     } else {
-      Log.error('puppeteer console msg', msg)
+      Log.info('console', message)
     }
   })
   // these huge timeouts allow webhooks to be received, in production

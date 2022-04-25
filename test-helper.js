@@ -94,6 +94,7 @@ async function setupBefore () {
 }
 
 async function setupBeforeEach () {
+  Log.info('setupBeforeEach')
   global.packageJSON = packageJSON.merge()
   global.sitemap['/api/require-verification'] = helperRoutes.requireVerification
   for (const property in global.testConfiguration) {
@@ -110,6 +111,7 @@ beforeEach(setupBeforeEach)
 afterEach(flushAllStorage)
 
 after((callback) => {
+  Log.info('after')
   dashboard.stop()
   global.testEnded = true
   delete (global.apiDependencies)
@@ -117,6 +119,7 @@ after((callback) => {
 })
 
 after(async () => {
+  Log.info('after')
   await TestHelperPuppeteer.close()
 })
 
@@ -147,6 +150,7 @@ module.exports = {
 }
 
 async function flushAllStorage () {
+  Log.info('flushAllStorage')
   if (dashboard.Storage && dashboard.Storage.flush) {
     await dashboard.Storage.flush()
   }
@@ -244,6 +248,7 @@ function nextIdentity () {
 }
 
 async function createAdministrator (owner) {
+  Log.info('createAdministrator', owner)
   const administrator = await createUser('administrator-' + global.testConfiguration.testNumber + '-' + Math.ceil(Math.random() * 100000))
   if (!administrator.account.administrator) {
     if (!owner) {
@@ -261,6 +266,7 @@ async function createAdministrator (owner) {
 }
 
 async function createOwner () {
+  Log.info('createOwner')
   const owner = await createUser('owner-' + global.testConfiguration.testNumber + '-' + Math.ceil(Math.random() * 100000))
   if (!owner.account.administrator) {
     await dashboard.Storage.Account.update({
@@ -289,7 +295,8 @@ async function createOwner () {
 
 let userNumber = 0
 async function createUser (username) {
-  username = username || 'user-' + userNumber++
+  Log.info('createUser', username)
+  username = username || 'user' + userNumber++
   const password = username
   const req = createRequest('/api/user/create-account')
   const requireProfileWas = global.requireProfile
@@ -336,6 +343,7 @@ async function createUser (username) {
 }
 
 async function createSession (user, remember) {
+  Log.info('createSession', user)
   const req = createRequest(`/api/user/create-session?accountid=${user.account.accountid}`)
   req.body = {
     username: user.account.username,
@@ -347,6 +355,7 @@ async function createSession (user, remember) {
 }
 
 async function requireVerification (user, days) {
+  Log.info('requireVerification', user)
   const req = createRequest(`/api/require-verification?sessionid=${user.session.sessionid}&days=${days}`)
   req.account = user.account
   req.session = user.session
@@ -356,6 +365,7 @@ async function requireVerification (user, days) {
 }
 
 async function completeVerification (user) {
+  Log.info('completeVerification', user)
   const req = createRequest(`/api/user/set-session-verified?sessionid=${user.session.sessionid}`)
   req.account = user.account
   req.session = user.session
@@ -369,6 +379,7 @@ async function completeVerification (user) {
 }
 
 async function endSession (user) {
+  Log.info('endSession', user)
   const req = createRequest(`/api/user/set-session-ended?sessionid=${user.session.sessionid}`)
   req.account = user.account
   req.session = user.session
@@ -377,6 +388,7 @@ async function endSession (user) {
 }
 
 async function setDeleted (user) {
+  Log.info('setDeleted', user)
   const req = createRequest(`/api/user/set-account-deleted?accountid=${user.account.accountid}`)
   req.account = user.account
   req.session = user.session
@@ -391,6 +403,7 @@ async function setDeleted (user) {
 
 let resetCodeNumber = 0
 async function createResetCode (user) {
+  Log.info('createResetCode', user)
   const code = 'secret' + resetCodeNumber++
   const req = createRequest(`/api/user/create-reset-code?accountid=${user.account.accountid}`)
   req.account = user.account
@@ -404,6 +417,7 @@ async function createResetCode (user) {
 }
 
 async function deleteResetCode (user) {
+  Log.info('deleteResetCode', user)
   const req = createRequest(`/api/user/delete-reset-code?codeid=${user.resetCode.codeid}`)
   req.account = user.account
   req.session = user.session
@@ -411,6 +425,7 @@ async function deleteResetCode (user) {
 }
 
 async function createProfile (user, properties) {
+  Log.info('createProfile', user)
   const req = createRequest(`/api/user/create-profile?accountid=${user.account.accountid}`)
   req.account = user.account
   req.session = user.session
@@ -463,6 +478,7 @@ const proxy = util.promisify((method, path, req, callback) => {
       requestOptions.headers[header] = req.headers[header]
     }
   }
+  Log.info('proxy request', requestOptions)
   const protocol = baseURLParts[0] === 'https' ? https : http
   let ended
   const proxyRequest = protocol.request(requestOptions, (proxyResponse) => {
@@ -493,10 +509,13 @@ const proxy = util.promisify((method, path, req, callback) => {
           try {
             body = JSON.parse(body)
           } catch (error) {
+            Log.error('proxy error parsing JSON', error, body)
           }
           if (body && body.object === 'error') {
+            Log.error('proxy response was error', body)
             return callback(new Error(body.message))
           }
+          Log.info('proxy response was JSON', body)
           return callback(null, body)
         }
       }
@@ -504,7 +523,7 @@ const proxy = util.promisify((method, path, req, callback) => {
     })
   })
   proxyRequest.on('error', (error) => {
-    Log.error('dashboard proxy error', error)
+    Log.error('proxy error', error)
     ended = true
     try {
       if (proxyRequest && proxyRequest.end) {

@@ -1,8 +1,11 @@
 const { Sequelize } = require('sequelize')
+const Log = require('./log.js')('sequelize-mssql')
 
 module.exports = async () => {
   const sequelize = new Sequelize(process.env.MSSQL_DATABASE, process.env.MSSQL_USERNAME, process.env.MSSQL_PASSWORD, {
-    logging: false,
+    logging: (sql) => {
+      return Log.info(sql)
+    },
     dialect: 'mssql',
     dialectOptions: {
       driver: 'SQL Server Native Client 11.0'

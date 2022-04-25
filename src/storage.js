@@ -1,5 +1,6 @@
 const metrics = require('./metrics.js')
 const { Model, DataTypes } = require('sequelize')
+const Log = require('./log.js')('sequelize')
 
 module.exports = async () => {
   let storage, dateType
@@ -337,6 +338,13 @@ module.exports = async () => {
     modelName: 'metric'
   })
   await sequelize.sync({ alter: true, force: true })
+  const originalQuery = sequelize.query
+  sequelize.query = function () {
+    return originalQuery.apply(this, arguments).catch((error) => {
+      Log.error(error)
+      throw error
+    })
+  }
   Account.afterCreate(async (object) => {
     if (global.disableMetrics) {
       return

@@ -1,8 +1,12 @@
 const { Sequelize } = require('sequelize')
+const Log = require('./log.js')('sequelize-postgresql')
 
 module.exports = async () => {
   const sequelize = new Sequelize(process.env.POSTGRESQL_DATABASE_URL, {
-    logging: false,
+    dialect: 'sqlite',
+    logging: (sql) => {
+      return Log.info(sql)
+    },
     pool: {
       max: process.env.MAX_CONNECTIONS || 10,
       min: 0,

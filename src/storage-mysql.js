@@ -1,8 +1,11 @@
 const { Sequelize } = require('sequelize')
+const Log = require('./log.js')('sequelize-mysql')
 
 module.exports = async () => {
   const sequelize = new Sequelize(process.env.MYSQL_DATABASE, process.env.MYSQL_USERNAME, process.env.MYSQL_PASSWORD, {
-    logging: false,
+    logging: (sql) => {
+      return Log.info(sql)
+    },
     dialect: 'mysql',
     host: process.env.MYSQL_HOST,
     port: process.env.MYSQL_PORT,

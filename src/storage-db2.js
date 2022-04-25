@@ -1,8 +1,11 @@
 const { Sequelize } = require('sequelize')
+const Log = require('./log.js')('sequelize-db2')
 
 module.exports = async () => {
   const sequelize = new Sequelize(process.env.DB2_DATABASE, process.env.DB2_USERNAME, process.env.DB2_PASSWORD, {
-    logging: false,
+    logging: (sql) => {
+      return Log.info(sql)
+    },
     dialect: 'db2',
     host: process.env.DB2_HOST,
     port: process.env.DB2_PORT,
