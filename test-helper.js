@@ -257,9 +257,11 @@ function nextIdentity () {
   }
 }
 
+let userNumber = 0
+
 async function createAdministrator (owner) {
   Log.info('createAdministrator', owner)
-  const administrator = await createUser('administrator-' + global.testConfiguration.testNumber + '-' + Math.ceil(Math.random() * 100000))
+  const administrator = await createUser(`administrator${userNumber++}`)
   if (!administrator.account.administrator) {
     if (!owner) {
       throw new Error('created a user with no owner to elevate permissions')
@@ -277,7 +279,7 @@ async function createAdministrator (owner) {
 
 async function createOwner () {
   Log.info('createOwner')
-  const owner = await createUser('owner-' + global.testConfiguration.testNumber + '-' + Math.ceil(Math.random() * 100000))
+  const owner = await createUser(`owner${userNumber++}`)
   if (!owner.account.administrator) {
     await dashboard.Storage.Account.update({
       administratorSince: new Date()
@@ -303,10 +305,9 @@ async function createOwner () {
   return owner
 }
 
-let userNumber = 0
 async function createUser (username) {
   Log.info('createUser', username)
-  username = username || 'user' + userNumber++
+  username = username || `user${userNumber++}`
   const password = username
   const req = createRequest('/api/user/create-account')
   const requireProfileWas = global.requireProfile
