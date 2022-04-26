@@ -158,11 +158,6 @@ async function receiveRequest (req, res) {
     return dashboard.Response.throw500(req, res)
   }
   if (req.urlPath.startsWith('/api/') && !global.allowSameDomainAPI && !req.applicationServer && !req.allowAPIRequest) {
-    if (global.addCrossOriginHeaders) {
-      res.setHeader('Access-Control-Allow-Origin', '*')
-      res.setHeader('Access-Control-Allow-Headers', 'content-type')
-      res.setHeader('Access-Control-Allow-Methods', 'OPTIONS,POST,GET,PATCH,DELETE')
-    }
     return dashboard.Response.throw404(req, res)
   }
   if (req.route && req.route.api !== 'static-page') {
@@ -211,11 +206,6 @@ async function receiveRequest (req, res) {
     if (req.urlPath.startsWith('/api/')) {
       res.statusCode = 511
       res.setHeader('content-type', 'application/json')
-      if (global.addCrossOriginHeaders) {
-        res.setHeader('Access-Control-Allow-Origin', '*')
-        res.setHeader('Access-Control-Allow-Headers', 'content-type')
-        res.setHeader('Access-Control-Allow-Methods', 'OPTIONS,POST,GET,PATCH,DELETE')
-      }
       return res.end('{ "object": "auth", "message": "Sign in required" }')
     }
     return dashboard.Response.redirectToSignIn(req, res)
@@ -262,11 +252,6 @@ async function receiveRequest (req, res) {
   if (req.urlPath.startsWith('/api/administrator/')) {
     if (!req.account || !req.account.administrator) {
       res.setHeader('content-type', 'application/json')
-      if (global.addCrossOriginHeaders) {
-        res.setHeader('Access-Control-Allow-Origin', '*')
-        res.setHeader('Access-Control-Allow-Headers', 'content-type')
-        res.setHeader('Access-Control-Allow-Methods', 'OPTIONS,POST,GET,PATCH,DELETE')
-      }
       return res.end('{ "object": "auth", "message": "Administrator required" }')
     }
   }
@@ -325,11 +310,6 @@ async function executeAPIRequest (req, res) {
   }
   res.statusCode = 200
   res.setHeader('content-type', 'application/json; charset=utf-8')
-  if (global.addCrossOriginHeaders) {
-    res.setHeader('Access-Control-Allow-Origin', '*')
-    res.setHeader('Access-Control-Allow-Headers', 'content-type')
-    res.setHeader('Access-Control-Allow-Methods', 'OPTIONS,POST,GET,PATCH,DELETE')
-  }
   return res.end(result ? JSON.stringify(result) : '')
 }
 
