@@ -2,7 +2,6 @@ const crypto = require('crypto')
 
 module.exports = {
   encode,
-  generateID,
   random,
   v4
 }
@@ -46,8 +45,4 @@ function encode (string) {
     str += byteToHex[byte]
   }
   return str
-}
-
-function generateID () {
-  return random(global.idLength || 16)
 }

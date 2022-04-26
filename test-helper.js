@@ -32,7 +32,6 @@ const defaultConfigurationValues = {
   maximumProfileCompanyNameLength: 100,
   deleteDelay: 7,
   pageSize: 2,
-  idLength: 7,
   allowSameDomainAPI: true,
   bcryptWorkloadFactor: 4,
   sessionVerificationDelay: 14400
