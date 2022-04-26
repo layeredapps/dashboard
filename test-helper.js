@@ -95,14 +95,14 @@ async function setupBeforeEach () {
   Log.info('setupBeforeEach')
   global.packageJSON = packageJSON.merge()
   global.sitemap['/api/require-verification'] = helperRoutes.requireVerification
+  global.testConfiguration.testNumber = Math.floor(new Date().getTime() / 1000)
+  global.testConfiguration.appid = `tests_${global.testConfiguration.testNumber}`
   for (const property in global.testConfiguration) {
     global[property] = global.testConfiguration[property]
   }
   if (global.gc) {
     global.gc()
   }
-  global.testConfiguration.testNumber = Math.floor(new Date().getTime() / 1000)
-  global.testConfiguration.appid = `tests_${global.testConfiguration.testNumber}`
 }
 
 before(setupBefore)
