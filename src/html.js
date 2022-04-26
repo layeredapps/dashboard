@@ -1,9 +1,9 @@
+const crypto = require('crypto')
 const fs = require('fs')
 const os = require('os')
 const path = require('path')
 const ServerHTML = require('server-html')
 const UglifyJS = require('uglify-js')
-const UUID = require('./uuid.js')
 
 module.exports = {
   createCopy,
@@ -358,7 +358,7 @@ function createCopy (dataObject, dataObjectName, element) {
   dataObjectName = dataObjectName || 'data'
   const wrapper = 'const ' + dataObjectName + ' = ' + JSON.stringify(dataObject) + ';\n' +
                   'module.exports = `<template>' + docStr + '</template>`'
-  const filePath = tempPath + '/' + UUID.random(64)
+  const filePath = tempPath + '/' + crypto.randomBytes(32).toString('hex')
   fs.writeFileSync(filePath, wrapper)
   let formatted
   try {

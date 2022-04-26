@@ -84,7 +84,6 @@ const dashboard = module.exports = {
   HTML: require('./src/html.js'),
   Proxy: require('./src/proxy.js'),
   Response: require('./src/response.js'),
-  UUID: require('./src/uuid.js'),
   start: async (applicationPath) => {
     const API = require('./src/api.js')
     const PackageJSON = require('./src/package-json.js')

@@ -1,3 +1,4 @@
+const crypto = require('crypto')
 const dashboard = require('../../../../index.js')
 
 module.exports = {
@@ -65,7 +66,7 @@ module.exports = {
     await dashboard.Storage.Account.update({
       passwordHash,
       resetCodeLastUsedAt: new Date(),
-      sessionKey: dashboard.UUID.random(64),
+      sessionKey: crypto.randomBytes(32).toString('hex'),
       sessionKeyLastResetAt: new Date(),
       passwordLastChangedAt: new Date(),
       sessionKeyNumber: account.sessionKeyNumber + 1

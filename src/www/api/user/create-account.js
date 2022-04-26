@@ -1,3 +1,4 @@
+const crypto = require('crypto')
 const dashboard = require('../../../../index.js')
 
 module.exports = {
@@ -90,7 +91,7 @@ module.exports = {
       appid: req.appid || global.appid,
       usernameHash,
       passwordHash,
-      sessionKey: dashboard.UUID.random(64),
+      sessionKey: crypto.randomBytes(32).toString('hex'),
       sessionKeyNumber: 1
     }
     const otherUsersExist = await dashboard.Storage.Account.findOne({

@@ -1,3 +1,4 @@
+const crypto = require('crypto')
 const dashboard = require('../../../../index.js')
 
 module.exports = {
@@ -53,7 +54,7 @@ module.exports = {
         duration = 20 * 60
         break
     }
-    const sessionToken = dashboard.UUID.random(64)
+    const sessionToken = crypto.randomBytes(32).toString('hex')
     const tokenHash = await dashboard.Hash.sha512Hash(`${account.accountid}/${sessionToken}/${account.sessionKey}/${dashboardSessionKey}`, dashboardEncryptionKey)
     const sessionInfo = {
       accountid: account.accountid,

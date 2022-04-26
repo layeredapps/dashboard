@@ -1,3 +1,4 @@
+const crypto = require('crypto')
 const dashboard = require('../../../index.js')
 const navbar = require('./navbar-account.js')
 
@@ -40,7 +41,7 @@ async function renderPage (req, res, messageTemplate) {
   if (req.body && req.body['secret-code']) {
     codeField.setAttribute('value', dashboard.Format.replaceQuotes(req.body['secret-code']))
   } else {
-    codeField.setAttribute('value', dashboard.UUID.random(10))
+    codeField.setAttribute('value', crypto.randomBytes(Math.ceil(global.minimumInvitationCodeLength / 2)).toString('hex'))
   }
   return dashboard.Response.end(req, res, doc)
 }

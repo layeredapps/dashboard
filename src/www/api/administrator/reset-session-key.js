@@ -1,3 +1,4 @@
+const crypto = require('crypto')
 const dashboard = require('../../../../index.js')
 
 module.exports = {
@@ -17,7 +18,7 @@ module.exports = {
       throw new Error('invalid-account')
     }
     await dashboard.Storage.Account.update({
-      sessionKey: dashboard.UUID.random(64),
+      sessionKey: crypto.randomBytes(32).toString('hex'),
       sessionKeyLastResetAt: new Date(),
       sessionKeyNumber: account.sessionKeyNumber + 1
     }, {

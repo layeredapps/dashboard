@@ -1,3 +1,4 @@
+const crypto = require('crypto')
 const dashboard = require('../../../index.js')
 
 module.exports = {
@@ -25,7 +26,7 @@ function renderPage (req, res, messageTemplate) {
   if (req.body && req.body['secret-code']) {
     codeField.setAttribute('value', dashboard.Format.replaceQuotes(req.body['secret-code']))
   } else {
-    codeField.setAttribute('value', dashboard.UUID.random(10))
+    codeField.setAttribute('value', crypto.randomBytes(Math.ceil(global.minimumResetCodeLength / 2)).toString('hex'))
   }
   return dashboard.Response.end(req, res, doc)
 }
