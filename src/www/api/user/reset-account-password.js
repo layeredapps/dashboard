@@ -29,7 +29,8 @@ module.exports = {
     const usernameHash = await dashboard.Hash.sha512Hash(req.body.username, dashboardEncryptionKey)
     const accountInfo = await dashboard.Storage.Account.findOne({
       where: {
-        usernameHash
+        usernameHash,
+        appid: req.appid || global.appid
       }
     })
     if (!accountInfo) {
@@ -53,7 +54,8 @@ module.exports = {
     const secretCodeHash = await dashboard.Hash.sha512Hash(req.body['secret-code'], dashboardEncryptionKey)
     const codeInfo = await dashboard.Storage.ResetCode.findOne({
       where: {
-        secretCodeHash
+        secretCodeHash,
+        appid: req.appid || global.appid
       }
     })
     if (!codeInfo) {
@@ -69,13 +71,15 @@ module.exports = {
       sessionKeyNumber: account.sessionKeyNumber + 1
     }, {
       where: {
-        accountid: accountInfo.dataValues.accountid
+        accountid: accountInfo.dataValues.accountid,
+        appid: req.appid || global.appid
       }
     })
     await dashboard.StorageCache.remove(codeInfo.dataValues.accountid)
     await dashboard.Storage.ResetCode.destroy({
       where: {
-        codeid: codeInfo.dataValues.codeid
+        codeid: codeInfo.dataValues.codeid,
+        appid: req.appid || global.appid
       }
     })
     return true

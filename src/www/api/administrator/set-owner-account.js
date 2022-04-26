@@ -25,14 +25,16 @@ module.exports = {
       administratorSince: account.administratorSince || new Date()
     }, {
       where: {
-        accountid: req.query.accountid
+        accountid: req.query.accountid,
+        appid: req.appid || global.appid
       }
     })
     await dashboard.Storage.Account.update({
       ownerSince: null
     }, {
       where: {
-        accountid: req.account.accountid
+        accountid: req.account.accountid,
+        appid: req.appid || global.appid
       }
     })
     await dashboard.StorageCache.remove(req.query.accountid)

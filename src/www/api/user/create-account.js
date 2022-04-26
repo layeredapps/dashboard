@@ -93,7 +93,11 @@ module.exports = {
       sessionKey: dashboard.UUID.random(64),
       sessionKeyNumber: 1
     }
-    const otherUsersExist = await dashboard.Storage.Account.findOne()
+    const otherUsersExist = await dashboard.Storage.Account.findOne({
+      where: {
+        appid: req.appid || global.appid
+      }
+    })
     if (!otherUsersExist) {
       accountInfo.administratorSince = new Date()
       accountInfo.ownerSince = new Date()

@@ -11,7 +11,8 @@ module.exports = {
     }
     return dashboard.Storage.Session.count({
       where: {
-        accountid: req.query.accountid
+        accountid: req.query.accountid,
+        appid: req.appid || global.appid
       }
     })
   }

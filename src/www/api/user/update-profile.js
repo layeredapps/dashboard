@@ -89,7 +89,8 @@ module.exports = {
     }
     await dashboard.Storage.Profile.update(profileInfo, {
       where: {
-        profileid: req.query.profileid
+        profileid: req.query.profileid,
+        appid: req.appid || global.appid
       }
     })
     for (const field in profileInfo) {

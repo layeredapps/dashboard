@@ -26,15 +26,16 @@ module.exports = {
     const secretCodeHash = await dashboard.Hash.sha512Hash(req.body['secret-code'], dashboardEncryptionKey)
     const resetCodeInfo = {
       accountid: req.query.accountid,
-      secretCodeHash
+      secretCodeHash,
+      appid: req.appid || global.appid
     }
     const resetCode = await dashboard.Storage.ResetCode.create(resetCodeInfo)
     await dashboard.Storage.Account.update({
-      resetCodeLastCreatedAt: new Date(),
-      appid: req.appid || global.appid
+      resetCodeLastCreatedAt: new Date()
     }, {
       where: {
-        accountid: req.query.accountid
+        accountid: req.query.accountid,
+        appid: req.appid || global.appid
       }
     })
     req.query.codeid = resetCode.codeid

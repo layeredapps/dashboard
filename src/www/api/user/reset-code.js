@@ -12,7 +12,8 @@ module.exports = {
         try {
           codeInfo = await dashboard.Storage.ResetCode.findOne({
             where: {
-              codeid: req.query.codeid
+              codeid: req.query.codeid,
+              appid: req.appid || global.appid
             }
           })
         } catch (error) {

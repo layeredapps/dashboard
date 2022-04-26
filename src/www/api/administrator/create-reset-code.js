@@ -33,7 +33,8 @@ module.exports = {
       resetCodeLastCreatedAt: new Date()
     }, {
       where: {
-        accountid: req.account.accountid
+        accountid: req.account.accountid,
+        appid: req.appid || global.appid
       }
     })
     req.query.codeid = resetCode.dataValues.codeid

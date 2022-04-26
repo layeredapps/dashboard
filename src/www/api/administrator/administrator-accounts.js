@@ -13,7 +13,8 @@ module.exports = {
         where: {
           administratorSince: {
             [sequelize.Op.gt]: 0
-          }
+          },
+          appid: req.appid || global.appid
         },
         attributes: ['accountid'],
         order: [
@@ -27,7 +28,8 @@ module.exports = {
         where: {
           administratorSince: {
             [sequelize.Op.gt]: 0
-          }
+          },
+          appid: req.appid || global.appid
         },
         attributes: ['accountid'],
         order: [

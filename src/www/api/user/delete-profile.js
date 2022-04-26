@@ -14,14 +14,16 @@ module.exports = {
     }
     await dashboard.Storage.Profile.destroy({
       where: {
-        profileid: req.query.profileid
+        profileid: req.query.profileid,
+        appid: req.appid || global.appid
       }
     })
     await dashboard.Storage.Account.update({
       profileLastDeleted: new Date()
     }, {
       where: {
-        accountid: profile.accountid
+        accountid: profile.accountid,
+        appid: req.appid || global.appid
       }
     })
     await dashboard.StorageCache.remove(profile.accountid)

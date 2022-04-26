@@ -13,7 +13,8 @@ module.exports = {
     if (req.query.all) {
       sessionids = await dashboard.Storage.Session.findAll({
         where: {
-          accountid: req.query.accountid
+          accountid: req.query.accountid,
+          appid: req.appid || global.appid
         },
         attributes: ['sessionid'],
         order: [
@@ -25,7 +26,8 @@ module.exports = {
       const limit = req.query.limit ? parseInt(req.query.limit, 10) : global.pageSize
       sessionids = await dashboard.Storage.Session.findAll({
         where: {
-          accountid: req.query.accountid
+          accountid: req.query.accountid,
+          appid: req.appid || global.appid
         },
         offset,
         limit,

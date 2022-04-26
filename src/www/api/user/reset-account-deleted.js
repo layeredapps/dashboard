@@ -28,7 +28,8 @@ module.exports = {
     const usernameHash = await dashboard.Hash.sha512Hash(req.body.username, dashboardEncryptionKey)
     const accountInfo = await dashboard.Storage.Account.findOne({
       where: {
-        usernameHash
+        usernameHash,
+        appid: req.appid || global.appid
       }
     })
     if (!accountInfo) {
@@ -56,7 +57,8 @@ module.exports = {
       deletedAt: null
     }, {
       where: {
-        accountid: accountInfo.dataValues.accountid
+        accountid: accountInfo.dataValues.accountid,
+        appid: req.appid || global.appid
       }
     })
     req.account = account

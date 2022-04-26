@@ -13,7 +13,8 @@ module.exports = {
     if (req.query.all) {
       codeids = await dashboard.Storage.ResetCode.findAll({
         where: {
-          accountid: req.query.accountid
+          accountid: req.query.accountid,
+          appid: req.appid || global.appid
         },
         attributes: ['codeid'],
         order: [
@@ -25,7 +26,8 @@ module.exports = {
       const limit = req.query.limit ? parseInt(req.query.limit, 10) : global.pageSize
       codeids = await dashboard.Storage.ResetCode.findAll({
         where: {
-          accountid: req.query.accountid
+          accountid: req.query.accountid,
+          appid: req.appid || global.appid
         },
         offset,
         limit,

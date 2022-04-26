@@ -11,7 +11,8 @@ module.exports = {
       try {
         profileInfo = await dashboard.Storage.Profile.findOne({
           where: {
-            profileid: req.query.profileid
+            profileid: req.query.profileid,
+            appid: req.appid || global.appid
           }
         })
       } catch (error) {

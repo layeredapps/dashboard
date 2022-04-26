@@ -11,7 +11,8 @@ module.exports = {
         where: {
           deletedAt: {
             [Op.gt]: 0
-          }
+          },
+          appid: req.appid || global.appid
         },
         order: [
           ['createdAt', 'DESC']
@@ -25,7 +26,8 @@ module.exports = {
         where: {
           deletedAt: {
             [Op.gt]: 0
-          }
+          },
+          appid: req.appid || global.appid
         },
         order: [
           ['createdAt', 'DESC']

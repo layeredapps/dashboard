@@ -447,7 +447,8 @@ async function authenticateRequest (req) {
   try {
     const sessionInfo = await dashboard.Storage.Session.findOne({
       where: {
-        sessionid: cookie.sessionid
+        sessionid: cookie.sessionid,
+        appid: req.appid || global.appid
       }
     })
     session = {}
@@ -463,7 +464,8 @@ async function authenticateRequest (req) {
   try {
     const accountInfo = await dashboard.Storage.Account.findOne({
       where: {
-        accountid: session.accountid
+        accountid: session.accountid,
+        appid: req.appid || global.appid
       }
     })
     account = {}

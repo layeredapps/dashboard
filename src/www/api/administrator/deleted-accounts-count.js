@@ -7,7 +7,8 @@ module.exports = {
       where: {
         deletedAt: {
           [sequelize.Op.gt]: 0
-        }
+        },
+        appid: req.appid || global.appid
       }
     })
   }

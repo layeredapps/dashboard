@@ -11,7 +11,8 @@ module.exports = {
       try {
         sessionInfo = await dashboard.Storage.Session.findOne({
           where: {
-            sessionid: req.query.sessionid
+            sessionid: req.query.sessionid,
+            appid: req.appid || global.appid
           }
         })
       } catch (error) {

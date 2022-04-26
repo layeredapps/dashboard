@@ -19,7 +19,8 @@ module.exports = {
       administratorSince: null
     }, {
       where: {
-        accountid: req.query.accountid
+        accountid: req.query.accountid,
+        appid: req.appid || global.appid
       }
     })
     await dashboard.StorageCache.remove(req.query.accountid)

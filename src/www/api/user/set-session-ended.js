@@ -19,7 +19,8 @@ module.exports = {
       endedAt: new Date()
     }, {
       where: {
-        sessionid: req.query.sessionid
+        sessionid: req.query.sessionid,
+        appid: req.appid || global.appid
       }
     })
     await dashboard.StorageCache.remove(req.query.sessionid)

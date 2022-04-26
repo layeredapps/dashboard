@@ -13,7 +13,8 @@ module.exports = {
     if (req.query.all) {
       profileids = await dashboard.Storage.Profile.findAll({
         where: {
-          accountid: req.query.accountid
+          accountid: req.query.accountid,
+          appid: req.appid || global.appid
         },
         attributes: ['profileid'],
         order: [
@@ -25,7 +26,8 @@ module.exports = {
       const limit = req.query.limit ? parseInt(req.query.limit, 10) : global.pageSize
       profileids = await dashboard.Storage.Profile.findAll({
         where: {
-          accountid: req.query.accountid
+          accountid: req.query.accountid,
+          appid: req.appid || global.appid
         },
         attributes: ['profileid'],
         offset,

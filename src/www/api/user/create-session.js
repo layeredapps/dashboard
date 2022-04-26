@@ -21,7 +21,8 @@ module.exports = {
     const usernameHash = await dashboard.Hash.sha512Hash(req.body.username, dashboardEncryptionKey)
     const accountData = await dashboard.Storage.Account.findOne({
       where: {
-        usernameHash
+        usernameHash,
+        appid: req.appid || global.appid
       }
     })
     const account = accountData ? accountData.dataValues : undefined
@@ -66,7 +67,8 @@ module.exports = {
       lastSignedInAt: session.createdAt
     }, {
       where: {
-        accountid: account.accountid
+        accountid: account.accountid,
+        appid: req.appid || global.appid
       }
     })
     await dashboard.StorageCache.remove(account.accountid)

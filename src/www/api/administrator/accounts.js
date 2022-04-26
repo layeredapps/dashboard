@@ -9,6 +9,9 @@ module.exports = {
     let accountids
     if (req.query.all) {
       accountids = await dashboard.Storage.Account.findAll({
+        where: {
+          appid: req.appid || global.appid
+        },
         attributes: ['accountid'],
         order: [
           ['createdAt', 'DESC']
@@ -18,6 +21,9 @@ module.exports = {
       const offset = req.query.offset ? parseInt(req.query.offset, 10) : 0
       const limit = req.query.limit ? parseInt(req.query.limit, 10) : global.pageSize
       accountids = await dashboard.Storage.Account.findAll({
+        where: {
+          appid: req.appid || global.appid
+        },
         attributes: ['accountid'],
         order: [
           ['createdAt', 'DESC']
