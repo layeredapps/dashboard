@@ -337,7 +337,9 @@ module.exports = async () => {
     sequelize,
     modelName: 'metric'
   })
-  await sequelize.sync({ alter: true, force: true })
+  // table creation
+  await sequelize.sync()
+  // exception logging
   const originalQuery = sequelize.query
   sequelize.query = function () {
     return originalQuery.apply(this, arguments).catch((error) => {
@@ -345,6 +347,7 @@ module.exports = async () => {
       throw error
     })
   }
+  // metrics
   Account.afterCreate(async (object) => {
     if (global.disableMetrics) {
       return
@@ -397,11 +400,11 @@ module.exports = async () => {
     sequelize,
     flush: async () => {
       if (process.env.NODE_ENV === 'testing') {
-        await Profile.destroy({ where: {} })
-        await Account.destroy({ where: {} })
-        await ResetCode.destroy({ where: {} })
-        await Session.destroy({ where: {} })
-        await Metric.destroy({ where: {} })
+        await Profile.sync({ force: true })
+        await Account.sync({ force: true })
+        await ResetCode.sync({ force: true })
+        await Session.sync({ force: true })
+        await Metric.sync({ force: true })
       }
     },
     Account,
