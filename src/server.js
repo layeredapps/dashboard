@@ -158,7 +158,7 @@ async function receiveRequest (req, res) {
     return dashboard.Response.throw500(req, res)
   }
   if (req.urlPath.startsWith('/api/') && !global.allowSameDomainAPI && !req.applicationServer && !req.allowAPIRequest) {
-    if (global.globalAPIAccess) {
+    if (global.addCrossOriginHeaders) {
       res.setHeader('Access-Control-Allow-Origin', '*')
       res.setHeader('Access-Control-Allow-Headers', 'content-type')
       res.setHeader('Access-Control-Allow-Methods', 'OPTIONS,POST,GET,PATCH,DELETE')
@@ -211,7 +211,7 @@ async function receiveRequest (req, res) {
     if (req.urlPath.startsWith('/api/')) {
       res.statusCode = 511
       res.setHeader('content-type', 'application/json')
-      if (global.globalAPIAccess) {
+      if (global.addCrossOriginHeaders) {
         res.setHeader('Access-Control-Allow-Origin', '*')
         res.setHeader('Access-Control-Allow-Headers', 'content-type')
         res.setHeader('Access-Control-Allow-Methods', 'OPTIONS,POST,GET,PATCH,DELETE')
@@ -262,7 +262,7 @@ async function receiveRequest (req, res) {
   if (req.urlPath.startsWith('/api/administrator/')) {
     if (!req.account || !req.account.administrator) {
       res.setHeader('content-type', 'application/json')
-      if (global.globalAPIAccess) {
+      if (global.addCrossOriginHeaders) {
         res.setHeader('Access-Control-Allow-Origin', '*')
         res.setHeader('Access-Control-Allow-Headers', 'content-type')
         res.setHeader('Access-Control-Allow-Methods', 'OPTIONS,POST,GET,PATCH,DELETE')
@@ -325,7 +325,7 @@ async function executeAPIRequest (req, res) {
   }
   res.statusCode = 200
   res.setHeader('content-type', 'application/json; charset=utf-8')
-  if (global.globalAPIAccess) {
+  if (global.addCrossOriginHeaders) {
     res.setHeader('Access-Control-Allow-Origin', '*')
     res.setHeader('Access-Control-Allow-Headers', 'content-type')
     res.setHeader('Access-Control-Allow-Methods', 'OPTIONS,POST,GET,PATCH,DELETE')

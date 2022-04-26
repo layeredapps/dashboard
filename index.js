@@ -55,7 +55,7 @@ if (!process.env.USER_PROFILE_FIELDS) {
 }
 global.appid = process.env.APPID || process.env.DOMAIN || 'dashboard'
 global.allowSameDomainAPI = process.env.ALLOW_PUBLIC_API === 'true'
-global.globalAPIAccess = process.env.GLOBAL_API_ACCESS === 'true'
+global.addCrossOriginHeaders = process.env.ADD_CROSS_ORIGIN_HEADERS === 'true'
 global.domain = process.env.DOMAIN || ''
 global.language = process.env.LANGUAGE || 'en'
 global.minimumUsernameLength = parseInt(process.env.MINIMUM_USERNAME_LENGTH || '1', 6)
