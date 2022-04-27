@@ -132,16 +132,23 @@ function mergeScriptArray (baseJSON, otherJSON, scriptType) {
   }
   for (const i in otherJSON.dashboard[scriptType]) {
     const relativePath = otherJSON.dashboard[scriptType][i]
+    let absolutePath
+    try {
+      absolutePath = require.resolve(relativePath)
+    } catch (error) {
     if (baseJSON.dashboard[scriptType].indexOf(relativePath) > -1) {
+      throw new Error('invalid-' + scriptType + '-script')
+    }
+    if (baseJSON.dashboard[`${scriptType}FilePaths`].indexOf(absolutePath) > -1) {
       continue
     }
     if (process.env.NODE_ENV === 'testing' && global.testingPackageJSON) {
-      baseJSON.dashboard[scriptType].push(relativePath)
-      baseJSON.dashboard[`${scriptType}FilePaths`].push(relativePath)
+      baseJSON.dashboard[scriptType].push(absolutePath)
+      baseJSON.dashboard[`${scriptType}FilePaths`].push(absolutePath)
       continue
     }
-    baseJSON.dashboard[scriptType].push(loadModuleFile(otherJSON.name, relativePath))
-    baseJSON.dashboard[`${scriptType}FilePaths`].push(relativePath)
+    baseJSON.dashboard[scriptType].push(loadModuleFile(otherJSON.name, absolutePath))
+    baseJSON.dashboard[`${scriptType}FilePaths`].push(absolutePath)
   }
 }
 
