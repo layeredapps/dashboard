@@ -136,7 +136,7 @@ function mergeScriptArray (baseJSON, otherJSON, scriptType) {
     try {
       absolutePath = require.resolve(relativePath)
     } catch (error) {
-    if (baseJSON.dashboard[scriptType].indexOf(relativePath) > -1) {
+      Log.error('could not find script', relativePath)
       throw new Error('invalid-' + scriptType + '-script')
     }
     if (baseJSON.dashboard[`${scriptType}FilePaths`].indexOf(absolutePath) > -1) {
@@ -169,6 +169,7 @@ function mergeModuleArray (baseJSON, otherJSON) {
     }
     const moduleJSON = loadModuleFile(moduleName, '/package.json')
     if (!moduleJSON) {
+      Log.error('could not find module', moduleName)
       throw new Error('invalid-module')
     }
     if (baseJSON.dashboard.moduleNames.indexOf(moduleName) > -1) {
