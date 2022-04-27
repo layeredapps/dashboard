@@ -105,7 +105,7 @@ const dashboard = module.exports = {
     if (!dashboard.Storage) {
       await dashboard.setup()
     }
-    if (global.homePath) {
+    if (global.homePath || global.applicationServer) {
       delete global.sitemap['/home']
     }
     Server = require('./src/server.js')
