@@ -57,6 +57,7 @@ global.appid = process.env.APPID || process.env.DOMAIN || 'dashboard'
 global.allowSameDomainAPI = process.env.ALLOW_PUBLIC_API === 'true'
 global.domain = process.env.DOMAIN || ''
 global.language = process.env.LANGUAGE || 'en'
+global.homePath = process.env.HOME_PATH ? process.env.HOME_PATH : undefined
 global.minimumUsernameLength = parseInt(process.env.MINIMUM_USERNAME_LENGTH || '1', 6)
 global.maximumUsernameLength = parseInt(process.env.MAXIMUM_USERNAME_LENGTH || '50', 10)
 global.minimumPasswordLength = parseInt(process.env.MINIMUM_PASSWORD_LENGTH || '1', 6)
@@ -103,6 +104,9 @@ const dashboard = module.exports = {
     }
     if (!dashboard.Storage) {
       await dashboard.setup()
+    }
+    if (global.homePath) {
+      delete global.sitemap['/home']
     }
     Server = require('./src/server.js')
     await Server.start()

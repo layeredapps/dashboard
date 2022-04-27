@@ -6,6 +6,7 @@ const properties = [
   { camelCase: 'domain', raw: 'DOMAIN', description: 'Domain of server', value: 'example.com', default: '', valueDescription: 'String' },
   { camelCase: 'host', raw: 'HOST', description: 'IP or address web server listens on', value: '0.0.0.0', default: 'localhost', valueDescription: 'IP address' },
   { camelCase: 'port', raw: 'PORT', description: 'Port web server listens on', value: '9000', default: '8000', valueDescription: 'Integer' },
+  { camelCase: 'homePath', raw: 'HOME_PATH', description: 'Alternative path for application home', value: '/app', default: '/home', valueDescription: 'String' },
   { camelCase: 'deleteDelay', raw: 'DELETE_DELAY', description: 'Cool-down time in days to delete accounts', value: '3', default: '7', valueDescription: 'Integer' },
   { camelCase: 'applicationServer', raw: 'APPLICATION_SERVER', description: 'URL of application server', value: 'http://localhost:3000', noDefaultValue: true, valueDescription: 'Address' },
   { camelCase: 'applicationServerToken', raw: 'APPLICATION_SERVER_TOKEN', description: 'Secret shared between servers', value: 'secret', noDefaultValue: true, valueDescription: 'String' },

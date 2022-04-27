@@ -118,6 +118,14 @@ function parse (fileOrHTML, dataObject, dataObjectName) {
     navbar.attr.id = 'navbar'
     navbar.tag = 'template'
   }
+  if (global.homePath) {
+    const links = doc.getElementsByTagName('a')
+    for (const link of links) {
+      if (link.attr && link.attr.href === '/home') {
+        link.attr.href = global.homePath
+      }
+    }
+  }
   return minify(doc)
 }
 
