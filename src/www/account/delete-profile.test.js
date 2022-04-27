@@ -111,17 +111,11 @@ describe('/account/delete-profile', () => {
         { fill: '#submit-form' }
       ]
       global.pageSize = 50
-      await req.post()
-      const req2 = TestHelper.createRequest(`/api/user/profile?profileid=${profile1.profileid}`)
-      req2.account = user.account
-      req2.session = user.session
-      let errorMessage
-      try {
-        await req2.get()
-      } catch (error) {
-        errorMessage = error.message
-      }
-      assert.strictEqual(errorMessage, 'invalid-profileid')
+      const result = await req.post()
+      const doc = TestHelper.extractDoc(result.html)
+      const messageContainer = doc.getElementById('message-container')
+      const message = messageContainer.child[0]
+      assert.strictEqual(message.attr.template, 'success')
     })
   })
 })
