@@ -49,7 +49,7 @@ describe('internal-api/html', () => {
       const link = doc.getElementById('link')
       assert.strictEqual(link.attr.href, global.homePath)
     })
-    
+
     it('should modify navbar link to /home', async () => {
       const html = '<html data-navbar="/account/navbar.html"><head></head><body></body></html>'
       global.homePath = '/rewritten'
