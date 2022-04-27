@@ -1,4 +1,6 @@
-module.exports = async (req, proxyRequestOptions) => {
+module.exports = addXSessionHeader
+
+async function addXSessionHeader (req, proxyRequestOptions) {
   if (!req.account) {
     return
   }

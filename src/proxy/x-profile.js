@@ -1,4 +1,6 @@
-module.exports = async (req, proxyRequestOptions) => {
+module.exports = addXProfileHeader
+
+async function addXProfileHeader (req, proxyRequestOptions) {
   if (!req.account) {
     return
   }

@@ -2,26 +2,28 @@ const Proxy = require('../proxy.js')
 const Response = require('../response.js')
 
 module.exports = {
-  after: async (req, res) => {
-    if (!req.url.startsWith('/account/delete-account')) {
-      return
-    }
-    if (!global.applicationServer) {
-      return
-    }
-    const urlWas = req.url
-    if (process.env.CHECK_BEFORE_DELETE_ACCOUNT) {
-      req.url = `${process.env.CHECK_BEFORE_DELETE_ACCOUNT}?accountid=${req.account.accountid}`
-    } else {
-      req.url = `/api/check-before-delete-account?accountid=${req.account.accountid}`
-    }
-    const response = await Proxy.get(req)
-    req.url = urlWas
-    if (response.startsWith('{')) {
-      const result = JSON.parse(response)
-      if (result.redirect) {
-        return Response.redirect(req, res, result.redirect)
-      }
+  after: checkBeforeDeleteAccount
+}
+
+async function checkBeforeDeleteAccount (req, res) {
+  if (!req.url.startsWith('/account/delete-account')) {
+    return
+  }
+  if (!global.applicationServer) {
+    return
+  }
+  const urlWas = req.url
+  if (process.env.CHECK_BEFORE_DELETE_ACCOUNT) {
+    req.url = `${process.env.CHECK_BEFORE_DELETE_ACCOUNT}?accountid=${req.account.accountid}`
+  } else {
+    req.url = `/api/check-before-delete-account?accountid=${req.account.accountid}`
+  }
+  const response = await Proxy.get(req)
+  req.url = urlWas
+  if (response.startsWith('{')) {
+    const result = JSON.parse(response)
+    if (result.redirect) {
+      return Response.redirect(req, res, result.redirect)
     }
   }
 }
