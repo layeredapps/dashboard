@@ -191,13 +191,11 @@ describe('internal-api/proxy', () => {
     })
 
     it('should execute proxy handlers', async () => {
-      global.packageJSON.dashboard = {
-        proxy: [
-          async (_, requestOptions) => {
-            requestOptions.executedProxyRequest = true
-          }
-        ]
-      }
+      global.packageJSON.dashboard.proxy = [
+        async (_, requestOptions) => {
+          requestOptions.executedProxyRequest = true
+        }
+      ]
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest('/some-application-page')
       req.account = user.account
