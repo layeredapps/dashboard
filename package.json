@@ -63,6 +63,8 @@
   "scripts": {
     "debug": "node main.js --debug-brk=5858",
     "start": "node main.js",
+    "deploy-check": "standard --fix && npm test | tee tests.txt && npm run generate",
+    "generate": "NODE_ENV=testing EXIT_ON_START=true GENERATE_SITEMAP_TXT=true GENERATE_API_TXT=true GENERATE_ENV_TXT=true node main.js",
     "test": "NODE_ENV=testing STORAGE=sqlite SQLITE_DATABASE=dashboard mocha --ignore 'node_modules/**/*' --timeout 90000 --slow 90000 --recursive --extension .test.js .",
     "test-sqlite": "NODE_ENV=testing STORAGE=sqlite SQLITE_DATABASE=dashboard SQLITE_FILE=`pwd`/db.sqlite mocha --ignore 'node_modules/**/*' --timeout 90000 --recursive --extension .test.js .",
     "test-sqlite-node-cache": "NODE_ENV=testing CACHE=node STORAGE=sqlite SQLITE_DATABASE=dashboard SQLITE_FILE=`pwd`/db.sqlite mocha --ignore 'node_modules/**/*' --timeout 90000 --recursive --extension .test.js .",
