@@ -49,7 +49,7 @@ async function submitForm (req, res) {
   }
   if (req.query.sessionid === req.session.sessionid) {
     req.query = {}
-    req.urlPath = req.url = '/home'
+    req.urlPath = req.url = global.homePath || '/home'
     return dashboard.Response.redirectToSignIn(req, res)
   }
   if (req.query['return-url']) {

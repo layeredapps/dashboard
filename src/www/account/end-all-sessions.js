@@ -23,6 +23,6 @@ async function submitForm (req, res) {
     return renderPage(req, res, error.message)
   }
   req.query = {}
-  req.url = req.urlPath = '/home'
+  req.url = req.urlPath = global.homePath || '/home'
   return dashboard.Response.redirectToSignIn(req, res)
 }

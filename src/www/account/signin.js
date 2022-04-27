@@ -73,7 +73,7 @@ async function submitForm (req, res) {
     `sessionid=${session.sessionid}; ${cookieStr}`,
     `token=${session.token}; ${cookieStr}`
   ])
-  const nextURL = req.query && req.query['return-url'] ? req.query['return-url'] : '/home'
+  const nextURL = req.query && req.query['return-url'] ? req.query['return-url'] : global.homePath || '/home'
   res.writeHead(302, {
     location: nextURL
   })
