@@ -1,4 +1,8 @@
 
+> @layeredapps/dashboard@0.0.63 test
+> NODE_ENV=testing STORAGE=sqlite SQLITE_DATABASE=dashboard mocha --ignore 'node_modules/**/*' --timeout 90000 --slow 90000 --recursive --extension .test.js .
+
+
 
   index
     PAGE_SIZE
@@ -20,14 +24,9 @@
       Port web server listens on
         ✔ default 8000
         ✔ Integer
-    ID_LENGTH
-      Length of random ID
-        ✔ default 8
-        ✔ Integer
-    ALLOW_PUBLIC_API
-      Allow HTTP access to /api
-        ✔ default false
-        ✔ Boolean
+    HOME_PATH
+      Alternative path for application home
+        ✔ String
     DELETE_DELAY
       Cool-down time in days to delete accounts
         ✔ default 7
@@ -113,9 +112,11 @@
       ✔ should not match invalid passwords
 
   internal-api/html
-    HTML#parseHTML
+    HTML#parse
       ✔ should reject invalid strings
       ✔ should return expected contents
+      ✔ should modify content link to /home
+      ✔ should modify navbar link to /home
     HTML#findOrCreateTableBody
       ✔ should require a document
       ✔ should require a table
@@ -238,12 +239,6 @@
       ✔ should read files recursively
       ✔ should exclude navbar files
       ✔ should exclude test files
-
-  internal-api/uuid
-    #random
-      ✔ should reject null length
-    #v4
-      ✔ should be a v4 uuid
 
   /account/change-password
     view
@@ -1490,5 +1485,5 @@
       ✔ override req.userProfileFields
 
 
-  827 passing (31m)
+  824 passing (16m)
 
