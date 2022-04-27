@@ -91,7 +91,6 @@ async function setupBefore () {
 
 async function setupBeforeEach () {
   Log.info('setupBeforeEach')
-  Object.keys(require.cache).forEach(function(key) { delete require.cache[key] }) 
   global.packageJSON = packageJSON.merge()
   global.packageJSON.dashboard = global.packageJSON.dashboard || {}
   global.packageJSON.dashboard.serverFilePaths = global.packageJSON.dashboard.serverFilePaths || []
