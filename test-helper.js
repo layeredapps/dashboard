@@ -32,7 +32,6 @@ const defaultConfigurationValues = {
   maximumProfileCompanyNameLength: 100,
   deleteDelay: 7,
   pageSize: 2,
-  allowSameDomainAPI: true,
   bcryptWorkloadFactor: 4,
   sessionVerificationDelay: 14400
 }
@@ -92,7 +91,13 @@ async function setupBefore () {
 
 async function setupBeforeEach () {
   Log.info('setupBeforeEach')
+  Object.keys(require.cache).forEach(function(key) { delete require.cache[key] }) 
   global.packageJSON = packageJSON.merge()
+  global.packageJSON.dashboard = global.packageJSON.dashboard || {}
+  global.packageJSON.dashboard.serverFilePaths = global.packageJSON.dashboard.serverFilePaths || []
+  global.packageJSON.dashboard.serverFilePaths.push(require.resolve('./src/server/allow-api-access'))
+  global.packageJSON.dashboard.server = global.packageJSON.dashboard.server || []
+  global.packageJSON.dashboard.server.push(require('./src/server/allow-api-access'))
   global.sitemap['/api/require-verification'] = helperRoutes.requireVerification
   global.testConfiguration.testNumber = Math.floor(new Date().getTime() / 1000)
   global.testConfiguration.appid = `tests_${global.testConfiguration.testNumber}`

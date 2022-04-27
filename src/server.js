@@ -157,7 +157,7 @@ async function receiveRequest (req, res) {
   if (!req.applicationServer && req.headers['x-application-server']) {
     return dashboard.Response.throw500(req, res)
   }
-  if (req.urlPath.startsWith('/api/') && !global.allowSameDomainAPI && !req.applicationServer && !req.allowAPIRequest) {
+  if (req.urlPath.startsWith('/api/') && req.route && !req.allowAPIRequest) {
     return dashboard.Response.throw404(req, res)
   }
   if (req.route && req.route.api !== 'static-page') {

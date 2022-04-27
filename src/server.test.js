@@ -259,12 +259,11 @@ describe('internal-api/server', () => {
     })
 
     it('should execute "after" server handler after identifying user', async () => {
-      global.packageJSON.dashboard.server = [{
+      global.packageJSON.dashboard.server.push({
         after: async (req) => {
           req.executedAfterRequest = true
         }
-      }
-      ]
+      })
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest('/account/change-username')
       req.headers = {
@@ -283,12 +282,11 @@ describe('internal-api/server', () => {
     })
 
     it('should execute "after" server handler after identifying guest', async () => {
-      global.packageJSON.dashboard.server = [{
+      global.packageJSON.dashboard.server.push({
         after: async (req) => {
           req.executedAfterRequest = true
         }
-      }
-      ]
+      })
       const req = TestHelper.createRequest('/')
       req.headers = {}
       req.method = 'GET'
@@ -304,15 +302,14 @@ describe('internal-api/server', () => {
     })
 
     it('should execute "before" and "after" server handler', async () => {
-      global.packageJSON.dashboard.server = [{
+      global.packageJSON.dashboard.server.push({
         before: async (req) => {
           req.executedBeforeRequest = true
         },
         after: async (req) => {
           req.executedAfterRequest = true
         }
-      }
-      ]
+      })
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest('/account/change-username')
       req.headers = {
@@ -331,17 +328,15 @@ describe('internal-api/server', () => {
     })
 
     it('should execute each server handler', async () => {
-      global.packageJSON.dashboard.server = [
-        {
-          before: async (req) => {
-            req.executedBeforeRequest = true
-          }
-        }, {
-          after: async (req) => {
-            req.executedAfterRequest = true
-          }
+      global.packageJSON.dashboard.server.push({
+        before: async (req) => {
+          req.executedBeforeRequest = true
         }
-      ]
+      }, {
+        after: async (req) => {
+          req.executedAfterRequest = true
+        }
+      })
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest('/account/change-username')
       req.headers = {
