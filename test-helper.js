@@ -8,6 +8,7 @@ const defaultConfigurationValues = {
   domain: 'localhost',
   applicationServer: null,
   applicationServerToken: null,
+  homePath: null,
   language: 'en',
   enableLanguagePreference: false,
   testModuleJSON: null,

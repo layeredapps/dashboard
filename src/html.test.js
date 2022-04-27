@@ -3,7 +3,7 @@ const assert = require('assert')
 const HTML = require('./html.js')
 
 describe('internal-api/html', () => {
-  describe('HTML#parseHTML', () => {
+  describe('HTML#parse', () => {
     it('should reject invalid strings', async () => {
       let errorMessage
       try {
@@ -40,6 +40,22 @@ describe('internal-api/html', () => {
       const input = div.child[0]
       assert.strictEqual(input.tag, json.child[0].tag)
       assert.strictEqual(input.attr.type, json.child[0].attr.type)
+    })
+
+    it('should modify content link to /home', async () => {
+      const html = '<html><body><a id="link" href="/home">home link</a></body></html>'
+      global.homePath = '/rewritten'
+      const doc = HTML.parse(html)
+      const link = doc.getElementById('link')
+      assert.strictEqual(link.attr.href, global.homePath)
+    })
+    
+    it('should modify navbar link to /home', async () => {
+      const html = '<html data-navbar="/account/navbar.html"><head></head><body></body></html>'
+      global.homePath = '/rewritten'
+      const doc = HTML.parse(html)
+      const navbar = doc.getElementById('navbar')
+      assert.strictEqual(navbar.child[0].attr.href, global.homePath)
     })
   })
 
