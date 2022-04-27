@@ -98,7 +98,7 @@ function parse (fileOrHTML, dataObject, dataObjectName) {
       if (navbarPath) {
         const navbarHTML = fs.readFileSync(navbarPath).toString()
         if (navbarHTML) {
-          raw = raw.replace('</head>', `<template id='navbar'>${navbarHTML}</template></head>`)
+          raw = raw.replace('</head>', `<div id='navbar______'>${navbarHTML}</div>`)
         }
       }
     }
@@ -113,8 +113,12 @@ function parse (fileOrHTML, dataObject, dataObjectName) {
   if (doc.child[0].tag === 'html') {
     doc = doc.child[0]
   }
+  const navbar = doc.getElementById('navbar______')
+  if (navbar) {
+    navbar.attr.id = 'navbar'
+    navbar.tag = 'template'
+  }
   if (global.homePath) {
-    const navbar = doc.getElementById('navbar')
     if (navbar && navbar.child) {
       for (const child of navbar.child) {
         if (child.attr && child.attr.href && child.attr.href === '/home') {
