@@ -41,7 +41,7 @@ async function renderPage (req, res, messageTemplate) {
   if (req.body && req.body['secret-code']) {
     codeField.setAttribute('value', dashboard.Format.replaceQuotes(req.body['secret-code']))
   } else {
-    codeField.setAttribute('value', crypto.randomBytes(Math.ceil(global.minimumInvitationCodeLength / 2)).toString('hex'))
+    codeField.setAttribute('value', crypto.randomBytes(Math.ceil(global.minimumResetCodeLength / 2)).toString('hex'))
   }
   return dashboard.Response.end(req, res, doc)
 }
