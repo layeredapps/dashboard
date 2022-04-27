@@ -36,22 +36,6 @@ describe('/account/delete-account-complete', () => {
       assert.strictEqual(duration.tag, 'div')
     })
 
-    it('should present instant deletion message', async () => {
-      global.deleteDelay = 0
-      await TestHelper.createOwner()
-      const user = await TestHelper.createUser()
-      const req = TestHelper.createRequest('/account/delete-account')
-      req.account = user.account
-      req.session = user.session
-      req.body = {
-        password: user.account.password
-      }
-      const result = await req.post()
-      const doc = TestHelper.extractDoc(result.html)
-      const duration = doc.getElementById('instant-delete')
-      assert.strictEqual(duration.tag, 'div')
-    })
-
     it('should present instant delete message (screenshots)', async () => {
       global.deleteDelay = 0
       await TestHelper.createOwner()
