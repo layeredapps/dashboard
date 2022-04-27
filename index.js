@@ -107,6 +107,7 @@ const dashboard = module.exports = {
     }
     if (global.homePath || global.applicationServer) {
       delete global.sitemap['/home']
+      delete global.sitemap['/']
     }
     Server = require('./src/server.js')
     await Server.start()
