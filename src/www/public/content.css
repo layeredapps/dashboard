@@ -24,6 +24,7 @@ input, select, textarea, a, button, div { outline: 0 }
 .container .small-button:hover { background-color: var(--button-small-background-color); border: 1px solid var(--button-small-background-color); }
 .container .small-button:disabled { background-color: var(--button-small-disabled-background-color); border: 1px solid var(--button-small-disabled-background-color); }
 .container .small-button:focus { background-color: var(--button-small-background-color); border: 1px solid var(--button-small-background-color); }
+.container .form-buttons { margin-bottom: 2rem }
 .container .nested-button { margin-top: 1rem }
 .container .spaced-buttons .button { margin-right: 1rem }
 .container .single-button,
@@ -138,7 +139,7 @@ body.entry { background-color: var(--entry-form-background-color); display: flex
 .entry-form .field input[type="email"]{ width: 100%; background-color: var(--content-light-contrast-background); color: var(--entry-form-text-color); font-size: 1rem }
 .entry-form .field-label { display: inline-block; text-transform: uppercase; font-size: 0.75rem; color: var(--entry-form-text-color); margin-bottom: 0.5rem }
 .entry-form .field-label span { border: none; background-color: transparent; margin-left: 0.5rem }
-.entry-form .form-buttons { text-align: left; margin-bottom: 2rem }
+.entry-form .form-buttons { text-align: left }
 .entry-form .button { padding: 0 2rem; background-color: var(--entry-form-button-background-color); border-color: var(--entry-form-button-background-color); color: var(--entry-form-button-text-color) }
 .entry-form .message { padding: 0.5rem }
 .entry-form .message.success { color: var(--entry-form-success-color) }
