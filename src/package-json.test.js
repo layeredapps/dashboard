@@ -54,28 +54,40 @@ describe('internal-api/package-json', () => {
   describe('mergeScriptArray', () => {
     it('should add scripts', async () => {
       const dashboardJSON = blankPackageJSON()
-      dashboardJSON.dashboard.server = ['script1', 'script2', 'script3']
+      dashboardJSON.dashboard.server = [
+        './server/allow-api-access-cross-domain.js',
+        './server/allow-api-access.js',
+        './server/allow-api-requests-from-application.js'
+      ]
       const packageJSON = blankPackageJSON()
       PackageJSON.mergeScriptArray(packageJSON, dashboardJSON, 'server')
-      assert.strictEqual(packageJSON.dashboard.server[0], 'script1')
-      assert.strictEqual(packageJSON.dashboard.server[1], 'script2')
-      assert.strictEqual(packageJSON.dashboard.server[2], 'script3')
+      assert.strictEqual(packageJSON.dashboard.server[0], require.resolve('./server/allow-api-access-cross-domain.js'))
+      assert.strictEqual(packageJSON.dashboard.server[1], require.resolve('./server/allow-api-access.js'))
+      assert.strictEqual(packageJSON.dashboard.server[2], require.resolve('./server/allow-api-requests-from-application.js'))
     })
 
     it('should put application scripts last', async () => {
       const dashboardJSON = blankPackageJSON()
-      dashboardJSON.dashboard.server = ['script1', 'script2', 'script3']
+      dashboardJSON.dashboard.server = [
+        './server/allow-api-access-cross-domain.js',
+        './server/allow-api-access.js',
+        './server/allow-api-requests-from-application.js'
+      ]
       const applicationJSON = blankPackageJSON()
-      applicationJSON.dashboard.server = ['script4', 'script5', 'script6']
+      applicationJSON.dashboard.server = [
+        './server/fetch-application-server-error-html.js',
+        './server/fetch-application-server-redirect-html.js',
+        './server/fetch-application-server-template-html.js'
+      ]
       const packageJSON = blankPackageJSON()
       PackageJSON.mergeScriptArray(packageJSON, dashboardJSON, 'server')
       PackageJSON.mergeScriptArray(packageJSON, applicationJSON, 'server')
-      assert.strictEqual(packageJSON.dashboard.server[0], 'script1')
-      assert.strictEqual(packageJSON.dashboard.server[1], 'script2')
-      assert.strictEqual(packageJSON.dashboard.server[2], 'script3')
-      assert.strictEqual(packageJSON.dashboard.server[3], 'script4')
-      assert.strictEqual(packageJSON.dashboard.server[4], 'script5')
-      assert.strictEqual(packageJSON.dashboard.server[5], 'script6')
+      assert.strictEqual(packageJSON.dashboard.server[0], require.resolve('./server/allow-api-access-cross-domain.js'))
+      assert.strictEqual(packageJSON.dashboard.server[1], require.resolve('./server/allow-api-access.js'))
+      assert.strictEqual(packageJSON.dashboard.server[2], require.resolve('./server/allow-api-requests-from-application.js'))
+      assert.strictEqual(packageJSON.dashboard.server[3], require.resolve('./server/fetch-application-server-error-html.js'))
+      assert.strictEqual(packageJSON.dashboard.server[4], require.resolve('./server/fetch-application-server-redirect-html.js'))
+      assert.strictEqual(packageJSON.dashboard.server[5], require.resolve('./server/fetch-application-server-template-html.js'))
     })
   })
 
