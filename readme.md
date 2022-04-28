@@ -443,7 +443,16 @@ Dashboard's test suite covers the `API` and the `UI`.  The `API` tests are perfo
 
 If you have encountered a problem post an issue on the appropriate [Github repository](https://github.com/layeredapps).  
 
-If you would like to contribute check [Github Issues](https://github.com/layeredapps/dashboard) for ways you can help. 
+If you would like to contribute check [Github Issues](https://github.com/layeredapps/dashboard) for ways you can help.
+
+## Icons
+
+Icons are obtained via [FlatIcon](https://flaticon.com) and copyright their respective owners:
+
+- [Home button](https://www.flaticon.com/free-icon/home-button_60817) by [Google](https://www.flaticon.com/authors/google)
+- [Account button](https://www.flaticon.com/free-icon/round-account-button-with-user-inside_61205) by [Google](https://www.flaticon.com/authors/google)
+- [Administrator button](https://www.flaticon.com/free-icon/database_149749) by [Smashicons](https://www.flaticon.com/authors/smashicons)
+- [Spillage menu](https://www.flaticon.com/free-icon/three-dots-more-indicator_60969) by [Google](https://www.flaticon.com/authors/google)
 
 ## License
 
