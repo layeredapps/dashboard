@@ -1,5 +1,5 @@
 
-> @layeredapps/dashboard@0.0.63 test
+> @layeredapps/dashboard@0.0.69 test
 > NODE_ENV=testing STORAGE=sqlite SQLITE_DATABASE=dashboard mocha --ignore 'node_modules/**/*' --timeout 90000 --slow 90000 --recursive --extension .test.js .
 
 
@@ -317,7 +317,6 @@
     view
       ✔ should present 3 days remaining message
       ✔ should present 7 days remaining message
-      ✔ should present instant deletion message
       ✔ should present instant delete message (screenshots)
 
   /account/delete-account
@@ -1485,5 +1484,5 @@
       ✔ override req.userProfileFields
 
 
-  824 passing (16m)
+  823 passing (31m)
 
