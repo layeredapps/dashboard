@@ -13,20 +13,23 @@ input, select, textarea, a, button, div { outline: 0 }
 .heading a { color: inherit; opacity: 0.8 }
 
 /* header account and administrator dropdown menus */
-.template .menus { background-color: inherit; flex-direction: row; align-self: flex-end; line-height: 4rem; margin-right: 0.5rem }
-.template .menu-group { display: inline-block; position: relative; margin: 0 0 0 1rem; padding: 0 0 0 1rem; min-height: 4rem; cursor: pointer; font-size: 0.8rem; color: inherit }
-.template .menu-icon { position: absolute; right: 0.5rem; top: 1rem; height: 2rem; width: 2rem; opacity: 0.75 }
-.template .menu-group-label { padding-right: 4rem } 
-.template .menu-trigger { cursor: pointer; height: 4rem; color: inherit; border: none; background-color: transparent; padding: 0 0 0 1rem; margin: 0; border-radius: 0.5rem }
-.template .menus .menu-group:first-of-type { margin-left: 0; padding-left: 0 }
+.template .menus { background-color: inherit; padding: 0.5rem 0.5rem 0 0 }
+.template .menu-group { display: inline-block; position: relative; margin: 0; padding: 0; cursor: pointer; font-size: 0.8rem; color: inherit }
+.template .menu-icon { height: 2rem; width: 2rem; opacity: 0.75; margin: 0.5rem; }
+.template .menu-group-label { height: 3rem; line-height: 3rem; padding: 0 0 0 1rem } 
+.template .menu-trigger { display: flex; height: 4rem; line-height: 4rem; cursor: pointer; color: inherit; border: none; background-color: transparent; padding: 0; margin: 0; border-radius: 0.5rem }
+.template .menus .menu-group:first-of-type { padding-left: 0 }
 .template .menu-group-active .dropdown-menu,
 .template .menu-group:hover .dropdown-menu,
 .template .menu-group:focus .dropdown-menu { display: block }
 .template .menu-group-active .menu-trigger,
 .template .menu-group:hover .menu-trigger,
+.template .menu-group:focus .menu-trigger { border-radius: 0.5rem 0.5rem 0 0 } 
+.template .menu-group-active .menu-trigger,
+.template .menu-group:hover .menu-trigger,
 .template .menu-group:focus .menu-trigger,
-.template .menu-trigger:focus { background-color: var(--template-focus-color) }
-.template .dropdown-menu { padding: 0.5rem 0.5rem 0.5rem 4rem; position: absolute; border-radius: 0.5rem; border-top-right-radius: 0; background-color: var(--template-focus-color); box-shadow: 0 0.25rem 0.25rem var(--template-shadow-color); text-align: right; z-index: 1; top: 3.5rem; right: 0; display: none }
+.template .menu-trigger:focus { height: 3rem; line-height: 3rem; background-color: var(--template-focus-color) }
+.template .dropdown-menu { padding: 0.5rem 0.5rem 0.5rem 4rem; position: absolute; border-radius: 0.5rem; border-top-right-radius: 0; background-color: var(--template-focus-color); box-shadow: 0 0.25rem 0.25rem var(--template-shadow-color); text-align: right; z-index: 1; top: 3rem; right: 0; display: none }
 .template .menu-link { white-space: nowrap; line-height: 2rem; padding: 0 1rem; margin-bottom: 0.5rem; white-space: nowrap; font-size: 0.8rem; color: var(--template-text-color); display: block; text-decoration: none }
 .template .menu-link:hover,
 .template .menu-link:focus { background-color: var(--template-highlight-focus-color); color: var(--template-background-color); border-radius: 0.5rem }
@@ -64,14 +67,11 @@ input, select, textarea, a, button, div { outline: 0 }
 .template .spillage:focus .spillage-trigger { background-color: transparent }
 
 @media (max-width: 960px) {
-  .template .header { height: 3rem }
-  .template .heading { padding-left: 0.5rem; font-size: 1rem; line-height: 3rem }
+  .template .heading { padding-left: 0.5rem; font-size: 1rem }
   .template .menus { margin-right: 0; min-height: 2rem; line-height: 2rem }
   .template .menu-group .dropdown-menu:first-of-type { right: 0 }
-  .template .menus .menu-group:last-of-type { margin-left: 0.5rem; padding-left: 0.5rem }
   .template .menu-group-label { display: none !important }
-  .template .menu-group img { position: unset; margin-top: 1rem; margin-right: 0.5rem }
-  .template .menu-trigger { padding-left: 0.5rem }
+  .template .menu-group img { position: unset }
   .template .dropdown-menu { right: -0.5rem } 
   .template .navigation { height: 2.5rem }
   .template .navigation-link { height: 2rem; margin-left: 0.5rem; margin-right: 0.5rem }
