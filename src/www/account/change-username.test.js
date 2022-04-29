@@ -23,7 +23,7 @@ describe('/account/change-username', () => {
       req.account = user.account
       req.session = user.session
       req.body = {
-        'new-username': 'new-username-' + new Date().getTime() + '-' + Math.ceil(Math.random() * 1000),
+        'new-username': 'new-username',
         password: user.account.password
       }
       req.filename = __filename
@@ -79,7 +79,7 @@ describe('/account/change-username', () => {
       req.account = user.account
       req.session = user.session
       req.body = {
-        'new-username': 'new-username-' + new Date().getTime() + '-' + Math.ceil(Math.random() * 1000),
+        'new-username': 'new-username',
         password: 'invalid'
       }
       const result = await req.post()
