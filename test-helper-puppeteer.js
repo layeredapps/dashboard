@@ -80,6 +80,7 @@ async function fetch (method, req) {
     return status === 200
   })
   if (req.screenshots) {
+    const generateScreenshots = process.env.GENERATE_SCREENSHOTS === 'true'
     const colorSchemes = ['light', 'dark']
     if (req.account) {
       await setCookie(page, req)
@@ -99,7 +100,7 @@ async function fetch (method, req) {
         await wait(100)
       }
       if (step.save) {
-        if (process.env.GENERATE_SCREENSHOTS && process.env.SCREENSHOT_PATH) {
+        if (generateScreenshots && process.env.SCREENSHOT_PATH) {
           let firstTitle
           for (const colorScheme of colorSchemes) {
             await page.emulateMediaFeatures([{ name: 'prefers-color-scheme', value: colorScheme }])
@@ -118,7 +119,7 @@ async function fetch (method, req) {
         continue
       }
       if (step.hover) {
-        if (process.env.GENERATE_SCREENSHOTS && process.env.SCREENSHOT_PATH) {
+        if (generateScreenshots && process.env.SCREENSHOT_PATH) {
           let firstTitle
           for (const colorScheme of colorSchemes) {
             await page.emulateMediaFeatures([{ name: 'prefers-color-scheme', value: colorScheme }])
@@ -138,7 +139,7 @@ async function fetch (method, req) {
         }
         screenshotNumber++
       } else if (step.click) {
-        if (process.env.GENERATE_SCREENSHOTS && process.env.SCREENSHOT_PATH) {
+        if (generateScreenshots && process.env.SCREENSHOT_PATH) {
           let firstTitle
           for (const colorScheme of colorSchemes) {
             await page.emulateMediaFeatures([{ name: 'prefers-color-scheme', value: colorScheme }])
@@ -185,7 +186,7 @@ async function fetch (method, req) {
         if (step.waitBefore) {
           await step.waitBefore(page)
         }
-        if (process.env.GENERATE_SCREENSHOTS && process.env.SCREENSHOT_PATH) {
+        if (generateScreenshots && process.env.SCREENSHOT_PATH) {
           let firstTitle
           for (const colorScheme of colorSchemes) {
             await page.emulateMediaFeatures([{ name: 'prefers-color-scheme', value: colorScheme }])
@@ -237,7 +238,7 @@ async function fetch (method, req) {
       }
       lastStep = step
     }
-    if (process.env.GENERATE_SCREENSHOTS && process.env.SCREENSHOT_PATH) {
+    if (generateScreenshots && process.env.SCREENSHOT_PATH) {
       let firstTitle
       for (const colorScheme of colorSchemes) {
         await page.emulateMediaFeatures([{ name: 'prefers-color-scheme', value: colorScheme }])
