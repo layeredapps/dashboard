@@ -1,5 +1,5 @@
 
-> @layeredapps/dashboard@0.0.70 test
+> @layeredapps/dashboard@0.0.72 test
 > NODE_ENV=testing STORAGE=sqlite SQLITE_DATABASE=dashboard mocha --ignore 'node_modules/**/*' --timeout 90000 --slow 90000 --recursive --extension .test.js .
 
 
