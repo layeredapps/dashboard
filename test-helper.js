@@ -63,6 +63,7 @@ const mimeTypes = {
   svg: 'image/svg+xml'
 }
 
+const generateResponse = process.env.GENERATE_RESPONSE === 'true'
 let startedServer = false
 
 async function setupBefore () {
@@ -190,7 +191,7 @@ function createRequest (rawURL) {
         let errorMessage
         try {
           const result = await proxy(verb, rawURL, req)
-          if (process.env.GENERATE_RESPONSE && process.env.RESPONSE_PATH && req.saveResponse) {
+          if (generateResponse && process.env.RESPONSE_PATH && req.saveResponse) {
             let responseFilePath = req.filename.substring(req.filename.indexOf('/src/www/') + '/src/www/'.length)
             responseFilePath = path.join(process.env.RESPONSE_PATH, responseFilePath)
             createFolderSync(responseFilePath.substring(0, responseFilePath.lastIndexOf('/')))
