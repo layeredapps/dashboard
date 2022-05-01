@@ -13,5 +13,6 @@ module.exports = async () => {
       idle: process.env.IDLE_CONNECTION_LIMIT || 10000
     }
   })
+  await sequelize.query('CREATE EXTENSION IF NOT EXISTS "uuid-ossp";')
   return sequelize
 }
