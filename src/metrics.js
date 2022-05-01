@@ -1,17 +1,20 @@
-
 const Format = require('./format.js')
+const Log = require('./log.js')('redis-metrics')
 const upsertedCache = {}
 let redisStorage, dashboardStorage
 
 module.exports = {
   setup: async (storage) => {
     if (process.env.STORAGE_METRICS === 'redis') {
+      Log.info('starting redis connection')
       const Redis = require('redis')
       redisStorage = Redis.createClient(process.env.METRICS_REDIS_URL || process.env.REDIS_URL || 'redis://127.0.0.1:6379')
       redisStorage.on('error', (error) => {
+        Log.error(error)
         throw error
       })
       redisStorage.on('end', () => {
+        Log.info('ending redis connection')
         redisStorage = null
       })
       await redisStorage.connect()

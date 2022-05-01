@@ -1,11 +1,16 @@
+const Log = require('./log.js')('redis-metrics')
+
 module.exports = async () => {
   const Redis = require('redis')
   const twentyFourHours = 24 * 60 * 60
   let client = Redis.createClient(process.env.STORAGE_CACHE_REDIS_URL || process.env.REDIS_URL || 'redis://127.0.0.1:6379')
   client.on('error', (error) => {
+    Log.info('starting redis connection')
+    Log.error(error)
     throw error
   })
   client.on('end', () => {
+    Log.info('ending redis connection')
     client = null
   })
   await client.connect()
