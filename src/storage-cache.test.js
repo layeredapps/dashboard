@@ -2,7 +2,7 @@
 const assert = require('assert')
 const StorageCache = require('./storage-cache.js')
 
-if (process.env.CACHE) {
+if (process.env.STORAGE_CACHE) {
   describe('internal-api/storage-cache', () => {
     describe('get', () => {
       it('should require key', async () => {

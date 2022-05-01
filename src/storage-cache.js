@@ -2,13 +2,13 @@ let storageCache
 
 module.exports = {
   setup: async () => {
-    if (!process.env.CACHE) {
+    if (!process.env.STORAGE_CACHE) {
       storageCache = {
         get: async () => {},
         set: async () => {},
         remove: async () => {}
       }
-    } else if (process.env.CACHE === 'node') {
+    } else if (process.env.STORAGE_CACHE === 'node') {
       const cache = {}
       const cacheList = []
       storageCache = {
@@ -31,7 +31,7 @@ module.exports = {
           delete cache[key]
         }
       }
-    } else if (process.env.CACHE === 'redis') {
+    } else if (process.env.STORAGE_CACHE === 'redis') {
       const redisCache = require('./storage-cache-redis.js')
       storageCache = await redisCache()
     }

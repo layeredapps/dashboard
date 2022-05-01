@@ -319,14 +319,39 @@ You can complement your storage backend with optional caching, either using RAM 
 
 You can optionally use Redis as a cache, this is good for any storage on slow disks.
 
-    $ CACHE=redis \
-      CACHE_REDIS_URL=redis:/.... \
+    $ STORAGE_CACHE=redis \
+      CACHE_REDIS_URL=redis://.... \ # use dedicated redis for cache
       node main.js
 
 If you have a single Dashboard server you can cache within memory:
 
     $ CACHE=node \
       node main.js
+
+You can specify a single Redis server for both caching and metrics:
+
+    $ STORAGE_METRICS=redis \
+      STORAGE_CACHE=redis \
+      REDIS_URL=redis:/.... \
+      node main.js
+
+# Usage metrics
+
+By default usage metrics will be stored in your Dashboard database.  You can specify a Redis database to use instead.
+
+You can optionally use Redis as a cache, this is good for any storage on slow disks.
+
+    $ STORAGE_METRICS=redis \
+      METRICS_REDIS_URL=redis:/.... \
+      node main.js
+
+You can specify a single Redis server for both caching and metrics:
+
+    $ STORAGE_METRICS=redis \
+      STORAGE_CACHE=redis \
+      REDIS_URL=redis:/.... \
+      node main.js
+
 
 # Logging
 

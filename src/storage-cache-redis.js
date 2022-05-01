@@ -1,7 +1,7 @@
 module.exports = async () => {
   const Redis = require('redis')
   const twentyFourHours = 24 * 60 * 60
-  let client = Redis.createClient(process.env.REDIS_URL || 'redis://127.0.0.1:6379')
+  let client = Redis.createClient(process.env.STORAGE_CACHE_REDIS_URL || process.env.REDIS_URL || 'redis://127.0.0.1:6379')
   client.on('error', (error) => {
     throw error
   })

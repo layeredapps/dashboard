@@ -7,7 +7,7 @@ module.exports = {
   setup: async (storage) => {
     if (process.env.STORAGE_METRICS === 'redis') {
       const Redis = require('redis')
-      redisStorage = Redis.createClient(process.env.REDIS_URL || 'redis://127.0.0.1:6379')
+      redisStorage = Redis.createClient(process.env.METRICS_REDIS_URL || process.env.REDIS_URL || 'redis://127.0.0.1:6379')
       redisStorage.on('error', (error) => {
         throw error
       })
