@@ -32,7 +32,8 @@ async function pass (req, res) {
     port,
     headers: {
       referer: `${global.dashboardServer}${req.url}`,
-      'x-dashboard-server': global.dashboardServer
+      'x-dashboard-server': global.dashboardServer,
+      'x-application-server-token': req.applicationServerToken || global.applicationServerToken
     }
   }
   if (req.method === 'GET' && req.headers && req.headers['if-none-match']) {
@@ -42,7 +43,6 @@ async function pass (req, res) {
     requestOptions.headers['x-accountid'] = req.account.accountid
     requestOptions.headers['x-sessionid'] = req.session.sessionid
   }
-  requestOptions.headers['x-application-server-token'] = req.applicationServerToken || global.applicationServerToken
   if (global.packageJSON.dashboard.proxy && global.packageJSON.dashboard.proxy.length) {
     for (const handler of global.packageJSON.dashboard.proxy) {
       await handler(req, requestOptions)
