@@ -8,12 +8,18 @@ module.exports = {
     if (process.env.STORAGE_METRICS === 'redis') {
       Log.info('starting redis connection')
       const Redis = require('redis')
-      redisStorage = Redis.createClient({
+      const configuration = {
         url: process.env.METRICS_REDIS_URL || process.env.REDIS_URL || 'redis://127.0.0.1:6379'
-      })
+      }
+      redisStorage = Redis.createClient(configuration)
       redisStorage.on('error', (error) => {
-        Log.error(error)
-        throw error
+        Log.error('redis connection error', error)
+        try {
+          client = Redis.createClient(configuration)
+        } catch (error) {
+          Log.error('unable to reconnect redis', error)
+          throw error
+        }
       })
       redisStorage.on('end', () => {
         Log.info('ending redis connection')
