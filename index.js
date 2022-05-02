@@ -58,6 +58,7 @@ global.allowSameDomainAPI = process.env.ALLOW_PUBLIC_API === 'true'
 global.domain = process.env.DOMAIN || ''
 global.language = process.env.LANGUAGE || 'en'
 global.homePath = process.env.HOME_PATH ? process.env.HOME_PATH : undefined
+global.maximumPostDataLength = parseInt(process.env.MAXIMUM_POST_DATA_LENGTH || '2000000', 10)
 global.minimumUsernameLength = parseInt(process.env.MINIMUM_USERNAME_LENGTH || '1', 6)
 global.maximumUsernameLength = parseInt(process.env.MAXIMUM_USERNAME_LENGTH || '50', 10)
 global.minimumPasswordLength = parseInt(process.env.MINIMUM_PASSWORD_LENGTH || '1', 6)

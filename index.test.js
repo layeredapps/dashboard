@@ -13,6 +13,7 @@ const properties = [
   { camelCase: 'bcryptWorkloadFactor', raw: 'BCRYPT_WORKLOAD_FACTOR', description: 'Strength to protect passwords', value: '4', default: '10', valueDescription: 'Integer' },
   { camelCase: 'disableMetrics', raw: 'DISABLE_METRICS', description: 'Disable aggregated metrics', value: 'false', default: '', valueDescription: 'Boolean' },
   { camelCase: 'disableRegistration', raw: 'DISABLE_REGISTRATION', description: 'Disable UI (not API) for registering', value: 'false', default: '', valueDescription: 'Boolean' },
+  { camelCase: 'maximumPostDataLength', raw: 'MAXIMUM_POST_DATA_LENGTH', description: 'Largest POST payload accepted in bytes', value: '1000000', default: '2000000', valueDescription: 'Integer' },
   { camelCase: 'minimumPasswordLength', raw: 'MINIMUM_PASSWORD_LENGTH', description: 'Shortest password length', value: '1', default: '1', valueDescription: 'Integer' },
   { camelCase: 'maximumPasswordLength', raw: 'MAXIMUM_PASSWORD_LENGTH', description: 'Longest password length', value: '1000', default: '50', valueDescription: 'Integer' },
   { camelCase: 'minimumUsernameLength', raw: 'MINIMUM_USERNAME_LENGTH', description: 'Shortest username length', value: '1', default: '1', valueDescription: 'Integer' },

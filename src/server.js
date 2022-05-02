@@ -15,40 +15,53 @@ const parsePostData = util.promisify((req, callback) => {
       req.headers['content-type'].indexOf('multipart/form-data') > -1) {
     return callback()
   }
-  let body = ''
+  const chunks = []
+  let length = 0
   req.on('data', (data) => {
-    body += data
+    chunks.push(data)
+    length += data.length
+    if (length > global.maximumPostDataLength) {
+      throw new Error('invalid-request')
+    }
   })
   return req.on('end', () => {
-    if (!body) {
+    if (!chunks.length) {
       return callback()
     }
-    return callback(null, body)
+    return callback(null, Buffer.concat(chunks).toString('utf8'))
   })
 })
 
 const parseMultiPartData = util.promisify((req, callback) => {
-  const form = new Multiparty.Form()
+  const form = new Multiparty.Form({
+    maxFieldsSize: global.maximumPostDataLength
+  })
   return form.parse(req, async (error, fields, files) => {
     if (error) {
       return callback(error)
     }
-    req.body = {}
+    const body = {}
     for (const field in fields) {
-      req.body[field] = fields[field][0]
+      body[field] = fields[field][0]
     }
-    req.uploads = {}
+    const uploads = {}
     for (const field in files) {
       const file = files[field][0]
       if (!file.size) {
         continue
       }
-      req.uploads[field] = {
+      uploads[field] = {
         type: file.headers['content-type'],
         buffer: fs.readFileSync(file.path),
         name: file.originalFilename
       }
       fs.unlinkSync(file.path)
+    }
+    if (Object.keys(body).length) {
+      req.body = body
+    }
+    if (Object.keys(uploads).length) {
+      req.uploads = uploads
     }
     return callback()
   })
