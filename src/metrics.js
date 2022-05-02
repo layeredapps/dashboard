@@ -1,7 +1,7 @@
 const Format = require('./format.js')
 const Log = require('./log.js')('redis-metrics')
 const upsertedCache = {}
-let redisStorage, dashboardStorage
+let client, dashboardStorage
 
 module.exports = {
   setup: async (storage) => {
@@ -11,8 +11,8 @@ module.exports = {
       const configuration = {
         url: process.env.METRICS_REDIS_URL || process.env.REDIS_URL || 'redis://127.0.0.1:6379'
       }
-      redisStorage = Redis.createClient(configuration)
-      redisStorage.on('error', (error) => {
+      client = Redis.createClient(configuration)
+      client.on('error', (error) => {
         Log.error('redis connection error', error)
         try {
           client = Redis.createClient(configuration)
@@ -21,11 +21,11 @@ module.exports = {
           throw error
         }
       })
-      redisStorage.on('end', () => {
+      client.on('end', () => {
         Log.info('ending redis connection')
-        redisStorage = null
+        client = null
       })
-      await redisStorage.connect()
+      await client.connect()
     } else {
       dashboardStorage = storage
     }
@@ -44,10 +44,10 @@ module.exports = {
     const dayKey = `${monthKey}-${dayPart}`
     const totalKey = `${metric}/total`
     if (process.env.STORAGE_METRICS === 'redis') {
-      await redisStorage.hIncrBy(`${appid}/metrics`, yearKey, amount || 1)
-      await redisStorage.hIncrBy(`${appid}/metrics`, monthKey, amount || 1)
-      await redisStorage.hIncrBy(`${appid}/metrics`, dayKey, amount || 1)
-      await redisStorage.hIncrBy(`${appid}/metrics`, totalKey, amount || 1)
+      await client.hIncrBy(`${appid}/metrics`, yearKey, amount || 1)
+      await client.hIncrBy(`${appid}/metrics`, monthKey, amount || 1)
+      await client.hIncrBy(`${appid}/metrics`, dayKey, amount || 1)
+      await client.hIncrBy(`${appid}/metrics`, totalKey, amount || 1)
     } else {
       // day
       if (!upsertedCache[`${appid}/${dayKey}`]) {
@@ -127,7 +127,7 @@ module.exports = {
   },
   keyRange: async (appid, keys) => {
     if (process.env.STORAGE_METRICS === 'redis') {
-      const response = await redisStorage.hmGet(`${appid}/metrics`, keys)
+      const response = await client.hmGet(`${appid}/metrics`, keys)
       const data = []
       for (const i in keys) {
         if (!response[i]) {
@@ -160,8 +160,8 @@ module.exports = {
     }
   },
   close: () => {
-    if (redisStorage) {
-      return redisStorage.quit()
+    if (client) {
+      return client.quit()
     }
   },
   maximumDay,
