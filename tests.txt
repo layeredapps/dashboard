@@ -1,6 +1,6 @@
 
-> @layeredapps/dashboard@0.0.72 test
-> NODE_ENV=testing STORAGE=sqlite SQLITE_DATABASE=dashboard mocha --ignore 'node_modules/**/*' --timeout 90000 --slow 90000 --recursive --extension .test.js .
+> @layeredapps/dashboard@0.0.80 test
+> PORT=50002 NODE_ENV=testing STORAGE=sqlite SQLITE_DATABASE=dashboard mocha --ignore 'node_modules/**/*' --timeout 90000 --slow 90000 --recursive --extension .test.js .
 
 
 
@@ -49,9 +49,13 @@
       Disable UI (not API) for registering
         ✔ default unset
         ✔ Boolean
+    MAXIMUM_POST_DATA_LENGTH
+      Largest POST payload accepted in bytes
+        ✔ default 2000000
+        ✔ Integer
     MINIMUM_PASSWORD_LENGTH
       Shortest password length
-        ✔ default 1
+        ✔ default 6
         ✔ Integer
     MAXIMUM_PASSWORD_LENGTH
       Longest password length
@@ -59,7 +63,7 @@
         ✔ Integer
     MINIMUM_USERNAME_LENGTH
       Shortest username length
-        ✔ default 1
+        ✔ default 6
         ✔ Integer
     MAXIMUM_USERNAME_LENGTH
       Longest username length
@@ -1484,5 +1488,5 @@
       ✔ override req.userProfileFields
 
 
-  823 passing (30m)
+  825 passing (29m)
 
