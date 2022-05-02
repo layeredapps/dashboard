@@ -258,25 +258,25 @@ function highlights (data, days) {
   return highlight
 }
 
-function metricKeys (metric, days) {
+function metricKeys (metric, days, months) {
   days = days || 90
   // all time total
   const keys = [
     `${metric}/total`
   ]
-  const now = new Date()
-  // last 3 months
-  const lastMonth = new Date(now.getUTCFullYear(), now.getUTCMonth() - 1, now.getUTCDate(), 0, 0, 0, 0)
-  const secondLastMonth = new Date(now.getUTCFullYear(), now.getUTCMonth() - 2, now.getUTCDate(), 0, 0, 0, 0)
-  keys.push(
-    `${metric}/${now.getUTCFullYear()}-${twoDigits(now.getUTCMonth() + 1)}`,
-    `${metric}/${lastMonth.getUTCFullYear()}-${twoDigits(lastMonth.getUTCMonth() + 1)}`,
-    `${metric}/${secondLastMonth.getUTCFullYear()}-${twoDigits(secondLastMonth.getUTCMonth() + 1)}`
-  )
-  // last 90 days
+  const date = new Date()
+  const now = new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(), date.getUTCHours() + global.gmtHoursOffset, date.getUTCMinutes(), date.getUTCSeconds())
+  // month keys
+  if (months) {
+    for (let i = 0; i < months; i++) {
+      const monthDate = new Date(now.getFullYear(), now.getMonth() - i, now.getDate(), 0, 0, 0, 0)
+      keys.push(`${metric}/${monthDate.getFullYear()}-${twoDigits(monthDate.getMonth() + 1)}`)
+    }
+  }
+  // day keys
   for (let i = 0; i < days; i++) {
-    const date = i > 0 ? new Date(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() - i, 0, 0, 0, 0) : now
-    keys.push(`${metric}/${date.getUTCFullYear()}-${twoDigits(date.getUTCMonth() + 1)}-${twoDigits(date.getUTCDate())}`)
+    const date = i > 0 ? new Date(now.getFullYear(), now.getMonth(), now.getDate() - i, 0, 0, 0, 0) : now
+    keys.push(`${metric}/${date.getFullYear()}-${twoDigits(date.getMonth() + 1)}-${twoDigits(date.getDate())}`)
   }
   return keys
 }
