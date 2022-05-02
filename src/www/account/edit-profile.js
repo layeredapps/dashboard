@@ -58,6 +58,9 @@ function renderPage (req, res, messageTemplate) {
 }
 
 async function submitForm (req, res) {
+  if (!req.body) {
+    return renderPage(req, res)
+  }
   const profileFields = req.userProfileFields || global.userProfileFields
   for (const field of profileFields) {
     switch (field) {
