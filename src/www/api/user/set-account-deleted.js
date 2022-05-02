@@ -32,10 +32,8 @@ module.exports = {
     if (!validPassword) {
       throw new Error('invalid-password')
     }
-    const now = new Date()
-    const deletedAt = new Date(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() + global.deleteDelay, now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds())
     const updateClause = {
-      deletedAt
+      deletedAt: new Date()
     }
     await dashboard.Storage.Account.update(updateClause, {
       where: {

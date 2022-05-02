@@ -16,7 +16,7 @@ module.exports = {
         const now = new Date()
         const days = req.query.days || 1
         const updateClause = {
-          lastVerifiedAt: new Date(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() - days, now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds())
+          lastVerifiedAt: new Date(now.getFullYear(), now.getMonth(), now.getDate() - days, now.getHours(), now.getMinutes(), now.getSeconds())
         }
         await dashboard.Storage.Session.update(updateClause, {
           where: {

@@ -31,15 +31,15 @@ module.exports = {
     }
   },
   aggregate: async (appid, metric, date, amount) => {
-    let monthPart = (date.getUTCMonth() + 1).toString()
+    let monthPart = (date.getMonth() + 1).toString()
     if (monthPart.length === 1) {
       monthPart = `0${monthPart}`
     }
-    let dayPart = date.getUTCDate().toString()
+    let dayPart = date.getDate().toString()
     if (dayPart.length === 1) {
       dayPart = `0${dayPart}`
     }
-    const yearKey = `${metric}/${date.getUTCFullYear().toString()}`
+    const yearKey = `${metric}/${date.getFullYear().toString()}`
     const monthKey = `${yearKey}-${monthPart}`
     const dayKey = `${monthKey}-${dayPart}`
     const totalKey = `${metric}/total`
@@ -219,9 +219,9 @@ function highlights (data, days) {
     last90Days: 0
   }
   const now = new Date()
-  const yesterday = new Date(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() - 1)
-  const todayKey = `/${now.getUTCFullYear()}-${twoDigits(now.getUTCMonth() + 1)}-${twoDigits(now.getUTCDate())}`
-  const yesterdayKey = `/${yesterday.getUTCFullYear()}-${twoDigits(yesterday.getUTCMonth() + 1)}-${twoDigits(yesterday.getUTCDate())}`
+  const yesterday = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 1)
+  const todayKey = `/${now.getFullYear()}-${twoDigits(now.getMonth() + 1)}-${twoDigits(now.getDate())}`
+  const yesterdayKey = `/${yesterday.getFullYear()}-${twoDigits(yesterday.getMonth() + 1)}-${twoDigits(yesterday.getDate())}`
   for (const row of data) {
     if (row.metricid.endsWith('/total')) {
       highlight.total = row.value
@@ -264,8 +264,7 @@ function metricKeys (metric, days, months) {
   const keys = [
     `${metric}/total`
   ]
-  const date = new Date()
-  const now = new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(), date.getUTCHours() + global.gmtHoursOffset, date.getUTCMinutes(), date.getUTCSeconds())
+  const now = new Date()
   // month keys
   if (months) {
     for (let i = 0; i < months; i++) {

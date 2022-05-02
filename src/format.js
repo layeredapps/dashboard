@@ -106,12 +106,12 @@ function date (date) {
   if (!d) {
     return null
   }
-  const year = d.getUTCFullYear()
-  let month = d.getUTCMonth() + 1
+  const year = d.getFullYear()
+  let month = d.getMonth() + 1
   if (month < 10) {
     month = '0' + month
   }
-  let day = d.getUTCDate()
+  let day = d.getDate()
   if (day < 10) {
     day = '0' + day
   }
