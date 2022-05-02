@@ -11,7 +11,9 @@
     "multiparty": "latest",
     "sequelize": "latest",
     "server-html": "latest",
-    "uglify-js": "latest"
+    "uglify-js": "latest",
+    "validator": "^13.7.0",
+    "xss-filters": "^1.2.7"
   },
   "description": "Dashboard for building web apps and SaaS",
   "devDependencies": {
@@ -69,9 +71,9 @@
     "test-sqlite": "NODE_ENV=testing STORAGE=sqlite SQLITE_DATABASE=dashboard SQLITE_FILE=`pwd`/db.sqlite mocha --ignore 'node_modules/**/*' --timeout 90000 --recursive --extension .test.js .",
     "test-sqlite-node-cache": "NODE_ENV=testing CACHE=node STORAGE=sqlite SQLITE_DATABASE=dashboard SQLITE_FILE=`pwd`/db.sqlite mocha --ignore 'node_modules/**/*' --timeout 90000 --recursive --extension .test.js .",
     "test-sqlite-redis-cache": "NODE_ENV=testing CACHE=redis STORAGE=sqlite SQLITE_DATABASE=dashboard SQLITE_FILE=`pwd`/db.sqlite mocha --ignore 'node_modules/**/*' --timeout 90000 --recursive --extension .test.js .",
-    "test-postgresql": "NODE_ENV=testing LOG_LEVEL=error STORAGE=postgresql POSTGRESQL_DATABASE_URL=postgres:user:password@127.0.0.1:5432/postgres mocha --ignore 'node_modules/**/*' --timeout 90000 --recursive --extension .test.js .",
-    "test-postgresql-node-cache": "NODE_ENV=testing CACHE=node STORAGE=postgresql POSTGRESQL_DATABASE_URL=postgres:user:password@127.0.0.1:5432/postgres mocha --ignore 'node_modules/**/*' --timeout 90000 --recursive --extension .test.js .",
-    "test-postgresql-redis-cache": "NODE_ENV=testing CACHE=redis STORAGE=postgresql POSTGRESQL_DATABASE_URL=postgres:user:password@127.0.0.1:5432/postgres mocha --ignore 'node_modules/**/*' --timeout 90000 --recursive --extension .test.js .",
+    "test-postgresql": "NODE_ENV=testing LOG_LEVEL=error STORAGE=postgresql POSTGRESQL_DATABASE_URL=postgres://user:password@127.0.0.1:5432/postgres mocha --ignore 'node_modules/**/*' --timeout 90000 --recursive --extension .test.js .",
+    "test-postgresql-node-cache": "NODE_ENV=testing CACHE=node STORAGE=postgresql POSTGRESQL_DATABASE_URL=postgres://user:password@127.0.0.1:5432/postgres mocha --ignore 'node_modules/**/*' --timeout 90000 --recursive --extension .test.js .",
+    "test-postgresql-redis-cache": "NODE_ENV=testing CACHE=redis STORAGE=postgresql POSTGRESQL_DATABASE_URL=postgres://user:password@127.0.0.1:5432/postgres mocha --ignore 'node_modules/**/*' --timeout 90000 --recursive --extension .test.js .",
     "test-mariadb": "NODE_ENV=testing LOG_LEVEL=error STORAGE=mariadb MARIADB_HOST=localhost MARIADB_PORT=3306 MARIADB_PASSWORD=password MARIADB_DATABASE=testdb MARIADB_USERNAME=user mocha --ignore 'node_modules/**/*' --timeout 90000 --recursive --extension .test.js .",
     "test-mariadb-node-cache": "NODE_ENV=testing CACHE=node STORAGE=mariadb MARIADB_HOST=localhost MARIADB_PORT=3306 MARIADB_PASSWORD=password MARIADB_DATABASE=testdb MARIADB_USERNAME=user mocha --ignore 'node_modules/**/*' --timeout 90000 --recursive --extension .test.js .",
     "test-mariadb-redis-cache": "NODE_ENV=testing CACHE=redis STORAGE=mariadb MARIADB_HOST=localhost MARIADB_PORT=3306 MARIADB_PASSWORD=password MARIADB_DATABASE=testdb MARIADB_USERNAME=user mocha --ignore 'node_modules/**/*' --timeout 90000 --recursive --extension .test.js .",
