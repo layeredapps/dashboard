@@ -1,6 +1,5 @@
-const crypto = require('crypto')
+/* eslint-disable no-eval */
 const fs = require('fs')
-const os = require('os')
 const path = require('path')
 const ServerHTML = require('server-html')
 const UglifyJS = require('uglify-js')
@@ -356,8 +355,6 @@ function renderPagination (doc, offset, total, pageSize) {
   }
   doc.getElementById(`page-link-${currentPage}`).classList.add('current-page')
 }
-
-const tempPath = process.env.TEMP_PATH || os.tmpdir()
 function createCopy (dataObject, dataObjectName, element) {
   let templates
   if (element.tag === 'html') {
@@ -371,20 +368,13 @@ function createCopy (dataObject, dataObjectName, element) {
   }
   const docStr = element.toString()
   dataObjectName = dataObjectName || 'data'
-  const wrapper = 'const ' + dataObjectName + ' = ' + JSON.stringify(dataObject) + ';\n' +
-                  'module.exports = `<template>' + docStr + '</template>`'
-  const filePath = tempPath + '/' + crypto.randomBytes(32).toString('hex')
-  fs.writeFileSync(filePath, wrapper)
-  let formatted
+  const wrapper = `const ${dataObjectName} = ${JSON.stringify(dataObject)}; module.exports = \`<template>${docStr}</template>\``
+  const formatted = eval(wrapper)
+  let newElement
   try {
-    formatted = require(filePath)
+    newElement = ServerHTML.parse(formatted)
   } catch (error) {
   }
-  fs.unlinkSync(filePath)
-  if (!formatted) {
-    throw new Error('invalid-html')
-  }
-  const newElement = ServerHTML.parse(formatted)
   if (!newElement) {
     throw new Error('invalid-html')
   }
