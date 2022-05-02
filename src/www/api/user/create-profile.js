@@ -72,7 +72,7 @@ module.exports = {
           profileInfo.companyName = accountProperties.companyName = req.body[field]
           continue
         case 'dob':
-          if (!req.body[field] || !req.body[field].length || !validator.isDate(req.body[field])) {
+          if (!req.body[field] || !req.body[field].length) {
             throw new Error(`invalid-${field}`)
           }
           try {
