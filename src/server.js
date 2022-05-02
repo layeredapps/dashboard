@@ -6,7 +6,6 @@ const Log = require('./log.js')('dashboard-server')
 const Multiparty = require('multiparty')
 const path = require('path')
 const Proxy = require('./proxy.js')
-const querystring = require('querystring')
 const util = require('util')
 
 const parsePostData = util.promisify((req, callback) => {
@@ -117,7 +116,11 @@ async function receiveRequest (req, res) {
   req.route = global.sitemap[`${req.urlPath}/index`] || global.sitemap[req.urlPath]
   req.extension = dot > -1 ? req.urlPath.substring(dot + 1) : null
   if (question !== -1) {
-    req.query = querystring.parse(req.url.substring(question + 1), '&', '=')
+    const params = new URLSearchParams(req.url.substring(question + 1))
+    req.query = {}
+    for (const pair of params.entries()) {
+      req.query[pair[0]] = pair[1]
+    }
   }
   if (req.method === 'POST' || req.method === 'PATCH' || req.method === 'PUT' || req.method === 'DELETE') {
     if (req.headers['content-type'] && req.headers['content-type'].indexOf('multipart/form-data;') > -1) {
@@ -136,7 +139,11 @@ async function receiveRequest (req, res) {
         return dashboard.Response.throw500(req, res)
       }
       if (req.bodyRaw) {
-        req.body = querystring.parse(req.bodyRaw, '&', '=')
+        const params = new URLSearchParams(req.bodyRaw)
+        req.body = {}
+        for (const pair of params.entries()) {
+          req.body[pair[0]] = pair[1]
+        }
       }
     }
   }
