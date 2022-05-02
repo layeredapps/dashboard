@@ -1,5 +1,4 @@
 const dashboard = require('../../../../index.js')
-const Validate = require('../../../validate.js')
 
 module.exports = {
   patch: async (req) => {
@@ -13,7 +12,6 @@ module.exports = {
     if (!req.body || !req.body.profileid) {
       throw new Error('invalid-profileid')
     }
-    Validate.requestBodyXSS(req.body)
     req.query.profileid = req.body.profileid
     const profile = await global.api.user.Profile.get(req)
     if (!profile) {

@@ -1,5 +1,4 @@
 const dashboard = require('../../../../index.js')
-const Validate = require('../../../validate.js')
 
 module.exports = {
   post: async (req) => {
@@ -11,7 +10,6 @@ module.exports = {
       throw new Error('invalid-accountid')
     }
     req.body = req.body || {}
-    Validate.requestBodyXSS(req.body)
     const profileInfo = {
       accountid: req.query.accountid,
       appid: req.appid || global.appid
@@ -40,13 +38,13 @@ module.exports = {
           profileInfo.lastName = accountProperties.lastName = req.body['last-name']
           continue
         case 'contact-email':
-          if (!req.body[field] || req.body[field].indexOf('@') < 1 || !Validate.emailAddress(req.body[field])) {
+          if (!req.body[field] || req.body[field].indexOf('@') < 1 || !dashboard.Validate.emailAddress(req.body[field])) {
             throw new Error(`invalid-${field}`)
           }
           profileInfo.contactEmail = accountProperties.contactEmail = req.body[field]
           continue
         case 'display-email':
-          if (!req.body[field] || req.body[field].indexOf('@') < 1 || !Validate.emailAddress(req.body[field])) {
+          if (!req.body[field] || req.body[field].indexOf('@') < 1 || !dashboard.Validate.emailAddress(req.body[field])) {
             throw new Error(`invalid-${field}`)
           }
           profileInfo.displayEmail = accountProperties.displayEmail = req.body[field]
