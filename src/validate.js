@@ -1,9 +1,15 @@
 const xssFilters = require('xss-filters')
+const validator = require('validator')
 
 module.exports = {
+  emailAddress,
   urlParamsXSS,
   requestBodyXSS,
   xssCheck
+}
+
+function emailAddress (value) {
+  return validator.isEmail(value)
 }
 
 function urlParamsXSS (query) {

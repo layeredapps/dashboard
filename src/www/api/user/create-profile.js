@@ -40,13 +40,13 @@ module.exports = {
           profileInfo.lastName = accountProperties.lastName = req.body['last-name']
           continue
         case 'contact-email':
-          if (!req.body[field] || req.body[field].indexOf('@') < 1) {
+          if (!req.body[field] || req.body[field].indexOf('@') < 1 || !Validate.emailAddress(req.body[field])) {
             throw new Error(`invalid-${field}`)
           }
           profileInfo.contactEmail = accountProperties.contactEmail = req.body[field]
           continue
         case 'display-email':
-          if (!req.body[field] || req.body[field].indexOf('@') < 1) {
+          if (!req.body[field] || req.body[field].indexOf('@') < 1 || !Validate.emailAddress(req.body[field])) {
             throw new Error(`invalid-${field}`)
           }
           profileInfo.displayEmail = accountProperties.displayEmail = req.body[field]
