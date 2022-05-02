@@ -1,4 +1,5 @@
 const dashboard = require('../../../../index.js')
+const Validate = require('../../../validate.js')
 
 module.exports = {
   patch: async (req) => {
@@ -10,6 +11,7 @@ module.exports = {
       throw new Error('invalid-profileid')
     }
     req.body = req.body || {}
+    Validate.requestBodyXSS(req.body)
     const profileInfo = {}
     const profileFields = req.userProfileFields || global.userProfileFields
     for (const field of profileFields) {

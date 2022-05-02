@@ -1,4 +1,5 @@
 const dashboard = require('../../../../index.js')
+const Validate = require('../../../validate.js')
 
 module.exports = {
   post: async (req) => {
@@ -12,6 +13,7 @@ module.exports = {
     if (!req.body || !req.body['secret-code']) {
       throw new Error('invalid-secret-code')
     }
+    Validate.requestBodyXSS(req.body)
     if (req.body['secret-code'].match(/^[a-z0-9]+$/i) === null) {
       throw new Error('invalid-secret-code')
     }

@@ -1,4 +1,5 @@
 const dashboard = require('../../../../index.js')
+const Validate = require('../../../validate.js')
 
 module.exports = {
   patch: async (req) => {
@@ -21,6 +22,7 @@ module.exports = {
     if (!req.body.password || !req.body.password.length) {
       throw new Error('invalid-password')
     }
+    Validate.requestBodyXSS(req.body)
     if (global.minimumUsernameLength > req.body.username.length) {
       throw new Error('invalid-username-length')
     }

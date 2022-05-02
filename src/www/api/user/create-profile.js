@@ -1,4 +1,5 @@
 const dashboard = require('../../../../index.js')
+const Validate = require('../../../validate.js')
 
 module.exports = {
   post: async (req) => {
@@ -10,6 +11,7 @@ module.exports = {
       throw new Error('invalid-accountid')
     }
     req.body = req.body || {}
+    Validate.requestBodyXSS(req.body)
     const profileInfo = {
       accountid: req.query.accountid,
       appid: req.appid || global.appid
@@ -70,7 +72,7 @@ module.exports = {
           profileInfo.companyName = accountProperties.companyName = req.body[field]
           continue
         case 'dob':
-          if (!req.body[field] || !req.body[field].length) {
+          if (!req.body[field] || !req.body[field].length || !validator.isDate(req.body[field])) {
             throw new Error(`invalid-${field}`)
           }
           try {

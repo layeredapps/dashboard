@@ -1,5 +1,6 @@
 const crypto = require('crypto')
 const dashboard = require('../../../../index.js')
+const Validate = require('../../../validate.js')
 
 module.exports = {
   auth: false,
@@ -7,6 +8,7 @@ module.exports = {
     if (!req || !req.body) {
       throw new Error('invalid-username')
     }
+    Validate.requestBodyXSS(req.body)
     if (!req.body.username || !req.body.username.length) {
       throw new Error('invalid-username')
     }
