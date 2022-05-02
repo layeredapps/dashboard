@@ -59,7 +59,7 @@ module.exports = {
     const sessionInfo = {
       accountid: account.accountid,
       appid: req.appid || global.appid,
-      tokenHash: tokenHash,
+      tokenHash,
       sessionKeyNumber: account.sessionKeyNumber,
       duration
     }
