@@ -24,6 +24,7 @@
     "pg": "latest",
     "pg-hstore": "latest",
     "puppeteer": "latest",
+    "redis": "latest",
     "sqlite3": "latest",
     "standard": "latest",
     "tedious": "latest"
@@ -42,6 +43,9 @@
       "optional": true
     },
     "mariadb": {
+      "optional": true
+    },
+    "redis": {
       "optional": true
     },
     "sqlite3": {
