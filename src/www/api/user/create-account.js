@@ -120,8 +120,8 @@ module.exports = {
     req.body.default = 'true'
     if (global.requireProfile) {
       await global.api.user.CreateProfile.post(req)
-      req.account = await global.api.user.Account.get(req)
     }
-    return global.api.user.Account.get(req)
+    req.account = global.api.user.Account.get(req)
+    return req.account
   }
 }
