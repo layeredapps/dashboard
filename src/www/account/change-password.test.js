@@ -2,7 +2,7 @@
 const assert = require('assert')
 const TestHelper = require('../../../test-helper.js')
 
-describe('/account/change-password', () => {
+describe.only('/account/change-password', () => {
   describe('view', () => {
     it('should present the form', async () => {
       const user = await TestHelper.createUser()
@@ -107,6 +107,42 @@ describe('/account/change-password', () => {
       const messageContainer = doc.getElementById('message-container')
       const message = messageContainer.child[0]
       assert.strictEqual(message.attr.template, 'invalid-password')
+    })
+
+    it('invalid-xss-input', async () => {
+      const user = await TestHelper.createUser()
+      const req = TestHelper.createRequest('/account/change-password')
+      req.account = user.account
+      req.session = user.session
+      req.body = {
+        'new-password': '<script>',
+        'confirm-password': '<script>',
+        password: user.account.password
+      }
+      const result = await req.post()
+      const doc = TestHelper.extractDoc(result.html)
+      const messageContainer = doc.getElementById('message-container')
+      const message = messageContainer.child[0]
+      assert.strictEqual(message.attr.template, 'invalid-xss-input')
+    })
+
+    it('invalid-csrf-token', async () => {
+      const user = await TestHelper.createUser()
+      const req = TestHelper.createRequest('/account/change-password')
+      req.puppeteer = false
+      req.account = user.account
+      req.session = user.session
+      req.body = {
+        'new-password': '123456789',
+        'confirm-password': '123456789',
+        'csrf-token': 'invalid',
+        password: user.account.password
+      }
+      const result = await req.post()
+      const doc = TestHelper.extractDoc(result.html)
+      const messageContainer = doc.getElementById('message-container')
+      const message = messageContainer.child[0]
+      assert.strictEqual(message.attr.template, 'invalid-csrf-token')
     })
   })
 })

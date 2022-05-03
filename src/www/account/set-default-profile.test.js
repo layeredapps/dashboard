@@ -90,4 +90,30 @@ describe('/account/set-default-profile', () => {
       assert.strictEqual(message.attr.template, 'success')
     })
   })
+
+  describe('errors', () => {
+    it('invalid-csrf-token', async () => {
+      const user = await TestHelper.createUser()
+      const profile1id = user.profile.profileid
+      await TestHelper.createProfile(user, {
+        'first-name': user.profile.firstName,
+        'last-name': user.profile.lastName,
+        'contact-email': TestHelper.nextIdentity().email,
+        default: 'true'
+      })
+      const req = TestHelper.createRequest('/account/set-default-profile')
+      req.puppeteer = false
+      req.account = user.account
+      req.session = user.session
+      req.body = {
+        profileid: profile1id,
+        'csrf-token': ''
+      }
+      const result = await req.post()
+      const doc = TestHelper.extractDoc(result.html)
+      const messageContainer = doc.getElementById('message-container')
+      const message = messageContainer.child[0]
+      assert.strictEqual(message.attr.template, 'invalid-csrf-token')
+    })
+  })
 })

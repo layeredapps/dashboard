@@ -60,5 +60,21 @@ describe('/account/delete-account', () => {
       const message = messageContainer.child[0]
       assert.strictEqual(message.attr.template, 'invalid-password')
     })
+
+    it('invalid-csrf-token', async () => {
+      const user = await TestHelper.createUser()
+      const req = TestHelper.createRequest('/account/delete-account')
+      req.puppeteer = false
+      req.account = user.account
+      req.session = user.session
+      req.body = {
+        'csrf-token': ''
+      }
+      const result = await req.post()
+      const doc = TestHelper.extractDoc(result.html)
+      const messageContainer = doc.getElementById('message-container')
+      const message = messageContainer.child[0]
+      assert.strictEqual(message.attr.template, 'invalid-csrf-token')
+    })
   })
 })

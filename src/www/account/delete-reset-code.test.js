@@ -91,4 +91,23 @@ describe('/account/delete-reset-code', () => {
       assert.strictEqual(errorMessage, 'invalid-reset-codeid')
     })
   })
+
+  describe('errors', () => {
+    it('invalid-csrf-token', async () => {
+      const user = await TestHelper.createUser()
+      await TestHelper.createResetCode(user)
+      const req = TestHelper.createRequest(`/account/delete-reset-code?codeid=${user.resetCode.codeid}`)
+      req.puppeteer = false
+      req.account = user.account
+      req.session = user.session
+      req.body = {
+        'csrf-token': ''
+      }
+      const result = await req.post()
+      const doc = TestHelper.extractDoc(result.html)
+      const messageContainer = doc.getElementById('message-container')
+      const message = messageContainer.child[0]
+      assert.strictEqual(message.attr.template, 'invalid-csrf-token')
+    })
+  })
 })

@@ -79,7 +79,7 @@ describe('/account/create-reset-code', () => {
       req.account = user.account
       req.session = user.session
       req.body = {
-        'secret-code': '1'
+        'secret-code': 'tooshort'
       }
       global.minimumResetCodeLength = 100
       const result = await req.post()
@@ -87,13 +87,45 @@ describe('/account/create-reset-code', () => {
       const message = doc.getElementById('message-container').child[0]
       assert.strictEqual(message.attr.template, 'invalid-secret-code-length')
       req.body = {
-        'secret-code': '1000000'
+        'secret-code': 'this secret is too long'
       }
       global.maximumResetCodeLength = 1
       const result2 = await req.post()
       const doc2 = TestHelper.extractDoc(result2.html)
       const message2 = doc2.getElementById('message-container').child[0]
       assert.strictEqual(message2.attr.template, 'invalid-secret-code-length')
+    })
+
+    it('invalid-xss-input', async () => {
+      const user = await TestHelper.createUser()
+      const req = TestHelper.createRequest('/account/create-reset-code')
+      req.account = user.account
+      req.session = user.session
+      req.body = {
+        'secret-code': '<script>'
+      }
+      const result = await req.post()
+      const doc = TestHelper.extractDoc(result.html)
+      const messageContainer = doc.getElementById('message-container')
+      const message = messageContainer.child[0]
+      assert.strictEqual(message.attr.template, 'invalid-xss-input')
+    })
+
+    it('invalid-csrf-token', async () => {
+      const user = await TestHelper.createUser()
+      const req = TestHelper.createRequest('/account/create-reset-code')
+      req.puppeteer = false
+      req.account = user.account
+      req.session = user.session
+      req.body = {
+        'secret-code': 'secret123456890',
+        'csrf-token': ''
+      }
+      const result = await req.post()
+      const doc = TestHelper.extractDoc(result.html)
+      const messageContainer = doc.getElementById('message-container')
+      const message = messageContainer.child[0]
+      assert.strictEqual(message.attr.template, 'invalid-csrf-token')
     })
   })
 })
