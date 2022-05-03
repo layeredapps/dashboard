@@ -19,7 +19,8 @@ describe('/account/verify', () => {
   describe('submit', () => {
     it('should mark session as verified', async () => {
       const user = await TestHelper.createUser()
-      const req = TestHelper.createRequest('/account/verify?return-url=/redirecting')
+      await TestHelper.requireVerification(user, 2)
+      const req = TestHelper.createRequest('/account/verify?return-url=/account')
       req.account = user.account
       req.session = user.session
       req.body = {
@@ -38,7 +39,7 @@ describe('/account/verify', () => {
     it('should verify session (screenshots)', async () => {
       const user = await TestHelper.createUser()
       await TestHelper.requireVerification(user, 3)
-      const req = TestHelper.createRequest('/account/change-password')
+      const req = TestHelper.createRequest('/account')
       req.account = user.account
       req.session = user.session
       req.body = {

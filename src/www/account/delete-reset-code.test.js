@@ -101,7 +101,7 @@ describe('/account/delete-reset-code', () => {
       req.account = user.account
       req.session = user.session
       req.body = {
-        'csrf-token': ''
+        'csrf-token': 'invalid'
       }
       const result = await req.post()
       const doc = TestHelper.extractDoc(result.html)

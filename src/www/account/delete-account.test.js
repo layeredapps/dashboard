@@ -62,6 +62,7 @@ describe('/account/delete-account', () => {
     })
 
     it('invalid-csrf-token', async () => {
+      await TestHelper.createOwner()
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest('/account/delete-account')
       req.puppeteer = false

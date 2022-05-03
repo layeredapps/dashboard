@@ -146,7 +146,6 @@ describe('internal-api/proxy', () => {
           if (error) {
             throw error
           }
-          req.body = {}
           for (const field in fields) {
             req.body[field] = fields[field][0]
           }

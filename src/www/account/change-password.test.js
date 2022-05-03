@@ -135,8 +135,8 @@ describe('/account/change-password', () => {
       req.body = {
         'new-password': '123456789',
         'confirm-password': '123456789',
-        'csrf-token': 'invalid',
-        password: user.account.password
+        password: user.account.password,
+        'csrf-token': 'invalid'
       }
       const result = await req.post()
       const doc = TestHelper.extractDoc(result.html)

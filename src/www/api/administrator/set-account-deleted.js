@@ -12,8 +12,15 @@ module.exports = {
     if (account.deletedAt) {
       throw new Error('invalid-account')
     }
+    const now = new Date()
+    let deletedAt
+    if (global.deleteDelay) {
+      deletedAt = new Date(now.getFullYear(), now.getMonth(), now.getDate() + global.deleteDelay, now.getHours(), now.getMinutes(), now.getSeconds())
+    } else {
+      deletedAt = now
+    }
     const updateClause = {
-      deletedAt: new Date()
+      deletedAt
     }
     await dashboard.Storage.Account.update(updateClause, {
       where: {

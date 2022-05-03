@@ -644,5 +644,40 @@ describe('/account/create-profile', () => {
       const message = messageContainer.child[0]
       assert.strictEqual(message.attr.template, 'invalid-website')
     })
+
+    it('invalid-xss-input', async () => {
+      const user = await TestHelper.createUser()
+      global.userProfileFields = ['location']
+      const req = TestHelper.createRequest('/account/create-profile')
+      req.account = user.account
+      req.session = user.session
+      req.body = {
+        location: '<script>'
+      }
+      const result = await req.post()
+      const doc = TestHelper.extractDoc(result.html)
+      const messageContainer = doc.getElementById('message-container')
+      const message = messageContainer.child[0]
+      assert.strictEqual(message.attr.template, 'invalid-xss-input')
+    })
+
+    it('invalid-csrf-token', async () => {
+      const user = await TestHelper.createUser()
+      global.userProfileFields = ['location']
+
+      const req = TestHelper.createRequest('/account/create-profile')
+      req.puppeteer = false
+      req.account = user.account
+      req.session = user.session
+      req.body = {
+        location: 'somewhere',
+        'csrf-token': 'invalid'
+      }
+      const result = await req.post()
+      const doc = TestHelper.extractDoc(result.html)
+      const messageContainer = doc.getElementById('message-container')
+      const message = messageContainer.child[0]
+      assert.strictEqual(message.attr.template, 'invalid-csrf-token')
+    })
   })
 })

@@ -189,7 +189,6 @@ describe('/api/user/create-profile', () => {
         const req = TestHelper.createRequest(`/api/user/create-profile?accountid=${user.account.accountid}`)
         req.account = user.account
         req.session = user.session
-        req.body = {}
         let errorMessage
         try {
           await req.post()
@@ -314,7 +313,6 @@ describe('/api/user/create-profile', () => {
         const req = TestHelper.createRequest(`/api/user/create-profile?accountid=${user.account.accountid}`)
         req.account = user.account
         req.session = user.session
-        req.body = {}
         let errorMessage
         try {
           await req.post()
@@ -333,7 +331,6 @@ describe('/api/user/create-profile', () => {
         const req = TestHelper.createRequest(`/api/user/create-profile?accountid=${user.account.accountid}`)
         req.account = user.account
         req.session = user.session
-        req.body = {}
         let errorMessage
         try {
           await req.post()
@@ -352,7 +349,6 @@ describe('/api/user/create-profile', () => {
         const req = TestHelper.createRequest(`/api/user/create-profile?accountid=${user.account.accountid}`)
         req.account = user.account
         req.session = user.session
-        req.body = {}
         let errorMessage
         try {
           await req.post()
@@ -371,7 +367,6 @@ describe('/api/user/create-profile', () => {
         const req = TestHelper.createRequest(`/api/user/create-profile?accountid=${user.account.accountid}`)
         req.account = user.account
         req.session = user.session
-        req.body = {}
         let errorMessage
         try {
           await req.post()
@@ -390,7 +385,6 @@ describe('/api/user/create-profile', () => {
         const req = TestHelper.createRequest(`/api/user/create-profile?accountid=${user.account.accountid}`)
         req.account = user.account
         req.session = user.session
-        req.body = {}
         let errorMessage
         try {
           await req.post()
@@ -409,7 +403,6 @@ describe('/api/user/create-profile', () => {
         const req = TestHelper.createRequest(`/api/user/create-profile?accountid=${user.account.accountid}`)
         req.account = user.account
         req.session = user.session
-        req.body = {}
         let errorMessage
         try {
           await req.post()
@@ -807,7 +800,6 @@ describe('/api/user/create-profile', () => {
       }
       for (const field of global.userProfileFields) {
         req.userProfileFields = [field]
-        req.body = {}
         if (field === 'full-name') {
           req.body['first-name'] = body['first-name']
           req.body['last-name'] = body['last-name']

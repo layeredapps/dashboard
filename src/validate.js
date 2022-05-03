@@ -13,6 +13,9 @@ function emailAddress (value) {
 function xssCheck (object) {
   for (const key in object) {
     const value = object[key]
+    if (!value || !value.length) {
+      continue
+    }
     const checked = xssFilters.inHTMLData(value)
     if (checked !== value) {
       return false

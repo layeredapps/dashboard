@@ -755,13 +755,13 @@ describe('/account/edit-profile', () => {
       const user = await TestHelper.createUser()
       global.userProfileFields = ['website']
       await TestHelper.createProfile(user, {
-        website: '<script>'
+        website: 'https://example.com/'
       })
       const req = TestHelper.createRequest(`/account/edit-profile?profileid=${user.profile.profileid}`)
       req.account = user.account
       req.session = user.session
       req.body = {
-        'secret-code': '<script>'
+        website: '<script>'
       }
       const result = await req.post()
       const doc = TestHelper.extractDoc(result.html)

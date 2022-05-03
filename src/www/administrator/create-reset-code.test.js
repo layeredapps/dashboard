@@ -100,15 +100,15 @@ describe('/administrator/create-reset-code', () => {
       req.account = administrator.account
       req.session = administrator.session
       req.body = {
-        'secret-code': '1'
+        'secret-code': 'tooshort'
       }
-      global.minimumResetCodeLength = 100
+      global.minimumResetCodeLength = 10
       const result = await req.post()
       const doc = TestHelper.extractDoc(result.html)
       const message = doc.getElementById('message-container').child[0]
       assert.strictEqual(message.attr.template, 'invalid-secret-code-length')
       req.body = {
-        'secret-code': '1000000'
+        'secret-code': 'secretistoooooooooooolong'
       }
       global.maximumResetCodeLength = 1
       const result2 = await req.post()

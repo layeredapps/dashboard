@@ -81,13 +81,13 @@ describe('/account/create-reset-code', () => {
       req.body = {
         'secret-code': 'tooshort'
       }
-      global.minimumResetCodeLength = 100
+      global.minimumResetCodeLength = 10
       const result = await req.post()
       const doc = TestHelper.extractDoc(result.html)
       const message = doc.getElementById('message-container').child[0]
       assert.strictEqual(message.attr.template, 'invalid-secret-code-length')
       req.body = {
-        'secret-code': 'this secret is too long'
+        'secret-code': 'secretistooooooooooooooooooolong'
       }
       global.maximumResetCodeLength = 1
       const result2 = await req.post()

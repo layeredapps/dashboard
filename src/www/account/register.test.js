@@ -118,7 +118,7 @@ describe('/account/register', () => {
       global.userProfileFields = ['full-name']
       const req = TestHelper.createRequest('/account/register')
       req.body = {
-        username: 'new-user-' + new Date().getTime(),
+        username: 'username123',
         password: 'a-user-password',
         confirm: 'a-user-password',
         'first-name': 'Test',
@@ -133,7 +133,7 @@ describe('/account/register', () => {
       global.userProfileFields = ['contact-email']
       const req = TestHelper.createRequest('/account/register')
       req.body = {
-        username: 'new-user-' + new Date().getTime(),
+        username: 'username123',
         password: 'a-user-password',
         confirm: 'a-user-password',
         'contact-email': TestHelper.nextIdentity().email
@@ -147,7 +147,7 @@ describe('/account/register', () => {
       global.userProfileFields = ['display-email']
       const req = TestHelper.createRequest('/account/register')
       req.body = {
-        username: 'new-user-' + new Date().getTime(),
+        username: 'username123',
         password: 'a-user-password',
         confirm: 'a-user-password',
         'display-email': TestHelper.nextIdentity().email
@@ -161,7 +161,7 @@ describe('/account/register', () => {
       global.userProfileFields = ['display-name']
       const req = TestHelper.createRequest('/account/register')
       req.body = {
-        username: 'new-user-' + new Date().getTime(),
+        username: 'username123',
         password: 'a-user-password',
         confirm: 'a-user-password',
         'display-name': '@user'
@@ -175,7 +175,7 @@ describe('/account/register', () => {
       global.userProfileFields = ['dob']
       const req = TestHelper.createRequest('/account/register')
       req.body = {
-        username: 'new-user-' + new Date().getTime(),
+        username: 'username123',
         password: 'a-user-password',
         confirm: 'a-user-password',
         dob: '2017-11-01'
@@ -189,7 +189,7 @@ describe('/account/register', () => {
       global.userProfileFields = ['dob']
       const req = TestHelper.createRequest('/account/register')
       req.body = {
-        username: 'new-user-' + new Date().getTime(),
+        username: 'username123',
         password: 'a-user-password',
         confirm: 'a-user-password',
         dob: '12-13-1968'
@@ -203,7 +203,7 @@ describe('/account/register', () => {
       global.userProfileFields = ['phone']
       const req = TestHelper.createRequest('/account/register')
       req.body = {
-        username: 'new-user-' + new Date().getTime(),
+        username: 'username123',
         password: 'a-user-password',
         confirm: 'a-user-password',
         phone: 'test value ' + Math.random()
@@ -217,7 +217,7 @@ describe('/account/register', () => {
       global.userProfileFields = ['occupation']
       const req = TestHelper.createRequest('/account/register')
       req.body = {
-        username: 'new-user-' + new Date().getTime(),
+        username: 'username123',
         password: 'a-user-password',
         confirm: 'a-user-password',
         occupation: 'test value ' + Math.random()
@@ -231,7 +231,7 @@ describe('/account/register', () => {
       global.userProfileFields = ['location']
       const req = TestHelper.createRequest('/account/register')
       req.body = {
-        username: 'new-user-' + new Date().getTime(),
+        username: 'username123',
         password: 'a-user-password',
         confirm: 'a-user-password',
         location: 'test value ' + Math.random()
@@ -245,7 +245,7 @@ describe('/account/register', () => {
       global.userProfileFields = ['company-name']
       const req = TestHelper.createRequest('/account/register')
       req.body = {
-        username: 'new-user-' + new Date().getTime(),
+        username: 'username123',
         password: 'a-user-password',
         confirm: 'a-user-password',
         'company-name': 'test value ' + Math.random()
@@ -259,7 +259,7 @@ describe('/account/register', () => {
       global.userProfileFields = ['website']
       const req = TestHelper.createRequest('/account/register')
       req.body = {
-        username: 'new-user-' + new Date().getTime(),
+        username: 'username123',
         password: 'a-user-password',
         confirm: 'a-user-password',
         website: 'test value ' + Math.random()
@@ -271,7 +271,7 @@ describe('/account/register', () => {
     it('should create 20-minute session', async () => {
       const req = TestHelper.createRequest('/account/register')
       req.body = {
-        username: 'new-user-' + new Date().getTime(),
+        username: 'username123',
         password: 'a-user-password',
         confirm: 'a-user-password'
       }
@@ -293,7 +293,7 @@ describe('/account/register', () => {
     it('should create account (screenshots)', async () => {
       const req = TestHelper.createRequest('/account/register')
       req.body = {
-        username: 'new-user-' + new Date().getTime(),
+        username: 'username123',
         password: 'a-user-password',
         confirm: 'a-user-password'
       }
@@ -394,7 +394,7 @@ describe('/account/register', () => {
       global.requireProfile = true
       const req = TestHelper.createRequest('/account/register')
       req.body = {
-        username: 'new-user-' + new Date().getTime(),
+        username: 'username123',
         password: 'a-user-password',
         confirm: 'a-user-password',
         'first-name': '',
@@ -412,7 +412,7 @@ describe('/account/register', () => {
       global.requireProfile = true
       const req = TestHelper.createRequest('/account/register')
       req.body = {
-        username: 'new-user-' + new Date().getTime(),
+        username: 'username123',
         password: 'a-user-password',
         confirm: 'a-user-password',
         'first-name': '1',
@@ -428,7 +428,7 @@ describe('/account/register', () => {
       global.minimumProfileFirstNameLength = 1
       global.maximumProfileFirstNameLength = 1
       req.body = {
-        username: 'new-user-' + new Date().getTime(),
+        username: 'username123',
         password: 'a-user-password',
         confirm: 'a-user-password',
         'first-name': '123456789',
@@ -446,7 +446,7 @@ describe('/account/register', () => {
       global.requireProfile = true
       const req = TestHelper.createRequest('/account/register')
       req.body = {
-        username: 'new-user-' + new Date().getTime(),
+        username: 'username123',
         password: 'a-user-password',
         confirm: 'a-user-password',
         'first-name': 'Test',
@@ -464,7 +464,7 @@ describe('/account/register', () => {
       global.requireProfile = true
       const req = TestHelper.createRequest('/account/register')
       req.body = {
-        username: 'new-user-' + new Date().getTime(),
+        username: 'username123',
         password: 'a-user-password',
         confirm: 'a-user-password',
         'first-name': '1',
@@ -480,7 +480,7 @@ describe('/account/register', () => {
       global.minimumProfileLastNameLength = 1
       global.maximumProfileLastNameLength = 1
       req.body = {
-        username: 'new-user-' + new Date().getTime(),
+        username: 'username123',
         password: 'a-user-password',
         confirm: 'a-user-password',
         'first-name': '123456789',
@@ -498,7 +498,7 @@ describe('/account/register', () => {
       global.requireProfile = true
       const req = TestHelper.createRequest('/account/register')
       req.body = {
-        username: 'new-user-' + new Date().getTime(),
+        username: 'username123',
         password: 'a-user-password',
         confirm: 'a-user-password',
         'contact-email': ''
@@ -509,7 +509,7 @@ describe('/account/register', () => {
       const message = messageContainer.child[0]
       assert.strictEqual(message.attr.template, 'invalid-contact-email')
       req.body = {
-        username: 'new-user-' + new Date().getTime(),
+        username: 'username123',
         password: 'a-user-password',
         confirm: 'a-user-password',
         'contact-email': 'invalid'
@@ -526,7 +526,7 @@ describe('/account/register', () => {
       global.requireProfile = true
       const req = TestHelper.createRequest('/account/register')
       req.body = {
-        username: 'new-user-' + new Date().getTime(),
+        username: 'username123',
         password: 'a-user-password',
         confirm: 'a-user-password',
         'display-email': ''
@@ -537,7 +537,7 @@ describe('/account/register', () => {
       const message = messageContainer.child[0]
       assert.strictEqual(message.attr.template, 'invalid-display-email')
       req.body = {
-        username: 'new-user-' + new Date().getTime(),
+        username: 'username123',
         password: 'a-user-password',
         confirm: 'a-user-password',
         'display-email': 'invalid'
@@ -554,7 +554,7 @@ describe('/account/register', () => {
       global.requireProfile = true
       const req = TestHelper.createRequest('/account/register')
       req.body = {
-        username: 'new-user-' + new Date().getTime(),
+        username: 'username123',
         password: 'a-user-password',
         confirm: 'a-user-password',
         'display-name': ''
@@ -571,7 +571,7 @@ describe('/account/register', () => {
       global.requireProfile = true
       const req = TestHelper.createRequest('/account/register')
       req.body = {
-        username: 'new-user-' + new Date().getTime(),
+        username: 'username123',
         password: 'a-user-password',
         confirm: 'a-user-password',
         'display-name': '1'
@@ -586,7 +586,7 @@ describe('/account/register', () => {
       global.minimumProfileDisplayNameLength = 1
       global.maximumProfileDisplayNameLength = 1
       req.body = {
-        username: 'new-user-' + new Date().getTime(),
+        username: 'username123',
         password: 'a-user-password',
         confirm: 'a-user-password',
         'display-name': '123456789'
@@ -603,7 +603,7 @@ describe('/account/register', () => {
       global.requireProfile = true
       const req = TestHelper.createRequest('/account/register')
       req.body = {
-        username: 'new-user-' + new Date().getTime(),
+        username: 'username123',
         password: 'a-user-password',
         confirm: 'a-user-password',
         'display-name': '123456789',
@@ -615,7 +615,7 @@ describe('/account/register', () => {
       const message = messageContainer.child[0]
       assert.strictEqual(message.attr.template, 'invalid-dob')
       req.body = {
-        username: 'new-user-' + new Date().getTime(),
+        username: 'username123',
         password: 'a-user-password',
         confirm: 'a-user-password',
         dob: '2017-13-52'
@@ -632,7 +632,7 @@ describe('/account/register', () => {
       global.requireProfile = true
       const req = TestHelper.createRequest('/account/register')
       req.body = {
-        username: 'new-user-' + new Date().getTime(),
+        username: 'username123',
         password: 'a-user-password',
         confirm: 'a-user-password',
         phone: ''
@@ -649,7 +649,7 @@ describe('/account/register', () => {
       global.requireProfile = true
       const req = TestHelper.createRequest('/account/register')
       req.body = {
-        username: 'new-user-' + new Date().getTime(),
+        username: 'username123',
         password: 'a-user-password',
         confirm: 'a-user-password',
         occupation: ''
@@ -666,7 +666,7 @@ describe('/account/register', () => {
       global.requireProfile = true
       const req = TestHelper.createRequest('/account/register')
       req.body = {
-        username: 'new-user-' + new Date().getTime(),
+        username: 'username123',
         password: 'a-user-password',
         confirm: 'a-user-password',
         location: ''
@@ -683,7 +683,7 @@ describe('/account/register', () => {
       global.requireProfile = true
       const req = TestHelper.createRequest('/account/register')
       req.body = {
-        username: 'new-user-' + new Date().getTime(),
+        username: 'username123',
         password: 'a-user-password',
         confirm: 'a-user-password',
         'company-name': ''
@@ -700,7 +700,7 @@ describe('/account/register', () => {
       global.requireProfile = true
       const req = TestHelper.createRequest('/account/register')
       req.body = {
-        username: 'new-user-' + new Date().getTime(),
+        username: 'username123',
         password: 'a-user-password',
         confirm: 'a-user-password',
         website: ''
