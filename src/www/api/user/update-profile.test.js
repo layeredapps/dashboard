@@ -786,6 +786,7 @@ describe('/api/user/update-profile', () => {
       }
       for (const field of global.userProfileFields) {
         req.userProfileFields = [field]
+        req.body = {}
         if (field === 'full-name') {
           req.body['first-name'] = body['first-name']
           req.body['last-name'] = body['last-name']
