@@ -25,6 +25,7 @@
 - [Localization](#localization)
 - [Storage backends](#storage-backends)
 - [Storage caching](#storage-caching)
+- [XSS and CSRF protection](#xss-and-csrf-protection)
 - [Logging](#logging)
 - [Creating modules for Dashboard](#creating-modules-for-dashboard)
 - [Testing](#testing)
@@ -364,6 +365,15 @@ You can specify a single Redis server for both caching and metrics:
       REDIS_URL=redis:/.... \
       node main.js
 
+# XSS and CSRF protection
+
+Dashboard protects its own forms and module forms from "cross-site scripting" attacks and "cross-site request forgery", these attacks are essentially if someone enters javascript as a form value that is then executed when it is written on a page, or if they tried to submit a form from their website using an iframe.
+
+Data that is posted to your application server is not restricted in case you have valid reasons to receive values that would not pass Dashboard's checks.  
+
+You can use the `@layeredapps/dashboard/src/proxy/x-csrf-token.js` to receive a CSRF token for your own forms, and then when your forms are submitted you can check the posted value against the header value.  These tokens are generated based on the URL, a random value assigned to the session, and the user's session and account identifiers.
+
+For XSS there are many language-specific libraries you can use to sanitize input.  Dashboard is written in NodeJS and uses [Yahoo's XSS-filters](https://www.npmjs.com/package/xss-filters) module.
 
 # Logging
 
