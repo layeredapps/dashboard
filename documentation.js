@@ -493,11 +493,11 @@ function parseDashboardConfiguration () {
     if (route.template === false) {
       item.template = 'FULLSCREEN'
     }
-    if (route.api.auth === false) {
-      item.auth = 'GUEST'
-    }
     item.verbs = ''
     if (url.startsWith('/api/')) {
+      if (route.api.auth === false) {
+        item.auth = 'GUEST'
+      }
       const verbs = []
       for (const verb of httpVerbs) {
         if (route.api[verb.toLowerCase()]) {
@@ -506,6 +506,9 @@ function parseDashboardConfiguration () {
       }
       item.verbs = verbs.join(' ')
     } else {
+      if (route.auth === false) {
+        item.auth = 'GUEST'
+      }
       const verbs = []
       if (route.jsFilePath === 'static-page') {
         verbs.push('GET')
