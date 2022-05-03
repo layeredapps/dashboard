@@ -119,7 +119,7 @@ const dashboard = module.exports = {
     }
     // the API merged from your dashboard server + dashboard + modules
     global.api = API.generate()
-    // storage initialization 
+    // storage initialization
     if (!dashboard.Storage) {
       await dashboard.setup()
     }
@@ -136,7 +136,7 @@ const dashboard = module.exports = {
     // the web server
     Server = require('./src/server.js')
     await Server.start()
-    // exit for if you just want the helper files generated 
+    // exit for if you just want the helper files generated
     if (process.env.EXIT_ON_START) {
       dashboard.stop()
       return process.exit(0)

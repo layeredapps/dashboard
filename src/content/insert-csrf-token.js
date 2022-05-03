@@ -18,15 +18,15 @@ function insertCSRFToken (req, _, doc) {
     if (!input.attr || input.attr.name !== 'csrf-token') {
       continue
     }
-    token = token || createToken(req.session, req.route.htmlFilePath)
+    let dashboardEncryptionKey = global.dashboardEncryptionKey
+    if (req.server) {
+      dashboardEncryptionKey = req.server.dashboardEncryptionKey || dashboardEncryptionKey
+    }
+    token = token || createToken(req.session, req.route.htmlFilePath, dashboardEncryptionKey)
     input.setAttribute('value', token)
   }
 }
 
-function createToken (session, url) {
-  let dashboardEncryptionKey = global.dashboardEncryptionKey
-  if (req.server) {
-    dashboardEncryptionKey = req.server.dashboardEncryptionKey || dashboardEncryptionKey
-  }
-  return Hash.sha512Hash(`${session.crsfToken}-${session.sessionid}-${account.accountid}-${url}`, dashboardEncryptionKey)
+function createToken (session, url, dashboardEncryptionKey) {
+  return Hash.sha512Hash(`${session.crsfToken}-${session.sessionid}-${session.accountid}-${url}`, dashboardEncryptionKey)
 }

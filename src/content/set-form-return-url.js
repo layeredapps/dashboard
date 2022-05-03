@@ -1,6 +1,7 @@
 // takes the 'return-url' from the url params and
 // adds it to any forms if they do not specify a
 // return-url
+const url = require('url')
 
 module.exports = {
   page: insertReturnURL,

@@ -1,13 +1,14 @@
 // adds "novalidate" to form attributes so that the
 // test-suite can verify the server error responses
 // otherwise the forms won't submit with missing fields
+const url = require('url')
 
 module.exports = {
   page: setFormNoValidate,
   template: setFormNoValidate
 }
 
-function setFormNoValidate (_, _, doc) {
+function setFormNoValidate (req, _, doc) {
   if (process.NODE_ENV !== 'testing') {
     return
   }

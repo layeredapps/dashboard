@@ -16,7 +16,6 @@ const defaultConfigurationValues = {
   disableMetrics: false,
   disableRegistration: false,
   userProfileFields: ['full-name', 'contact-email'],
-  apiDependencies: [],
   minimumUsernameLength: 1,
   maximumUsernameLength: 100,
   minimumPasswordLength: 1,
@@ -95,6 +94,15 @@ async function setupBeforeEach () {
   Log.info('setupBeforeEach')
   global.packageJSON = packageJSON.merge()
   global.packageJSON.dashboard = global.packageJSON.dashboard || {}
+  // these are added under normal starting-circumstances by `index.js`
+  global.packageJSON.dashboard.serverFilePaths.push(require.resolve('./src/server/check-csrf-token.js'))
+  global.packageJSON.dashboard.server.push(require('./src/server/check-csrf-token.js'))
+  global.packageJSON.dashboard.contentFilePaths.push(require.resolve('./src/content/insert-csrf-token.js'))
+  global.packageJSON.dashboard.content.push(require('./src/content/insert-csrf-token.js'))
+  global.packageJSON.dashboard.serverFilePaths.push(require.resolve('./src/server/check-xss-injection.js'))
+  global.packageJSON.dashboard.server.push(require('./src/server/check-xss-injection.js'))
+  global.packageJSON.dashboard.contentFilePaths.push(require.resolve('./src/content/set-form-return-url.js'))
+  global.packageJSON.dashboard.content.push(require('./src/content/set-form-return-url.js'))
   // allow api access so the tests can perform HTTP requests against the API
   global.packageJSON.dashboard.serverFilePaths = global.packageJSON.dashboard.serverFilePaths || []
   global.packageJSON.dashboard.serverFilePaths.push(require.resolve('./src/server/allow-api-access'))
@@ -128,7 +136,6 @@ after((callback) => {
   Log.info('after')
   dashboard.stop()
   global.testEnded = true
-  delete (global.apiDependencies)
   return callback()
 })
 
@@ -195,8 +202,7 @@ function createRequest (rawURL) {
   for (const verb of ['get', 'post', 'patch', 'delete', 'put']) {
     req[verb] = async () => {
       req.method = verb.toUpperCase()
-      if (req.url.startsWith('/api/')) {
-        global.apiDependencies = []
+      if (req.url.startsWith('/api/') || req.puppeteer === false) {
         let errorMessage
         try {
           const result = await proxy(verb, rawURL, req)
@@ -205,6 +211,9 @@ function createRequest (rawURL) {
             responseFilePath = path.join(process.env.RESPONSE_PATH, responseFilePath)
             createFolderSync(responseFilePath.substring(0, responseFilePath.lastIndexOf('/')))
             fs.writeFileSync(responseFilePath + 'on', JSON.stringify(result, null, '  '))
+          }
+          if (req.puppeteer === false) {
+            return { html: result }
           }
           if (!result || result.object !== 'error') {
             return result

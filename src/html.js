@@ -69,7 +69,7 @@ function parse (fileOrHTML, dataObject, dataObjectName) {
   if (raw.toLowerCase().startsWith('<!doctype')) {
     raw = raw.substring(raw.indexOf('>') + 1)
   }
-  // inject navbar 
+  // inject navbar
   let htmlTag = raw.substring(0, raw.indexOf('>') + 1)
   htmlTag = htmlTag.substring(htmlTag.indexOf('<'))
   let injectedNavbar
@@ -121,8 +121,9 @@ function parse (fileOrHTML, dataObject, dataObjectName) {
   if (doc.child[0].tag === 'html') {
     doc = doc.child[0]
   }
+  let navbar
   if (injectedNavbar) {
-    const navbar = doc.getElementById('navbar______')
+    navbar = doc.getElementById('navbar______')
     if (navbar) {
       navbar.attr.id = 'navbar'
       navbar.tag = 'template'

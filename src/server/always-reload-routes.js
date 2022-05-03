@@ -1,5 +1,6 @@
 // during development this script forces routes to
 // reload so changes can be observed without restart
+const fs = require('fs')
 
 module.exports = {
   before: reloadRoute
@@ -12,11 +13,11 @@ async function reloadRoute (req, res) {
   if (!req.route) {
     return
   }
-  if (route.jsFileExists) {
-    delete require.cache[require.resolve(route.jsFilePathFull)]
-    route.api = require(route.jsFilePathFull)
+  if (req.route.jsFileExists) {
+    delete require.cache[require.resolve(req.route.jsFilePathFull)]
+    req.route.api = require(req.route.jsFilePathFull)
   }
-  if (route.htmlFileExists) {
-    route.html = fs.readFileSync(route.htmlFilePathFull).toString()
+  if (req.route.htmlFileExists) {
+    req.route.html = fs.readFileSync(req.route.htmlFilePathFull).toString()
   }
 }
