@@ -1,5 +1,5 @@
 
-> @layeredapps/dashboard@0.0.80 test
+> @layeredapps/dashboard@0.0.86 test
 > PORT=50002 NODE_ENV=testing STORAGE=sqlite SQLITE_DATABASE=dashboard mocha --ignore 'node_modules/**/*' --timeout 90000 --slow 90000 --recursive --extension .test.js .
 
 
@@ -254,6 +254,8 @@
       ✔ invalid-new-password-length
       ✔ invalid-confirm-password
       ✔ invalid-password
+      ✔ invalid-xss-input
+      ✔ invalid-csrf-token
 
   /account/change-username
     view
@@ -264,6 +266,8 @@
       ✔ invalid-new-username
       ✔ invalid-new-username-length
       ✔ invalid-password
+      ✔ invalid-xss-input
+      ✔ invalid-csrf-token
 
   /account/create-profile
     view
@@ -306,6 +310,8 @@
       ✔ invalid-location
       ✔ invalid-company-name
       ✔ invalid-website
+      ✔ invalid-xss-input
+      ✔ invalid-csrf-token
 
   /account/create-reset-code
     view
@@ -316,6 +322,8 @@
       ✔ invalid-secret-code (missing)
       ✔ invalid-secret-code is not alphanumeric
       ✔ invalid-secret-code-length
+      ✔ invalid-xss-input
+      ✔ invalid-csrf-token
 
   /account/delete-account-complete
     view
@@ -330,6 +338,7 @@
       ✔ should mark account deleted (screenshots)
     errors
       ✔ invalid-password
+      ✔ invalid-csrf-token
 
   /account/delete-profile
     before
@@ -353,6 +362,8 @@
       ✔ should present the form
     submit
       ✔ should delete reset code (screenshots)
+    errors
+      ✔ invalid-csrf-token
 
   /account/edit-profile
     view
@@ -395,12 +406,16 @@
       ✔ invalid-location
       ✔ invalid-company-name
       ✔ invalid-website
+      ✔ invalid-xss-input
+      ✔ invalid-csrf-token
 
   /account/end-all-sessions
     view
       ✔ should present the form
     submit
       ✔ should generate a new session key (screenshots)
+    errors
+      ✔ invalid-csrf-token
 
   /account/end-session
     before
@@ -410,6 +425,8 @@
     submit
       ✔ should end the session (screenshots)
       ✔ should end current session
+    errors
+      ✔ invalid-csrf-token
 
   /account
     view
@@ -543,6 +560,8 @@
       ✔ should present the form
     submit
       ✔ should set the profile as default (screenshots)
+    errors
+      ✔ invalid-csrf-token
 
   /account/signin
     view
@@ -576,6 +595,8 @@
     errors
       ✔ invalid-username
       ✔ invalid-password
+      ✔ invalid-xss-input
+      ✔ invalid-csrf-token
 
   /administrator/account-profiles
     before
@@ -639,6 +660,8 @@
       ✔ should present the form
     submit
       ✔ should apply account update (screenshots)
+    errors
+      ✔ invalid-csrf-token
 
   /administrator/create-reset-code
     before
@@ -651,6 +674,8 @@
       ✔ invalid-secret-code (missing)
       ✔ invalid-secret-code is not alphanumeric
       ✔ invalid-secret-code-length
+      ✔ invalid-xss-input
+      ✔ invalid-csrf-token
 
   /administrator/delete-account
     exceptions
@@ -661,6 +686,8 @@
       ✔ should present the form
     submit
       ✔ should immediately delete (screenshots)
+    errors
+      ✔ invalid-csrf-token
 
   /administrator/delete-schedule
     before
@@ -713,6 +740,8 @@
       ✔ should present the form
     submit
       ✔ should reset session key (screenshots)
+    errors
+      ✔ invalid-csrf-token
 
   /administrator/revoke-administrator
     before
@@ -729,6 +758,8 @@
       ✔ should present the form
     submit
       ✔ should schedule account for deletion (screenshots)
+    errors
+      ✔ invalid-csrf-token
 
   /administrator/session
     before
@@ -752,6 +783,8 @@
       ✔ should present the form
     submit
       ✔ should change ownership (screenshots)
+    errors
+      ✔ invalid-csrf-token
 
   /api/administrator/account
     exceptions
@@ -1488,5 +1521,5 @@
       ✔ override req.userProfileFields
 
 
-  825 passing (29m)
+  849 passing (31m)
 
