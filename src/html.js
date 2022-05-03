@@ -59,15 +59,20 @@ function parse (fileOrHTML, dataObject, dataObjectName) {
   if (!raw) {
     throw new Error('invalid-html')
   }
+  raw = raw.trim()
+  // replace leading comments
   raw = raw.substring(raw.indexOf('<'))
   if (raw.indexOf('<!--') === 0) {
     raw = raw.substring(raw.indexOf('-->') + 3)
   }
+  // replace leading doctypes
   if (raw.toLowerCase().startsWith('<!doctype')) {
     raw = raw.substring(raw.indexOf('>') + 1)
   }
+  // inject navbar 
   let htmlTag = raw.substring(0, raw.indexOf('>') + 1)
   htmlTag = htmlTag.substring(htmlTag.indexOf('<'))
+  let injectedNavbar
   if (htmlTag.indexOf('<html') === 0) {
     if (htmlTag.indexOf(' data-navbar="') > -1) {
       let navbar = htmlTag.split(' data-navbar="')[1]
@@ -97,7 +102,11 @@ function parse (fileOrHTML, dataObject, dataObjectName) {
       if (navbarPath) {
         const navbarHTML = fs.readFileSync(navbarPath).toString()
         if (navbarHTML) {
+          // the navbar is injected as a DIV so that ${} properties
+          // within it are evaluate, then after the document is parsed
+          // it gets converted back to a TEMPLATE
           raw = raw.replace('</head>', `<div id='navbar______'>${navbarHTML}</div>`)
+          injectedNavbar = true
         }
       }
     }
@@ -112,11 +121,14 @@ function parse (fileOrHTML, dataObject, dataObjectName) {
   if (doc.child[0].tag === 'html') {
     doc = doc.child[0]
   }
-  const navbar = doc.getElementById('navbar______')
-  if (navbar) {
-    navbar.attr.id = 'navbar'
-    navbar.tag = 'template'
+  if (injectedNavbar) {
+    const navbar = doc.getElementById('navbar______')
+    if (navbar) {
+      navbar.attr.id = 'navbar'
+      navbar.tag = 'template'
+    }
   }
+  // remap home path
   if (global.homePath) {
     if (navbar && navbar.child) {
       for (const child of navbar.child) {
@@ -355,6 +367,7 @@ function renderPagination (doc, offset, total, pageSize) {
   }
   doc.getElementById(`page-link-${currentPage}`).classList.add('current-page')
 }
+
 function createCopy (dataObject, dataObjectName, element) {
   let templates
   if (element.tag === 'html') {
