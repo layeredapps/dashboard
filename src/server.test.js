@@ -78,10 +78,10 @@ describe('internal-api/server', () => {
     })
 
     it('should parse post data', (callback) => {
-      const postData = 'username=value1&password=value2'
+      const postData = 'username=new-username&password=abcdef12345'
       const requestOptions = {
         host: global.host,
-        path: '/account/signin',
+        path: '/api/user/create-account',
         port: global.port,
         method: 'POST',
         headers: {
@@ -95,14 +95,13 @@ describe('internal-api/server', () => {
           body += chunk
         })
         return proxyResponse.on('end', () => {
-          const doc = TestHelper.extractDoc(body)
-          const username = doc.getElementById('username')
-          assert.strictEqual(username.attr.value, 'value1')
+          const account = JSON.parse(body)
+          assert.strictEqual(account.object, 'account')
           return callback()
         })
       })
       proxyRequest.write(postData)
-      return proxyRequest.end()
+      proxyRequest.end()
     })
   })
 
@@ -166,10 +165,6 @@ describe('internal-api/server', () => {
       req.session = user.session
       req.method = 'GET'
       req.headers = {}
-      req.body = {
-        username: user.account.username,
-        password: user.account.password
-      }
       const res = {
         setHeader: () => {
         },
