@@ -1,6 +1,5 @@
 const fs = require('fs')
 const path = require('path')
-const Validate = require('./validate.js')
 
 module.exports = {
   generate,
@@ -101,32 +100,7 @@ function loadRoute (fileName) {
   }
   const apiOnly = baseFilePath.indexOf('/api/') > -1
   if (apiOnly) {
-    for (const method of ['POST', 'PATCH', 'PUT', 'DELETE']) {
-      if (!route[method]) {
-        continue
-      }
-      const originalHandler = route.api[method]
-      const xssPreCheck = async (req, res) => {
-        if (req.body) {
-          Validate.requestBodyXSS(req.body)
-        }
-        return originalHandler(req, res)
-      }
-      route.api[method] = xssPreCheck
-    }
     return route
-  }
-  if (route.api.post) {
-    const postHandler = route.api.post
-    const xssPreCheck = async (req, res) => {
-      try {
-        Validate.requestBodyXSS(req.body)
-      } catch (error) {
-        return route.api.get(req, res, error.message)
-      }
-      return postHandler(req, res)
-    }
-    route.api.post = xssPreCheck
   }
   route.htmlFilePathFull = baseFilePath + '.html'
   route.htmlFilePath = route.htmlFilePathFull.substring(global.applicationPath.length)

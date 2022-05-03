@@ -93,6 +93,8 @@ const dashboard = module.exports = {
     const documentation = require('./documentation.js')
     global.applicationPath = global.applicationPath || applicationPath
     global.packageJSON = PackageJSON.merge()
+    global.packageJSON.dashboard.serverFilePaths.push(require.resolve('./src/server/check-xss-injection.js'))
+    global.packageJSON.dashboard.server.push(require('./src/server/check-xss-injection.js'))
     if (process.env.HOT_RELOAD) {
       global.packageJSON.dashboard.server.serverFilePaths.push(
         require.resolve('./src/server/always-reload-files.js'),

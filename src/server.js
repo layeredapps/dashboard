@@ -319,26 +319,6 @@ async function receiveRequest (req, res) {
 }
 
 async function executeAPIRequest (req, res) {
-  if (req.body) {
-    try {
-      dashboard.Validate.requestBodyXSS(req.body)
-    } catch (error) {
-      Log.error('api xss error', error)
-      res.statusCode = 500
-      res.setHeader('content-type', 'application/json; charset=utf-8')
-      return res.end(`{ "object": "error", "message": "${error.message || 'An error ocurred'}" }`)
-    }
-  }
-  if (req.query) {
-    try {
-      dashboard.Validate.urlParamsXSS(req.query)
-    } catch (error) {
-      Log.error('api xss error', req.url, error)
-      res.statusCode = 500
-      res.setHeader('content-type', 'application/json; charset=utf-8')
-      return res.end(`{ "object": "error", "message": "${error.message || 'An error ocurred'}" }`)
-    }
-  }
   let result
   try {
     result = await req.route.api[req.method.toLowerCase()](req)
