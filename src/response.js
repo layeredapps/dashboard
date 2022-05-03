@@ -65,24 +65,6 @@ async function end (req, res, doc, blob) {
       return compress(req, res, mergedPage)
     }
   } else {
-    const forms = doc.getElementsByTagName('form')
-    for (const form of forms) {
-      form.attr = form.attr || {}
-      form.attr.method = form.attr.method || 'POST'
-      form.attr.action = form.attr.action || req.url
-      if (global.testNumber) {
-        form.attr.novalidate = 'novalidate'
-      }
-      if (req.query && req.query['return-url']) {
-        const formURL = form.attr.action.startsWith('/') ? global.dashboardServer + form.attr.action : form.attr.action
-        const action = new url.URL(formURL)
-        if (action['return-url']) {
-          continue
-        }
-        const divider = form.attr.action.indexOf('?') > -1 ? '&' : '?'
-        form.attr.action += `${divider}return-url=${encodeURI(req.query['return-url']).split('?').join('%3F').split('&').join('%26')}`
-      }
-    }
     const packageJSON = req.packageJSON || global.packageJSON
     if (packageJSON.dashboard.content && packageJSON.dashboard.content.length) {
       for (const contentHandler of packageJSON.dashboard.content) {
