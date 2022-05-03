@@ -95,16 +95,25 @@ async function setupBeforeEach () {
   Log.info('setupBeforeEach')
   global.packageJSON = packageJSON.merge()
   global.packageJSON.dashboard = global.packageJSON.dashboard || {}
+  // allow api access so the tests can perform HTTP requests against the API
   global.packageJSON.dashboard.serverFilePaths = global.packageJSON.dashboard.serverFilePaths || []
   global.packageJSON.dashboard.serverFilePaths.push(require.resolve('./src/server/allow-api-access'))
   global.packageJSON.dashboard.server = global.packageJSON.dashboard.server || []
   global.packageJSON.dashboard.server.push(require('./src/server/allow-api-access'))
+  // disable form validation (eg <input required />) so error messages can be returned by server
+  global.packageJSON.dashboard.contentFilePaths = global.packageJSON.dashboard.contentFilePaths || []
+  global.packageJSON.dashboard.contentFilePaths.push(require.resolve('./src/content/set-form-novalidate.js'))
+  global.packageJSON.dashboard.content = global.packageJSON.dashboard.content || []
+  global.packageJSON.dashboard.content.push(require('./src/content/set-form-novalidate.js'))
+  // add test helper routes
   global.sitemap['/api/require-verification'] = helperRoutes.requireVerification
+  // reset configuration
   global.testConfiguration.testNumber = Math.floor(new Date().getTime() / 1000)
   global.testConfiguration.appid = `tests_${global.testConfiguration.testNumber}`
   for (const property in global.testConfiguration) {
     global[property] = global.testConfiguration[property]
   }
+  // gc disposal if node was started with `node --expose-gc`
   if (global.gc) {
     global.gc()
   }

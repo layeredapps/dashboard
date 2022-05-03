@@ -92,6 +92,7 @@ const dashboard = module.exports = {
     const Sitemap = require('./src/sitemap.js')
     const documentation = require('./documentation.js')
     global.applicationPath = global.applicationPath || applicationPath
+    // the package.json merged from your package.json for dashboard server + dashboard + modules
     global.packageJSON = PackageJSON.merge()
     global.packageJSON.dashboard.serverFilePaths.push(require.resolve('./src/server/check-csrf-token.js'))
     global.packageJSON.dashboard.server.push(require('./src/server/check-csrf-token.js'))
@@ -99,6 +100,8 @@ const dashboard = module.exports = {
     global.packageJSON.dashboard.content.push(require('./src/content/insert-csrf-token.js'))
     global.packageJSON.dashboard.serverFilePaths.push(require.resolve('./src/server/check-xss-injection.js'))
     global.packageJSON.dashboard.server.push(require('./src/server/check-xss-injection.js'))
+    global.packageJSON.dashboard.contentFilePaths.push(require.resolve('./src/content/set-form-return-url.js'))
+    global.packageJSON.dashboard.content.push(require('./src/content/set-form-return-url.js'))
     if (process.env.HOT_RELOAD) {
       global.packageJSON.dashboard.server.serverFilePaths.push(
         require.resolve('./src/server/always-reload-files.js'),
@@ -108,8 +111,19 @@ const dashboard = module.exports = {
         require('./src/server/always-reload-files.js'),
         require('./src/server/always-reload-routes.js'))
     }
+    // the sitemap merged from your dashboard server + dashboard + modules
     global.sitemap = Sitemap.generate()
+    if (global.homePath || global.applicationServer) {
+      delete global.sitemap['/home']
+      delete global.sitemap['/']
+    }
+    // the API merged from your dashboard server + dashboard + modules
     global.api = API.generate()
+    // storage initialization 
+    if (!dashboard.Storage) {
+      await dashboard.setup()
+    }
+    // helper file generation
     if (process.env.GENERATE_SITEMAP_TXT !== 'false') {
       documentation.writeSitemap()
     }
@@ -119,15 +133,10 @@ const dashboard = module.exports = {
     if (process.env.GENERATE_ENV_TXT !== 'false') {
       documentation.writeEnvironment()
     }
-    if (!dashboard.Storage) {
-      await dashboard.setup()
-    }
-    if (global.homePath || global.applicationServer) {
-      delete global.sitemap['/home']
-      delete global.sitemap['/']
-    }
+    // the web server
     Server = require('./src/server.js')
     await Server.start()
+    // exit for if you just want the helper files generated 
     if (process.env.EXIT_ON_START) {
       dashboard.stop()
       return process.exit(0)
