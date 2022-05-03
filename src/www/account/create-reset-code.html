@@ -14,6 +14,7 @@
       <p translate="yes">Reset codes let you access your account if you forget your password.</p>
       <div id="message-container"></div>
       <form id="submit-form" method="post" class="input-form" action="/account/create-reset-code" name="submit-form">
+        <input type="hidden" name="csrf-token" />
         <fieldset class="input-fields">
           <label class="field-label" for="secret-code" translate="yes">Secret code</label>
           <div class="field">
@@ -49,6 +50,16 @@
     <template id="unknown-error">
       <div class="error message" translate="yes">
         Error! An unknown error occurred
+      </div>
+    </template>
+    <template id="invalid-csrf-token">
+      <div class="error message" translate="yes">
+        Error! This form was not submitted correctly
+      </div>
+    </template>
+    <template id="invalid-input">
+      <div class="error message" translate="yes">
+        Error! Invalid value(s) were posted to the server
       </div>
     </template>
   </body>

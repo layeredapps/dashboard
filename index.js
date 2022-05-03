@@ -93,6 +93,10 @@ const dashboard = module.exports = {
     const documentation = require('./documentation.js')
     global.applicationPath = global.applicationPath || applicationPath
     global.packageJSON = PackageJSON.merge()
+    global.packageJSON.dashboard.serverFilePaths.push(require.resolve('./src/server/check-csrf-token.js'))
+    global.packageJSON.dashboard.server.push(require('./src/server/check-csrf-token.js'))
+    global.packageJSON.dashboard.contentFilePaths.push(require.resolve('./src/content/insert-csrf-token.js'))
+    global.packageJSON.dashboard.content.push(require('./src/content/insert-csrf-token.js'))
     global.packageJSON.dashboard.serverFilePaths.push(require.resolve('./src/server/check-xss-injection.js'))
     global.packageJSON.dashboard.server.push(require('./src/server/check-xss-injection.js'))
     if (process.env.HOT_RELOAD) {

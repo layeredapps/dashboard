@@ -204,6 +204,12 @@ module.exports = async () => {
     accountid: DataTypes.STRING(64),
     tokenHash: DataTypes.STRING,
     duration: DataTypes.INTEGER,
+    csrfToken: {
+      type: DataTypes.STRING(64),
+      defaultValue: () => {
+        return crypto.randomBytes(64).toString('hex')
+      }
+    },    
     expiresAt: {
       type: new DataTypes.VIRTUAL(DataTypes.DATE, ['createdAt', 'duration']),
       get () {

@@ -16,6 +16,7 @@
   <body class="entry">
     <div class="container">
       <form id="submit-form" method="post" class="input-form entry-form" action="/account/verify" name="submit-form">
+        <input type="hidden" name="csrf-token" />
         <h1 translate="yes">Verify your account</h1>
         <div id="message-container"></div>
         <div class="input-fields">
@@ -58,6 +59,16 @@
     <template id="unknown-error">
       <div class="error message" translate="yes">
         Error! An unknown error occurred
+      </div>
+    </template>
+    <template id="invalid-csrf-token">
+      <div class="error message" translate="yes">
+        Error! This form was not submitted correctly
+      </div>
+    </template>
+    <template id="invalid-input">
+      <div class="error message" translate="yes">
+        Error! Invalid value(s) were posted to the server
       </div>
     </template>
   </body>

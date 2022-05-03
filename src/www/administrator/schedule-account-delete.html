@@ -13,6 +13,7 @@
       <h1 translate="yes">Schedule delete for account</h1>
       <div id="message-container"></div>
       <form id="submit-form" method="post" class="input-form" action="/administrator/schedule-account-delete?accountid=${account.accountid}" name="submit-form">
+        <input type="hidden" name="csrf-token" />
         <div class="form-buttons">
           <button id="submit-button" type="submit" class="button" translate="yes">Schedule deleting</button>
         </div>
@@ -30,6 +31,16 @@
     </template>
     <template id="scheduled-delete">
       <p translate="yes">The account will be scheduled for deletion in ${data.numDays} days and you or the user may cancel before then.</p>
+    </template>
+    <template id="invalid-csrf-token">
+      <div class="error message" translate="yes">
+        Error! This form was not submitted correctly
+      </div>
+    </template>
+    <template id="invalid-input">
+      <div class="error message" translate="yes">
+        Error! Invalid value(s) were posted to the server
+      </div>
     </template>
   </body>
 </html>

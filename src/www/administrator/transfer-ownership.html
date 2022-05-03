@@ -13,6 +13,7 @@
       <h1 translate="yes">Transfer ownership to account</h1>
       <div id="message-container"></div>
       <form id="submit-form" method="post" class="input-form" action="/administrator/transfer-ownership?accountid=${account.accountid}" name="submit-form">
+        <input type="hidden" name="csrf-token" />
         <div class="form-buttons">
           <button id="submit-button" type="submit" class="button" translate="yes">Transfer ownership</button>
         </div>
@@ -31,6 +32,16 @@
     <template id="invalid-account">
       <div class="error message" translate="yes">
         Error! Only the current owner can transfer ownership
+      </div>
+    </template>
+    <template id="invalid-csrf-token">
+      <div class="error message" translate="yes">
+        Error! This form was not submitted correctly
+      </div>
+    </template>
+    <template id="invalid-input">
+      <div class="error message" translate="yes">
+        Error! Invalid value(s) were posted to the server
       </div>
     </template>
   </body>
