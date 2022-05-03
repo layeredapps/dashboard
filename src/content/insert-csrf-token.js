@@ -28,5 +28,5 @@ function insertCSRFToken (req, _, doc) {
 }
 
 function createToken (session, url, dashboardEncryptionKey) {
-  return Hash.sha512Hash(`${session.crsfToken}-${session.sessionid}-${session.accountid}-${url}`, dashboardEncryptionKey)
+  return Hash.sha512Hash(`${session.csrfToken}-${session.sessionid}-${session.accountid}-${url}`, dashboardEncryptionKey)
 }

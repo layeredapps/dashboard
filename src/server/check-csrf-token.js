@@ -30,7 +30,7 @@ async function checkCSRFToken (req, res) {
   if (req.server) {
     dashboardEncryptionKey = req.server.dashboardEncryptionKey || dashboardEncryptionKey
   }
-  const token = `${req.session.crsfToken}-${req.session.sessionid}-${req.account.accountid}-${req.route.htmlFilePath}`
+  const token = `${req.session.csrfToken}-${req.session.sessionid}-${req.account.accountid}-${req.route.htmlFilePath}`
   const validToken = Hash.sha512HashCompare(token, req.body['csrf-token'], dashboardEncryptionKey)
   if (!validToken) {
     Log.error('csrf-token invalid')

@@ -11,6 +11,6 @@ async function addXCRSFToken (req, proxyRequestOptions) {
   if (req.server) {
     dashboardEncryptionKey = req.server.dashboardEncryptionKey || dashboardEncryptionKey
   }
-  const token = Hash.sha512Hash(`${req.session.crsfToken}-${req.session.sessionid}-${req.account.accountid}-${url}`, dashboardEncryptionKey)
+  const token = Hash.sha512Hash(`${req.session.csrfToken}-${req.session.sessionid}-${req.account.accountid}-${url}`, dashboardEncryptionKey)
   proxyRequestOptions.headers['x-csrf-token'] = token
 }
