@@ -7,13 +7,13 @@ module.exports = {
 }
 
 async function checkCSRFToken (req, res) {
-  if (!req.body || !req.route || req.route.auth === false) {
+  if (req.method !== 'POST' || !req.route || req.route.auth === false) {
     return
   }
   if (req.urlPath.startsWith('/api/')) {
     return
   }
-  if (!req.body['csrf-token'] || !req.body['csrf-token'].length) {
+  if (!req.body || !req.body['csrf-token'] || !req.body['csrf-token'].length) {
     Log.error('csrf-token missing')
     res.ended = true
     if (req.route.api.before) {
