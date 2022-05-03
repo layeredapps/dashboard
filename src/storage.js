@@ -1,3 +1,4 @@
+const crypto = require('crypto')
 const metrics = require('./metrics.js')
 const { Model, DataTypes } = require('sequelize')
 const Log = require('./log.js')('sequelize')
@@ -39,7 +40,7 @@ module.exports = async () => {
       type: DataTypes.STRING(64),
       primaryKey: true,
       defaultValue: () => {
-        const idValue = Math.random().toString(16).substring(2) + Math.random().toString(16).substring(2)
+        const idValue = crypto.randomBytes(32).toString('hex')
         return 'acct_' + idValue.substring(0, 16)
       }
     },
@@ -155,7 +156,7 @@ module.exports = async () => {
       type: DataTypes.STRING(64),
       primaryKey: true,
       defaultValue: () => {
-        const idValue = Math.random().toString(16).substring(2) + Math.random().toString(16).substring(2)
+        const idValue = crypto.randomBytes(32).toString('hex')
         return 'code_' + idValue.substring(0, 16)
       }
     },
@@ -187,7 +188,7 @@ module.exports = async () => {
       type: DataTypes.STRING(64),
       primaryKey: true,
       defaultValue: () => {
-        const idValue = Math.random().toString(16).substring(2) + Math.random().toString(16).substring(2)
+        const idValue = crypto.randomBytes(32).toString('hex')
         return 'sess_' + idValue.substring(0, 16)
       }
     },
@@ -209,7 +210,7 @@ module.exports = async () => {
       defaultValue: () => {
         return crypto.randomBytes(64).toString('hex')
       }
-    },    
+    },
     expiresAt: {
       type: new DataTypes.VIRTUAL(DataTypes.DATE, ['createdAt', 'duration']),
       get () {
@@ -265,7 +266,7 @@ module.exports = async () => {
       type: DataTypes.STRING(64),
       primaryKey: true,
       defaultValue: () => {
-        const idValue = Math.random().toString(16).substring(2) + Math.random().toString(16).substring(2)
+        const idValue = crypto.randomBytes(32).toString('hex')
         return 'prof_' + idValue.substring(0, 16)
       }
     },
