@@ -2,7 +2,7 @@
 const assert = require('assert')
 const TestHelper = require('../../../test-helper.js')
 
-describe.only('/account/change-password', () => {
+describe('/account/change-password', () => {
   describe('view', () => {
     it('should present the form', async () => {
       const user = await TestHelper.createUser()
