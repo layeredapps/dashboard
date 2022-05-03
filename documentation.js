@@ -402,8 +402,8 @@ function writeSitemap () {
     const routeHTML = padRight(route.htmlFilePath ? trimNodeModulePath(route.htmlFilePath) : '', widestHTML)
     const routeJS = padRight(trimNodeModulePath(route.jsFilePath), widestJS)
     const routeVerbs = padRight(route.verbs, 'HTTP REQUESTS  '.length)
-    const routeAuth = padRight(route.authDescription, 'AUTH  '.length)
-    const routeTemplate = padRight(route.templateDescription, 'TEMPLATE  '.length)
+    const routeAuth = padRight(route.auth || '', 'AUTH  '.length)
+    const routeTemplate = padRight(route.template || '', 'TEMPLATE  '.length)
     output.push(`${routeURL} ${routeAuth} ${routeTemplate} ${routeVerbs} ${routeJS} ${routeHTML}`)
   }
   const routeURL = underlineRight('URL ', widestURL)
@@ -490,10 +490,14 @@ function parseDashboardConfiguration () {
     const item = configuration.urls[url] = {}
     item.htmlFilePath = route.htmlFilePath
     item.jsFilePath = route.jsFilePath
-    item.templateDescription = route.template === false ? 'FULLSCREEN' : ''
+    if (route.template === false) {
+      item.template = 'FULLSCREEN'
+    }
+    if (route.api.auth === false) {
+      item.auth = 'GUEST'
+    }
     item.verbs = ''
     if (url.startsWith('/api/')) {
-      item.authDescription = route.api.auth === false ? 'GUEST' : ''
       const verbs = []
       for (const verb of httpVerbs) {
         if (route.api[verb.toLowerCase()]) {
@@ -502,7 +506,6 @@ function parseDashboardConfiguration () {
       }
       item.verbs = verbs.join(' ')
     } else {
-      item.authDescription = route.auth === false ? 'GUEST' : ''
       const verbs = []
       if (route.jsFilePath === 'static-page') {
         verbs.push('GET')
