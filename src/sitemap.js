@@ -99,17 +99,6 @@ function loadRoute (fileName) {
     route.jsFilePathFull = jsFilePathFull
     route.jsFilePath = jsFilePathFull.substring(global.applicationPath.length)
   }
-  if (process.env.HOT_RELOAD) {
-    route.reload = () => {
-      if (route.jsFileExists) {
-        delete require.cache[require.resolve(route.jsFilePathFull)]
-        route.api = require(route.jsFilePathFull)
-      }
-      if (route.htmlFileExists) {
-        route.html = fs.readFileSync(route.htmlFilePathFull).toString()
-      }
-    }
-  }
   const apiOnly = baseFilePath.indexOf('/api/') > -1
   if (apiOnly) {
     for (const method of ['POST', 'PATCH', 'PUT', 'DELETE']) {

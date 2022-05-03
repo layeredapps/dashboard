@@ -72,6 +72,8 @@ const statCache = {}
 
 module.exports = {
   authenticateRequest,
+  fileCache,
+  statCache,
   parsePostData,
   parseMultiPartData,
   receiveRequest,
@@ -147,13 +149,6 @@ async function receiveRequest (req, res) {
       }
     }
   }
-  if (req.urlPath.startsWith('/public/') || req.urlPath === '/favicon.ico' || req.urlPath === '/robots.txt') {
-    if (req.method === 'GET') {
-      return staticFile(req, res)
-    } else {
-      return dashboard.Response.throw404(req, res)
-    }
-  }
   try {
     await executeHandlers(req, res, 'before', global.packageJSON.dashboard.server, global.packageJSON.dashboard.serverFilePaths)
   } catch (error) {
@@ -165,6 +160,13 @@ async function receiveRequest (req, res) {
   }
   if (res.ended) {
     return
+  }
+  if (req.urlPath.startsWith('/public/') || req.urlPath === '/favicon.ico' || req.urlPath === '/robots.txt') {
+    if (req.method === 'GET') {
+      return staticFile(req, res)
+    } else {
+      return dashboard.Response.throw404(req, res)
+    }
   }
   let applicationServer = global.applicationServer
   if (req.server) {
@@ -271,6 +273,7 @@ async function receiveRequest (req, res) {
   }
   if (req.urlPath.startsWith('/api/administrator/')) {
     if (!req.account || !req.account.administrator) {
+      res.statusCode = 500
       res.setHeader('content-type', 'application/json')
       return res.end('{ "object": "auth", "message": "Administrator required" }')
     }
@@ -293,9 +296,6 @@ async function receiveRequest (req, res) {
     } else {
       return dashboard.Response.throw404(req, res)
     }
-  }
-  if (process.env.HOT_RELOAD && req.route.reload) {
-    req.route.reload()
   }
   if (req.route.api === 'static-page') {
     const doc = dashboard.HTML.parse(req.html || req.route.html)

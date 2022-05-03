@@ -93,6 +93,15 @@ const dashboard = module.exports = {
     const documentation = require('./documentation.js')
     global.applicationPath = global.applicationPath || applicationPath
     global.packageJSON = PackageJSON.merge()
+    if (process.env.HOT_RELOAD) {
+      global.packageJSON.dashboard.server.serverFilePaths.push(
+        require.resolve('./src/server/always-reload-files.js'),
+        require.resolve('./src/server/always-reload-routes.js')
+      )
+      global.packageJSON.dashboard.server.server.push(
+        require('./src/server/always-reload-files.js'),
+        require('./src/server/always-reload-routes.js'))
+    }
     global.sitemap = Sitemap.generate()
     global.api = API.generate()
     if (process.env.GENERATE_SITEMAP_TXT !== 'false') {
