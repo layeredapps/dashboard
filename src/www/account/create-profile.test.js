@@ -1,4 +1,5 @@
 /* eslint-env mocha */
+const { faker } = require('@faker-js/faker')
 const assert = require('assert')
 const TestHelper = require('../../../test-helper.js')
 
@@ -279,7 +280,7 @@ describe('/account/create-profile', () => {
       req.account = user.account
       req.session = user.session
       req.body = {
-        phone: 'test value ' + Math.random()
+        phone: faker.phone.phoneNumber()
       }
       const result = await req.post()
       const doc = TestHelper.extractDoc(result.html)
@@ -295,7 +296,7 @@ describe('/account/create-profile', () => {
       req.account = user.account
       req.session = user.session
       req.body = {
-        occupation: 'test value ' + Math.random()
+        occupation: 'Teacher'
       }
       const result = await req.post()
       const doc = TestHelper.extractDoc(result.html)
@@ -311,7 +312,7 @@ describe('/account/create-profile', () => {
       req.account = user.account
       req.session = user.session
       req.body = {
-        location: 'test value ' + Math.random()
+        location: faker.address.city()
       }
       const result = await req.post()
       const doc = TestHelper.extractDoc(result.html)
@@ -327,7 +328,7 @@ describe('/account/create-profile', () => {
       req.account = user.account
       req.session = user.session
       req.body = {
-        'company-name': 'test value ' + Math.random()
+        'company-name': faker.company.companyName()
       }
       const result = await req.post()
       const doc = TestHelper.extractDoc(result.html)
@@ -343,7 +344,7 @@ describe('/account/create-profile', () => {
       req.account = user.account
       req.session = user.session
       req.body = {
-        website: 'test value ' + Math.random()
+        website: faker.internet.domainName()
       }
       const result = await req.post()
       const doc = TestHelper.extractDoc(result.html)
