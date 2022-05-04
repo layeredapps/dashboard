@@ -21,6 +21,10 @@ if (fs.existsSync(`${global.applicationPath}/log.js`)) {
       return logger
     }
     const allowedLevels = process.env.LOG_LEVEL.split(',')
+    const excludePrefix = (process.env.LOG_EXCLUDE || '').split(',')
+    if (excludePrefix.indexOf(prefix) > -1) {
+      return logger
+    }
     for (const level of allowedLevels) {
       if (!logger[level] || !console[level]) {
         continue
