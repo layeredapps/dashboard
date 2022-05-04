@@ -25,11 +25,6 @@
         Success! The account has been deleted
       </div>
     </template>
-    <template id="unknown-error">
-      <div class="error message" translate="yes">
-        Error! An unknown error occurred
-      </div>
-    </template>
     <template id="schedule-error">
       <div class="error message" translate="yes">
         Error! The account must be scheduled for deletion first
@@ -38,6 +33,31 @@
     <template id="duration-error">
       <div class="error message" translate="yes">
         Error! The account cannot be deleted until after its scheduled date
+      </div>
+    </template>
+    <template id="unknown-error">
+      <div class="error message" translate="yes">
+        Error! An unknown error occurred
+      </div>
+    </template>
+    <template id="invalid-accountid">
+      <div class="error message" translate="yes">
+        Error! An invalid account was specified
+      </div>
+    </template>
+    <template id="invalid-account-not-deleting">
+      <div class="error message" translate="yes">
+        Error! This account is not scheduled for deletion
+      </div>
+    </template>
+    <template id="invalid-owner-account">
+      <div class="error message" translate="yes">
+        Error! You cannot delete the owner account
+      </div>
+    </template>
+    <template id="invalid-administrator-account">
+      <div class="error message" translate="yes">
+        Error! You cannot delete administrator accounts
       </div>
     </template>
     <template id="invalid-csrf-token">

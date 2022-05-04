@@ -8,10 +8,33 @@ module.exports = {
 
 async function beforeRequest (req) {
   if (!req.query || !req.query.accountid) {
-    throw new Error('invalid-accountid')
+    req.error = 'invalid-accountid'
+    req.removeContents = true
+    req.data = {
+      account: {
+        accountid: ''
+      }
+    }
+    return
+  }
+  let account
+  try {
+    account = await global.api.administrator.Account.get(req)
+  } catch (error) {
+    req.removeContents = true
+    req.data = {
+      account: {
+        accountid: req.query.accountid
+      }
+    }
+    if (error.message === 'invalid-accountid') {
+      req.error = error.message
+    } else {
+      req.error = 'unknown-error'
+    }
+    return
   }
   const total = await global.api.administrator.ProfilesCount.get(req)
-  const account = await global.api.administrator.Account.get(req)
   const profiles = await global.api.administrator.Profiles.get(req)
   if (profiles && profiles.length) {
     for (const profile of profiles) {
@@ -25,33 +48,46 @@ async function beforeRequest (req) {
   req.data = { profiles, account, total, offset }
 }
 
-async function renderPage (req, res) {
+async function renderPage (req, res, messageTemplate) {
+  messageTemplate = req.error || messageTemplate || (req.query ? req.query.message : null)
   const doc = dashboard.HTML.parse(req.html || req.route.html, req.data.account, 'account')
   await navbar.setup(doc, req.data.account)
   const removeElements = []
-  if (req.data.profiles && req.data.profiles.length) {
-    dashboard.HTML.renderTable(doc, req.data.profiles, 'profile-row', 'profiles-table')
-    const removeFields = [].concat(global.profileFields)
-    const profileFields = req.userProfileFields || global.userProfileFields
-    for (const field of profileFields) {
-      removeFields.splice(removeFields.indexOf(field), 1)
+  if (messageTemplate) {
+    dashboard.HTML.renderTemplate(doc, null, messageTemplate, 'message-container')
+    if (req.removeContents) {
+      removeElements.push('no-profiles', 'profiles-table')
     }
-    for (const field of removeFields) {
-      removeElements.push(field)
-    }
-    for (const profile of req.data.profiles) {
-      for (const field of removeFields) {
-        removeElements.push(`${field}-${profile.profileid}`)
-      }
-    }
-    if (req.data.total <= global.pageSize) {
-      removeElements.push('page-links')
-    } else {
-      dashboard.HTML.renderPagination(doc, req.data.offset, req.data.total)
-    }
-    removeElements.push('no-profiles')
   } else {
-    removeElements.push('profiles-table')
+    if (req.data.profiles && req.data.profiles.length) {
+      dashboard.HTML.renderTable(doc, req.data.profiles, 'profile-row', 'profiles-table')
+      const retainedFields = req.userProfileFields || global.userProfileFields
+      for (const profile of req.data.profiles) {
+        for (const field of global.profileFields) {
+          if (retainedFields.indexOf(field) > -1) {
+            continue
+          }
+          if (field === 'full-name') {
+            if (retainedFields.indexOf('first-name') === -1) {
+              removeElements.push(`first-name-${profile.profileid}`)
+            }
+            if (retainedFields.indexOf('last-name') === -1) {
+              removeElements.push(`last-name-${profile.profileid}`)
+            }
+            continue
+          }
+          removeElements.push(`${field}-${profile.profileid}`)
+        }
+      }
+      if (req.data.total <= global.pageSize) {
+        removeElements.push('page-links')
+      } else {
+        dashboard.HTML.renderPagination(doc, req.data.offset, req.data.total)
+      }
+      removeElements.push('no-profiles')
+    } else {
+      removeElements.push('profiles-table')
+    }
   }
   for (const id of removeElements) {
     const element = doc.getElementById(id)

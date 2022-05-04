@@ -8,7 +8,31 @@ module.exports = {
 
 async function beforeRequest (req) {
   if (!req.query || !req.query.accountid) {
-    throw new Error('invalid-accountid')
+    req.error = 'invalid-accountid'
+    req.removeContents = true
+    req.data = {
+      account: {
+        accountid: req.query.accountid
+      }
+    }
+    return
+  }
+  let account
+  try {
+    account = await global.api.administrator.Account.get(req)
+  } catch (error) {
+    req.removeContents = true
+    req.data = {
+      account: {
+        accountid: req.query.accountid
+      }
+    }
+    if (error.message === 'invalid-accountid') {
+      req.error = error.message
+    } else {
+      req.error = 'unknown-error'
+    }
+    return
   }
   const total = await global.api.administrator.SessionsCount.get(req)
   const sessions = await global.api.administrator.Sessions.get(req)
@@ -18,7 +42,6 @@ async function beforeRequest (req) {
       session.expiresFormatted = dashboard.Format.date(session.expiresAt)
     }
   }
-  const account = await global.api.administrator.Account.get(req)
   if (account.profileid) {
     req.query.profileid = account.profileid
     const profile = await global.api.administrator.Profile.get(req)
@@ -30,22 +53,32 @@ async function beforeRequest (req) {
   req.data = { sessions, account, total, offset }
 }
 
-async function renderPage (req, res) {
+async function renderPage (req, res, messageTemplate) {
+  messageTemplate = req.error || messageTemplate || (req.query ? req.query.message : null)
   const doc = dashboard.HTML.parse(req.html || req.route.html, req.data.account, 'account')
   await navbar.setup(doc, req.data.account)
-  if (req.data.sessions && req.data.sessions.length) {
-    dashboard.HTML.renderTable(doc, req.data.sessions, 'session-row', 'sessions-table')
-    if (req.data.total <= global.pageSize) {
-      const pageLinks = doc.getElementById('page-links')
-      pageLinks.parentNode.removeChild(pageLinks)
-    } else {
-      dashboard.HTML.renderPagination(doc, req.data.offset, req.data.total)
+  const removeElements = []
+  if (messageTemplate) {
+    dashboard.HTML.renderTemplate(doc, null, messageTemplate, 'message-container')
+    if (req.removeContents) {
+      removeElements.push('no-reset-codes', 'reset-codes-table')
     }
-    const noSessions = doc.getElementById('no-sessions')
-    noSessions.parentNode.removeChild(noSessions)
   } else {
-    const sessionsTable = doc.getElementById('sessions-table')
-    sessionsTable.parentNode.removeChild(sessionsTable)
+    if (req.data.sessions && req.data.sessions.length) {
+      dashboard.HTML.renderTable(doc, req.data.sessions, 'session-row', 'sessions-table')
+      if (req.data.total <= global.pageSize) {
+        removeElements.push('page-links')
+      } else {
+        dashboard.HTML.renderPagination(doc, req.data.offset, req.data.total)
+      }
+      removeElements.push('no-sessions')
+    } else {
+      removeElements.push('sessions-table')
+    }
+  }
+  for (const id of removeElements) {
+    const element = doc.getElementById(id)
+    element.parentNode.removeChild(element)
   }
   return dashboard.Response.end(req, res, doc)
 }

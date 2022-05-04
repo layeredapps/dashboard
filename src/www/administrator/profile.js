@@ -7,44 +7,60 @@ module.exports = {
 
 async function beforeRequest (req) {
   if (!req.query || !req.query.profileid) {
-    throw new Error('invalid-profileid')
+    req.error = 'invalid-profileid'
+    req.removeContents = true
+    return
   }
-  const profile = await global.api.administrator.Profile.get(req)
-  if (!profile) {
-    throw new Error('invalid-profile')
+  let profile
+  try {
+    profile = await global.api.administrator.Profile.get(req)
+  } catch (error) {
+    profile = {
+      profileid: req.query.profileid
+    }
+    req.removeContents = true
+    if (error.message === 'invalid-profileid') {
+      req.error = error.message
+    } else {
+      req.error = 'unknown-error'
+    }
   }
-  profile.createdAtFormatted = dashboard.Format.date(profile.createdAt)
+  if (profile.createdAt) {
+    profile.createdAtFormatted = dashboard.Format.date(profile.createdAt)
+  }
   req.data = { profile }
 }
 
-async function renderPage (req, res) {
+async function renderPage (req, res, messageTemplate) {
+  messageTemplate = req.error || messageTemplate || (req.query ? req.query.message : null)
   const doc = dashboard.HTML.parse(req.html || req.route.html, req.data.profile, 'profile')
-  const removeFields = [].concat(global.profileFields)
-  const usedFields = []
-  for (const field of removeFields) {
-    if (usedFields.indexOf(field) > -1) {
-      continue
+  const removeElements = []
+  if (messageTemplate) {
+    dashboard.HTML.renderTemplate(doc, null, messageTemplate, 'message-container')
+    if (req.removeContents) {
+      removeElements.push('submit-form')
     }
-    if (field === 'full-name') {
-      if (req.data.profile.firstName &&
-        removeFields.indexOf('full-name') > -1 &&
-        usedFields.indexOf(field) === -1) {
-        usedFields.push(field)
+  } else {
+    const retainedFields = req.userProfileFields || global.userProfileFields
+    for (const field of global.profileFields) {
+      if (retainedFields.indexOf(field) > -1) {
+        continue
       }
-      continue
-    }
-    const displayName = global.profileFieldMap[field]
-    if (req.data.profile[displayName] &&
-      removeFields.indexOf(field) > -1 &&
-      usedFields.indexOf(field) === -1) {
-      usedFields.push(field)
+      if (field === 'full-name') {
+        if (retainedFields.indexOf('first-name') === -1) {
+          removeElements.push('first-name')
+        }
+        if (retainedFields.indexOf('last-name') === -1) {
+          removeElements.push('last-name')
+        }
+        continue
+      }
+      removeElements.push(field)
     }
   }
-  for (const id of removeFields) {
-    if (usedFields.indexOf(id) === -1) {
-      const element = doc.getElementById(id)
-      element.parentNode.removeChild(element)
-    }
+  for (const id of removeElements) {
+    const element = doc.getElementById(id)
+    element.parentNode.removeChild(element)
   }
   return dashboard.Response.end(req, res, doc)
 }

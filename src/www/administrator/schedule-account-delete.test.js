@@ -58,6 +58,26 @@ describe('/administrator/schedule-account-delete', () => {
   })
 
   describe('errors', () => {
+    it('invalid-accountid', async () => {
+      const administrator = await TestHelper.createOwner()
+      const req = TestHelper.createRequest('/administrator/schedule-account-delete?accountid=invalid')
+      req.account = administrator.account
+      req.session = administrator.session
+      await req.route.api.before(req)
+      assert.strictEqual(req.error, 'invalid-accountid')
+    })
+
+    it('invalid-account', async () => {
+      const administrator = await TestHelper.createOwner()
+      const user = await TestHelper.createUser()
+      await TestHelper.setDeleted(user)
+      const req = TestHelper.createRequest(`/administrator/schedule-account-delete?accountid=${user.account.accountid}`)
+      req.account = administrator.account
+      req.session = administrator.session
+      await req.route.api.before(req)
+      assert.strictEqual(req.error, 'invalid-account')
+    })
+
     it('invalid-csrf-token', async () => {
       const administrator = await TestHelper.createOwner()
       const user = await TestHelper.createUser()

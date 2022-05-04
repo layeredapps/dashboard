@@ -11,6 +11,7 @@
   <body>
     <div class="container">
       <h1 translate="yes">Profile</h1>
+      <div id="message-container"></div>
       <table id="profiles-table" class="data-table">
         <tbody id="${profile.profileid}">
           <tr>
@@ -64,5 +65,15 @@
         </tbody>
       </table>
     </div>
+    <template id="unknown-error">
+      <div class="error message" translate="yes">
+        Error! An unknown error occurred
+      </div>
+    </template>
+    <template id="invalid-profileid">
+      <div class="error message" translate="yes">
+        Error! An invalid profile was specified
+      </div>
+    </template>
   </body>
 </html>

@@ -21,42 +21,25 @@ async function renderPage (req, res) {
   const doc = dashboard.HTML.parse(req.html || req.route.html)
   const removeElements = []
   if (req.data.profiles && req.data.profiles.length) {
-    const removeFields = [].concat(global.profileFields)
-    const usedFields = []
+    const retainedFields = req.userProfileFields || global.userProfileFields
     for (const profile of req.data.profiles) {
-      for (const field of removeFields) {
-        if (usedFields.indexOf(field) > -1) {
+      for (const field of global.profileFields) {
+        if (retainedFields.indexOf(field) > -1) {
           continue
         }
         if (field === 'full-name') {
-          if (profile.firstName &&
-            removeFields.indexOf('full-name') > -1 &&
-            usedFields.indexOf(field) === -1) {
-            usedFields.push(field)
+          if (retainedFields.indexOf('first-name') === -1) {
+            removeElements.push(`first-name-${profile.profileid}`)
+          }
+          if (retainedFields.indexOf('last-name') === -1) {
+            removeElements.push(`last-name-${profile.profileid}`)
           }
           continue
         }
-        const displayName = global.profileFieldMap[field]
-        if (profile[displayName] &&
-          removeFields.indexOf(field) > -1 &&
-            usedFields.indexOf(field) === -1) {
-          usedFields.push(field)
-        }
-      }
-    }
-    for (const field of removeFields) {
-      if (usedFields.indexOf(field) === -1) {
-        removeElements.push(field)
+        removeElements.push(`${field}-${profile.profileid}`)
       }
     }
     dashboard.HTML.renderTable(doc, req.data.profiles, 'profile-row', 'profiles-table')
-    for (const profile of req.data.profiles) {
-      for (const field of removeFields) {
-        if (usedFields.indexOf(field) === -1) {
-          removeElements.push(`${field}-${profile.profileid}`)
-        }
-      }
-    }
     if (req.data.total <= global.pageSize) {
       removeElements.push('page-links')
     } else {

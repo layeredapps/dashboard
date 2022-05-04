@@ -31,7 +31,7 @@ describe('/administrator/assign-administrator', () => {
   })
 
   describe('submit', () => {
-    it('should apply account update (screenshots)', async () => {
+    it('should assign administrator (screenshots)', async () => {
       const administrator = await TestHelper.createOwner()
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest(`/administrator/assign-administrator?accountid=${user.account.accountid}`)
@@ -58,6 +58,36 @@ describe('/administrator/assign-administrator', () => {
   })
 
   describe('errors', () => {
+    it('invalid-account-deleting', async () => {
+      const administrator = await TestHelper.createOwner()
+      const user = await TestHelper.createUser()
+      await TestHelper.setDeleted(user)
+      const req = TestHelper.createRequest(`/administrator/assign-administrator?accountid=${user.account.accountid}`)
+      req.account = administrator.account
+      req.session = administrator.session
+      await req.route.api.before(req)
+      assert.strictEqual(req.error, 'invalid-account-deleting')
+    })
+
+    it('invalid-account-administrator', async () => {
+      const administrator = await TestHelper.createOwner()
+      const user = await TestHelper.createAdministrator(administrator)
+      const req = TestHelper.createRequest(`/administrator/assign-administrator?accountid=${user.account.accountid}`)
+      req.account = administrator.account
+      req.session = administrator.session
+      await req.route.api.before(req)
+      assert.strictEqual(req.error, 'invalid-account-administrator')
+    })
+
+    it('invalid-accountid', async () => {
+      const administrator = await TestHelper.createOwner()
+      const req = TestHelper.createRequest('/administrator/assign-administrator?accountid=invalid')
+      req.account = administrator.account
+      req.session = administrator.session
+      await req.route.api.before(req)
+      assert.strictEqual(req.error, 'invalid-accountid')
+    })
+
     it('invalid-csrf-token', async () => {
       const administrator = await TestHelper.createOwner()
       const user = await TestHelper.createUser()

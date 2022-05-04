@@ -45,6 +45,11 @@ describe('/administrator/account-profiles', function () {
     req2.account = administrator.account
     req2.session = administrator.session
     cachedResponses.offset = await req2.get()
+    const req3 = TestHelper.createRequest('/administrator/account-profiles?accountid=invalid')
+    req3.account = administrator.account
+    req3.session = administrator.session
+    await req3.route.api.before(req3)
+    cachedResponses.invalidAccount = req3.error
   })
   describe('before', () => {
     it('should bind data to req', async () => {
@@ -87,6 +92,13 @@ describe('/administrator/account-profiles', function () {
       for (let i = 0, len = global.pageSize; i < len; i++) {
         assert.strictEqual(doc.getElementById(cachedProfiles[offset + i]).tag, 'tr')
       }
+    })
+  })
+
+  describe('errors', () => {
+    it('invalid-accountid', async () => {
+      const errorMessage = cachedResponses.invalidAccount
+      assert.strictEqual(errorMessage, 'invalid-accountid')
     })
   })
 })

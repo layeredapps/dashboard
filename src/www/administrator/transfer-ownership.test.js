@@ -57,6 +57,46 @@ describe('/administrator/transfer-ownership', () => {
   })
 
   describe('errors', () => {
+    it('invalid-accountid', async () => {
+      const administrator = await TestHelper.createOwner()
+      const req = TestHelper.createRequest('/administrator/transfer-ownership?accountid=invalid')
+      req.account = administrator.account
+      req.session = administrator.session
+      await req.route.api.before(req)
+      assert.strictEqual(req.error, 'invalid-accountid')
+    })
+
+    it('invalid-account', async () => {
+      const owner = await TestHelper.createOwner()
+      const administrator = await TestHelper.createAdministrator(owner)
+      const user = await TestHelper.createUser()
+      const req = TestHelper.createRequest(`/administrator/transfer-ownership?accountid=${user.account.accountid}`)
+      req.account = administrator.account
+      req.session = administrator.session
+      await req.route.api.before(req)
+      assert.strictEqual(req.error, 'invalid-account')
+    })
+
+    it('invalid-account-receiving', async () => {
+      const administrator = await TestHelper.createOwner()
+      const req = TestHelper.createRequest(`/administrator/transfer-ownership?accountid=${administrator.account.accountid}`)
+      req.account = administrator.account
+      req.session = administrator.session
+      await req.route.api.before(req)
+      assert.strictEqual(req.error, 'invalid-account-receiving')
+    })
+
+    it('invalid-account-receiving', async () => {
+      const administrator = await TestHelper.createOwner()
+      const user = await TestHelper.createUser()
+      await TestHelper.setDeleted(user)
+      const req = TestHelper.createRequest(`/administrator/transfer-ownership?accountid=${user.account.accountid}`)
+      req.account = administrator.account
+      req.session = administrator.session
+      await req.route.api.before(req)
+      assert.strictEqual(req.error, 'invalid-account-deleting')
+    })
+
     it('invalid-csrf-token', async () => {
       const administrator = await TestHelper.createOwner()
       const user = await TestHelper.createUser()

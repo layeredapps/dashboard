@@ -9,9 +9,12 @@ module.exports = {
 
 async function beforeRequest (req) {
   if (!req.query || !req.query.sessionid) {
-    throw new Error('invalid-sessionid')
+    req.error = 'invalid-sessionid'
+    req.removeContents = true
+    return
   }
   if (req.query.message === 'success') {
+    req.removeContents = true
     req.data = {
       session: {
         sessionid: req.query.sessionid
@@ -19,19 +22,34 @@ async function beforeRequest (req) {
     }
     return
   }
-  const session = await global.api.user.Session.get(req)
-  session.createdAtFormatted = dashboard.Format.date(session.createdAt)
-  session.expiresFormatted = dashboard.Format.date(session.expiresAt)
+  let session
+  try {
+    session = await global.api.user.Session.get(req)
+  } catch (error) {
+    session = {
+      sessionid: req.query.sessionid
+    }
+    req.removeContents = true
+    if (error.message === 'invalid-account' || error.message === 'invalid-sessionid') {
+      req.error = error.message
+    } else {
+      req.error = 'unknown-error'
+    }
+  }
+  if (session.ended) {
+    req.error = 'invalid-session'
+    req.removeContents = true
+  }
   req.data = { session }
 }
 
 async function renderPage (req, res, messageTemplate) {
-  messageTemplate = messageTemplate || (req.query ? req.query.message : null)
+  messageTemplate = req.error || messageTemplate || (req.query ? req.query.message : null)
   const doc = dashboard.HTML.parse(req.html || req.route.html, req.data.session, 'session')
   await navbar.setup(doc, req.data.session)
   if (messageTemplate) {
     dashboard.HTML.renderTemplate(doc, null, messageTemplate, 'message-container')
-    if (messageTemplate === 'success') {
+    if (req.removeContents) {
       const submitForm = doc.getElementById('submit-form')
       submitForm.parentNode.removeChild(submitForm)
     }

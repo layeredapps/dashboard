@@ -63,9 +63,42 @@ describe('/account/end-session', () => {
   })
 
   describe('errors', () => {
+    it('invalid-sessionid', async () => {
+      const user = await TestHelper.createUser()
+      const req = TestHelper.createRequest('/account/end-session?sessionid=invalid')
+      req.account = user.account
+      req.session = user.session
+      await req.route.api.before(req)
+      assert.strictEqual(req.error, 'invalid-sessionid')
+    })
+
+    it('invalid-session', async () => {
+      const user = await TestHelper.createUser()
+      const activeSession = user.session
+      await TestHelper.createSession(user)
+      await TestHelper.endSession(user)
+      const endedSession = user.session
+      const req = TestHelper.createRequest(`/account/end-session?sessionid=${endedSession.sessionid}`)
+      req.account = user.account
+      req.session = activeSession
+      await req.route.api.before(req)
+      assert.strictEqual(req.error, 'invalid-session')
+    })
+
+    it('invalid-account', async () => {
+      const user = await TestHelper.createUser()
+      await TestHelper.createUser()
+      const user2 = await TestHelper.createUser()
+      const req = TestHelper.createRequest(`/account/end-session?sessionid=${user.session.sessionid}`)
+      req.account = user2.account
+      req.session = user2.session
+      await req.route.api.before(req)
+      assert.strictEqual(req.error, 'invalid-account')
+    })
+
     it('invalid-csrf-token', async () => {
       const user = await TestHelper.createUser()
-      const req = TestHelper.createRequest('/account/end-all-sessions')
+      const req = TestHelper.createRequest(`/account/end-session?sessionid=${user.session.sessionid}`)
       req.puppeteer = false
       req.account = user.account
       req.session = user.session

@@ -37,4 +37,26 @@ describe('/account/reset-code', () => {
       assert.strictEqual(tbody.tag, 'tbody')
     })
   })
+
+  describe('errors', () => {
+    it('invalid-reset-codeid', async () => {
+      const user = await TestHelper.createUser()
+      const req = TestHelper.createRequest('/account/reset-code?codeid=invalid')
+      req.account = user.account
+      req.session = user.session
+      await req.route.api.before(req)
+      assert.strictEqual(req.error, 'invalid-reset-codeid')
+    })
+
+    it('invalid-account', async () => {
+      const user = await TestHelper.createUser()
+      await TestHelper.createResetCode(user)
+      const user2 = await TestHelper.createUser()
+      const req = TestHelper.createRequest(`/account/reset-code?codeid=${user.resetCode.codeid}`)
+      req.account = user2.account
+      req.session = user2.session
+      await req.route.api.before(req)
+      assert.strictEqual(req.error, 'invalid-account')
+    })
+  })
 })

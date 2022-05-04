@@ -8,52 +8,65 @@ module.exports = {
 
 async function beforeRequest (req) {
   if (!req.query || !req.query.profileid) {
-    throw new Error('invalid-profileid')
+    req.error = 'invalid-profileid'
+    req.removeContents = true
+    return
   }
-  const profile = await global.api.user.Profile.get(req)
-  if (!profile) {
-    throw new Error('invalid-profile')
+  let profile
+  try {
+    profile = await global.api.user.Profile.get(req)
+  } catch (error) {
+    profile = {
+      profileid: req.query.profileid
+    }
+    req.removeContents = true
+    if (error.message === 'invalid-profileid' || error.message === 'invalid-account') {
+      req.error = error.message
+    } else {
+      req.error = 'unknown-error'
+    }
   }
-  profile.createdAtFormatted = dashboard.Format.date(profile.createdAt)
+  if (profile.createdAt) {
+    profile.createdAtFormatted = dashboard.Format.date(profile.createdAt)
+  }
   req.data = { profile }
 }
 
-async function renderPage (req, res) {
+async function renderPage (req, res, messageTemplate) {
+  messageTemplate = req.error || messageTemplate || (req.query ? req.query.message : null)
   const doc = dashboard.HTML.parse(req.html || req.route.html, req.data.profile, 'profile')
   await navbar.setup(doc, req.data.profile)
-  if (req.account.profileid === req.query.profileid) {
-    const notDefault = doc.getElementById('is-not-default')
-    notDefault.parentNode.removeChild(notDefault)
-  } else {
-    const isDefault = doc.getElementById('is-default')
-    isDefault.parentNode.removeChild(isDefault)
+  const removeElements = []
+  if (messageTemplate) {
+    dashboard.HTML.renderTemplate(doc, null, messageTemplate, 'message-container')
+    if (req.removeContents) {
+      removeElements.push('profiles-table')
+    }
   }
-  const removeFields = [].concat(global.profileFields)
-  const usedFields = []
-  for (const field of removeFields) {
-    if (usedFields.indexOf(field) > -1) {
+  if (req.account.profileid === req.query.profileid) {
+    removeElements.push('is-not-default')
+  } else {
+    removeElements.push('is-default')
+  }
+  const retainedFields = req.userProfileFields || global.userProfileFields
+  for (const field of global.profileFields) {
+    if (retainedFields.indexOf(field) > -1) {
       continue
     }
     if (field === 'full-name') {
-      if (req.data.profile.firstName &&
-        removeFields.indexOf('full-name') > -1 &&
-        usedFields.indexOf(field) === -1) {
-        usedFields.push(field)
+      if (retainedFields.indexOf('first-name') === -1) {
+        removeElements.push('first-name')
+      }
+      if (retainedFields.indexOf('last-name') === -1) {
+        removeElements.push('last-name')
       }
       continue
     }
-    const displayName = global.profileFieldMap[field]
-    if (req.data.profile[displayName] &&
-      removeFields.indexOf(field) > -1 &&
-      usedFields.indexOf(field) === -1) {
-      usedFields.push(field)
-    }
+    removeElements.push(field)
   }
-  for (const id of removeFields) {
-    if (usedFields.indexOf(id) === -1) {
-      const element = doc.getElementById(id)
-      element.parentNode.removeChild(element)
-    }
+  for (const id of removeElements) {
+    const element = doc.getElementById(id)
+    element.parentNode.removeChild(element)
   }
   return dashboard.Response.end(req, res, doc)
 }

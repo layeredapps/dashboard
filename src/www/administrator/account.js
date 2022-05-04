@@ -8,9 +8,32 @@ module.exports = {
 
 async function beforeRequest (req) {
   if (!req.query || !req.query.accountid) {
-    throw new Error('invalid-accountid')
+    req.error = 'invalid-accountid'
+    req.removeContents = true
+    req.data = {
+      account: {
+        accountid: req.query.accountid
+      }
+    }
+    return
   }
-  const account = await global.api.administrator.Account.get(req)
+  let account
+  try {
+    account = await global.api.administrator.Account.get(req)
+  } catch (error) {
+    req.removeContents = true
+    req.data = {
+      account: {
+        accountid: req.query.accountid
+      }
+    }
+    if (error.message === 'invalid-accountid') {
+      req.error = error.message
+    } else {
+      req.error = 'unknown-error'
+    }
+    return
+  }
   account.createdAtFormatted = dashboard.Format.date(account.createdAt)
   account.lastSignedInAtFormatted = dashboard.Format.date(account.lastSignedInAt)
   req.query.profileid = account.profileid
@@ -36,26 +59,36 @@ async function beforeRequest (req) {
   req.data = { account, profiles, sessions, resetCodes }
 }
 
-async function renderPage (req, res) {
+async function renderPage (req, res, messageTemplate) {
+  messageTemplate = req.error || messageTemplate || (req.query ? req.query.message : null)
   const doc = dashboard.HTML.parse(req.html || req.route.html, req.data.account, 'account')
   await navbar.setup(doc, req.data.account)
-  if (req.data.sessions && req.data.sessions.length) {
-    dashboard.HTML.renderTable(doc, req.data.sessions, 'session-row', 'sessions-table')
+  const removeElements = []
+  if (messageTemplate) {
+    dashboard.HTML.renderTemplate(doc, null, messageTemplate, 'message-container')
+    if (req.removeContents) {
+      removeElements.push('table-container')
+    }
   } else {
-    const sessionsTable = doc.getElementById('sessions-table')
-    sessionsTable.parentNode.removeChild(sessionsTable)
+    if (req.data.sessions && req.data.sessions.length) {
+      dashboard.HTML.renderTable(doc, req.data.sessions, 'session-row', 'sessions-table')
+    } else {
+      removeElements.push('sessions-table')
+    }
+    if (req.data.resetCodes && req.data.resetCodes.length) {
+      dashboard.HTML.renderTable(doc, req.data.resetCodes, 'reset-code-row', 'reset-codes-table')
+    } else {
+      removeElements.push('reset-codes-container')
+    }
+    if (req.data.profiles && req.data.profiles.length) {
+      dashboard.HTML.renderTable(doc, req.data.profiles, 'profile-row', 'profiles-table')
+    } else {
+      removeElements.push('profiles-table')
+    }
   }
-  if (req.data.resetCodes && req.data.resetCodes.length) {
-    dashboard.HTML.renderTable(doc, req.data.resetCodes, 'reset-code-row', 'reset-codes-table')
-  } else {
-    const resetCodesContainer = doc.getElementById('reset-codes-container')
-    resetCodesContainer.parentNode.removeChild(resetCodesContainer)
-  }
-  if (req.data.profiles && req.data.profiles.length) {
-    dashboard.HTML.renderTable(doc, req.data.profiles, 'profile-row', 'profiles-table')
-  } else {
-    const profilesTable = doc.getElementById('profiles-table')
-    profilesTable.parentNode.removeChild(profilesTable)
+  for (const id of removeElements) {
+    const element = doc.getElementById(id)
+    element.parentNode.removeChild(element)
   }
   return dashboard.Response.end(req, res, doc)
 }

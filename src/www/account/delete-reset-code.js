@@ -8,9 +8,12 @@ module.exports = {
 
 async function beforeRequest (req) {
   if (!req.query || !req.query.codeid) {
-    throw new Error('invalid-reset-codeid')
+    req.error = 'invalid-reset-codeid'
+    req.removeContents = true
+    return
   }
   if (req.query.message === 'success') {
+    req.removeContents = true
     req.data = {
       resetCode: {
         codeid: req.query.codeid
@@ -18,20 +21,33 @@ async function beforeRequest (req) {
     }
     return
   }
-  const resetCode = await global.api.user.ResetCode.get(req)
-  if (!resetCode) {
-    throw new Error('invalid-reset-codeid')
+  let resetCode
+  try {
+    resetCode = await global.api.user.ResetCode.get(req)
+  } catch (error) {
+    req.removeContents = true
+    req.data = {
+      resetCode: {
+        codeid: req.query.codeid
+      }
+    }
+    if (error.message === 'invalid-account' || error.message === 'invalid-reset-codeid') {
+      req.error = error.message
+    } else {
+      req.error = 'unknown-error'
+    }
+    return
   }
   resetCode.createdAtFormatted = dashboard.Format.date(resetCode.createdAt)
   req.data = { resetCode }
 }
 
 function renderPage (req, res, messageTemplate) {
-  messageTemplate = messageTemplate || (req.query ? req.query.message : null)
+  messageTemplate = req.error || messageTemplate || (req.query ? req.query.message : null)
   const doc = dashboard.HTML.parse(req.html || req.route.html, req.data.resetCode, 'resetCode')
   if (messageTemplate) {
     dashboard.HTML.renderTemplate(doc, null, messageTemplate, 'message-container')
-    if (messageTemplate === 'success') {
+    if (req.removeContents) {
       const submitForm = doc.getElementById('submit-form')
       submitForm.parentNode.removeChild(submitForm)
     }

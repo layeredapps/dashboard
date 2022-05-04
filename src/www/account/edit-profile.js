@@ -9,19 +9,37 @@ module.exports = {
 
 async function beforeRequest (req) {
   if (!req.query || !req.query.profileid) {
-    throw new Error('invalid-profileid')
+    req.error = 'invalid-profileid'
+    req.removeContents = true
+    return
   }
-  const profile = await global.api.user.Profile.get(req)
+  let profile
+  try {
+    profile = await global.api.user.Profile.get(req)
+  } catch (error) {
+    profile = {
+      profileid: req.query.profileid
+    }
+    req.removeContents = true
+    if (error.message === 'invalid-profileid' || error.message === 'invalid-account') {
+      req.error = error.message
+    } else {
+      req.error = 'unknown-error'
+    }
+  }
+  if (req.query.messageTemplate === 'success') {
+    req.removeContents = true
+  }
   req.data = { profile }
 }
 
 function renderPage (req, res, messageTemplate) {
-  messageTemplate = messageTemplate || (req.query ? req.query.message : null)
+  messageTemplate = req.error || messageTemplate || (req.query ? req.query.message : null)
   const doc = dashboard.HTML.parse(req.html || req.route.html, req.data.profile, 'profile')
   navbar.setup(doc, req.data.profile)
   if (messageTemplate) {
     dashboard.HTML.renderTemplate(doc, null, messageTemplate, 'message-container')
-    if (messageTemplate === 'success') {
+    if (req.removeContents) {
       const submitForm = doc.getElementById('submit-form')
       submitForm.parentNode.removeChild(submitForm)
     }
@@ -31,12 +49,6 @@ function renderPage (req, res, messageTemplate) {
   const profileFields = req.userProfileFields || global.userProfileFields
   for (const field of profileFields) {
     removeFields.splice(removeFields.indexOf(field), 1)
-  }
-  if (messageTemplate) {
-    dashboard.HTML.renderTemplate(doc, null, messageTemplate, 'message-container')
-    if (messageTemplate === 'success') {
-      removeFields.push('submit-form')
-    }
   }
   for (const id of removeFields) {
     const element = doc.getElementById(`${id}-container`)

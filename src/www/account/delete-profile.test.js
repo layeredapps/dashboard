@@ -22,52 +22,6 @@ describe('/account/delete-profile', () => {
     })
   })
 
-  describe('exceptions', () => {
-    it('invalid-profileid', async () => {
-      const user = await TestHelper.createUser()
-      const req = TestHelper.createRequest('/account/delete-profile?profileid=invalid')
-      req.account = user.account
-      req.session = user.session
-      let errorMessage
-      try {
-        await req.route.api.before(req)
-      } catch (error) {
-        errorMessage = error.message
-      }
-      assert.strictEqual(errorMessage, 'invalid-profileid')
-    })
-
-    it('invalid-profile', async () => {
-      const user = await TestHelper.createUser()
-      const req = TestHelper.createRequest(`/account/delete-profile?profileid=${user.profile.profileid}`)
-      req.account = user.account
-      req.session = user.session
-      let errorMessage
-      try {
-        await req.route.api.before(req)
-      } catch (error) {
-        errorMessage = error.message
-      }
-      assert.strictEqual(errorMessage, 'invalid-profile')
-    })
-
-    it('invalid-account', async () => {
-      const user = await TestHelper.createUser()
-      await TestHelper.createUser()
-      const user2 = await TestHelper.createUser()
-      const req = TestHelper.createRequest(`/account/delete-profile?profileid=${user.profile.profileid}`)
-      req.account = user2.account
-      req.session = user2.session
-      let errorMessage
-      try {
-        await req.route.api.before(req)
-      } catch (error) {
-        errorMessage = error.message
-      }
-      assert.strictEqual(errorMessage, 'invalid-account')
-    })
-  })
-
   describe('view', () => {
     it('should present the form', async () => {
       const user = await TestHelper.createUser()
@@ -116,6 +70,60 @@ describe('/account/delete-profile', () => {
       const messageContainer = doc.getElementById('message-container')
       const message = messageContainer.child[0]
       assert.strictEqual(message.attr.template, 'success')
+    })
+  })
+
+  describe('errors', () => {
+    it('invalid-profileid', async () => {
+      const user = await TestHelper.createUser()
+      const req = TestHelper.createRequest('/account/delete-profile?profileid=invalid')
+      req.account = user.account
+      req.session = user.session
+      await req.route.api.before(req)
+      assert.strictEqual(req.error, 'invalid-profileid')
+    })
+
+    it('invalid-profile', async () => {
+      const user = await TestHelper.createUser()
+      const req = TestHelper.createRequest(`/account/delete-profile?profileid=${user.profile.profileid}`)
+      req.account = user.account
+      req.session = user.session
+      await req.route.api.before(req)
+      assert.strictEqual(req.error, 'invalid-profile')
+    })
+
+    it('invalid-account', async () => {
+      const user = await TestHelper.createUser()
+      await TestHelper.createUser()
+      const user2 = await TestHelper.createUser()
+      const req = TestHelper.createRequest(`/account/delete-profile?profileid=${user.profile.profileid}`)
+      req.account = user2.account
+      req.session = user2.session
+      await req.route.api.before(req)
+      assert.strictEqual(req.error, 'invalid-account')
+    })
+
+    it('invalid-csrf-token', async () => {
+      const user = await TestHelper.createUser()
+      const profile1 = user.profile
+      await TestHelper.createProfile(user, {
+        'first-name': user.profile.firstName,
+        'last-name': user.profile.lastName,
+        'contact-email': user.profile.contactEmail,
+        default: 'true'
+      })
+      const req = TestHelper.createRequest(`/account/delete-profile?profileid=${profile1.profileid}`)
+      req.puppeteer = false
+      req.account = user.account
+      req.session = user.session
+      req.body = {
+        'csrf-token': 'invalid'
+      }
+      const result = await req.post()
+      const doc = TestHelper.extractDoc(result.html)
+      const messageContainer = doc.getElementById('message-container')
+      const message = messageContainer.child[0]
+      assert.strictEqual(message.attr.template, 'invalid-csrf-token')
     })
   })
 })

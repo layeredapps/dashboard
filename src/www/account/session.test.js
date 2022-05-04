@@ -34,4 +34,26 @@ describe('/account/session', () => {
       assert.strictEqual(tbody.tag, 'tbody')
     })
   })
+
+  describe('errors', () => {
+    it('invalid-sessionid', async () => {
+      const user = await TestHelper.createUser()
+      const req = TestHelper.createRequest('/account/end-session?sessionid=invalid')
+      req.account = user.account
+      req.session = user.session
+      await req.route.api.before(req)
+      assert.strictEqual(req.error, 'invalid-sessionid')
+    })
+
+    it('invalid-account', async () => {
+      const user = await TestHelper.createUser()
+      await TestHelper.createUser()
+      const user2 = await TestHelper.createUser()
+      const req = TestHelper.createRequest(`/account/end-session?sessionid=${user.session.sessionid}`)
+      req.account = user2.account
+      req.session = user2.session
+      await req.route.api.before(req)
+      assert.strictEqual(req.error, 'invalid-account')
+    })
+  })
 })

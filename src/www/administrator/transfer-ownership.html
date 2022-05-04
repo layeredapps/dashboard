@@ -29,9 +29,24 @@
         Error! An unknown error occurred
       </div>
     </template>
+    <template id="invalid-accountid">
+      <div class="error message" translate="yes">
+        Error! An invalid account was specified
+      </div>
+    </template>
+    <template id="invalid-account-deleting">
+      <div class="error message" translate="yes">
+        Error! This account is scheduled for deletion
+      </div>
+    </template>
     <template id="invalid-account">
       <div class="error message" translate="yes">
-        Error! Only the current owner can transfer ownership
+        Error! Only the owner can transfer ownership
+      </div>
+    </template>
+    <template id="invalid-account-receiving">
+      <div class="error message" translate="yes">
+        Error! You cannot transfer ownership to the owner
       </div>
     </template>
     <template id="invalid-csrf-token">

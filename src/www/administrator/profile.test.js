@@ -79,4 +79,15 @@ describe('/administrator/profile', () => {
       }
     })
   })
+
+  describe('errors', () => {
+    it('invalid-profileid', async () => {
+      const administrator = await TestHelper.createOwner()
+      const req = TestHelper.createRequest('/administrator/profile?profileid=invalid')
+      req.account = administrator.account
+      req.session = administrator.session
+      await req.route.api.before(req)
+      assert.strictEqual(req.error, 'invalid-profileid')
+    })
+  })
 })

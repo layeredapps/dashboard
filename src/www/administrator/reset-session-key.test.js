@@ -58,6 +58,15 @@ describe('/administrator/reset-session-key', () => {
   })
 
   describe('errors', () => {
+    it('invalid-accountid', async () => {
+      const administrator = await TestHelper.createOwner()
+      const req = TestHelper.createRequest('/administrator/reset-session-key?accountid=invalid')
+      req.account = administrator.account
+      req.session = administrator.session
+      await req.route.api.before(req)
+      assert.strictEqual(req.error, 'invalid-accountid')
+    })
+
     it('invalid-csrf-token', async () => {
       const administrator = await TestHelper.createOwner()
       const user = await TestHelper.createUser()

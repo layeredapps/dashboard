@@ -11,6 +11,7 @@
   <body>
     <div class="container">
       <h1 translate="yes">Profiles belonging to account</h1>
+      <div id="message-container"></div>
       <div id="no-profiles">
         <p translate="yes">This account does not have any profiles yet.</p>
       </div>
@@ -56,6 +57,16 @@
         <td id="website-${profile.profileid}"><a href="${profile.website}">${profile.website}</a></td>
         <td>${profile.createdAtFormatted}</td>
       </tr>
+    </template>
+    <template id="unknown-error">
+      <div class="error message" translate="yes">
+        Error! An unknown error occurred
+      </div>
+    </template>
+    <template id="invalid-accountid">
+      <div class="error message" translate="yes">
+        Error! An invalid account was specified
+      </div>
     </template>
   </body>
 </html>

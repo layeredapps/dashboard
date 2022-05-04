@@ -22,12 +22,31 @@
             <th translate="yes">Created</th>
             <td>${session.createdAtFormatted}</td>
           </tr>
-          <tr>
+          <tr id="expires">
             <th translate="yes">Expires</th>
             <td>${session.expiresFormatted}</td>
+          </tr>
+          <tr id="ended">
+            <th translate="yes">Ended</th>
+            <td>${session.endedAtFormatted}</td>
           </tr>
         </tbody>
       </table>
     </div>
+    <template id="unknown-error">
+      <div class="error message" translate="yes">
+        Error! An unknown error occurred
+      </div>
+    </template>
+    <template id="invalid-sessionid">
+      <div class="error message" translate="yes">
+        Error! An invalid session was specified
+      </div>
+    </template>
+    <template id="invalid-account">
+      <div class="error message" translate="yes">
+        Error! You cannot view somebody else's session
+      </div>
+    </template>
   </body>
 </html>

@@ -55,4 +55,25 @@ describe('/administrator/revoke-administrator', () => {
       assert.strictEqual(message.attr.template, 'success')
     })
   })
+
+  describe('errors', () => {
+    it('invalid-accountid', async () => {
+      const administrator = await TestHelper.createOwner()
+      const req = TestHelper.createRequest('/administrator/revoke-administrator?accountid=invalid')
+      req.account = administrator.account
+      req.session = administrator.session
+      await req.route.api.before(req)
+      assert.strictEqual(req.error, 'invalid-accountid')
+    })
+
+    it('invalid-account-administrator', async () => {
+      const administrator = await TestHelper.createOwner()
+      const user = await TestHelper.createUser()
+      const req = TestHelper.createRequest(`/administrator/revoke-administrator?accountid=${user.account.accountid}`)
+      req.account = administrator.account
+      req.session = administrator.session
+      await req.route.api.before(req)
+      assert.strictEqual(req.error, 'invalid-account-administrator')
+    })
+  })
 })

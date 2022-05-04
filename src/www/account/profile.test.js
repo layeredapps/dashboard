@@ -74,4 +74,26 @@ describe('/account/profile', () => {
       }
     })
   })
+
+  describe('errors', () => {
+    it('invalid-profileid', async () => {
+      const user = await TestHelper.createUser()
+      const req = TestHelper.createRequest('/account/profile?profileid=invalid')
+      req.account = user.account
+      req.session = user.session
+      await req.route.api.before(req)
+      assert.strictEqual(req.error, 'invalid-profileid')
+    })
+
+    it('invalid-account', async () => {
+      const user = await TestHelper.createUser()
+      await TestHelper.createUser()
+      const user2 = await TestHelper.createUser()
+      const req = TestHelper.createRequest(`/account/profile?profileid=${user.profile.profileid}`)
+      req.account = user2.account
+      req.session = user2.session
+      await req.route.api.before(req)
+      assert.strictEqual(req.error, 'invalid-account')
+    })
+  })
 })

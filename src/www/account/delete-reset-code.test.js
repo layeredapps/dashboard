@@ -15,38 +15,6 @@ describe('/account/delete-reset-code', () => {
     })
   })
 
-  describe('exceptions', () => {
-    it('invalid-reset-codeid', async () => {
-      const user = await TestHelper.createUser()
-      const req = TestHelper.createRequest('/account/delete-reset-code?codeid=invalid')
-      req.account = user.account
-      req.session = user.session
-      let errorMessage
-      try {
-        await req.route.api.before(req)
-      } catch (error) {
-        errorMessage = error.message
-      }
-      assert.strictEqual(errorMessage, 'invalid-reset-codeid')
-    })
-
-    it('invalid-account', async () => {
-      const user = await TestHelper.createUser()
-      await TestHelper.createResetCode(user)
-      const user2 = await TestHelper.createUser()
-      const req = TestHelper.createRequest(`/account/delete-reset-code?codeid=${user.resetCode.codeid}`)
-      req.account = user2.account
-      req.session = user2.session
-      let errorMessage
-      try {
-        await req.route.api.before(req)
-      } catch (error) {
-        errorMessage = error.message
-      }
-      assert.strictEqual(errorMessage, 'invalid-account')
-    })
-  })
-
   describe('view', () => {
     it('should present the form', async () => {
       const user = await TestHelper.createUser()
@@ -93,6 +61,26 @@ describe('/account/delete-reset-code', () => {
   })
 
   describe('errors', () => {
+    it('invalid-reset-codeid', async () => {
+      const user = await TestHelper.createUser()
+      const req = TestHelper.createRequest('/account/delete-reset-code?codeid=invalid')
+      req.account = user.account
+      req.session = user.session
+      await req.route.api.before(req)
+      assert.strictEqual(req.error, 'invalid-reset-codeid')
+    })
+
+    it('invalid-account', async () => {
+      const user = await TestHelper.createUser()
+      await TestHelper.createResetCode(user)
+      const user2 = await TestHelper.createUser()
+      const req = TestHelper.createRequest(`/account/delete-reset-code?codeid=${user.resetCode.codeid}`)
+      req.account = user2.account
+      req.session = user2.session
+      await req.route.api.before(req)
+      assert.strictEqual(req.error, 'invalid-account')
+    })
+
     it('invalid-csrf-token', async () => {
       const user = await TestHelper.createUser()
       await TestHelper.createResetCode(user)

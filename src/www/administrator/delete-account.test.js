@@ -4,22 +4,6 @@ const TestHelper = require('../../../test-helper.js')
 const ScreenshotData = require('../../../screenshot-data.js')
 
 describe('/administrator/delete-account', () => {
-  describe('exceptions', () => {
-    it('should reject invalid accountid', async () => {
-      const administrator = await TestHelper.createOwner()
-      const req = TestHelper.createRequest('/administrator/delete-account?accountid=invalid')
-      req.account = administrator.account
-      req.session = administrator.session
-      let errorMessage
-      try {
-        await req.route.api.before(req)
-      } catch (error) {
-        errorMessage = error.message
-      }
-      assert.strictEqual(errorMessage, 'invalid-accountid')
-    })
-  })
-
   describe('before', () => {
     it('should bind data to req', async () => {
       global.deleteDelay = 0
@@ -80,9 +64,49 @@ describe('/administrator/delete-account', () => {
   })
 
   describe('errors', () => {
+    it('invalid-account-not-deleting', async () => {
+      const administrator = await TestHelper.createOwner()
+      const user = await TestHelper.createUser()
+      const req = TestHelper.createRequest(`/administrator/delete-account?accountid=${user.account.accountid}`)
+      req.account = administrator.account
+      req.session = administrator.session
+      await req.route.api.before(req)
+      assert.strictEqual(req.error, 'invalid-account-not-deleting')
+    })
+
+    it('invalid-owner-account', async () => {
+      const owner = await TestHelper.createOwner()
+      const administrator = await TestHelper.createAdministrator(owner)
+      const req = TestHelper.createRequest(`/administrator/delete-account?accountid=${owner.account.accountid}`)
+      req.account = administrator.account
+      req.session = administrator.session
+      await req.route.api.before(req)
+      assert.strictEqual(req.error, 'invalid-owner-account')
+    })
+
+    it('invalid-administrator-account', async () => {
+      const owner = await TestHelper.createOwner()
+      const administrator = await TestHelper.createAdministrator(owner)
+      const req = TestHelper.createRequest(`/administrator/delete-account?accountid=${administrator.account.accountid}`)
+      req.account = owner.account
+      req.session = owner.session
+      await req.route.api.before(req)
+      assert.strictEqual(req.error, 'invalid-administrator-account')
+    })
+
+    it('invalid-accountid', async () => {
+      const administrator = await TestHelper.createOwner()
+      const req = TestHelper.createRequest('/administrator/delete-account?accountid=invalid')
+      req.account = administrator.account
+      req.session = administrator.session
+      await req.route.api.before(req)
+      assert.strictEqual(req.error, 'invalid-accountid')
+    })
+
     it('invalid-csrf-token', async () => {
       const administrator = await TestHelper.createOwner()
       const user = await TestHelper.createUser()
+      await TestHelper.setDeleted(user)
       const req = TestHelper.createRequest(`/administrator/delete-account?accountid=${user.account.accountid}`)
       req.puppeteer = false
       req.account = administrator.account

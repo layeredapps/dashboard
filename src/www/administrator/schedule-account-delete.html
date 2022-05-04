@@ -24,13 +24,23 @@
         Success! The account has been deleted
       </div>
     </template>
+    <template id="scheduled-delete">
+      <p translate="yes">The account will be scheduled for deletion in ${data.numDays} days and you or the user may cancel before then.</p>
+    </template>
     <template id="unknown-error">
       <div class="error message" translate="yes">
         Error! An unknown error occurred
       </div>
     </template>
-    <template id="scheduled-delete">
-      <p translate="yes">The account will be scheduled for deletion in ${data.numDays} days and you or the user may cancel before then.</p>
+    <template id="invalid-accountid">
+      <div class="error message" translate="yes">
+        Error! An invalid account was specified
+      </div>
+    </template>
+    <template id="invalid-account">
+      <div class="error message" translate="yes">
+        Error! This account is already scheduled for deletion
+      </div>
     </template>
     <template id="invalid-csrf-token">
       <div class="error message" translate="yes">

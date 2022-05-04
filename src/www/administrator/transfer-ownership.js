@@ -9,21 +9,78 @@ module.exports = {
 
 async function beforeRequest (req) {
   if (!req.query || !req.query.accountid) {
-    throw new Error('invalid-accountid')
+    req.error = 'invalid-accountid'
+    req.removeContents = true
+    return
   }
-  const account = await global.api.administrator.Account.get(req)
+  if (req.query.message === 'success') {
+    req.removeContents = true
+    req.data = {
+      account: {
+        accountid: req.query.accountid
+      }
+    }
+    return
+  }
+  let account
+  try {
+    account = await global.api.administrator.Account.get(req)
+  } catch (error) {
+    req.removeContents = true
+    req.data = {
+      account: {
+        accountid: req.query.accountid
+      }
+    }
+    if (error.message === 'invalid-accountid') {
+      req.error = error.message
+    } else {
+      req.error = 'unknown-error'
+    }
+    return
+  }
+  if (!req.account.owner) {
+    req.error = 'invalid-account'
+    req.removeContents = true
+    req.data = {
+      account: {
+        accountid: req.query.accountid
+      }
+    }
+    return
+  }
+  if (account.owner) {
+    req.error = 'invalid-account-receiving'
+    req.removeContents = true
+    req.data = {
+      account: {
+        accountid: req.query.accountid
+      }
+    }
+    return
+  }
+  if (account.deletedAt) {
+    req.error = 'invalid-account-deleting'
+    req.removeContents = true
+    req.data = {
+      account: {
+        accountid: req.query.accountid
+      }
+    }
+    return
+  }
   account.createdAtFormatted = dashboard.Format.date(account.createdAt)
   account.lastSignedInAtFormatted = dashboard.Format.date(account.lastSignedInAt)
   req.data = { account }
 }
 
 async function renderPage (req, res, messageTemplate) {
-  messageTemplate = messageTemplate || (req.query ? req.query.message : null)
+  messageTemplate = req.error || messageTemplate || (req.query ? req.query.message : null)
   const doc = dashboard.HTML.parse(req.html || req.route.html, req.data.account, 'account')
   await navbar.setup(doc, req.data.account)
   if (messageTemplate) {
     dashboard.HTML.renderTemplate(doc, null, messageTemplate, 'message-container')
-    if (messageTemplate === 'success') {
+    if (req.removeContents) {
       const submitForm = doc.getElementById('submit-form')
       submitForm.parentNode.removeChild(submitForm)
     }

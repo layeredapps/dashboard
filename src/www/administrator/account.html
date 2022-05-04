@@ -12,57 +12,59 @@
     <div class="container">
       <h1 translate="yes">View account</h1>
       <div id="message-container"></div>
-      <table id="accounts-table" class="data-table">
-        <tbody id="${account.accountid}">
-          <tr>
-            <th>ID</th>
-            <td>${account.accountid}</td>
-          </tr>
-          <tr>
-            <th translate="yes">Created</th>
-            <td>${account.createdAtFormatted}</td>
-          </tr>
-          <tr>
-            <th translate="yes">Last signed in</th>
-            <td>${account.lastSignedInAtFormatted}</td>
-          </tr>
-        </tbody>
-      </table>
-      <h2 translate="yes">Profiles</h2>
-      <div class="list-table-wrapper">
-        <table id="profiles-table" class="list-table">
-          <thead>
+      <div id="table-contaienr">
+        <table id="accounts-table" class="data-table">
+          <tbody id="${account.accountid}">
             <tr>
               <th>ID</th>
-              <th translate="yes">Name</th>
-              <th translate="yes">Email</th>
+              <td>${account.accountid}</td>
             </tr>
-          </thead>
-        </table>
-      </div>
-      <h2 translate="yes">Sessions</h2>
-      <div class="list-table-wrapper">
-        <table id="sessions-table" class="list-table">
-          <thead>
             <tr>
-              <th>ID</th>
               <th translate="yes">Created</th>
-              <th translate="yes">Last signed in</th>
+              <td>${account.createdAtFormatted}</td>
             </tr>
-          </thead>
+            <tr>
+              <th translate="yes">Last signed in</th>
+              <td>${account.lastSignedInAtFormatted}</td>
+            </tr>
+          </tbody>
         </table>
-      </div>
-      <div id="reset-codes-container">
-        <h2 translate="yes">Reset codes</h2>
+        <h2 translate="yes">Profiles</h2>
         <div class="list-table-wrapper">
-          <table id="reset-codes-table" class="list-table">
+          <table id="profiles-table" class="list-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th translate="yes">Name</th>
+                <th translate="yes">Email</th>
+              </tr>
+            </thead>
+          </table>
+        </div>
+        <h2 translate="yes">Sessions</h2>
+        <div class="list-table-wrapper">
+          <table id="sessions-table" class="list-table">
             <thead>
               <tr>
                 <th>ID</th>
                 <th translate="yes">Created</th>
+                <th translate="yes">Last signed in</th>
               </tr>
             </thead>
           </table>
+        </div>
+        <div id="reset-codes-container">
+          <h2 translate="yes">Reset codes</h2>
+          <div class="list-table-wrapper">
+            <table id="reset-codes-table" class="list-table">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th translate="yes">Created</th>
+                </tr>
+              </thead>
+            </table>
+          </div>
         </div>
       </div>
     </div>
@@ -85,6 +87,16 @@
         <td><a href="/administrator/reset-code?codeid=${resetCode.codeid}">${resetCode.codeid}</a></td>
         <td>${resetCode.createdAtFormatted}</td>
       </tr>
+    </template>
+    <template id="unknown-error">
+      <div class="error message" translate="yes">
+        Error! An unknown error occurred
+      </div>
+    </template>
+    <template id="invalid-accountid">
+      <div class="error message" translate="yes">
+        Error! An invalid account was specified
+      </div>
     </template>
   </body>
 </html>

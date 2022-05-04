@@ -117,6 +117,15 @@ describe('/administrator/create-reset-code', () => {
       assert.strictEqual(message2.attr.template, 'invalid-secret-code-length')
     })
 
+    it('invalid-accountid', async () => {
+      const administrator = await TestHelper.createOwner()
+      const req = TestHelper.createRequest('/administrator/create-reset-code?accountid=invalid')
+      req.account = administrator.account
+      req.session = administrator.session
+      await req.route.api.before(req)
+      assert.strictEqual(req.error, 'invalid-accountid')
+    })
+
     it('invalid-xss-input', async () => {
       const administrator = await TestHelper.createOwner()
       const user = await TestHelper.createUser()

@@ -9,9 +9,12 @@ module.exports = {
 
 async function beforeRequest (req) {
   if (!req.query || !req.query.profileid) {
-    throw new Error('invalid-profileid')
+    req.error = 'invalid-profileid'
+    req.removeContents = true
+    return
   }
   if (req.query.message === 'success') {
+    req.removeContents = true
     req.data = {
       profile: {
         profileid: req.query.profileid
@@ -20,11 +23,26 @@ async function beforeRequest (req) {
     return
   }
   if (req.query.profileid === req.account.profileid) {
-    throw new Error('invalid-profile')
+    req.error = 'invalid-profile'
+    req.removeContents = true
+    return
   }
-  const profile = await global.api.user.Profile.get(req)
-  if (!profile) {
-    throw new Error('invalid-profileid')
+  let profile
+  try {
+    profile = await global.api.user.Profile.get(req)
+  } catch (error) {
+    req.removeContents = true
+    req.data = {
+      profile: {
+        profileid: req.query.profileid
+      }
+    }
+    if (error.message === 'invalid-profileid' || error.message === 'invalid-account') {
+      req.error = error.message
+    } else {
+      req.error = 'unknown-error'
+    }
+    return
   }
   profile.createdAtFormatted = dashboard.Format.date(profile.createdAt)
   profile.default = req.account.profileid === profile.profileid
@@ -32,12 +50,12 @@ async function beforeRequest (req) {
 }
 
 async function renderPage (req, res, messageTemplate) {
-  messageTemplate = messageTemplate || (req.query ? req.query.message : null)
+  messageTemplate = req.error || messageTemplate || (req.query ? req.query.message : null)
   const doc = dashboard.HTML.parse(req.html || req.route.html, req.data.profile, 'profile')
   await navbar.setup(doc, req.data.profile)
   if (messageTemplate) {
     dashboard.HTML.renderTemplate(doc, null, messageTemplate, 'message-container')
-    if (messageTemplate === 'success') {
+    if (req.removeContents) {
       const submitForm = doc.getElementById('submit-form')
       submitForm.parentNode.removeChild(submitForm)
     }

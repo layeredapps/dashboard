@@ -42,4 +42,15 @@ describe('/administrator/reset-code', () => {
       assert.strictEqual(tbody.tag, 'tbody')
     })
   })
+
+  describe('errors', () => {
+    it('invalid-codeid', async () => {
+      const administrator = await TestHelper.createOwner()
+      const req = TestHelper.createRequest('/administrator/reset-code?codeid=invalid')
+      req.account = administrator.account
+      req.session = administrator.session
+      await req.route.api.before(req)
+      assert.strictEqual(req.error, 'invalid-reset-codeid')
+    })
+  })
 })

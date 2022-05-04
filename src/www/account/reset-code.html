@@ -11,7 +11,7 @@
   <body>
     <div class="container">
       <h1 translate="yes">View reset code</h1>
-      <div id="current-status"></div>
+      <div id="message-container"></div>
       <table id="reset-codes-table" class="data-table">
         <tbody id="${resetCode.codeid}">
           <tr>
@@ -25,5 +25,20 @@
         </tbody>
       </table>
     </div>
+    <template id="unknown-error">
+      <div class="error message" translate="yes">
+        Error! An unknown error occurred
+      </div>
+    </template>
+    <template id="invalid-reset-codeid">
+      <div class="error message" translate="yes">
+        Error! An invalid reset code was specified
+      </div>
+    </template>
+    <template id="invalid-account">
+      <div class="error message" translate="yes">
+        Error! You cannot view somebody else's reset code
+      </div>
+    </template>
   </body>
 </html>
