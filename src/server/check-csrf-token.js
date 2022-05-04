@@ -10,7 +10,8 @@ async function checkCSRFToken (req, res) {
   if (req.method !== 'POST' || !req.route || req.route.auth === false) {
     return
   }
-  if (req.urlPath.startsWith('/api/')) {
+  if (!req.urlPath.startsWith('/account/') && req.urlPath !== '/account' &&
+      !req.urlPath.startsWith('/administrator/') && req.urlPath !== '/administrator') {
     return
   }
   if (!req.body || !req.body['csrf-token'] || !req.body['csrf-token'].length) {
