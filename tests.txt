@@ -1,5 +1,5 @@
 
-> @layeredapps/dashboard@0.0.86 test
+> @layeredapps/dashboard@0.0.88 test
 > PORT=50002 NODE_ENV=testing STORAGE=sqlite SQLITE_DATABASE=dashboard mocha --ignore 'node_modules/**/*' --timeout 90000 --slow 90000 --recursive --extension .test.js .
 
 
@@ -343,26 +343,26 @@
   /account/delete-profile
     before
       ✔ should bind data
-    exceptions
-      ✔ invalid-profileid
-      ✔ invalid-profile
-      ✔ invalid-account
     view
       ✔ should present the form
     submit
       ✔ should delete profile (screenshots)
+    errors
+      ✔ invalid-profileid
+      ✔ invalid-profile
+      ✔ invalid-account
+      ✔ invalid-csrf-token
 
   /account/delete-reset-code
     before
       ✔ should bind data
-    exceptions
-      ✔ invalid-reset-codeid
-      ✔ invalid-account
     view
       ✔ should present the form
     submit
       ✔ should delete reset code (screenshots)
     errors
+      ✔ invalid-reset-codeid
+      ✔ invalid-account
       ✔ invalid-csrf-token
 
   /account/edit-profile
@@ -406,6 +406,8 @@
       ✔ invalid-location
       ✔ invalid-company-name
       ✔ invalid-website
+      ✔ invalid-profileid
+      ✔ invalid-account
       ✔ invalid-xss-input
       ✔ invalid-csrf-token
 
@@ -426,6 +428,9 @@
       ✔ should end the session (screenshots)
       ✔ should end current session
     errors
+      ✔ invalid-sessionid
+      ✔ invalid-session
+      ✔ invalid-account
       ✔ invalid-csrf-token
 
   /account
@@ -440,6 +445,9 @@
     view
       ✔ should present the profile table (screenshots)
       ✔ should show fields if data exists
+    errors
+      ✔ invalid-profileid
+      ✔ invalid-account
 
   /account/profiles
     before
@@ -448,7 +456,6 @@
       ✔ should return one page (screenshots)
       ✔ should change page size
       ✔ should change offset
-      ✔ should show fields if data exists
 
   /account/register
     view
@@ -519,6 +526,9 @@
       ✔ should bind data to req
     view
       ✔ should present the reset code table (screenshots)
+    errors
+      ✔ invalid-reset-codeid
+      ✔ invalid-account
 
   /account/reset-codes
     before
@@ -543,6 +553,9 @@
       ✔ should bind data to req
     view
       ✔ should present the session table (screenshots)
+    errors
+      ✔ invalid-sessionid
+      ✔ invalid-account
 
   /account/sessions
     before
@@ -606,6 +619,8 @@
       ✔ should return one page
       ✔ should change page size
       ✔ should change offset
+    errors
+      ✔ invalid-accountid
 
   /administrator/account-reset-codes
     before
@@ -615,6 +630,8 @@
       ✔ should return one page
       ✔ should change page size
       ✔ should change offset
+    errors
+      ✔ invalid-accountid
 
   /administrator/account-sessions
     before
@@ -624,6 +641,8 @@
       ✔ should return one page
       ✔ should change page size
       ✔ should change offset
+    errors
+      ✔ invalid-accountid
 
   /administrator/account
     before
@@ -634,6 +653,8 @@
       ✔ should present the sessions table
       ✔ should hide empty reset codes table
       ✔ should present a populated reset codes table
+    errors
+      ✔ invalid-accountid
 
   /administrator/accounts
     before
@@ -659,8 +680,11 @@
     view
       ✔ should present the form
     submit
-      ✔ should apply account update (screenshots)
+      ✔ should assign administrator (screenshots)
     errors
+      ✔ invalid-account-deleting
+      ✔ invalid-account-administrator
+      ✔ invalid-accountid
       ✔ invalid-csrf-token
 
   /administrator/create-reset-code
@@ -674,12 +698,11 @@
       ✔ invalid-secret-code (missing)
       ✔ invalid-secret-code is not alphanumeric
       ✔ invalid-secret-code-length
+      ✔ invalid-accountid
       ✔ invalid-xss-input
       ✔ invalid-csrf-token
 
   /administrator/delete-account
-    exceptions
-      ✔ should reject invalid accountid
     before
       ✔ should bind data to req
     view
@@ -687,6 +710,10 @@
     submit
       ✔ should immediately delete (screenshots)
     errors
+      ✔ invalid-account-not-deleting
+      ✔ invalid-owner-account
+      ✔ invalid-administrator-account
+      ✔ invalid-accountid
       ✔ invalid-csrf-token
 
   /administrator/delete-schedule
@@ -708,6 +735,8 @@
     view
       ✔ should present the profile table (screenshots)
       ✔ should show fields if data exists
+    errors
+      ✔ invalid-profileid
 
   /administrator/profiles
     before
@@ -716,13 +745,14 @@
       ✔ should return one page (screenshots)
       ✔ should change page size
       ✔ should change offset
-      ✔ should show fields if data exists
 
   /administrator/reset-code
     before
       ✔ should bind data to req
     view
       ✔ should present the reset code table (screenshots)
+    errors
+      ✔ invalid-codeid
 
   /administrator/reset-codes
     before
@@ -741,6 +771,7 @@
     submit
       ✔ should reset session key (screenshots)
     errors
+      ✔ invalid-accountid
       ✔ invalid-csrf-token
 
   /administrator/revoke-administrator
@@ -750,6 +781,9 @@
       ✔ should present the form
     submit
       ✔ should revoke administrator status (screenshots)
+    errors
+      ✔ invalid-accountid
+      ✔ invalid-account-administrator
 
   /administrator/schedule-account-delete
     before
@@ -759,6 +793,8 @@
     submit
       ✔ should schedule account for deletion (screenshots)
     errors
+      ✔ invalid-accountid
+      ✔ invalid-account
       ✔ invalid-csrf-token
 
   /administrator/session
@@ -766,6 +802,8 @@
       ✔ should bind data to req
     view
       ✔ should present the session table (screenshots)
+    errors
+      ✔ invalid-sessionid
 
   /administrator/sessions
     before
@@ -784,6 +822,10 @@
     submit
       ✔ should change ownership (screenshots)
     errors
+      ✔ invalid-accountid
+      ✔ invalid-account
+      ✔ invalid-account-receiving
+      ✔ invalid-account-receiving
       ✔ invalid-csrf-token
 
   /api/administrator/account
@@ -1521,5 +1563,5 @@
       ✔ override req.userProfileFields
 
 
-  849 passing (31m)
+  882 passing (29m)
 
