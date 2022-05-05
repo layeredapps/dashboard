@@ -73,7 +73,7 @@ function mergeSpecialHTML (baseJSON, moduleName) {
   const files = ['error.html', 'redirect.html', 'template.html']
   if (!moduleName) {
     for (const file of files) {
-      const rootFilePath = `${global.applicationPath}/${file}`
+      const rootFilePath = path.join(global.applicationPath, file)
       if (fs.existsSync(rootFilePath)) {
         const key = file.replace('.html', 'HTML')
         baseJSON.dashboard[`${key}Path`] = rootFilePath
@@ -85,7 +85,7 @@ function mergeSpecialHTML (baseJSON, moduleName) {
   for (const file of files) {
     let filePath
     try {
-      filePath = require.resolve(`${moduleName}/${file}`)
+      filePath = require.resolve(path.join(moduleName, file))
     } catch (error) {
     }
     if (filePath) {
@@ -98,11 +98,11 @@ function mergeSpecialHTML (baseJSON, moduleName) {
 
 function mergeHTMLFileMenuLinks (baseJSON, moduleName) {
   if (!moduleName) {
-    const rootAccountMenuHTMLPath = `${global.applicationPath}/menu-account.html`
+    const rootAccountMenuHTMLPath = path.join(global.applicationPath, 'menu-account.html')
     if (fs.existsSync(rootAccountMenuHTMLPath)) {
       baseJSON.dashboard.menus.account.push(fs.readFileSync(rootAccountMenuHTMLPath).toString())
     }
-    const rootAdministratorMenuHTMLPath = `${global.applicationPath}/menu-administrator.html`
+    const rootAdministratorMenuHTMLPath = path.join(global.applicationPath, 'menu-administrator.html')
     if (fs.existsSync(rootAdministratorMenuHTMLPath)) {
       baseJSON.dashboard.menus.administrator.push(fs.readFileSync(rootAdministratorMenuHTMLPath).toString())
     }
@@ -110,7 +110,7 @@ function mergeHTMLFileMenuLinks (baseJSON, moduleName) {
   }
   let moduleAccountMenuHTMLPath
   try {
-    moduleAccountMenuHTMLPath = require.resolve(`${moduleName}/menu-account.html`)
+    moduleAccountMenuHTMLPath = require.resolve(path.join(moduleName, 'menu-account.html'))
   } catch (error) {
   }
   if (moduleAccountMenuHTMLPath) {
@@ -118,7 +118,7 @@ function mergeHTMLFileMenuLinks (baseJSON, moduleName) {
   }
   let moduleAdministratorMenuHTMLPath
   try {
-    moduleAdministratorMenuHTMLPath = require.resolve(`${moduleName}/menu-administrator.html`)
+    moduleAdministratorMenuHTMLPath = require.resolve(path.join(moduleName, 'menu-administrator.html'))
   } catch (error) {
   }
   if (moduleAdministratorMenuHTMLPath) {
@@ -131,13 +131,14 @@ function mergeScriptArray (baseJSON, otherJSON, scriptType) {
     return
   }
   for (const i in otherJSON.dashboard[scriptType]) {
-    const relativePath = otherJSON.dashboard[scriptType][i]
-    let absolutePath
-    try {
-      absolutePath = require.resolve(relativePath)
-    } catch (error) {
-      Log.error('could not find script', relativePath)
-      throw new Error('invalid-' + scriptType + '-script')
+    let absolutePath = path.join(global.applicationPath, otherJSON.dashboard[scriptType][i])
+    if (!fs.existsSync(absolutePath)) {
+      try {
+        absolutePath = require.resolve(otherJSON.dashboard[scriptType][i])
+      } catch (error) {
+        Log.error('could not find script', otherJSON.dashboard[scriptType][i])
+        throw new Error('invalid-' + scriptType + '-script')
+      }
     }
     if (baseJSON.dashboard[`${scriptType}FilePaths`].indexOf(absolutePath) > -1) {
       continue
@@ -167,7 +168,7 @@ function mergeModuleArray (baseJSON, otherJSON) {
     if (baseJSON.dashboard.modules.indexOf(moduleName) > -1) {
       continue
     }
-    const moduleJSON = loadModuleFile(moduleName, '/package.json')
+    const moduleJSON = loadModuleFile(moduleName, 'package.json')
     if (!moduleJSON) {
       Log.error('could not find module', moduleName)
       throw new Error('invalid-module')
@@ -187,7 +188,7 @@ function mergeModuleArray (baseJSON, otherJSON) {
 }
 
 function loadApplicationJSON () {
-  const filePath = path.join(global.applicationPath, '/package.json')
+  const filePath = path.join(global.applicationPath, 'package.json')
   if (fs.existsSync(filePath)) {
     return JSON.parse(fs.readFileSync(filePath))
   }
@@ -206,7 +207,7 @@ function loadModule (moduleName) {
   if (modulePath) {
     return require(modulePath)
   }
-  const rootPath = path.join(global.applicationPath, `/node_modules/${moduleName}`)
+  const rootPath = path.join(global.applicationPath, 'node_modules',moduleName)
   if (fs.existsSync(rootPath)) {
     return require(rootPath)
   }
@@ -226,7 +227,7 @@ function loadModuleFile (moduleName, file) {
   } catch (error) {
   }
   if (modulePath) {
-    const filePath = modulePath.replace('/index.js', file)
+    const filePath = path.join(modulePath.replace('index.js',''), file)
     if (file.endsWith('.js') || file.endsWith('.json')) {
       return require(filePath)
     }
