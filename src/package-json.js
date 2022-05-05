@@ -207,7 +207,7 @@ function loadModule (moduleName) {
   if (modulePath) {
     return require(modulePath)
   }
-  const rootPath = path.join(global.applicationPath, 'node_modules',moduleName)
+  const rootPath = path.join(global.applicationPath, 'node_modules', moduleName)
   if (fs.existsSync(rootPath)) {
     return require(rootPath)
   }
@@ -227,7 +227,7 @@ function loadModuleFile (moduleName, file) {
   } catch (error) {
   }
   if (modulePath) {
-    const filePath = path.join(modulePath.replace('index.js',''), file)
+    const filePath = path.join(modulePath.replace('index.js', ''), file)
     if (file.endsWith('.js') || file.endsWith('.json')) {
       return require(filePath)
     }
