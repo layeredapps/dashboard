@@ -28,11 +28,11 @@ input, select, textarea, a, button, div { outline: 0 }
 .template .menu-group-active .menu-trigger,
 .template .menu-group:hover .menu-trigger,
 .template .menu-group:focus .menu-trigger,
-.template .menu-trigger:focus { height: 3rem; line-height: 3rem; background-color: var(--template-focus-color) }
-.template .dropdown-menu { padding: 0.5rem 0.5rem 0.5rem 4rem; position: absolute; border-radius: 0.5rem; border-top-right-radius: 0; background-color: var(--template-focus-color); box-shadow: 0 0.25rem 0.25rem var(--template-shadow-color); text-align: right; z-index: 1; top: 3rem; right: 0; display: none }
-.template .menu-link { white-space: nowrap; line-height: 2rem; padding: 0 1rem; margin-bottom: 0.5rem; white-space: nowrap; font-size: 0.8rem; color: var(--template-text-color); display: block; text-decoration: none }
+.template .menu-trigger:focus { height: 3rem; line-height: 3rem; background-color: var(--template-menu-background-color) }
+.template .dropdown-menu { padding: 0.5rem 0.5rem 0.5rem 4rem; position: absolute; border-radius: 0.5rem; border-top-right-radius: 0; background-color: var(--template-menu-background-color); box-shadow: 0 0.25rem 0.25rem var(--template-shadow-color); text-align: right; z-index: 1; top: 3rem; right: 0; display: none }
+.template .menu-link { white-space: nowrap; line-height: 2rem; padding: 0 1rem; margin-bottom: 0.5rem; white-space: nowrap; font-size: 0.8rem; color: var(--template-menu-link-text-color); display: block; text-decoration: none }
 .template .menu-link:hover,
-.template .menu-link:focus { background-color: var(--template-highlight-focus-color); color: var(--template-background-color); border-radius: 0.5rem }
+.template .menu-link:focus { background-color: var(--template-menu-background-focus-color); color: var(--template-menu-link-color); border-radius: 0.5rem }
 .template .menu-link.current-page { color: var(--template-text-color) }
 .template .menu-group .menu-link:last-of-type { margin-bottom: 0 }
 
@@ -87,6 +87,8 @@ input, select, textarea, a, button, div { outline: 0 }
   --template-background-color: #2F365F;
   --template-text-color: #F7F1ED;
   --template-focus-color: #1E90FF;
+  --template-menu-background-color: #1E90FF;
+  --template-menu-link-text-color: #F7F1ED;
   --template-darkest-color: #121527;
   --template-highlight-focus-color: rgba(255, 255, 255, 0.5);
   --template-shadow-color: rgba(0, 0, 0, 0.25);
