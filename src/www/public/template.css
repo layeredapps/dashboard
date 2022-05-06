@@ -29,7 +29,7 @@ input, select, textarea, a, button, div { outline: 0 }
 .template .menu-group:hover .menu-trigger,
 .template .menu-group:focus .menu-trigger,
 .template .menu-trigger:focus { height: 3rem; line-height: 3rem; background-color: var(--template-menu-background-color); box-shadow: 0 0.25rem 0.25rem var(--template-shadow-color) }
-.template .dropdown-menu { padding: 0.5rem 0.5rem 0.5rem 4rem; position: absolute; border-radius: 0.5rem; border-top-right-radius: 0; background-color: var(--template-menu-background-color); box-shadow: 0 0.25rem 0.25rem var(--template-shadow-color); text-align: right; z-index: 1; top: 3rem; right: 0; display: none }
+.template .dropdown-menu { padding: 0.5rem 0.5rem 0.5rem 4rem; position: absolute; border-radius: 0.5rem; border-top-right-radius: 0; background-color: var(--template-menu-background-color); box-shadow: 0 0.25rem 0.25rem var(--template-shadow-color); text-align: right; z-index: 99999; top: 3rem; right: 0; display: none }
 .template .menu-link { white-space: nowrap; line-height: 2rem; padding: 0 1rem; margin-bottom: 0.5rem; white-space: nowrap; font-size: 0.8rem; color: var(--template-menu-link-text-color); display: block; text-decoration: none }
 .template .menu-link:hover,
 .template .menu-link:focus { background-color: var(--template-menu-link-hover-background-color); color: var(--template-menu-link-color); border-radius: 0.5rem }
@@ -47,13 +47,13 @@ input, select, textarea, a, button, div { outline: 0 }
 .template .navigation-link span { height: 2rem; display: block }
 .template .navigation-link img { filter: invert(1); margin: 0.5rem; height: 1rem; width: 1rem }
 .template .navigation-link.current-page { color: var(--template-navigation-current-page-link-text-color); background-color: var(--template-navigation-current-page-link-background-color); border-radius: 0.5rem }
-.template .spillage { flex-direction: column; height: 3rem; padding: 0 0.5rem; cursor: pointer; overflow: hidden }
+.template .spillage { flex-direction: column; height: 3rem; padding: 0 0.5rem; margin-right: 0.5rem; cursor: pointer; overflow: hidden }
 .template .spillage-active,
 .template .spillage:hover,
-.template .spillage:focus { background-color: var(--template-spillage-menu-background-color); border-top-left-radius: 0.5rem } 
-.template .spillage-trigger { cursor: pointer; height: 2rem; color: inherit; border: none; background-color: transparent; padding: 0 0.5rem; margin: 0; border-radius: 0.5rem }
+.template .spillage:focus { background-color: var(--template-spillage-menu-background-color); border-radius: 0.5rem 0.5rem 0 0 } 
+.template .spillage-trigger { cursor: pointer; height: 2rem; color: inherit; border: none; background-color: transparent; padding: 0; margin: 0; border-radius: 0.5rem }
 .template .spillage-trigger:focus { background-color: var(--template-spillage-menu-background-color) }
-.template .spillage-links { display: none; background-color: var(--template-spillage-menu-background-color); position: absolute; top: 2.5rem; right: 0; padding: 0.5rem 0.5rem 0.5rem 4rem; text-align: right; border-bottom-left-radius: 0.5rem }
+.template .spillage-links { display: none; background-color: var(--template-spillage-menu-background-color); position: absolute; z-index: 99998; top: 2rem; right: 0.5rem; padding: 0.5rem 0.5rem 0.5rem 4rem; text-align: right; border-radius: 0.5rem 0 0.5rem 0.5rem }
 .template .spillage-icon { width: 1rem; filter: invert(1) }
 .template .spillage-link { line-height: 2rem; font-size: 0.8rem; display: block; margin-bottom: 0.5rem; padding: 0 0.5rem; color: var(--template-spillage-menu-link-text-color) }
 .template .spillage-link:hover,
@@ -77,7 +77,7 @@ input, select, textarea, a, button, div { outline: 0 }
   .template .navigation-link { height: 2rem; margin-left: 0.5rem; margin-right: 0.5rem }
   .template .navigation-link:first-of-type { padding-left: 0.5rem; margin-right: 0 }
   .template .spillage { height: 2.5rem }
-  .template .spillage-links { top: 2.5rem }
+  /* .template .spillage-links { top: 1.5rem } */
   .template .spillage-links a { font-size: 0.8rem }
   .template .navigation-links span { display: none }
   .template .spillage img { padding-right: 0 }

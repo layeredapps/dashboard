@@ -52,6 +52,40 @@ window.addEventListener('load', () => {
   if (spillageMenuContainer) {
     spillageMenuContainer.addEventListener('click', toggleSpillage)
     spillageMenuContainer.addEventListener('hover', toggleSpillage)
+    const navigation = document.querySelector('#navigation')
+    const navigationLinks = Array.from(navigation.getElementsByClassName('navigation-link'))
+    const spillageLinks = Array.from(spillageMenuContainer.getElementsByClassName('spillage-link'))
+    const totalWidth = navigation.lastChild.offsetLeft + navigation.lastChild.offsetWidth
+    function isInViewport (element) {
+  }
+    function toggleSpillageVisibility () {
+      const screenWidth = window.innerWidth || document.documentElement.clientWidth
+      if (totalWidth < screenWidth) {
+        if (spillageMenuContainer.style.display !== 'none') {
+          spillageMenuContainer.style.display = 'none'
+        }
+      } else {
+        if (spillageMenuContainer.style.display !== 'block') {
+          spillageMenuContainer.style.display = 'block'
+          const threshold = (window.innerWidth || document.documentElement.clientWidth) - spillageMenuContainer.offsetWidth
+          for (const i in navigationLinks) {
+            const navigationLink = navigationLinks[i]
+            const spillageLink = spillageLinks[i]
+            const bounds = navigationLink.getBoundingClientRect()
+            if (bounds.right <= threshold) {
+              spillageLink.style.display = 'none'
+              navigationLink.style.visibility = ''
+            } else {
+              spillageLink.style.display = 'block'
+              navigationLink.style.visibility = 'hidden'
+            }
+          }
+        }
+      }
+    }
+    toggleSpillageVisibility()
+    window.addEventListener('resize', toggleSpillageVisibility)
+    window.addEventListener('orientationchange', toggleSpillageVisibility)
   }
 })
 
