@@ -50,14 +50,14 @@ input, select, textarea, a, button, div { outline: 0 }
 .template .spillage { flex-direction: column; height: 3rem; padding: 0 0.5rem; cursor: pointer; overflow: hidden }
 .template .spillage-active,
 .template .spillage:hover,
-.template .spillage:focus { background-color: var(--template-darkest-color); border-top-left-radius: 0.5rem } 
+.template .spillage:focus { background-color: var(--template-spillage-menu-background-color); border-top-left-radius: 0.5rem } 
 .template .spillage-trigger { cursor: pointer; height: 2rem; color: inherit; border: none; background-color: transparent; padding: 0 0.5rem; margin: 0; border-radius: 0.5rem }
-.template .spillage-trigger:focus { background-color: var(--template-focus-color) }
-.template .spillage-links { display: none; background-color: var(--template-darkest-color); position: absolute; top: 2.5rem; right: 0; padding: 0.5rem 0.5rem 0.5rem 4rem; text-align: right; border-bottom-left-radius: 0.5rem }
+.template .spillage-trigger:focus { background-color: var(--template-spillage-menu-background-color) }
+.template .spillage-links { display: none; background-color: var(--template-spillage-menu-background-color); position: absolute; top: 2.5rem; right: 0; padding: 0.5rem 0.5rem 0.5rem 4rem; text-align: right; border-bottom-left-radius: 0.5rem }
 .template .spillage-icon { width: 1rem; filter: invert(1) }
-.template .spillage-link { line-height: 2rem; font-size: 0.8rem; display: block; margin-bottom: 0.5rem; padding: 0 0.5rem; color: var(--template-text-color) }
+.template .spillage-link { line-height: 2rem; font-size: 0.8rem; display: block; margin-bottom: 0.5rem; padding: 0 0.5rem; color: var(--template-spillage-menu-link-text-color) }
 .template .spillage-link:hover,
-.template .spillage-link:focus { background-color: var(--template-focus-color); border-radius: 0.5rem; color: var(--template-text-color) }
+.template .spillage-link:focus { background-color: var(--template-spillage-menu-link-hover-background-color); border-radius: 0.5rem; color: var(--template-spillage-menu-link-hover-color) }
 .template .spillage-links .spillage-link:last-of-type { margin-bottom: 0 }
 .template .spillage-active .spillage-links,
 .template .spillage:hover .spillage-links,
@@ -92,12 +92,16 @@ input, select, textarea, a, button, div { outline: 0 }
   --template-menu-link-hover-background-color: rgba(255, 255, 255, 0.5);
   --template-menu-current-page-link-text-color: #F7F1ED;
   --template-menu-current-page-link-background-color: transparent;
-  --template-darkest-color: #121527;
-  --template-highlight-focus-color: rgba(255, 255, 255, 0.5);
-  --template-shadow-color: rgba(0, 0, 0, 0.25);
   --template-navigation-link-focus-color: rgba(255, 255, 255, 0.25);
   --template-navigation-current-page-link-text-color: #F7F1ED;
   --template-navigation-current-page-link-background-color: rgba(255, 255, 255, 0.125);
+  --template-spillage-menu-background-color: #121527;
+  --template-spillage-menu-link-text-color: #F7F1ED;
+  --template-spillage-menu-link-hover-text-color: #F7F1ED;
+  --template-spillage-menu-link-hover-background-color: rgba(255, 255, 255, 0.5);
+  --template-darkest-color: #121527;
+  --template-highlight-focus-color: rgba(255, 255, 255, 0.5);
+  --template-shadow-color: rgba(0, 0, 0, 0.25);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -110,11 +114,15 @@ input, select, textarea, a, button, div { outline: 0 }
     --template-menu-link-hover-background-color: rgba(255, 255, 255, 0.25);
     --template-menu-current-page-link-text-color: rgba(247, 241, 237, 0.75);
     --template-menu-current-page-link-background-color: transparent;
-    --template-darkest-color: #2F365F;
-    --template-highlight-focus-color: rgba(255, 255, 255, 0.25);
-    --template-shadow-color: #000;
+    --template-spillage-menu-background-color: #2F365F;
+    --template-spillage-menu-link-text-color: #F7F1ED;
+    --template-spillage-menu-link-hover-text-color: #F7F1ED;
+    --template-spillage-menu-link-hover-background-color: rgba(255, 255, 255, 0.25);
     --template-navigation-link-focus-color: rgba(255, 255, 255, 0.25);
     --template-navigation-current-page-link-text-color: rgba(247, 241, 237, 0.75);
     --template-navigation-current-page-link-background-color: rgba(255, 255, 255, 0.125);
+    --template-darkest-color: #2F365F;
+    --template-highlight-focus-color: rgba(255, 255, 255, 0.25);
+    --template-shadow-color: #000;
   }
 }
