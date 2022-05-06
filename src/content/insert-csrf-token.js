@@ -6,7 +6,7 @@ module.exports = {
 }
 
 function insertCSRFToken (req, _, doc) {
-  if (!req.route.api.post || !req.account) {
+  if (!req.route || !req.route.api || !req.route.api.post || !req.account) {
     return
   }
   const inputs = doc.getElementsByTagName('input')
