@@ -8,16 +8,18 @@ module.exports = {
 function renderPage (req, res, messageTemplate) {
   messageTemplate = messageTemplate || (req.query ? req.query.message : null)
   const doc = dashboard.HTML.parse(req.html || req.route.html)
+  if (messageTemplate) {
+    dashboard.HTML.renderTemplate(doc, null, messageTemplate, 'message-container')
+    if (req.removeContents || messageTemplate === 'success') {
+      const submitForm = doc.getElementById('submit-form')
+      submitForm.parentNode.removeChild(element)
+    }
+    return dashboard.Response.end(req, res, doc)
+  }
   const removeFields = [].concat(global.profileFields)
   const profileFields = req.userProfileFields || global.userProfileFields
   for (const field of profileFields) {
     removeFields.splice(removeFields.indexOf(field), 1)
-  }
-  if (messageTemplate) {
-    dashboard.HTML.renderTemplate(doc, null, messageTemplate, 'message-container')
-    if (req.removeContents || messageTemplate === 'success') {
-      removeFields.push('submit-form')
-    }
   }
   for (const id of removeFields) {
     const element = doc.getElementById(`${id}-container`)
