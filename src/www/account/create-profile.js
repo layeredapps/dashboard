@@ -12,7 +12,7 @@ function renderPage (req, res, messageTemplate) {
     dashboard.HTML.renderTemplate(doc, null, messageTemplate, 'message-container')
     if (req.removeContents || messageTemplate === 'success') {
       const submitForm = doc.getElementById('submit-form')
-      submitForm.parentNode.removeChild(element)
+      submitForm.parentNode.removeChild(submitForm)
     }
     return dashboard.Response.end(req, res, doc)
   }
