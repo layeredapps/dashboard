@@ -75,7 +75,7 @@ input, select, textarea, a, button, div { outline: 0 }
 .field select,
 .field input[type=number],
 .field input[type=text],
-.field input[type=password] { box-sizing: border-box; width: 12rem; padding: 0.5rem; border-radius: 0.25rem; border: none; background-color: var(--content-input-background-color); color: var(--content-input-text-color); margin-right: 1rem }
+.field input[type=password] { box-sizing: border-box; width: 12rem; padding: 0.5rem; border-radius: 0.25rem; border: 1px solid var(--content-input-border-color); background-color: var(--content-input-background-color); color: var(--content-input-text-color); margin-right: 1rem }
 .field select:last-of-type,
 .field input[type=number]:last-of-type,
 .field input[type=text]:last-of-type,
@@ -87,7 +87,7 @@ input, select, textarea, a, button, div { outline: 0 }
 .field input[type=text]:active,
 .field input[type=text]:focus,
 .field input[type=password]:active,
-.field input[type=password]:focus { border-color: var(--content-focus-color) }
+.field input[type=password]:focus { border-color: var(--content-input-focus-border-color); background-color: var(--content-input-focus-background-color); color: var(--content-input-focus-text-color) }
 .field select { max-width: 100% }
 
 /* administrator charts */
@@ -192,7 +192,11 @@ body.entry { background-color: var(--entry-form-background-color); display: flex
   --content-disabled-color: #666;
   --content-highlight-focus-color: rgba(255, 255, 255, 0.5);
   --content-input-text-color: #2F365F;
+  --content-input-border-color: rgba(0, 0, 0, 0.125);
   --content-input-background-color: rgba(0, 0, 0, 0.125);
+  --content-input-focus-border-color: #FFF;
+  --content-input-focus-text-color: #2F365F;
+  --content-input-focus-background-color: #FFF;
   --content-shadow-color: rgba(0, 0, 0, 0.25);
   --content-th-text-color: #F7F1ED;
   --content-th-background-color: #2F365F;
@@ -238,11 +242,15 @@ body.entry { background-color: var(--entry-form-background-color); display: flex
     --content-background-color: #11111b;
     --content-text-color: rgba(247, 241, 237, 0.75);
     --content-link-color: #7d9fc1;
-    --content-focus-color: #1665b4;
+    --content-focus-color: rgba(255, 255, 255, 0.5);
     --content-darkest-color: #2F365F;
     --content-highlight-focus-color: rgba(255, 255, 255, 0.25);
     --content-input-text-color: #F7F1ED;
-    --content-input-background-color: rgba(255, 255, 255, 0.25);
+    --content-input-border-color: #11111b;
+    --content-input-background-color: rgba(255, 255, 255, 0.125);
+    --content-input-focus-border-color: #11111b;
+    --content-input-focus-text-color: #F7F1ED;
+    --content-input-focus-background-color: rgba(255, 255, 255, 0.125);
     --content-shadow-color: #000;
     --content-th-text-color: #F7F1ED;
     --content-th-background-color: #2a2a2a;
