@@ -56,8 +56,6 @@ window.addEventListener('load', () => {
     const navigationLinks = Array.from(navigation.getElementsByClassName('navigation-link'))
     const spillageLinks = Array.from(spillageMenuContainer.getElementsByClassName('spillage-link'))
     const totalWidth = navigation.lastChild.offsetLeft + navigation.lastChild.offsetWidth
-    function isInViewport (element) {
-  }
     function toggleSpillageVisibility () {
       const screenWidth = window.innerWidth || document.documentElement.clientWidth
       if (totalWidth < screenWidth) {
