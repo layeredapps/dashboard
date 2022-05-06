@@ -103,11 +103,11 @@ const dashboard = module.exports = {
     global.packageJSON.dashboard.contentFilePaths.push(require.resolve('./src/content/set-form-return-url.js'))
     global.packageJSON.dashboard.content.push(require('./src/content/set-form-return-url.js'))
     if (process.env.HOT_RELOAD) {
-      global.packageJSON.dashboard.server.serverFilePaths.push(
+      global.packageJSON.dashboard.serverFilePaths.push(
         require.resolve('./src/server/always-reload-files.js'),
         require.resolve('./src/server/always-reload-routes.js')
       )
-      global.packageJSON.dashboard.server.server.push(
+      global.packageJSON.dashboard.server.push(
         require('./src/server/always-reload-files.js'),
         require('./src/server/always-reload-routes.js'))
     }
