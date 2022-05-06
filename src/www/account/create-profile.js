@@ -15,15 +15,12 @@ function renderPage (req, res, messageTemplate) {
   }
   if (messageTemplate) {
     dashboard.HTML.renderTemplate(doc, null, messageTemplate, 'message-container')
-    if (req.removeContents) {
+    if (req.removeContents || messageTemplate === 'success') {
       removeFields.push('submit-form')
     }
   }
   for (const id of removeFields) {
     const element = doc.getElementById(`${id}-container`)
-    if (!element || !element.parentNode) {
-      continue
-    }
     element.parentNode.removeChild(element)
   }
   return dashboard.Response.end(req, res, doc)

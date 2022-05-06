@@ -13,6 +13,15 @@ async function beforeRequest (req) {
     req.removeContents = true
     return
   }
+  if (req.query.message === 'success') {
+    req.data = {
+      account: {
+        accountid: req.query.accountid
+      }
+    }
+    req.removeContents = true
+    return
+  }
   let account
   try {
     account = await global.api.administrator.Account.get(req)

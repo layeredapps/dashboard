@@ -12,6 +12,11 @@ function renderPage (req, res, messageTemplate) {
   navbar.setup(doc)
   if (messageTemplate) {
     dashboard.HTML.renderTemplate(doc, null, messageTemplate, 'message-container')
+    if (req.removeContents || messageTemplate === 'success') {
+      const submitForm = doc.getElementById('submit-form')
+      submitForm.parentNode.removeChild(submitForm)
+      return dashboard.Response.end(req, res, doc)
+    }
   }
   return dashboard.Response.end(req, res, doc)
 }

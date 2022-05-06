@@ -9,12 +9,13 @@ module.exports = {
 function renderPage (req, res, messageTemplate) {
   messageTemplate = messageTemplate || (req.query ? req.query.message : null)
   const doc = dashboard.HTML.parse(req.html || req.route.html)
-  if (req.removeContents) {
-    dashboard.HTML.renderTemplate(doc, null, messageTemplate, 'message-container')
-    return dashboard.Response.end(req, res, doc)
-  }
   if (messageTemplate) {
     dashboard.HTML.renderTemplate(doc, null, messageTemplate, 'message-container')
+    if (req.removeContents || messageTemplate === 'success') {
+      const submitForm = doc.getElementById('submit-form')
+      submitForm.parentNode.removeChild(submitForm)
+      return dashboard.Response.end(req, res, doc)
+    }
   }
   const note = {
     object: 'note',
