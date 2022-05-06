@@ -137,7 +137,7 @@ body.entry { background-color: var(--entry-form-background-color); display: flex
 .entry-form .input-fields { display: block; text-align: left }
 .entry-form .field input[type="text"], 
 .entry-form .field input[type="password"],
-.entry-form .field input[type="email"]{ width: 100%; background-color: var(--content-light-contrast-background); color: var(--entry-form-text-color); font-size: 1rem }
+.entry-form .field input[type="email"]{ width: 100%; background-color: var(--entry-form-input-background-color); color: var(--entry-form-input-text-color); font-size: 1rem }
 .entry-form .field-label { display: inline-block; text-transform: uppercase; font-size: 0.75rem; color: var(--entry-form-text-color); margin-bottom: 0.5rem }
 .entry-form .field-label span { border: none; background-color: transparent; margin-left: 0.5rem }
 .entry-form .form-buttons { text-align: left }
@@ -222,6 +222,8 @@ body.entry { background-color: var(--entry-form-background-color); display: flex
   --entry-form-error-color: #CCC;
   --entry-form-background-color: #2F365F;
   --entry-form-text-color: #F7F1ED;
+  --entry-form-input-text-color: #F7F1ED;
+  --entry-form-input-background-color: rgba(0, 0, 0, 0.5);
   --entry-form-button-background-color: #121527;
   --entry-form-button-border-color: #121527;
   --entry-form-button-text-color: #F7F1ED;
@@ -270,6 +272,8 @@ body.entry { background-color: var(--entry-form-background-color); display: flex
     --entry-form-background-color: #11111b;
     --entry-form-border-color: #11111b;
     --entry-form-text-color: #F7F1ED;
+    --entry-form-input-text-color: #2F365F;
+    --entry-form-input-background-color: rgba(255, 255, 255, 0.5);
     --entry-form-button-background-color: #2F365F;
     --entry-form-button-border-color: #2F365F;
     --entry-form-button-text-color: #F7F1ED;
