@@ -17,14 +17,14 @@ input, select, textarea, a, button, div { outline: 0 }
 .template .menu-group { display: inline-block; position: relative; margin: 0; padding: 0; cursor: pointer; font-size: 0.8rem; color: inherit }
 .template .menu-icon { filter: invert(1); height: 2rem; width: 2rem; opacity: 0.75; margin: 0.5rem; }
 .template .menu-group-label { height: 3rem; line-height: 3rem; padding: 0 0 0 1rem } 
-.template .menu-trigger { display: flex; height: 4rem; line-height: 4rem; cursor: pointer; color: inherit; border: none; background-color: transparent; padding: 0; margin: 0; border-radius: 0.5rem }
+.template .menu-trigger { display: flex; height: 3rem; line-height: 3rem; cursor: pointer; color: inherit; border: none; background-color: transparent; padding: 0; margin: 0; border-radius: 0.5rem }
 .template .menus .menu-group:first-of-type { padding-left: 0 }
 .template .menu-group-active .dropdown-menu,
 .template .menu-group:hover .dropdown-menu,
 .template .menu-group:focus .dropdown-menu { display: block }
 .template .menu-group-active .menu-trigger,
 .template .menu-group:hover .menu-trigger,
-.template .menu-group:focus .menu-trigger { border-radius: 0.5rem 0.5rem 0 0 } 
+.template .menu-group:focus .menu-trigger { border-radius: 0.5rem 0.5rem 0 0; height: 4rem; line-height: 4rem } 
 .template .menu-group-active .menu-trigger,
 .template .menu-group:hover .menu-trigger,
 .template .menu-group:focus .menu-trigger,
