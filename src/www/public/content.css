@@ -55,10 +55,10 @@ input, select, textarea, a, button, div { outline: 0 }
 /* pagination links */
 .pagination { list-style-type: none; margin: 1rem 0 }
 .pagination li { display: inline-block; margin: 0.25rem 0.25rem 0 }
-.pagination a { border: 1px solid var(--content-light-contrast-background); display: inline-block; padding: 0.25rem 0.5rem; font-size: 0.9rem; text-decoration: none }
+.pagination a { border: 1px solid var(--content-link-color); display: inline-block; padding: 0.25rem 0.5rem; font-size: 0.9rem; text-decoration: none }
 .pagination a:hover { background-color: var(--content-text-color); color: var(--content-background-color) }
 .pagination a.current-page { color: var(--content-text-color); border-color: var(--content-text-color) } 
-.pagination span { pointer-events: none; display: inline-block; margin-left: 0.25rem; padding: 0 0.5rem; color: var(--content-light-contrast-background) }
+.pagination span { pointer-events: none; display: inline-block; margin-left: 0.25rem; padding: 0 0.5rem; color: var(--content-link-color) }
 
 /* form fields */
 .input-fields { margin: 0 0 2rem 0; border: none; display: grid; grid-template-columns: 1fr 3fr; max-width: 60rem }
@@ -75,7 +75,7 @@ input, select, textarea, a, button, div { outline: 0 }
 .field select,
 .field input[type=number],
 .field input[type=text],
-.field input[type=password] { box-sizing: border-box; width: 12rem; padding: 0.5rem; border-radius: 0.25rem; border: none; background-color: var(--content-light-contrast-background); color: var(--content-text-color); margin-right: 1rem }
+.field input[type=password] { box-sizing: border-box; width: 12rem; padding: 0.5rem; border-radius: 0.25rem; border: none; background-color: var(--content-input-background-color); color: var(--content-input-text-color); margin-right: 1rem }
 .field select:last-of-type,
 .field input[type=number]:last-of-type,
 .field input[type=text]:last-of-type,
@@ -191,7 +191,8 @@ body.entry { background-color: var(--entry-form-background-color); display: flex
   --content-darkest-color: #121527;
   --content-disabled-color: #666;
   --content-highlight-focus-color: rgba(255, 255, 255, 0.5);
-  --content-light-contrast-background: rgba(0, 0, 0, 0.125);
+  --content-input-text-color: #2F365F;
+  --content-input-background-color: rgba(0, 0, 0, 0.125);
   --content-shadow-color: rgba(0, 0, 0, 0.25);
   --content-th-text-color: #F7F1ED;
   --content-th-background-color: #2F365F;
@@ -240,7 +241,8 @@ body.entry { background-color: var(--entry-form-background-color); display: flex
     --content-focus-color: #1665b4;
     --content-darkest-color: #2F365F;
     --content-highlight-focus-color: rgba(255, 255, 255, 0.25);
-    --content-light-contrast-background: rgba(255, 255, 255, 0.25);
+    --content-input-text-color: #F7F1ED;
+    --content-input-background-color: rgba(255, 255, 255, 0.25);
     --content-shadow-color: #000;
     --content-th-text-color: #F7F1ED;
     --content-th-background-color: #2a2a2a;
