@@ -53,8 +53,14 @@ window.addEventListener('load', () => {
     spillageMenuContainer.addEventListener('click', toggleSpillage)
     spillageMenuContainer.addEventListener('hover', toggleSpillage)
     const navigation = document.querySelector('#navigation')
+    if (!navigation) {
+      return
+    }
     const navigationLinks = Array.from(navigation.getElementsByClassName('navigation-link'))
     const spillageLinks = Array.from(spillageMenuContainer.getElementsByClassName('spillage-link'))
+    if(!navigationLinks.length) {
+      return
+    }
     const totalWidth = navigation.lastChild.offsetLeft + navigation.lastChild.offsetWidth
     function toggleSpillageVisibility () {
       const screenWidth = window.innerWidth || document.documentElement.clientWidth
