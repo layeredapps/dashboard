@@ -58,7 +58,7 @@ window.addEventListener('load', () => {
     }
     const navigationLinks = Array.from(navigation.getElementsByClassName('navigation-link'))
     const spillageLinks = Array.from(spillageMenuContainer.getElementsByClassName('spillage-link'))
-    if(!navigationLinks.length) {
+    if (!navigationLinks.length) {
       return
     }
     const totalWidth = navigation.lastChild.offsetLeft + navigation.lastChild.offsetWidth
