@@ -1,5 +1,5 @@
 
-> @layeredapps/dashboard@0.0.88 test
+> @layeredapps/dashboard@0.0.106 test
 > PORT=50002 NODE_ENV=testing STORAGE=sqlite SQLITE_DATABASE=dashboard mocha --ignore 'node_modules/**/*' --timeout 90000 --slow 90000 --recursive --extension .test.js .
 
 
@@ -12,6 +12,9 @@
     DASHBOARD_SERVER
       URL of dashboard server
         ✔ Address
+    DASHBOARD_SESSION_KEY
+      An application-level secret for user session tokens
+        ✔ String
     DOMAIN
       Domain of server
         ✔ default unset
@@ -95,6 +98,12 @@
       ✔ should remap urls to object
       ✔ should capitalize the last segment
       ✔ should capitalize hyphenated last segment
+
+  content/insert-csrf-token
+    page
+      ✔ should add CSRF token to input[name=csrf-token]
+    template
+      ✔ should add CSRF token to input[name=csrf-token]
 
   internal-api/format
     Format#parseDate
@@ -1563,5 +1572,5 @@
       ✔ override req.userProfileFields
 
 
-  882 passing (29m)
+  885 passing (21m)
 
