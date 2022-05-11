@@ -355,7 +355,7 @@ By default usage metrics will be stored in your Dashboard database.  You can spe
 You can optionally use Redis as a cache, this is good for any storage on slow disks.
 
     $ STORAGE_METRICS=redis \
-      METRICS_REDIS_URL=redis:/.... \
+      STORAGE_METRICS_REDIS_URL=redis:/.... \
       node main.js
 
 You can specify a single Redis server for both caching and metrics:

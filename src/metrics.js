@@ -9,7 +9,7 @@ module.exports = {
       Log.info('starting redis connection')
       const Redis = require('redis')
       const configuration = {
-        url: process.env.METRICS_REDIS_URL || process.env.REDIS_URL || 'redis://127.0.0.1:6379'
+        url: process.env.STORAGE_METRICS_REDIS_URL || process.env.REDIS_URL || 'redis://127.0.0.1:6379'
       }
       client = Redis.createClient(configuration)
       client.on('error', (error) => {
