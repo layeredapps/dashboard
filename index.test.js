@@ -3,6 +3,7 @@ const assert = require('assert')
 const properties = [
   { camelCase: 'pageSize', raw: 'PAGE_SIZE', description: 'Rows of data per page', value: '7', default: '10', valueDescription: 'Integer' },
   { camelCase: 'dashboardServer', raw: 'DASHBOARD_SERVER', description: 'URL of dashboard server', value: 'https://1.2.3.4', noDefaultValue: true, valueDescription: 'Address' },
+  { camelCase: 'dashboardSessionKey', raw: 'DASHBOARD_SESSION_KEY', description: 'An application-level secret for user session tokens', value: 'a-secret', noDefaultValue: true, valueDescription: 'String' },
   { camelCase: 'domain', raw: 'DOMAIN', description: 'Domain of server', value: 'example.com', default: '', valueDescription: 'String' },
   { camelCase: 'host', raw: 'HOST', description: 'IP or address web server listens on', value: '0.0.0.0', default: 'localhost', valueDescription: 'IP address' },
   { camelCase: 'port', raw: 'PORT', description: 'Port web server listens on', value: '9000', default: '8000', valueDescription: 'Integer' },
