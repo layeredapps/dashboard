@@ -1,47 +1,32 @@
 const crypto = require('crypto')
 const metrics = require('./metrics.js')
-const { Model, DataTypes } = require('sequelize')
+const { Sequelize, Model, DataTypes } = require('sequelize')
 const Log = require('./log.js')('sequelize')
 
 module.exports = async () => {
-  let storage, dateType
+  let dateType
   switch (process.env.STORAGE) {
+    case 'mariadb':
+    case 'mysql':
+      dateType = DataTypes.DATE(6)
+      break
     case 'postgresql':
     case 'postgres':
-      storage = require('./storage-postgresql.js')
-      dateType = DataTypes.DATE
-      break
-    case 'mariadb':
-      storage = require('./storage-mariadb.js')
-      dateType = DataTypes.DATE(6)
-      break
-    case 'mysql':
-      storage = require('./storage-mysql.js')
-      dateType = DataTypes.DATE(6)
-      break
     case 'db2':
-      storage = require('./storage-db2.js')
-      dateType = DataTypes.DATE
-      break
     case 'mssql':
-      storage = require('./storage-mssql.js')
-      dateType = DataTypes.DATE
-      break
     case 'sqlite':
     default:
-      storage = require('./storage-sqlite.js')
       dateType = DataTypes.DATE
       break
   }
-  const sequelize = await storage()
+  const sequelize = await createConnection(process.env.STORAGE)
   class Account extends Model {}
   Account.init({
     accountid: {
       type: DataTypes.STRING(64),
       primaryKey: true,
       defaultValue: () => {
-        const idValue = crypto.randomBytes(32).toString('hex')
-        return 'acct_' + idValue.substring(0, 16)
+        return 'acct_' + crypto.randomBytes(8).toString('hex')
       }
     },
     object: {
@@ -156,8 +141,7 @@ module.exports = async () => {
       type: DataTypes.STRING(64),
       primaryKey: true,
       defaultValue: () => {
-        const idValue = crypto.randomBytes(32).toString('hex')
-        return 'code_' + idValue.substring(0, 16)
+        return 'code_' + crypto.randomBytes(8).toString('hex')
       }
     },
     object: {
@@ -188,8 +172,7 @@ module.exports = async () => {
       type: DataTypes.STRING(64),
       primaryKey: true,
       defaultValue: () => {
-        const idValue = crypto.randomBytes(32).toString('hex')
-        return 'sess_' + idValue.substring(0, 16)
+        return 'sess_' + crypto.randomBytes(8).toString('hex')
       }
     },
     object: {
@@ -206,7 +189,7 @@ module.exports = async () => {
     tokenHash: DataTypes.STRING,
     duration: DataTypes.INTEGER,
     csrfToken: {
-      type: DataTypes.STRING(64),
+      type: DataTypes.STRING(128),
       defaultValue: () => {
         return crypto.randomBytes(64).toString('hex')
       }
@@ -266,8 +249,7 @@ module.exports = async () => {
       type: DataTypes.STRING(64),
       primaryKey: true,
       defaultValue: () => {
-        const idValue = crypto.randomBytes(32).toString('hex')
-        return 'prof_' + idValue.substring(0, 16)
+        return 'prof_' + crypto.randomBytes(8).toString('hex')
       }
     },
     object: {
@@ -420,4 +402,54 @@ module.exports = async () => {
     Profile,
     Metric
   }
+}
+
+async function createConnection (dialect) {
+  // sqlite
+  if (dialect === 'sqlite') {
+    if (process.env.DATABASE_FILE) {
+      return new Sequelize(process.env.DATABASE || 'dashboard', '', '', {
+        storage: process.env.DATABASE_FILE,
+        dialect: 'sqlite',
+        logging: (sql) => {
+          return Log.info(sql)
+        }
+      })
+    } else {
+      return new Sequelize('sqlite::memory', {
+        dialect: 'sqlite',
+        logging: (sql) => {
+          return Log.info(sql)
+        }
+      })
+    }
+  }
+  // all other databases
+  let url = global.databaseURL || process.env.DATABASE_URL
+  const sslModeRequiredIndex = url.indexOf('?sslmode=require')
+  const dialectOptions = {}
+  if (sslModeRequiredIndex > -1) {
+    url = url.substring(0, sslModeRequiredIndex)
+    dialectOptions.ssl = {
+      require: true,
+      rejectUnauthorized: false
+    }
+    dialectOptions.keepAlive = true
+  }
+  if (dialect === 'mssql') {
+    dialectOptions.driver = 'SQL Server Native Client 11.0'
+  }
+  const sequelize = new Sequelize(url, {
+    dialect,
+    dialectOptions,
+    logging: (sql) => {
+      return Log.info(sql)
+    },
+    pool: {
+      max: process.env.MAX_CONNECTIONS || 10,
+      min: 0,
+      idle: process.env.IDLE_CONNECTION_LIMIT || 10000
+    }
+  })
+  return sequelize
 }

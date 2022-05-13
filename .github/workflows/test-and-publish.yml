@@ -38,7 +38,7 @@ jobs:
       env:
         NODE_ENV: testing
         STORAGE: sqlite 
-        SQLITE_DATABASE: test
+        DATABASE: test
         GENERATE_RESPONSE: true
         GENERATE_SCREENSHOTS: true
         SCREENSHOT_LANGUAGES: en

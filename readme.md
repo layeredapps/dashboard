@@ -276,76 +276,47 @@ This example fetches the user's session information using NodeJS, you can do thi
 
 # Storage backends
 
-Dashboard uses the [Sequelize](github.com/sequelize/) library and is compatible with PostgreSQL, MySQL, MariaDB and SQLite.  Support for Microsoft SQL Server and IBM DB2 is possible but [has issues]().
+Dashboard uses the [Sequelize](github.com/sequelize/) library and is compatible with PostgreSQL, MySQL, MariaDB and SQLite.  Support for Microsoft SQL Server and IBM DB2 is possible but has issues ([MSSQL](https://github.com/layeredapps/dashboard/issues/5), [DB2](https://github.com/layeredapps/dashboard/issues/4)).  During development and testing you can use SQLITE in RAM by not setting a `DATABASE_FILE`.
 
 | Storage     | Environment variables                          |
 |-------------|------------------------------------------------|
 | SQLITE      | STORAGE=sqlite                                 |
-|             | SQLITE_DATABASE=dashboard                      |
-|             | SQLITE_DATABASE_FILE=/path/file.sqlite         |
+|             | DATABASE=dashboard                             |
+|             | DATABASE_FILE=/path/file.sqlite                |
 | POSTGRESQL  | STORAGE=postgresql                             |
-|             | POSTGRESQL_DATABASE_URL=postgres://...         |
+|             | DATABASE_URL=postgres:/...                     |
 | MariaDB     | STORAGE=mariadb                                |
-|             | MARIADB_HOST=                                  |
-|             | MARIADB_DATABASE=                              |
-|             | MARIADB_USERNAME=                              |
-|             | MARIADB_PASSWORD=                              |
-|             | MARIADB_PORT=                                  |
+|             | DATABASE_URL=mysql://...                       |
 | MYSQL       | STORAGE=mysql                                  |
-|             | MYSQL_HOST=                                    |
-|             | MYSQL_DATABASE=                                |
-|             | MYSQL_USERNAME=                                |
-|             | MYSQL_PASSWORD=                                |
-|             | MYSQL_PORT=                                    |
+|             | DATABASE_URL=mysql://...                       |
 | MSSQL       | STORAGE=mssql                                  |
-|             | MSSQL_HOST=                                    |
-|             | MSSQL_DATABASE=                                |
-|             | MSSQL_USERNAME=                                |
-|             | MSSQL_PASSWORD=                                |
-|             | MSSQL_PORT=                                    |
+|             | DATABASE_URL=Server=....                       |
 | DB2         | STORAGE=db2                                    |
-|             | DB2_HOST=                                      |
-|             | DB2_DATABASE=                                  |
-|             | DB2_USERNAME=                                  |
-|             | DB2_PASSWORD=                                  |
-|             | DB2_PORT=                                      |
+|             | DATABASE_URL=Server=...                        |
 
 Dashboard modules are able to use their own storage settings:
 
     $ SUBSCRIPTIONS_STORAGE=postgresql \
       SUBSCRIPTIONS_DATABASE_URL=postgres://localhost:5432/subscriptions \
       ORGANIZATIONS_STORAGE=mysql \
-      ORGANIZATIONS_MYSQL_DATABASE=dbname \
-      ORGANIZATIONS_MYSQL_HOST=localhost \
-      ORGANIZATIONS_MYSQL_PORT=3306 \
-      ORGANIZATIONS_MYSQL_PASSWORD=xxxxx \
-      ORGANIZATIONS_MYSQL_USERNAME=yyyyy \
-      CONNECT_STORAGE=sqlite \
-      CONNECT_SQLITE_DATABASE_FILE=/my/database.sqlite \
+      ORGANIZATIONS_DATABASE_URL=mysql:// \
+      CONNECT_STORAGE=mssql \
+      CONNECT_DATABASE_URL=... \
       node main.js
-
 
 # Storage caching
 
 You can complement your storage backend with optional caching, either using RAM if you have a single instance of your Dashboard server, or Redis if you need a cache shared by multiple instances of your Dashboard server.
 
-
-You can optionally use Redis as a cache, this is good for any storage on slow disks.
+You can optionally use Redis as a cache, this is good for any storage on slow disks or for scaling Dashboard with multiple instances.
 
     $ STORAGE_CACHE=redis \
-      CACHE_REDIS_URL=redis://.... \ # use dedicated redis for cache
+      REDIS_URL=redis://.... \ # use dedicated redis for cache
       node main.js
 
 If you have a single Dashboard server you can cache within memory:
 
     $ CACHE=node \
-      node main.js
-
-You can specify a single Redis server for both caching and metrics:
-
-    $ STORAGE_METRICS=redis \
-      STORAGE_CACHE=redis \
-      REDIS_URL=redis:/.... \
       node main.js
 
 # Usage metrics
@@ -355,14 +326,24 @@ By default usage metrics will be stored in your Dashboard database.  You can spe
 You can optionally use Redis as a cache, this is good for any storage on slow disks.
 
     $ STORAGE_METRICS=redis \
-      STORAGE_METRICS_REDIS_URL=redis:/.... \
+      REDIS_URL=redis:/.... \
       node main.js
 
-You can specify a single Redis server for both caching and metrics:
+# Single and multiple Redis servers
+
+You can specify a single Redis server used for both caching and metrics:
 
     $ STORAGE_METRICS=redis \
       STORAGE_CACHE=redis \
       REDIS_URL=redis:/.... \
+      node main.js
+
+You can specify separate servers:
+
+    $ STORAGE_METRICS=redis \
+      STORAGE_METRICS_REDIS_URL=redis:/.... \
+      STORAGE_CACHE=redis \
+      STORAGE_CACHE_REDIS_URL=redis:/.... \
       node main.js
 
 # XSS and CSRF protection
