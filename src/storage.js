@@ -19,7 +19,7 @@ module.exports = async () => {
       dateType = DataTypes.DATE
       break
   }
-  const sequelize = await createConnection(process.env.STORAGE)
+  const sequelize = await createConnection(process.env.STORAGE || 'sqlite')
   class Account extends Model {}
   Account.init({
     accountid: {
@@ -439,6 +439,11 @@ async function createConnection (dialect) {
   if (dialect === 'mssql') {
     dialectOptions.driver = 'SQL Server Native Client 11.0'
   }
+  const pool = {
+    max: process.env.MAX_CONNECTIONS || 10,
+    min: 0,
+    idle: process.env.IDLE_CONNECTION_LIMIT || 10000
+  }
   if (process.env.STORAGE_REPLICATION) {
     const replication = {
       read: [],
@@ -456,13 +461,9 @@ async function createConnection (dialect) {
       dialect,
       dialectOptions,
       replication,
+      pool,
       logging: (sql) => {
         return Log.info(sql)
-      },
-      pool: {
-        max: process.env.MAX_CONNECTIONS || 10,
-        min: 0,
-        idle: process.env.IDLE_CONNECTION_LIMIT || 10000
       }
     })
     return sequelize
@@ -470,13 +471,9 @@ async function createConnection (dialect) {
   const sequelize = new Sequelize(url, {
     dialect,
     dialectOptions,
+    pool,
     logging: (sql) => {
       return Log.info(sql)
-    },
-    pool: {
-      max: process.env.MAX_CONNECTIONS || 10,
-      min: 0,
-      idle: process.env.IDLE_CONNECTION_LIMIT || 10000
     }
   })
   return sequelize
