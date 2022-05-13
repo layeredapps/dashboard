@@ -4,7 +4,7 @@ module.exports = async () => {
   const Redis = require('redis')
   const twentyFourHours = 24 * 60 * 60
   const configuration = {
-    url: process.env.STORAGE_CACHE_REDIS_URL || process.env.REDIS_URL || 'redis://127.0.0.1:6379'
+    url: global.storageCacheRedisURL || process.env.STORAGE_CACHE_REDIS_URL || global.redisURL || process.env.REDIS_URL || 'redis://127.0.0.1:6379'
   }
   let client = Redis.createClient(configuration)
   client.on('error', (error) => {
