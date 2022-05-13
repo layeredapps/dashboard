@@ -304,6 +304,19 @@ Dashboard modules are able to use their own storage settings:
       CONNECT_DATABASE_URL=... \
       node main.js
 
+Read replication is supported for PostgreSQL, MariaDB, MySQL, MSSQL and DB2 by setting `STORAGE_REPLICATION` and then defining 1+ read-only databases.
+
+    STORAGE_REPLICATION=true
+    READ_DATABASE_URL1= 
+    READ_DATABASE_URL2=
+
+Connection pooling limits can be defined including on a per-module configuration:
+
+    MAX_CONNECTIONS=3
+    IDLE_CONNECTION_LIMIT=10000
+    ORGANIZATIONS_MAX_CONNECTIONS=10
+    ORGANIZATIONS_IDLE_CONNECTION_LIMIT=60000
+
 # Storage caching
 
 You can complement your storage backend with optional caching, either using RAM if you have a single instance of your Dashboard server, or Redis if you need a cache shared by multiple instances of your Dashboard server.

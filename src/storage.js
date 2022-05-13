@@ -439,6 +439,34 @@ async function createConnection (dialect) {
   if (dialect === 'mssql') {
     dialectOptions.driver = 'SQL Server Native Client 11.0'
   }
+  if (process.env.STORAGE_REPLICATION) {
+    const replication = {
+      read: [],
+      write: parseConnectionString(url)
+    }
+    let i = 1
+    while (true) {
+      if (!global[`readDatabaseURL${i}`] && !process.env[`READ_DATABASE_URL${i}`]) {
+        break
+      }
+      replication.read.push(parseConnectionString(global[`readDatabaseURL${i}`] || process.env[`READ_DATABASE_URL${i}`]))
+      i++
+    }
+    const sequelize = new Sequelize({
+      dialect,
+      dialectOptions,
+      replication,
+      logging: (sql) => {
+        return Log.info(sql)
+      },
+      pool: {
+        max: process.env.MAX_CONNECTIONS || 10,
+        min: 0,
+        idle: process.env.IDLE_CONNECTION_LIMIT || 10000
+      }
+    })
+    return sequelize
+  }
   const sequelize = new Sequelize(url, {
     dialect,
     dialectOptions,
@@ -452,4 +480,41 @@ async function createConnection (dialect) {
     }
   })
   return sequelize
+}
+
+function parseConnectionString (url) {
+  // dialect://username:password@host:port/database
+  if (url.indexOf('://') > -1) {
+    const urlParts = url.parse(url, true)
+    const object = {}
+    object.host = urlParts.hostname
+    if (urlParts.pathname) {
+      object.database = urlParts.pathname.replace(/^\//, '')
+    }
+    if (urlParts.port) {
+      object.port = urlParts.port
+    }
+    if (urlParts.auth) {
+      const authParts = urlParts.auth.split(':')
+      object.username = authParts[0]
+      if (authParts.length > 1) {
+        object.password = authParts.slice(1).join(':')
+      }
+    }
+    return object
+  }
+  // User Id=X;Password=X;Server=X;Database=X;Port=X
+  const params = url.split(';')
+  const rawParams = {}
+  for (const param of params) {
+    const parts = param.split('=')
+    rawParams[parts[0]] = parts.slice(1).join('=')
+  }
+  const object = {}
+  object.host = rawParams.Server || rawParams.server
+  object.username = rawParams['User Id'] || rawParams['user id']
+  object.password = rawParams.Password || rawParams.password
+  object.database = rawParams.Database || rawParams.database
+  object.port = rawParams.Port || rawParams.port
+  return object
 }
