@@ -33,13 +33,23 @@ async function beforeRequest (req) {
 
 function renderPage (req, res) {
   const doc = dashboard.HTML.parse(req.html || req.route.html)
-  dashboard.HTML.renderList(doc, req.data.accountsChartDays, 'chart-column', 'accounts-chart')
-  dashboard.HTML.renderList(doc, req.data.accountsChartValues, 'chart-value', 'accounts-values')
+  if (req.data.accountsChartDays && req.data.accountsChartDays.length) {
+    dashboard.HTML.renderList(doc, req.data.accountsChartDays, 'chart-column', 'accounts-chart')
+    dashboard.HTML.renderList(doc, req.data.accountsChartValues, 'chart-value', 'accounts-values')
+  } else {
+    const accountsContainer = doc.getElementById('accounts-container')
+    accountsContainer.parentNode.removeChild(accountsContainer)
+  }
   dashboard.HTML.renderTemplate(doc, req.data.accountsChartHighlights, 'metric-highlights', 'accounts-highlights')
-  dashboard.HTML.renderList(doc, req.data.sessionsChartDays, 'chart-column', 'sessions-chart')
-  dashboard.HTML.renderList(doc, req.data.sessionsChartValues, 'chart-value', 'sessions-values')
+  if (req.data.sessionsChartDays && req.data.sessionsChartDays.length) {
+    dashboard.HTML.renderList(doc, req.data.sessionsChartDays, 'chart-column', 'sessions-chart')
+    dashboard.HTML.renderList(doc, req.data.sessionsChartValues, 'chart-value', 'sessions-values')
+  } else {
+    const sessionsContainer = doc.getElementById('sessions-container')
+    sessionsContainer.parentNode.removeChild(sessionsContainer)
+  }
   dashboard.HTML.renderTemplate(doc, req.data.sessionsChartHighlights, 'metric-highlights', 'sessions-highlights')
-  if (req.data.resetCodesChartDays.length) {
+  if (req.data.resetCodesChartDays && req.data.resetCodesChartDays.length) {
     dashboard.HTML.renderList(doc, req.data.resetCodesChartDays, 'chart-column', 'reset-codes-chart')
     dashboard.HTML.renderList(doc, req.data.resetCodesChartValues, 'chart-value', 'reset-codes-values')
     dashboard.HTML.renderTemplate(doc, req.data.resetCodesChartHighlights, 'metric-highlights', 'reset-codes-highlights')
