@@ -162,12 +162,16 @@ async function get (req, callback) {
   }
   const protocol = global.applicationServer.startsWith('http://') ? 'http' : 'https'
   const proxyRequest = require(protocol).request(requestOptions, (proxyResponse) => {
-    let bodyChunks = []
+    let bodyChunks
     proxyResponse.on('data', (chunk) => {
-      bodyChunks.push(chunk)
+      if (!bodyChunks) {
+        bodyChunks = [chunk]
+      } else {
+        bodyChunks.push(chunk)
+      }
     })
     return proxyResponse.on('end', () => {
-      const body = bodyChunks.length ? Buffer.concat(bodyChunks) : undefined
+      const body = bodyChunks ? Buffer.concat(bodyChunks) : undefined
       return callback(null, body)
     })
   })
