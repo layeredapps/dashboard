@@ -7,30 +7,17 @@ describe('/account/set-default-profile', () => {
     it('should bind data to req', async () => {
       const user = await TestHelper.createUser()
       const profile1 = user.profile
-      const profile2 = await TestHelper.createProfile(user, {
+      await TestHelper.createProfile(user, {
         'first-name': user.profile.firstName,
         'last-name': user.profile.lastName,
         'contact-email': user.profile.contactEmail,
         default: 'true'
       })
-      const profile3 = await TestHelper.createProfile(user, {
-        'first-name': user.profile.firstName,
-        'last-name': user.profile.lastName,
-        'contact-email': user.profile.contactEmail,
-        default: 'true'
-      })
-      const req = TestHelper.createRequest('/account/set-default-profile')
+      const req = TestHelper.createRequest(`/account/set-default-profile?profileid=${profile1.profileid}`)
       req.account = user.account
       req.session = user.session
-      req.body = {
-        profileid: profile1.profileid
-      }
       await req.route.api.before(req)
       assert.strictEqual(req.data.profile.profileid, profile1.profileid)
-      assert.strictEqual(req.data.profiles.length, 3)
-      assert.strictEqual(req.data.profiles[0].profileid, profile3.profileid)
-      assert.strictEqual(req.data.profiles[1].profileid, profile2.profileid)
-      assert.strictEqual(req.data.profiles[2].profileid, profile1.profileid)
     })
   })
 
@@ -44,12 +31,9 @@ describe('/account/set-default-profile', () => {
         'contact-email': user.profile.contactEmail,
         default: 'true'
       })
-      const req = TestHelper.createRequest('/account/set-default-profile')
+      const req = TestHelper.createRequest(`/account/set-default-profile?profileid=${profile1.profileid}`)
       req.account = user.account
       req.session = user.session
-      req.body = {
-        profileid: profile1.profileid
-      }
       const result = await req.get()
       const doc = TestHelper.extractDoc(result.html)
       assert.strictEqual(doc.getElementById('submit-form').tag, 'form')
@@ -60,26 +44,23 @@ describe('/account/set-default-profile', () => {
   describe('submit', () => {
     it('should set the profile as default (screenshots)', async () => {
       const user = await TestHelper.createUser()
-      const profile1id = user.profile.profileid
+      const profile1 = user.profile
       await TestHelper.createProfile(user, {
         'first-name': user.profile.firstName,
         'last-name': user.profile.lastName,
         'contact-email': TestHelper.nextIdentity().email,
         default: 'true'
       })
-      const req = TestHelper.createRequest('/account/set-default-profile')
+      const req = TestHelper.createRequest(`/account/set-default-profile?profileid=${profile1.profileid}`)
       req.account = user.account
       req.session = user.session
-      req.body = {
-        profileid: profile1id
-      }
       req.filename = __filename
       req.screenshots = [
         { hover: '#account-menu-container' },
         { click: '/account' },
         { click: '/account/profiles' },
-        { click: `/account/profile?profileid=${profile1id}` },
-        { click: `/account/set-default-profile?profileid=${profile1id}` },
+        { click: `/account/profile?profileid=${profile1.profileid}` },
+        { click: `/account/set-default-profile?profileid=${profile1.profileid}` },
         { fill: '#submit-form' }
       ]
       global.pageSize = 50
@@ -92,21 +73,40 @@ describe('/account/set-default-profile', () => {
   })
 
   describe('errors', () => {
+    it('invalid-profileid', async () => {
+      const user = await TestHelper.createUser()
+      const req = TestHelper.createRequest('/account/set-default-profile?profileid=invalid')
+      req.account = user.account
+      req.session = user.session
+      await req.route.api.before(req)
+      assert.strictEqual(req.error, 'invalid-profileid')
+    })
+
+    it('invalid-account', async () => {
+      const user = await TestHelper.createUser()
+      await TestHelper.createUser()
+      const user2 = await TestHelper.createUser()
+      const req = TestHelper.createRequest(`/account/set-default-profile?profileid=${user.profile.profileid}`)
+      req.account = user2.account
+      req.session = user2.session
+      await req.route.api.before(req)
+      assert.strictEqual(req.error, 'invalid-account')
+    })
+
     it('invalid-csrf-token', async () => {
       const user = await TestHelper.createUser()
-      const profile1id = user.profile.profileid
+      const profile1 = user.profile
       await TestHelper.createProfile(user, {
         'first-name': user.profile.firstName,
         'last-name': user.profile.lastName,
         'contact-email': TestHelper.nextIdentity().email,
         default: 'true'
       })
-      const req = TestHelper.createRequest('/account/set-default-profile')
+      const req = TestHelper.createRequest(`/account/set-default-profile?profileid=${profile1.profileid}`)
       req.puppeteer = false
       req.account = user.account
       req.session = user.session
       req.body = {
-        profileid: profile1id,
         'csrf-token': ''
       }
       const result = await req.post()

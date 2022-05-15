@@ -8,8 +8,26 @@ module.exports = {
 }
 
 async function beforeRequest (req) {
-  req.query = req.query || {}
-  req.query.accountid = req.account.accountid
+  if (!req.query || !req.query.profileid) {
+    req.error = 'invalid-profileid'
+    req.data = {
+      profile: {
+        profileid: ''
+      }
+    }
+    req.removeContents = true
+    return
+  }
+  if (req.query.message === 'success') {
+    req.data = {
+      profile: {
+        default: true,
+        profileid: req.query.profileid
+      }
+    }
+    req.removeContents = true
+    return
+  }
   if (req.account.profileid === req.query.profileid) {
     req.error = 'default-profile'
     req.removeContents = true
@@ -20,7 +38,20 @@ async function beforeRequest (req) {
     }
     return
   }
-  const profile = await global.api.user.Profile.get(req)
+  let profile
+  try {
+    profile = await global.api.user.Profile.get(req)
+  } catch (error) {
+    profile = {
+      profileid: req.query.profileid
+    }
+    req.removeContents = true
+    if (error.message === 'invalid-profileid' || error.message === 'invalid-account') {
+      req.error = error.message
+    } else {
+      req.error = 'unknown-error'
+    }
+  }
   profile.default = profile.profileid === req.account.profileid
   req.data = { profile }
 }
@@ -59,7 +90,7 @@ async function submitForm (req, res) {
     return dashboard.Response.redirect(req, res, req.query['return-url'])
   } else {
     res.writeHead(302, {
-      location: `${req.urlPath}?message=success`
+      location: `${req.urlPath}?profileid=${req.query.profileid}&message=success`
     })
     return res.end()
   }
