@@ -91,19 +91,17 @@
             <input required="required" id="website" name="website" type="text" maxlength="1000">
           </div>
         </fieldset>
-        <div class="form-buttons">
-          <button id="submit-button" class="button" translate="yes">Update profile</button>
+        <div class="input-fields">
+          <label class="field-label"></label>
+          <div class="form-buttons">
+            <button id="submit-button" type="submit" class="button" translate="yes">Update profile</button>
+          </div>
         </div>
       </form>
     </div>
     <template id="success">
       <div class="success message" translate="yes">
         Success! Your profile information has been updated
-      </div>
-    </template>
-    <template id="unknown-error">
-      <div class="error message" translate="yes">
-        Error! An unknown error occurred
       </div>
     </template>
     <template id="invalid-first-name">
@@ -178,7 +176,7 @@
     </template>
     <template id="unknown-error">
       <div class="error message" translate="yes">
-        Error! An unknown error occurred
+        Error! Something went wrong submitting the form
       </div>
     </template>
     <template id="invalid-profileid">

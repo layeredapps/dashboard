@@ -22,8 +22,11 @@
             <span id="note-container"></span>
           </div>
         </fieldset>
-        <div class="form-buttons">
-          <button id="submit-button" type="submit" class="button" translate="yes">Save code</button>
+        <div class="input-fields">
+          <label class="field-label"></label>
+          <div class="form-buttons">
+            <button id="submit-button" type="submit" class="button" translate="yes">Create reset code</button>
+          </div>
         </div>
       </form>
     </div>
@@ -49,7 +52,7 @@
     </template>
     <template id="unknown-error">
       <div class="error message" translate="yes">
-        Error! An unknown error occurred
+        Error! Something went wrong submitting the form
       </div>
     </template>
     <template id="invalid-csrf-token">
