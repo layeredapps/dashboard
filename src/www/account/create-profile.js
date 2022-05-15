@@ -13,17 +13,26 @@ function renderPage (req, res, messageTemplate) {
     if (req.removeContents || messageTemplate === 'success') {
       const submitForm = doc.getElementById('submit-form')
       submitForm.parentNode.removeChild(submitForm)
+      return dashboard.Response.end(req, res, doc)
     }
-    return dashboard.Response.end(req, res, doc)
   }
-  const removeFields = [].concat(global.profileFields)
+  const removeElements = [].concat(global.profileFields)
   const profileFields = req.userProfileFields || global.userProfileFields
   for (const field of profileFields) {
-    removeFields.splice(removeFields.indexOf(field), 1)
+    removeElements.splice(removeElements.indexOf(field), 1)
   }
-  for (const id of removeFields) {
+  for (const id of removeElements) {
     const element = doc.getElementById(`${id}-container`)
     element.parentNode.removeChild(element)
+  }
+  if (req.method === 'POST') {
+    for (const field in req.body) {
+      const element = doc.getElementById(field)
+      if (!element) {
+        continue
+      }
+      element.setAttribute('value', dashboard.Format.replaceQuotes(req.body[field]))
+    }
   }
   return dashboard.Response.end(req, res, doc)
 }

@@ -29,6 +29,7 @@ async function beforeRequest (req) {
   if (profile.createdAt) {
     profile.createdAtFormatted = dashboard.Format.date(profile.createdAt)
   }
+  profile.default = profile.profileid === req.account.profileid
   req.data = { profile }
 }
 

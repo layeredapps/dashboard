@@ -30,6 +30,7 @@ async function beforeRequest (req) {
   if (req.query.messageTemplate === 'success') {
     req.removeContents = true
   }
+  profile.default = profile.profileid === req.account.profileid
   req.data = { profile }
 }
 
@@ -42,29 +43,59 @@ function renderPage (req, res, messageTemplate) {
     if (req.removeContents) {
       const submitForm = doc.getElementById('submit-form')
       submitForm.parentNode.removeChild(submitForm)
+      return dashboard.Response.end(req, res, doc)
     }
-    return dashboard.Response.end(req, res, doc)
   }
-  const removeFields = [].concat(global.profileFields)
-  const profileFields = req.userProfileFields || global.userProfileFields
-  for (const field of profileFields) {
-    removeFields.splice(removeFields.indexOf(field), 1)
-  }
-  for (const id of removeFields) {
-    const element = doc.getElementById(`${id}-container`)
-    if (!element || !element.parentNode) {
-      continue
+  const removeElements = []
+  const retainedFields = req.userProfileFields || global.userProfileFields
+  for (const field of global.profileFields) {
+    if (retainedFields.indexOf(field) === -1) {
+      removeElements.push(`${field}-container`)
     }
-    element.parentNode.removeChild(element)
+  }
+  if (req.data.profile.default) {
+    removeElements.push('default-container')
   }
   if (req.method === 'GET') {
     for (const field in req.data.profile) {
-      const element = doc.getElementById(field)
+      let fieldid
+      switch (field) {
+        case 'firstName':
+          fieldid = 'first-name'
+          break
+        case 'lastName':
+          fieldid = 'last-name'
+          break
+        case 'contactEmail':
+          fieldid = 'contact-email'
+          break
+        case 'display-email':
+          fieldid = 'display-email'
+          break
+        case 'display-name':
+          fieldid = 'display-name'
+          break
+        default:
+          fieldid = field
+      }
+      const element = doc.getElementById(fieldid)
       if (!element) {
         continue
       }
       element.setAttribute('value', dashboard.Format.replaceQuotes(req.data.profile[field]))
     }
+  } else {
+    for (const field in req.body) {
+      const element = doc.getElementById(field)
+      if (!element) {
+        continue
+      }
+      element.setAttribute('value', dashboard.Format.replaceQuotes(req.body[field] || req.data.profile[field]))
+    }
+  }
+  for (const id of removeElements) {
+    const element = doc.getElementById(id)
+    element.parentNode.removeChild(element)
   }
   return dashboard.Response.end(req, res, doc)
 }

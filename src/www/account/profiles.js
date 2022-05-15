@@ -22,8 +22,8 @@ async function beforeRequest (req) {
 async function renderPage (req, res) {
   const doc = dashboard.HTML.parse(req.html || req.route.html)
   const removeElements = []
+  const retainedFields = req.userProfileFields || global.userProfileFields
   if (req.data.profiles && req.data.profiles.length) {
-    const retainedFields = req.userProfileFields || global.userProfileFields
     for (const profile of req.data.profiles) {
       for (const field of global.profileFields) {
         if (retainedFields.indexOf(field) > -1) {
@@ -32,13 +32,22 @@ async function renderPage (req, res) {
         if (field === 'full-name') {
           if (retainedFields.indexOf('first-name') === -1) {
             removeElements.push(`first-name-${profile.profileid}`)
+            if (profile === req.data.profiles[0]) {
+              removeElements.push('first-name')
+            }
           }
           if (retainedFields.indexOf('last-name') === -1) {
             removeElements.push(`last-name-${profile.profileid}`)
+            if (profile === req.data.profiles[0]) {
+              removeElements.push('last-name')
+            }
           }
           continue
         }
         removeElements.push(`${field}-${profile.profileid}`)
+        if (profile === req.data.profiles[0]) {
+          removeElements.push(field)
+        }
       }
       if (req.account.profileid === profile.profileid) {
         removeElements.push(`is-not-default-${profile.profileid}`)
