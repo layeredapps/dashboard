@@ -159,7 +159,7 @@ these variables to changes that only affect that element.
 }
 
 @media (prefers-color-scheme: dark) {
-  :rot { 
+  :root { 
     --template-menu-shadow-color: var(--template-body);
   }
 }
