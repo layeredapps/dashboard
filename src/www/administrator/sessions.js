@@ -15,12 +15,16 @@ async function beforeRequest (req) {
       session.expiresFormatted = dashboard.Format.date(session.expiresAt)
       req.query.accountid = session.accountid
       const account = await global.api.administrator.Account.get(req)
-      session.firstName = account.firstName
-      session.lastName = account.lastName
       if (account.profileid) {
         req.query.profileid = account.profileid
         const profile = await global.api.administrator.Profile.get(req)
         session.contactEmail = profile.contactEmail
+        session.firstName = profile.firstName
+        session.lastName = profile.lastName
+      } else {
+        session.contactEmail = '-'
+        session.firstName = '-'
+        session.lastName = ''
       }
     }
   }

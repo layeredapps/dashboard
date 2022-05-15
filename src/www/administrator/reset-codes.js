@@ -13,14 +13,16 @@ async function beforeRequest (req) {
       resetCode.createdAtFormatted = dashboard.Format.date(resetCode.createdAt)
       req.query.accountid = resetCode.accountid
       const account = await global.api.administrator.ResetCode.get(req)
-      resetCode.firstName = account.firstName
-      resetCode.lastName = account.lastName
       if (account.profileid) {
         req.query.profileid = account.profileid
         const profile = await global.api.administrator.Profile.get(req)
         resetCode.contactEmail = profile.contactEmail
+        resetCode.firstName = profile.firstName
+        resetCode.lastName = profile.lastName
       } else {
         resetCode.contactEmail = '-'
+        resetCode.firstName = '-'
+        resetCode.lastName = ''
       }
     }
   }
