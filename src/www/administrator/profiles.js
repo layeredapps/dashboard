@@ -37,6 +37,9 @@ async function renderPage (req, res) {
           continue
         }
         removeElements.push(`${field}-${profile.profileid}`)
+        if (profile === req.data.profiles[0]) {
+          removeElements.push(field)
+        }
       }
     }
     dashboard.HTML.renderTable(doc, req.data.profiles, 'profile-row', 'profiles-table')
