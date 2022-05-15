@@ -283,6 +283,7 @@ function addResetCodeObjects (array, quantity) {
   let date = new Date(now.getFullYear(), now.getMonth(), now.getDate())
   let day = 0
   let dayCount = 0
+  let identityNumber = 0
   for (let i = 0; i < quantity; i++) {
     dayCount++
     if (dayCount === accountQuantities[day]) {
@@ -290,7 +291,9 @@ function addResetCodeObjects (array, quantity) {
       dayCount = 0
       date = new Date(now.getFullYear(), now.getMonth(), now.getDate() - day)
     }
-    const account = {
+    const identity = identities[identityNumber]
+    identityNumber++
+    const resetCode = {
       codeid: 'code_' + faker.datatype.uuid().split('-').join('').substring(0, 24),
       object: 'resetCode',
       appid: global.appid,
@@ -298,9 +301,12 @@ function addResetCodeObjects (array, quantity) {
       createdAt: date,
       createdAtFormatted: date.getFullYear() + '-' + twoDigits(date.getMonth() + 1) + '-' + twoDigits(date.getDate()),
       updatedAt: date,
-      updatedAtFormatted: date.getFullYear() + '-' + twoDigits(date.getMonth() + 1) + '-' + twoDigits(date.getDate())
+      updatedAtFormatted: date.getFullYear() + '-' + twoDigits(date.getMonth() + 1) + '-' + twoDigits(date.getDate()),
+      contactEmail: identity.email,
+      firstName: identity.firstName,
+      lastName: identity.lastName
     }
-    array.push(account)
+    array.push(resetCode)
   }
 }
 
