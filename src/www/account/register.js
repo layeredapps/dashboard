@@ -23,18 +23,18 @@ function renderPage (req, res, messageTemplate) {
       return dashboard.Response.end(req, res, doc)
     }
   }
-  const removeFields = [].concat(global.profileFields)
+  const removeElements = [].concat(global.profileFields)
   if (!global.requireProfile) {
-    for (const id of removeFields) {
+    for (const id of removeElements) {
       const element = doc.getElementById(`${id}-container`)
       element.parentNode.removeChild(element)
     }
   } else {
     const profileFields = req.userProfileFields || global.userProfileFields
     for (const field of profileFields) {
-      removeFields.splice(removeFields.indexOf(field), 1)
+      removeElements.splice(removeElements.indexOf(field), 1)
     }
-    for (const id of removeFields) {
+    for (const id of removeElements) {
       const element = doc.getElementById(`${id}-container`)
       if (!element || !element.parentNode) {
         continue
