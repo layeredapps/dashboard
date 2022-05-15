@@ -1,294 +1,307 @@
 /* basic resetting */
 html { height: 100%; width: 100% }
 body { min-height: 100%; width: 100%; padding: 0; margin: 0; font-family: sans-serif; background-color: var(--content-background-color); color: var(--content-text-color) }
-ul, ol, li, nav, menu, p, h1, h2, h3, fieldset, form { list-style-type: none; padding: 0; margin: 0 }
-a { text-decoration: none }
-p { margin-bottom: 2rem }
-input, select, textarea, a, button, div { outline: 0 }
-
-.container { padding: 1rem }
+* { font-family: var(--content-font-sans-serif) }
+.container ul, ol, li, nav, menu, p, h1, h2, h3, fieldset, form { list-style-type: none; padding: 0; margin: 0 }
+.container input, select, textarea, a, button, div { outline: 0 }
 .container h1 { font-weight: normal; font-size: 1.6rem; line-height: 2rem; margin: 0 0 1rem 0 }
-.container h2 { font-weight: normal; font-size: 1.2rem; line-height: 1.8rem; margin: 0 0 1rem 0 }
-.container h3 { font-weight: normal; font-size: 1rem; line-height: 1.6rem; margin: 0 0 1rem 0 }
-.container p { font-size: 0.8rem; line-height: 1.4rem }
-.container a { color: var(--content-link-color) }
+.container h2 { font-weight: bold; font-size: 1rem; margin-bottom: 0.5rem }
+.container h3 { font-weight: bold; font-size: 1rem; margin-bottom: 0.5rem }
+.container .button,
+.container button { cursor: pointer; font-weight: bold; border-radius: 0.25rem; cursor: pointer; font-size: 1rem; display: inline-block; line-height: 2.4rem; font-size: 0.8rem; padding: 0 2rem; text-transform: uppercase }
+.container .button:disabled,
+.container button:disabled { pointer-events: none }
+.container .small-button { font-size: 0.8rem; padding: 0.25rem 0.5rem }
+.container input[type=text],
+.container input[type=password],
+.container input[type=email] { box-sizing: border-box; width: 12rem; padding: 0.5rem; border-radius: 0.25rem }
+.container p { font-size: 0.8rem; line-height: 1.4rem; margin-bottom: 1rem }
+.container a { color: var(--content-link-color); text-decoration: none }
 .container a:hover { color: var(--content-text-color); text-decoration: underline }
-.container label:focus, 
-.container input:focus { box-shadow: 0 0 0 0.2rem var(--content-focus-color) }
+.container a:focus,
+.container button:focus,
+.container .button:focus,
+.container label:focus,
+.container input:focus, 
+.container .field input[type=text]:focus,
+.container .field input[type=password]:focus,
+.container .field input[type=email]:focus,
+.container .field input[type=radio]:focus,
+.container .field input[type=checkbox]:focus { box-shadow: 0 0 0 0.2rem var(--content-focus-color); position: relative; z-index: 999 }
 
-.container .button { display: inline-block; line-height: 2rem; font-size: 0.8rem; padding: 0 1rem; background-color: var(--button-background-color); border: 1px solid var(--button-border-color); border-radius: 0.5rem; color: var(--button-text-color); cursor: pointer; box-shadow: 0 0.125rem 0.125rem var(--content-shadow-color) }
-.container .button:hover { background-color: var(--button-focus-background-color); border-color: var(--button-focus-border-color); color: var(--button-focus-text-color); text-decoration: none }
-.container .button:disabled { background-color: var(--content-disabled-color) }
-.container .button:focus { border-color: var(--button-focus-background-color); background-color: var(--button-focus-background-color) }
-.container .small-button { font-size: 0.8rem; padding: 0.25rem 0.5rem; background-color: var(--button-small-background-color); border-radius: 0.25rem; border: 1px solid var(--button-small-border-color); color: var(--button-small-text-color) }
-.container .small-button:hover { background-color: var(--button-small-background-color); border: 1px solid var(--button-small-background-color); }
-.container .small-button:disabled { background-color: var(--button-small-disabled-background-color); border: 1px solid var(--button-small-disabled-background-color); }
-.container .small-button:focus { background-color: var(--button-small-background-color); border: 1px solid var(--button-small-background-color); }
+.container { padding: 1rem; width: 100%; box-sizing: border-box }
+.container .button { background-color: var(--button-background-color); border: 1px solid var(--button-border-color); color: var(--button-text-color) }
+.container .button:hover { background-color: var(--button-hover-background-color); border-color: var(--button-hover-border-color); color: var(--button-hover-text-color); text-decoration: none }
+.container .button:disabled { background-color: var(--button-disabled-background-color); color: var(--button-disabled-text-color); border: 1px solid var(--button-disabled-border-color) }
+.container .button:focus { border-color: var(--button-focus-border-color); background-color: var(--button-focus-background-color); color: var(--button-focus-text-color) }
+.container .button:hover:focus { background-color: var(--button-hover-background-color); border-color: var(--button-hover-border-color); color: var(--button-hover-text-color); text-decoration: none }
+.container .small-button { background-color: var(--button-small-background-color); border: 1px solid var(--button-small-border-color); color: var(--button-small-text-color) }
+.container .small-button:hover { background-color: var(--button-small-hover-background-color); border: 1px solid var(--button-small-hover-background-color); color: var(--button-small-hover-text-color); }
+.container .small-button:disabled { background-color: var(--button-small-disabled-background-color); border: 1px solid var(--button-small-disabled-border-color); color: var(--button-small-disabled-text-color) }
+.container .small-button:focus { background-color: var(--button-small-focus-background-color); border: 1px solid var(--button-small-focus-border-color); color: var(--button-small-focus-text-color) }
+.container .button[type=submit] { background-color: var(--button-submit-background-color); border: 1px solid var(--button-submit-border-color); color: var(--button-submit-text-color) }
+.container .button[type=submit]:hover { background-color: var(--button-submit-hover-background-color); border: 1px solid var(--button-submit-hover-border-color); color: var(--button-submit-hover-text-color) }
+
 .container .form-buttons { margin-bottom: 2rem }
 .container .nested-button { margin-top: 1rem }
 .container .spaced-buttons .button { margin-right: 1rem }
 .container .single-button,
 .container .button-group { margin-bottom: 2rem; text-align: left }
-.container .button-group .button { border-radius: 0 }
-.container .button-group .button:last-of-type { border-top-right-radius: 0.5rem; border-bottom-right-radius: 0.5rem }
-.container .button-group .button:first-of-type { border-top-left-radius: 0.5rem; border-bottom-left-radius: 0.5rem }
+.container .single-button .button,
+.container .button-group .button { font-size: 0.8rem; padding: 0 1rem; line-height: 2rem }
+.container .button-group .button { border-left: none; border-radius: 0 }
+.container .button-group .button:last-of-type { border-top-right-radius: 0.25rem; border-bottom-right-radius: 0.25rem }
+.container .button-group .button:first-of-type { border-left: 1px solid var(--button-border-color); border-top-left-radius: 0.25rem; border-bottom-left-radius: 0.25rem }
 
+.container .data-table { border-collapse: collapse; margin-bottom: 2rem; white-space: nowrap; word-break: keep-all }
+.container .data-table th,
+.container .data-table td { font-size: 0.8rem; border-bottom: 1px solid var(--content-background-color); border-bottom: 1px dotted var(--content-text-color); padding: 0.5rem; white-space: nowrap; word-break: keep-all }
+.container .data-table th { text-align: right; padding-right: 1rem; padding-left: 3rem; color: var(--content-text-color) }
+.container .data-table tr:last-of-type th,
+.container .data-table tr:last-of-type td { border-bottom: none }
+.container .data-table .small-button { margin: 0.25rem }
 
-.data-table { border-collapse: collapse; margin-bottom: 2rem; white-space: nowrap; word-break: keep-all }
-.data-table th,
-.data-table td { font-size: 0.8rem; border-bottom: 1px solid var(--content-background-color); border-bottom: 1px dotted var(--content-text-color); padding: 0.5rem; white-space: nowrap; word-break: keep-all }
-.data-table th { font-weight: normal; text-align: right; padding-right: 1rem; padding-left: 3rem; color: var(--content-text-color) }
-.data-table tr:last-of-type th,
-.data-table tr:last-of-type td { border-bottom: none }
-.data-table .small-button { margin: 0.25rem }
-
-.list-table-wrapper { max-width: 100%; overflow-x: auto }
-.list-table { border-collapse: collapse; margin-bottom: 2rem; white-space: nowrap; word-break: keep-all }
-.list-table th { background-color: var(--content-th-background-color); color: var(--content-th-text-color); font-weight: normal; padding: 0.5rem; text-align: left }
-.list-table td { padding: 0.5rem }
-.list-table td,
-.list-table th { font-size: 0.8rem; padding-right: 4rem; white-space: nowrap; word-break: keep-all }
-.list-table th.right,
-.list-table td.right { text-align: right }
-.list-table .small-button { margin: 0.125rem 0.25rem }
+.container .list-table-wrapper { max-width: 100%; overflow-x: auto }
+.container .list-table { border-collapse: collapse; margin-bottom: 2rem; white-space: nowrap; word-break: keep-all }
+.container .list-table th { background-color: var(--content-th-background-color); color: var(--content-th-text-color); padding: 0.5rem; text-align: left }
+.container .list-table td { padding: 0.5rem }
+.container .list-table td,
+.container .list-table th { font-size: 0.8rem; padding-right: 4rem; white-space: nowrap; word-break: keep-all }
+.container .list-table th.right,
+.container .list-table td.right { text-align: right }
+.container .list-table .small-button { margin: 0.125rem 0.25rem }
 
 /* pagination links */
-.pagination { list-style-type: none; margin: 1rem 0 }
-.pagination li { display: inline-block; margin: 0.25rem 0.25rem 0 }
-.pagination a { border: 1px solid var(--content-link-color); display: inline-block; padding: 0.25rem 0.5rem; font-size: 0.9rem; text-decoration: none }
-.pagination a:hover { background-color: var(--content-text-color); color: var(--content-background-color) }
-.pagination a.current-page { color: var(--content-text-color); border-color: var(--content-text-color) } 
-.pagination span { pointer-events: none; display: inline-block; margin-left: 0.25rem; padding: 0 0.5rem; color: var(--content-link-color) }
+.container .pagination { list-style-type: none; margin: 1rem 0 }
+.container .pagination li { display: inline-block; margin: 0.25rem 0.25rem 0 }
+.container .pagination a { border: 1px solid var(--content-link-color); display: inline-block; padding: 0.25rem 0.5rem; font-size: 0.9rem; text-decoration: none }
+.container .pagination a:hover { background-color: var(--content-text-color); color: var(--content-background-color) }
+.container .pagination a.current-page { color: var(--content-text-color); border-color: var(--content-text-color) } 
+.container .pagination span { pointer-events: none; display: inline-block; margin-left: 0.25rem; padding: 0 0.5rem; color: var(--content-link-color) }
 
 /* form fields */
-.input-fields { margin: 0 0 2rem 0; border: none; display: grid; grid-template-columns: 1fr 3fr; max-width: 60rem }
-.checkbox-fields { margin: 0 0 0.5rem 0; border: none; display: flex; flex-direction: column; text-align: left }
-.checkbox-fields .field-label { margin-bottom: 1rem }
-.checkbox-fields .field-label:last-of-type { margin-bottom: 0 }
-.field-label { font-size: 1rem }
-.field-note { display: block; font-size: 0.7rem; margin-top: 0.25rem }
-.field { max-width: 100% }
-.field .tiny-field div,
-.field .tiny-field input,
-.field .tiny-field select { max-width: 6rem }
-.field .normal-field div { max-width: 12rem }
-.field select,
-.field input[type=number],
-.field input[type=text],
-.field input[type=password] { box-sizing: border-box; width: 12rem; padding: 0.5rem; border-radius: 0.25rem; border: 1px solid var(--content-input-border-color); background-color: var(--content-input-background-color); color: var(--content-input-text-color); margin-right: 1rem }
-.field select:last-of-type,
-.field input[type=number]:last-of-type,
-.field input[type=text]:last-of-type,
-.field input[type=password]:last-of-type { margin-right: 0 }
-.field select:active,
-.field select:focus,
-.field input[type=number]:active,
-.field input[type=number]:focus,
-.field input[type=text]:active,
-.field input[type=text]:focus,
-.field input[type=password]:active,
-.field input[type=password]:focus { border-color: var(--content-input-focus-border-color); background-color: var(--content-input-focus-background-color); color: var(--content-input-focus-text-color) }
-.field select { max-width: 100% }
+.container .input-fields { margin: 0 0 1rem 0; border: none; display: grid; grid-template-columns: 1fr 3fr; max-width: 60rem }
+.container .checkbox-fields { margin: 0 0 1rem 0; border: none; display: flex; flex-direction: column; text-align: left }
+.container .checkbox-fields .field-label { margin-bottom: 1rem }
+.container .checkbox-fields .field-label:last-of-type { margin-bottom: 0 }
+.container .field-label { font-size: 1rem }
+.container .field-note { display: block; font-size: 0.7rem; margin-top: 0.25rem }
+.container .field { max-width: 100% }
+.container .field .tiny-field div,
+.container .field .tiny-field input,
+.container .field .tiny-field select { max-width: 6rem }
+.container .field .normal-field div { max-width: 12rem }
+.container .field select,
+.container .field input[type=number],
+.container .field input[type=text],
+.container .field input[type=password] { border: 1px solid var(--content-input-border-color); background-color: var(--content-input-background-color); color: var(--content-input-text-color); margin-right: 1rem }
+.container .field select:last-of-type,
+.container .field input[type=number]:last-of-type,
+.container .field input[type=text]:last-of-type,
+.container .field input[type=password]:last-of-type { margin-right: 0 }
+.container .field select:active,
+.container .field select:focus,
+.container .field input[type=number]:active,
+.container .field input[type=number]:focus,
+.container .field input[type=text]:active,
+.container .field input[type=text]:focus,
+.container .field input[type=password]:active,
+.container .field input[type=password]:focus { border-color: var(--content-input-focus-border-color); background-color: var(--content-input-focus-background-color); color: var(--content-input-focus-text-color) }
+.container .field select { max-width: 100% }
 
 /* administrator charts */
-.charts { margin-bottom: 2rem }
-.charts-grid { display: grid; grid-template-columns: 1fr 1fr; grid-gap: 1rem; margin-bottom: 2rem }
-.charts-grid3 { grid-template-columns: 1fr 1fr 1fr }
-.chart { margin-top: 1rem; background-color: var(--content-chart-background-color); border-radius: 0.5rem; padding: 1rem }
-.chart legend { display: flex; margin: 0; padding: 0.5rem 0; width: 100% }
-.chart legend span { width: 50%; display: block; font-size: 0.5rem; text-transform: uppercase; color: var(--content-chart-legend-text-color); opacity: 0.75 }
-.chart legend span:last-of-type { text-align: right }
-.chart .metrics ul { display: flex }
-.chart .metrics li { font-size: 1.5rem; display: flex; flex-direction: column; align-content: center; color: var(--content-chart-metrics-text-color); margin: 0 2rem 0 0 }
-.chart .metrics li span { font-size: 0.8rem; display: block; color: var(--content-chart-metrics-text-color); margin-top: 0.5rem; opacity: 0.75 }
-.chart .graph { display: flex; width: 100%; margin-top: 1rem }
-.chart .values { display: grid; grid-template-rows: repeat(5, 1fr); padding: 0 0.5rem; text-align: right; }
-.chart .values h3 { margin: 0; padding: 0; font-size: 0.5rem; line-height: 0.5rem; color: var(--content-chart-legend-text-color); opacity: 0.75 }
-.chart .columns { width: 100% }
-.chart .padder { padding: 0.25rem; border-left: 1px solid var(--content-chart-border-color); border-bottom: 1px solid var(--content-chart-border-color) }
-.chart ol { width: 100%; height: 10rem; display: grid; vertical-align: bottom }
-.chart ol.ninety { grid-template-columns: repeat(90, 1fr); grid-gap: 2px }
-.chart ol.threesixfive { grid-template-columns: repeat(365, 1fr); grid-gap: 1px }
-.chart ol li { height: 100%; position: relative }
-.chart ol li span { position: absolute; display: block; background-color: var(--content-chart-bar-color); opacity: 0.5; border-bottom: 1px solid var(--content-chart-bar-border-color); border-right: 1px solid var(--content-chart-bar-border-color); width: 100% }
-.chart ol li span:hover { opacity: 1 }
+.container .charts { margin-bottom: 2rem }
+.container .charts-grid { display: grid; grid-template-columns: 1fr 1fr; grid-gap: 1rem; margin-bottom: 2rem }
+.container .charts-grid3 { grid-template-columns: 1fr 1fr 1fr }
+.container .chart { margin-top: 1rem; background-color: var(--content-chart-background-color); border-radius: 0.5rem; padding: 1rem }
+.container .chart legend { display: flex; margin: 0; padding: 0.5rem 0; width: 100% }
+.container .chart legend span { width: 50%; display: block; font-size: 0.5rem; text-transform: uppercase; color: var(--content-chart-legend-text-color); opacity: 0.75 }
+.container .chart legend span:last-of-type { text-align: right }
+.container .chart .metrics ul { display: flex }
+.container .chart .metrics li { font-size: 1.5rem; display: flex; flex-direction: column; align-content: center; color: var(--content-chart-metrics-text-color); margin: 0 2rem 0 0 }
+.container .chart .metrics li span { font-size: 0.8rem; display: block; color: var(--content-chart-metrics-text-color); margin-top: 0.5rem; opacity: 0.75 }
+.container .chart .graph { display: flex; width: 100%; margin-top: 1rem }
+.container .chart .values { display: grid; grid-template-rows: repeat(5, 1fr); padding: 0 0.5rem; text-align: right; }
+.container .chart .values h3 { margin: 0; padding: 0; font-size: 0.5rem; line-height: 0.5rem; color: var(--content-chart-legend-text-color); opacity: 0.75 }
+.container .chart .columns { width: 100% }
+.container .chart .padder { padding: 0.25rem; border-left: 1px solid var(--content-chart-border-color); border-bottom: 1px solid var(--content-chart-border-color) }
+.container .chart h2 { margin-bottom: 1rem; font-weight: normal }
+.container .chart ol { width: 100%; height: 10rem; display: grid; vertical-align: bottom }
+.container .chart ol.ninety { grid-template-columns: repeat(90, 1fr); grid-gap: 2px }
+.container .chart ol.threesixfive { grid-template-columns: repeat(365, 1fr); grid-gap: 1px }
+.container .chart ol li { height: 100%; position: relative }
+.container .chart ol li span { position: absolute; display: block; background-color: var(--content-chart-bar-color); opacity: 0.5; border-bottom: 1px solid var(--content-chart-bar-border-color); border-right: 1px solid var(--content-chart-bar-border-color); width: 100% }
+.container .chart ol li span:hover { opacity: 1 }
 
 /* alerts */
-.message { font-weight: bold; font-size: 0.9rem; margin-bottom: 1rem }
-.success.message { color: var(--success-color) }
-.error.message { color: var(--error-color) }
+.container .message { font-weight: bold; font-size: 0.9rem; margin-bottom: 1rem }
+.container .success.message { color: var(--content-success-color) }
+.container .error.message { color: var(--content-error-color) }
 
 /* entry forms for signing in, registration */
 body.entry { background-color: var(--entry-form-background-color); display: flex; align-items: center; justify-content: center; width: 100%; min-height: 100% }
-.entry p { color: var(--entry-form-text-color); opacity: 0.5 }
-.entry p a { color: var(--entry-form-text-color); opacity: 0.75; text-decoration: underline }
-.entry p a:hover { opacity: 1 }
-.redirect-message { opacity: 1 }
-.redirect-message a { color: var(--entry-form-text-color); opacity: 0.75; text-decoration: underline;}
-.redirect-message a:hover { opacity: 1 }
-.entry-form { width: 20rem; padding: 1rem; text-align: center }
-.entry-form h1 { text-align: left; font-size: 1.2rem; color: var(--entry-form-text-color); opacity: 0.75 }
-.entry-form .list { text-align: left }
-.entry-form .list li { margin-bottom: 0.5rem }
-.entry-form .list-link { color: var(--entry-form-text-color); opacity: 0.75; line-height: 1.5rem; font-size: 0.8rem; padding: 0.25rem; border-radius: 0.5rem }
-.entry-form .list-link:hover { opacity: 1; text-decoration: underline }
-.entry-form .list-link:active,
-.entry-form .list-link:focus { background-color: var(--content-highlight-focus-color) }
-.entry-form .input-fields { display: block; text-align: left }
-.entry-form .field input[type="text"], 
-.entry-form .field input[type="password"],
-.entry-form .field input[type="email"]{ width: 100%; background-color: var(--entry-form-input-background-color); color: var(--entry-form-input-text-color); font-size: 1rem }
-.entry-form .field-label { display: inline-block; text-transform: uppercase; font-size: 0.75rem; color: var(--entry-form-text-color); margin-bottom: 0.5rem }
-.entry-form .field-label span { border: none; background-color: transparent; margin-left: 0.5rem }
-.entry-form .form-buttons { text-align: left }
-.entry-form .button { padding: 0 2rem; background-color: var(--entry-form-button-background-color); border-color: var(--entry-form-button-border-color); color: var(--entry-form-button-text-color) }
-.entry-form .button:hover { background-color: var(--entry-form-button-focus-background-color); border-color: var(--entry-form-button-focus-border-color); color: var(--entry-form-button-focus-text-color); text-decoration: none }
-.entry-form .button:focus { background-color: var(--entry-form-button-focus-background-color); border-color: var(--entry-form-button-focus-border-color) }
-.entry-form .message { padding: 0.5rem }
-.entry-form .message.success { color: var(--entry-form-success-color) }
-.entry-form .message.error { color: var(--entry-form-error-color) }
+body.entry .container { max-width: 20rem }
+body.entry .container p { color: var(--entry-form-text-color) }
+body.entry .container a { color: var(--entry-form-link-text-color); text-decoration: underline;}
+body.entry .container a:hover { color: var(--entry-form-link-hover-text-color) }
+body.entry .container .entry-form { text-align: center }
+body.entry .container h1 { text-align: left; font-size: 1.2rem; color: var(--entry-form-text-color) }
+body.entry .container .list { text-align: left }
+body.entry .container .list li { margin-bottom: 0.5rem }
+body.entry .container .list-link { color: var(--entry-form-link-text-color); line-height: 1.5rem; font-size: 0.8rem; padding: 0.25rem; border-radius: 0.125rem }
+body.entry .container .list-link:hover { color: var(--entry-form-link-hover-text-color); text-decoration: underline }
+body.entry .container .input-fields { display: block; text-align: left }
+body.entry .container .field input[type="text"], 
+body.entry .container .field input[type="password"],
+body.entry .container .field input[type="email"] { width: 100% }
+body.entry .container .field-label { display: inline-block; text-transform: uppercase; font-size: 0.75rem; color: var(--entry-form-text-color); margin-bottom: 0.5rem }
+body.entry .container .field-label span { border: none; background-color: transparent; margin-left: 0.5rem }
+body.entry .container .form-buttons { text-align: left }
+body.entry .container .message { padding: 0.5rem 0; text-align: left }
+body.entry .container .message.success { color: var(--entry-form-success-color) }
+body.entry .container .message.error { color: var(--entry-form-error-color) }
 
 /* mobile tweaks */
 @media (max-width: 600px) {
   .container { padding: 1rem 0.5rem }
-  .entry-form { width: unset; box-shadow: none; transform: none; position: unset }
-  .input-fields { display: block }
-  .field { display: block }
-  .field select,
-  .field input[type=number],
-  .field input[type=text],
-  .field input[type=password] { max-width: 100%; width: 100% }
-  .field-label { display: inline-block; font-size: 0.75rem; margin-bottom: 0.5rem }
-  .button { padding: 0 0.5rem }
-  .data-table, 
-  .data-table thead, 
-  .data-table tbody,
-  .data-table th, 
-  .data-table td, 
-  .data-table tr { display: block; padding: 0; text-align: left }
-	.data-table thead tr {  position: absolute; top: -9999px; left: -9999px }
-  .data-table th { padding: 0.5rem }
-	.data-table td { border: none; position: relative; padding: 0.5rem 0.5rem 1rem 0.5rem }
-  .data-table tr:last-of-type th { border-bottom: 1px dotted var(--content-text-color) }
-  .list-table th,
-  .list-table td { font-size: 0.7rem }
-  .chart { padding: 0.25rem }
-  .chart .metrics li { font-size: 0.8rem; margin: 0 1rem 0 0 }
-  .chart .metrics li span { font-size: 0.5rem; line-height: 0.8rem }
-  .chart ol.ninety { grid-template-columns: repeat(90, 1fr); grid-gap: 1px }
-  .chart ol.threesixfive { grid-template-columns: repeat(365, 1fr); grid-gap: 0 }
-  .chart ol li span { border-right: none }
-  .chart .values { padding: 0 0.125rem }
-  .chart .legend { padding-bottom: 0 }
+  .container .entry-form { width: unset; transform: none; position: unset }
+  .container .input-fields { display: block }
+  .container .field { display: block }
+  .container .field select,
+  .container .field input[type=number],
+  .container .field input[type=text],
+  .container .field input[type=password] { max-width: 100%; width: 100% }
+  .container .field-label { display: inline-block; font-size: 0.75rem; margin-bottom: 0.5rem }
+  .container .button { padding: 0 0.5rem }
+  .container .data-table, 
+  .container .data-table thead, 
+  .container .data-table tbody,
+  .container .data-table th, 
+  .container .data-table td, 
+  .container .data-table tr { display: block; padding: 0; text-align: left }
+	.container .data-table thead tr {  position: absolute; top: -9999px; left: -9999px }
+  .container .data-table th { padding: 0.5rem }
+	.container .data-table td { border: none; position: relative; padding: 0.5rem 0.5rem 1rem 0.5rem }
+  .container .data-table tr:last-of-type th { border-bottom: 1px dotted var(--content-text-color) }
+  .container .list-table th,
+  .container .list-table td { font-size: 0.7rem }
+  .container .chart { padding: 0.25rem }
+  .container .chart .metrics li { font-size: 0.8rem; margin: 0 1rem 0 0 }
+  .container .chart .metrics li span { font-size: 0.5rem; line-height: 0.8rem }
+  .container .chart ol.ninety { grid-template-columns: repeat(90, 1fr); grid-gap: 1px }
+  .container .chart ol.threesixfive { grid-template-columns: repeat(365, 1fr); grid-gap: 0 }
+  .container .chart ol li span { border-right: none }
+  .container .chart .values { padding: 0 0.125rem }
+  .container .chart .legend { padding-bottom: 0 }
 }
 
-/* color settings */
+/* 
+Color settings use two tiers, you can override the variables 
+at either tier to make broad or granular changes.
+
+palette -> defines the color scheme, you can override only these 
+variables to re-color everything.
+
+classes -> applies the palette to the classes, you can override
+these variables to changes that only affect that element.
+
+*/
 :root {
-  --content-text-color: #2F365F;
-  --content-link-color: #1E90FF;
-  --content-background-color: #F7F1ED;
-  --content-focus-color: #1E90FF;
-  --content-darkest-color: #121527;
-  --content-disabled-color: #666;
-  --content-highlight-focus-color: rgba(255, 255, 255, 0.5);
-  --content-input-text-color: #2F365F;
-  --content-input-border-color: rgba(0, 0, 0, 0.125);
-  --content-input-background-color: rgba(0, 0, 0, 0.125);
-  --content-input-focus-border-color: #FFF;
-  --content-input-focus-text-color: #2F365F;
-  --content-input-focus-background-color: #FFF;
-  --content-shadow-color: rgba(0, 0, 0, 0.25);
-  --content-th-text-color: #F7F1ED;
-  --content-th-background-color: #2F365F;
-  --content-chart-background-color: rgba(255, 255, 255, 0.5);
-  --content-chart-legend-text-color: rgba(47, 54, 95, 0.5);
-  --content-chart-metrics-text-color: rgba(47, 54, 95, 0.75);
-  --content-chart-border-color: rgba(47, 54, 95, 0.25);
-  --content-chart-bar-color: rgba(47, 54, 95, 0.5);
-  --content-chart-bar-border-color: rgba(47, 54, 95, 0.75);
-  --success-color: #060;
-  --error-color: #900;
-  --button-background-color: #2F365F;
-  --button-text-color: #F7F1ED;
-  --button-border-color: #2F365F;
-  --button-focus-background-color: #1E90FF;
-  --button-focus-text-color:  #F7F1ED;
-  --button-focus-border-color: #1E90FF;
-  --button-disabled-background-color: #666;
-  --button-disabled-text-color: #000;
-  --button-small-background-color: #2F365F;
-  --button-small-text-color: #F7F1ED;
-  --button-small-border-color: #2F365F;
-  --button-small-focus-background-color: #1E90FF;
-  --button-small-focus-text-color: #F7F1ED;
-  --button-small-disabled-background-color: #666;
-  --button-small-disabled-text-color: #FFF;
-  --entry-form-success-color: #F7F1ED;
-  --entry-form-error-color: #CCC;
-  --entry-form-background-color: #2F365F;
-  --entry-form-text-color: #F7F1ED;
-  --entry-form-input-text-color: #F7F1ED;
-  --entry-form-input-background-color: rgba(0, 0, 0, 0.5);
-  --entry-form-button-background-color: #121527;
-  --entry-form-button-border-color: #121527;
-  --entry-form-button-text-color: #F7F1ED;
-  --entry-form-button-focus-background-color: #000;
-  --entry-form-button-focus-text-color:  #F7F1ED;
-  --entry-form-button-focus-border-color: #000;
+  --content-body: #FFF;
+  --content-blue: #0d6efd;
+  --content-blue-dark: #0950b9;
+  --content-red: #dc3545;
+  --content-green: #198754;
+  --content-white: #fff;
+  --content-gray: #6c757d;
+  --content-gray-dark: #343a40;
+  --content-gray-light: #a9b6c2;
+  --content-success: #198754;
+  --content-info: #0dcaf0;
+  --content-danger: #dc3545;
+  --content-light: #f8f9fa;
+  --content-dark: #212529;
+  --content-font-sans-serif: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --content-background-color: #11111b;
-    --content-text-color: rgba(247, 241, 237, 0.75);
-    --content-link-color: #7d9fc1;
-    --content-focus-color: rgba(255, 255, 255, 0.5);
-    --content-darkest-color: #2F365F;
-    --content-highlight-focus-color: rgba(255, 255, 255, 0.25);
-    --content-input-text-color: #F7F1ED;
-    --content-input-border-color: #11111b;
-    --content-input-background-color: rgba(255, 255, 255, 0.125);
-    --content-input-focus-border-color: #11111b;
-    --content-input-focus-text-color: #F7F1ED;
-    --content-input-focus-background-color: rgba(255, 255, 255, 0.125);
-    --content-shadow-color: #000;
-    --content-th-text-color: #F7F1ED;
-    --content-th-background-color: #2a2a2a;
-    --content-chart-background-color: rgba(255, 255, 255, 0.15);
-    --content-chart-legend-text-color: rgba(247, 241, 237, 0.7);
-    --content-chart-metrics-text-color: rgba(247, 241, 237, 0.75);
-    --content-chart-border-color: rgba(247, 241, 237, 0.25);
-    --content-chart-bar-color: rgba(247, 241, 237, 0.5);
-    --content-chart-bar-border-color: rgba(247, 241, 237, 0.75);
-    --success-color: #1E90FF;
-    --error-color: #7d9fc1;
-    --button-background-color: #2F365F;
-    --button-text-color: #F7F1ED;
-    --button-border-color: #2F365F;
-    --button-focus-background-color: #1E90FF;
-    --button-focus-text-color:  #F7F1ED;
-    --button-focus-border-color: #1E90FF;
-    --button-disabled-background-color: #666;
-    --button-disabled-text-color: #000;
-    --button-small-background-color: #2F365F;
-    --button-small-text-color: #F7F1ED;
-    --button-small-border-color: #2F365F;
-    --button-small-focus-background-color: #1E90FF;
-    --button-small-focus-text-color: #F7F1ED;
-    --button-small-disabled-background-color: #666;
-    --button-small-disabled-text-color: #FFF;
-    --entry-form-success-color: #1E90FF;
-    --entry-form-error-color: #7d9fc1;
-    --entry-form-background-color: #11111b;
-    --entry-form-border-color: #11111b;
-    --entry-form-text-color: #F7F1ED;
-    --entry-form-input-text-color: #2F365F;
-    --entry-form-input-background-color: rgba(255, 255, 255, 0.5);
-    --entry-form-button-background-color: #2F365F;
-    --entry-form-button-border-color: #2F365F;
-    --entry-form-button-text-color: #F7F1ED;
-    --entry-form-button-focus-background-color: #424D88;
-    --entry-form-button-focus-text-color:  #F7F1ED;
-    --entry-form-button-focus-border-color: #424D88;
+    --content-body: #22222B;
+    --content-blue: #a9b6c2;
+    --content-blue-dark: #f8f9fa;
+    --content-red: #dc3545;
+    --content-green: #198754;
+    --content-white: #000;
+    --content-gray: #6c757d;
+    --content-gray-light: #343a40;
+    --content-gray-dark: #a9b6c2;
+    --content-success: #2fbf7c;
+    --content-info: #6c757d;
+    --content-danger: #ff5062;
+    --content-dark: #f8f9fa;
+    --content-light: #11111B;
   }
+}
+
+/* applies the element colors to CSS classes */
+:root {
+  --content-text-color: var(--content-dark);
+  --content-link-color: var(--content-blue);
+  --content-background-color: var(--content-body);
+  --content-focus-color: var(--content-info);
+  --content-th-text-color: var(--content-dark);
+  --content-th-background-color: var(--content-body);
+  --content-chart-background-color: var(--content-light);
+  --content-chart-legend-text-color: var(--content-gray-dark);
+  --content-chart-metrics-text-color: var(--content-gray-dark);
+  --content-chart-border-color: var(--content-gray);
+  --content-chart-bar-color: var(--content-gray);
+  --content-chart-bar-border-color: var(--content-gray-dark);
+  --content-success-color: var(--content-green);
+  --content-error-color: var(--content-danger);
+  --entry-form-success-color: var(--content-green);
+  --entry-form-error-color: var(--content-danger);
+  --entry-form-background-color: var(--content-body);
+  --entry-form-text-color: var(--content-dark);
+  --entry-form-link-text-color: var(--content-blue);
+  --entry-form-link-hover-text-color: var(--content-blue-dark);
+  --content-input-text-color: var(--content-dark);
+  --content-input-border-color: var(--content-gray-light);
+  --content-input-background-color: var(--content-light);
+  --content-input-focus-border-color: var(--content-blue);
+  --content-input-focus-text-color: var(--content-gray-dark);
+  --content-input-focus-background-color: var(--content-light);
+  --content-input-disabled-border-color: var(--content-light);
+  --content-input-disabled-text-color: var(--content-gray);
+  --content-input-disabled-background-color: var(--content-light);
+  --button-submit-background-color: var(--content-blue);
+  --button-submit-text-color: var(--content-white);
+  --button-submit-border-color: var(--content-blue);
+  --button-submit-hover-background-color: var(--content-blue-dark);
+  --button-submit-hover-text-color: var(--content-white);
+  --button-submit-hover-border-color: var(--content-blue-dark);
+  --button-background-color: var(--content-white);
+  --button-text-color: var(--content-gray-dark);
+  --button-border-color: var(--content-gray-light);
+  --button-hover-background-color: var(--content-blue);
+  --button-hover-text-color:  var(--content-white);
+  --button-hover-border-color: var(--content-blue);
+  --button-focus-background-color: var(--content-white);
+  --button-focus-text-color:  var(--content-blue);
+  --button-focus-border-color: var(--content-blue);
+  --button-disabled-background-color: var(--content-gray);
+  --button-disabled-border-color: var(--content-gray);
+  --button-disabled-text-color: var(--content-gray-dark);
+  --button-small-background-color: var(--content-white);
+  --button-small-text-color: var(--content-blue);
+  --button-small-border-color: var(--content-blue);
+  --button-small-focus-background-color: var(--content-blue);
+  --button-small-focus-border-color: var(--content-blue);
+  --button-small-focus-text-color: var(--content-light);
+  --button-small-focus-background-color: var(--content-blue);
+  --button-small-focus-border-color: var(--content-blue);
+  --button-small-focus-text-color: var(--content-light);
+  --button-small-disabled-background-color: var(--content-gray);
+  --button-small-disabled-border-color: var(--content-gray);
+  --button-small-disabled-text-color: var(--content-gray-dark);
 }
