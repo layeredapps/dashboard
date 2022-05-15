@@ -25,6 +25,11 @@ async function beforeRequest (req) {
   if (req.query.profileid === req.account.profileid) {
     req.error = 'invalid-profile'
     req.removeContents = true
+    req.data = {
+      profile: {
+        profileid: req.query.profileid
+      }
+    }
     return
   }
   let profile
