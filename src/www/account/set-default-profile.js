@@ -10,16 +10,23 @@ module.exports = {
 async function beforeRequest (req) {
   req.query = req.query || {}
   req.query.accountid = req.account.accountid
-  req.query.all = true
-  const profiles = await global.api.user.Profiles.get(req)
-  req.query.profileid = req.account.profileid
+  if (req.account.profileid === req.query.profileid) {
+    req.error = 'default-profile'
+    req.removeContents = true
+    req.data = {
+      profile: {
+        profileid: req.query.profileid
+      }
+    }
+    return
+  }
   const profile = await global.api.user.Profile.get(req)
-  profile.createdAtFormatted = dashboard.Format.date(profile.createdAt)
-  req.data = { profile, profiles }
+  profile.default = profile.profileid === req.account.profileid
+  req.data = { profile }
 }
 
 function renderPage (req, res, messageTemplate) {
-  messageTemplate = messageTemplate || (req.query ? req.query.message : null)
+  messageTemplate = req.error || messageTemplate || (req.query ? req.query.message : null)
   const doc = dashboard.HTML.parse(req.html || req.route.html, req.data.profile, 'profile')
   navbar.setup(doc, req.data.profile)
   if (messageTemplate) {
@@ -30,36 +37,20 @@ function renderPage (req, res, messageTemplate) {
       return dashboard.Response.end(req, res, doc)
     }
   }
-  if (req.data.profiles && req.data.profiles.length) {
-    dashboard.HTML.renderList(doc, req.data.profiles, 'profile-option', 'profileid')
-    dashboard.HTML.setSelectedOptionByValue(doc, 'profileid', req.query.profileid)
-  }
   return dashboard.Response.end(req, res, doc)
 }
 
 async function submitForm (req, res) {
-  if (!req.body || !req.body.profileid) {
+  if (!req.body) {
     return renderPage(req, res)
   }
   if (req.account.profileid === req.body.profileid) {
     return renderPage(req, res, 'default-profile')
   }
-  if (!req.data.profiles || !req.data.profiles.length) {
-    return renderPage(req, res, 'invalid-profileid')
-  }
-  let found
-  for (const profile of req.data.profiles) {
-    found = profile.profileid === req.body.profileid
-    if (found) {
-      break
-    }
-  }
-  if (!found) {
-    return renderPage(req, res, 'invalid-profileid')
-  }
   try {
     req.query = req.query || {}
     req.query.accountid = req.account.accountid
+    req.body.profileid = req.query.profileid
     await global.api.user.SetAccountProfile.patch(req)
   } catch (error) {
     return renderPage(req, res, error.message)
