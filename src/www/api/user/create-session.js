@@ -28,14 +28,6 @@ module.exports = {
     })
     const account = accountData ? accountData.dataValues : undefined
     if (!account) {
-      if (global.minimumUsernameLength > req.body.username.length ||
-          global.maximumUsernameLength < req.body.username.length) {
-        throw new Error('invalid-username-length')
-      }
-      if (global.minimumPasswordLength > req.body.password.length ||
-          global.maximumUsernameLength < req.body.password.length) {
-        throw new Error('invalid-password-length')
-      }
       throw new Error('invalid-username')
     }
     const validPassword = await dashboard.Hash.bcryptHashCompare(req.body.password, account.passwordHash, dashboardEncryptionKey)
