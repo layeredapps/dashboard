@@ -1,5 +1,5 @@
 
-> @layeredapps/dashboard@0.0.108 test
+> @layeredapps/dashboard@0.0.113 test
 > PORT=50002 NODE_ENV=testing STORAGE=sqlite DATABASE=dashboard mocha --ignore 'node_modules/**/*' --timeout 90000 --slow 90000 --recursive --extension .test.js .
 
 
@@ -583,6 +583,8 @@
     submit
       ✔ should set the profile as default (screenshots)
     errors
+      ✔ invalid-profileid
+      ✔ invalid-account
       ✔ invalid-csrf-token
 
   /account/signin
@@ -1572,5 +1574,5 @@
       ✔ override req.userProfileFields
 
 
-  885 passing (20m)
+  887 passing (19m)
 
