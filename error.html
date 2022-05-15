@@ -7,11 +7,13 @@
     <link rel="stylesheet" href="/public/content.css">
     <base target="_top" href="/">
   </head>
-  <body>
+  <body class="entry">
+    <div class="container">
+      <h1 id="error-title">{code}</h1>
+      <p><span translate="yes">An error has occurred. You might want to</span>&nbsp;<a href="/home" translate="yes">go to the homepage</a>&nbsp;<span translate="yes">or</span>&nbsp;<a href="/account/signin">sign in again</a>.</p>
+    </div>
     <template id="navbar">
       <a href="/home"><img src="/public/home.svg" alt="Application home"><span translate="yes">Home</span></a>
     </template>
-    <h1 id="error-title">{code}</h1>
-    <p><span translate="yes">An error has occurred. You might want to</span>&nbsp;<a href="/home" translate="yes">go to the homepage</a> <span translate="yes">or</span>&nbsp;<a href="/account/signin">sign in again</a>.</p>
   </body>
 </html>
