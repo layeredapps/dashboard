@@ -34,7 +34,7 @@
     </template>
     <template id="reset-code-row">
       <tr id="${resetCode.codeid}">
-        <td>${resetCode.codeid}</td>
+        <td><a href="/administrator/reset-code?codeid=${resetCode.codeid}">${resetCode.codeid}</a></td>
         <td>${resetCode.createdAtFormatted}</td>
       </tr>
     </template>
