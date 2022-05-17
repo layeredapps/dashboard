@@ -144,17 +144,12 @@ these variables to changes that only affect that element.
 }
 
 :root {
-  --template-menu-icon-filter: var(--template-svg-black);
-  --template-menu-focus-icon-filter: var(--template-svg-blue);
-  --template-menu-active-icon-filter: var(--template-svg-white);
-  --template-navigation-link-icon-filter: var(--template-svg-black);
-  --template-navigation-link-current-page-icon-filter: var(--template-svg-white);
-  --template-navigation-link-focus-icon-filter: var(--template-svg-blue);
-  --template-spillage-menu-icon-filter: var(--template-svg-black);
-  --template-spillage-menu-active-icon-filter: var(--template-svg-white);
   --template-background-color: var(--template-body);
   --template-text-color: var(--template-dark);
   --template-focus-color: var(--template-blue-light);
+  --template-menu-icon-filter: var(--template-svg-black);
+  --template-menu-focus-icon-filter: var(--template-svg-blue);
+  --template-menu-active-icon-filter: var(--template-svg-white);
   --template-menu-background-color: var(--template-blue);
   --template-menu-link-text-color: var(--template-light);
   --template-menu-link-hover-text-color: var(--template-light);
@@ -162,11 +157,16 @@ these variables to changes that only affect that element.
   --template-menu-trigger-active-text-color: var(--template-light);
   --template-menu-link-hover-background-color: var(--template-blue-dark);
   --template-menu-shadow-color: var(--template-gray);
+  --template-navigation-link-icon-filter: var(--template-svg-black);
+  --template-navigation-link-current-page-icon-filter: var(--template-svg-white);
+  --template-navigation-link-focus-icon-filter: var(--template-svg-blue);
   --template-navigation-link-focus-text-color: var(--template-blue);
   --template-navigation-link-hover-text-color: var(--template-light);
   --template-navigation-link-hover-background-color: var(--template-blue);
   --template-navigation-current-page-link-text-color: var(--template-light);
   --template-navigation-current-page-link-background-color: var(--template-blue);
+  --template-spillage-menu-icon-filter: var(--template-svg-black);
+  --template-spillage-menu-active-icon-filter: var(--template-svg-white);
   --template-spillage-menu-background-color: var(--template-blue);
   --template-spillage-menu-link-text-color: var(--template-light);
   --template-spillage-menu-link-hover-text-color: var(--template-light);
