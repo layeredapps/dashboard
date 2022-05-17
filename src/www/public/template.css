@@ -98,14 +98,6 @@ nav, input, select, textarea, a, button, div { outline: 0 }
   .template .spillage img { padding-right: 0 }
 }
 
-@media (prefers-color-scheme: dark) {
-  .template .menu-trigger .menu-icon { filter: invert(1) }
-  .template .menu-group-active .menu-icon { filter: invert(0) !important; opacity: 0.75 }
-  .template .menu-trigger:hover .menu-icon { filter: invert(0) }
-  .template .navigation-link img { filter: invert(1) }
-  .template .spillage-icon { filter: invert(1) }
-}
-
 /* 
 Color settings use two tiers, you can override the variables 
 at either tier to make broad or granular changes.
@@ -176,5 +168,11 @@ these variables to changes that only affect that element.
 @media (prefers-color-scheme: dark) {
   :root { 
     --template-menu-shadow-color: var(--template-body);
+    --template-menu-icon-filter: var(--template-svg-white);
+    --template-menu-focus-icon-filter: var(--template-svg-white);
+    --template-menu-active-icon-filter: var(--template-svg-black);
+    --template-navigation-link-icon-filter: var(--template-svg-white);
+    --template-navigation-link-focus-icon-filter: var(--template-svg-white);
+    --template-spillage-menu-icon-filter: var(--template-svg-white);
   }
 }
