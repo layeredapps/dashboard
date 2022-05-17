@@ -4,7 +4,7 @@ html, body { padding: 0; margin: 0; font-family: sans-serif }
 body { line-height: 100%;  min-width: 320px }
 ul, li, nav, menu { list-style-type: none; padding: 0; margin: 0 }
 a { text-decoration: none }
-input, select, textarea, a, button, div { outline: 0 }
+nav, input, select, textarea, a, button, div { outline: 0 }
 .template { color: var(--template-text-color); background-color: var(--template-background-color) }
 .template a:focus,
 .template button:focus { box-shadow: 0 0 0 0.2rem var(--template-focus-color) }
@@ -17,7 +17,7 @@ input, select, textarea, a, button, div { outline: 0 }
 /* header account and administrator dropdown menus */
 .template .menus { background-color: inherit; padding: 0.5rem 0.5rem 0 0 }
 .template .menu-group { display: inline-block; position: relative; margin: 0; padding: 0; cursor: pointer; font-size: 0.8rem; color: inherit }
-.template .menu-icon { height: 2rem; width: 2rem; opacity: 0.75; margin: 0.5rem;; }
+.template .menu-icon { height: 2rem; width: 2rem; opacity: 0.75; margin: 0.5rem; filter: var(--template-menu-icon-filter) }
 .template .menu-group-label { height: 3rem; line-height: 3rem; padding: 0 0 0 1rem } 
 .template .menu-trigger { display: flex; height: 3rem; line-height: 3rem; cursor: pointer; color: inherit; border: none; background-color: transparent; padding: 0; margin: 0; border-radius: 0.5rem }
 .template .menus .menu-group:first-of-type { padding-left: 0 }
@@ -26,10 +26,11 @@ input, select, textarea, a, button, div { outline: 0 }
 .template .menu-group:focus .dropdown-menu { display: block }
 .template .menu-group-active .menu-icon,
 .template .menu-group:hover .menu-icon,
-.template .menu-group:focus .menu-icon { filter: invert(1); opacity: 1 }
+.template .menu-group:focus .menu-icon { filter: var(--template-menu-active-icon-filter) }
 .template .menu-group .menu-trigger:focus { color: var(--template-menu-trigger-focus-text-color) }
-.template .menu-group .menu-trigger:focus .menu-icon { opacity: 1; filter: var(--template-image-filter) } 
-.template .menu-group-active .menu-trigger .menu-icon { filter: invert(1) } 
+.template .menu-group .menu-trigger:focus .menu-icon { filter: var(--template-menu-focus-icon-filter) } 
+.template .menu-group-active .menu-trigger:focus .menu-icon { filter: var(--template-menu-active-icon-filter) } 
+.template .menu-group-active .menu-trigger .menu-icon { filter: var(--template-menu-active-icon-filter) } 
 .template .menu-group-active .menu-trigger,
 .template .menu-group-active .menu-trigger:focus,
 .template .menu-group:hover .menu-trigger { box-shadow: 0 0.25rem 0.25rem var(--template-menu-shadow-color); background-color: var(--template-menu-background-color); color: var(--template-menu-trigger-active-text-color); border-radius: 0.5rem 0.5rem 0 0; height: 4rem; line-height: 4rem } 
@@ -51,12 +52,13 @@ input, select, textarea, a, button, div { outline: 0 }
 .template .navigation-link:hover:focus { color: var(--template-navigation-link-hover-text-color) }
 .template .navigation-link:focus { color: var(--template-navigation-link-focus-text-color) }
 .template .navigation-link span { height: 2rem; display: block }
-.template .navigation-link img { margin: 0.5rem; height: 1rem; width: 1rem }
+.template .navigation-link img { margin: 0.5rem; height: 1rem; width: 1rem; filter: var(--template-navigation-link-icon-filter) }
 .template .navigation-link.current-page { color: var(--template-navigation-current-page-link-text-color); background-color: var(--template-navigation-current-page-link-background-color); border-radius: 0.5rem }
 .template .navigation-link:hover:focus img,
 .template .navigation-link:hover img,
-.template .navigation-link.current-page img { filter: invert(1) }
-.template .navigation-link:focus img { filter: var(--template-image-filter) }
+.template .navigation-link.current-page img { filter: var(--template-navigation-link-current-page-icon-filter) }
+.template .navigation-link:focus img { filter: var(--template-navigation-link-focus-icon-filter) }
+
 .template .spillage { flex-direction: column; height: 3rem; padding: 0 0.5rem; margin-right: 0.5rem; cursor: pointer; overflow: hidden }
 .template .spillage-active,
 .template .spillage:hover,
@@ -64,10 +66,10 @@ input, select, textarea, a, button, div { outline: 0 }
 .template .spillage-trigger { cursor: pointer; height: 2rem; color: inherit; border: none; background-color: transparent; padding: 0; margin: 0; border-radius: 0.5rem }
 .template .spillage-trigger:focus { background-color: var(--template-spillage-menu-background-color) }
 .template .spillage-links { display: none; background-color: var(--template-spillage-menu-background-color); position: absolute; z-index: 99998; top: 2rem; right: 0.5rem; padding: 0.5rem 0.5rem 0.5rem 4rem; text-align: right; border-radius: 0.5rem 0 0.5rem 0.5rem }
-.template .spillage-icon { width: 1rem }
+.template .spillage-icon { width: 1rem; filter: var(--template-spillage-menu-icon-filter) }
 .template .spillage-link { line-height: 2rem; font-size: 0.8rem; display: block; margin-bottom: 0.5rem; padding: 0 0.5rem; color: var(--template-spillage-menu-link-text-color) }
 .template .spillage-link:hover,
-.template .spillage-link:focus { background-color: var(--template-spillage-menu-link-hover-background-color); border-radius: 0.5rem; color: var(--template-spillage-menu-link-hover-color) }
+.template .spillage-link:focus { background-color: var(--template-spillage-menu-link-hover-background-color); border-radius: 0.5rem; color: var(--template-spillage-menu-link-hover-text-color) }
 .template .spillage-links .spillage-link:last-of-type { margin-bottom: 0 }
 .template .spillage-active .spillage-links,
 .template .spillage:hover .spillage-links,
@@ -75,6 +77,9 @@ input, select, textarea, a, button, div { outline: 0 }
 .template .spillage-active .spillage-trigger,
 .template .spillage:hover .spillage-trigger,
 .template .spillage:focus .spillage-trigger { background-color: transparent }
+.template .spillage-active .spillage-icon,
+.template .spillage:hover .spillage-icon,
+.template .spillage:focus .spillage-icon { filter: var(--template-spillage-menu-active-icon-filter) }
 
 @media (max-width: 960px) {
   .template .heading { padding-left: 0.5rem; font-size: 1rem }
@@ -113,8 +118,10 @@ these variables to changes that only affect that element.
 
 */
 :root {
+  --template-svg-blue: invert(64%) sepia(99%) saturate(6679%) hue-rotate(208deg) brightness(100%) contrast(99%);
+  --template-svg-white: invert(100%) sepia(97%) saturate(13%) hue-rotate(237deg) brightness(104%) contrast(104%);
+  --template-svg-black:  invert(0%) sepia(90%) saturate(0%) hue-rotate(264deg) brightness(102%) contrast(101%);
   --template-body: #EEE;
-  --template-image-filter: invert(64%) sepia(99%) saturate(6679%) hue-rotate(208deg) brightness(100%) contrast(99%);
   --template-blue: #0d6efd;
   --template-blue-dark: #0950b9;
   --template-blue-light: #5f9ffe;
@@ -137,6 +144,14 @@ these variables to changes that only affect that element.
 }
 
 :root {
+  --template-menu-icon-filter: var(--template-svg-black);
+  --template-menu-focus-icon-filter: var(--template-svg-blue);
+  --template-menu-active-icon-filter: var(--template-svg-white);
+  --template-navigation-link-icon-filter: var(--template-svg-black);
+  --template-navigation-link-current-page-icon-filter: var(--template-svg-white);
+  --template-navigation-link-focus-icon-filter: var(--template-svg-blue);
+  --template-spillage-menu-icon-filter: var(--template-svg-black);
+  --template-spillage-menu-active-icon-filter: var(--template-svg-white);
   --template-background-color: var(--template-body);
   --template-text-color: var(--template-dark);
   --template-focus-color: var(--template-blue-light);
@@ -155,7 +170,7 @@ these variables to changes that only affect that element.
   --template-spillage-menu-background-color: var(--template-blue);
   --template-spillage-menu-link-text-color: var(--template-light);
   --template-spillage-menu-link-hover-text-color: var(--template-light);
-  --template-spillage-menu-link-hover-background-color: var(--template-gray);
+  --template-spillage-menu-link-hover-background-color: var(--template-blue-dark);
 }
 
 @media (prefers-color-scheme: dark) {
