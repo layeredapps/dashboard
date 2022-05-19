@@ -38,6 +38,22 @@ function toggleSpillage (e) {
 }
 
 window.addEventListener('load', () => {
+  // disable forms submitting twice for a moment
+  const forms = document.getElementsByTagName('form')
+  if (forms && forms.length) {
+    for (const form of forms) {
+      form.onsubmit = () => {
+        if (form.getAttribute('submitted') === true) {
+          return
+        }
+        form.setAttribute('submitted', true)
+        setTimeout(() => {
+          form.setAttribute('submitted', undefined)
+        }, 2500)
+      }
+    }
+  }
+  // add manual activation for menus
   const administratorMenuContainer = document.querySelector('#administrator-menu-container')
   if (administratorMenuContainer) {
     administratorMenuContainer.addEventListener('click', toggleMenu)
@@ -48,6 +64,7 @@ window.addEventListener('load', () => {
     accountMenuContainer.addEventListener('click', toggleMenu)
     accountMenuContainer.addEventListener('hover', toggleMenu)
   }
+  // move off-screen links to spillage menu
   const spillageMenuContainer = document.querySelector('#spillage-menu-container')
   if (spillageMenuContainer) {
     spillageMenuContainer.addEventListener('click', toggleSpillage)
