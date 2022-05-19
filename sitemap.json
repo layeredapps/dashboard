@@ -12,9 +12,7 @@
   ],
   "server": [
     "/src/server/check-csrf-token.js",
-    "/src/server/check-xss-injection.js",
-    "/src/server/always-reload-files.js",
-    "/src/server/always-reload-routes.js"
+    "/src/server/check-xss-injection.js"
   ],
   "proxy": [],
   "urls": {

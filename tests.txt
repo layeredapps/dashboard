@@ -1,5 +1,5 @@
 
-> @layeredapps/dashboard@0.0.114 test
+> @layeredapps/dashboard@0.0.119 test
 > PORT=50002 NODE_ENV=testing STORAGE=sqlite DATABASE=dashboard mocha --ignore 'node_modules/**/*' --timeout 90000 --slow 90000 --recursive --extension .test.js .
 
 
@@ -91,6 +91,10 @@
     SESSION_VERIFICATION_DELAY
       Seconds before verifying a prolongued session
         ✔ default 14400
+        ✔ Integer
+    CACHE_APPLICATION_SERVER_FILES
+      Seconds to cache files from application server
+        ✔ default 60
         ✔ Integer
 
   internal-api/api
@@ -1574,5 +1578,5 @@
       ✔ override req.userProfileFields
 
 
-  887 passing (20m)
+  889 passing (20m)
 
