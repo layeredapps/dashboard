@@ -1,6 +1,7 @@
 const http = require('http')
 const https = require('https')
 const HTML = require('./html.js')
+const Log = require('./log.js')('proxy')
 const Response = require('./response.js')
 const util = require('util')
 
@@ -74,7 +75,7 @@ async function pass (req, res) {
       bodyParts.push(chunk)
     })
     proxyResponse.on('end', () => {
-      let body = Buffer.concat(bodyParts)
+      let body = bodyParts.length ? Buffer.concat(bodyParts) : undefined
       switch (proxyResponse.statusCode) {
         case 200:
           if (proxyResponse.headers['content-type'] && proxyResponse.headers['content-type'].indexOf('text/html') === 0) {
@@ -125,6 +126,10 @@ async function pass (req, res) {
   } else if (req.body) {
     proxyRequest.write(req.body)
   }
+  proxyRequest.on('error', (error) => {
+    Log.error('proxy error', requestOptions, error)
+    return Response.throw500(req, res)
+  })
   proxyRequest.end()
   return requestOptions
 }
@@ -160,10 +165,11 @@ async function get (req, callback) {
       bodyParts.push(chunk)
     })
     return proxyResponse.on('end', () => {
-      return callback(null, Buffer.concat(bodyParts))
+      return callback(null, bodyParts.length ? Buffer.concat(bodyParts) : undefined)
     })
   })
   proxyRequest.on('error', (error) => {
+    Log.error('proxy error', requestOptions, error)
     return callback(error)
   })
   return proxyRequest.end()
@@ -200,10 +206,11 @@ async function externalPOST (url, headers, body, callback) {
       bodyParts.push(chunk)
     })
     return proxyResponse.on('end', () => {
-      return callback(null, Buffer.concat(bodyParts))
+      return callback(null, bodyParts.length ? Buffer.concat(bodyParts) : undefined)
     })
   })
   proxyRequest.on('error', (error) => {
+    Log.error('proxy error', requestOptions, error)
     return callback(error)
   })
   proxyRequest.write(bodyRaw)
@@ -236,10 +243,11 @@ async function externalGET (url, headers, callback) {
       bodyParts.push(chunk)
     })
     return proxyResponse.on('end', () => {
-      return callback(null, Buffer.concat(bodyParts))
+      return callback(null, bodyParts.length ? Buffer.concat(bodyParts) : undefined)
     })
   })
   proxyRequest.on('error', (error) => {
+    Log.error('proxy error', requestOptions, error)
     return callback(error)
   })
   return proxyRequest.end()
