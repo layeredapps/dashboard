@@ -106,6 +106,16 @@ const dashboard = module.exports = {
     global.packageJSON.dashboard.server.push(require('./src/server/check-xss-injection.js'))
     global.packageJSON.dashboard.contentFilePaths.push(require.resolve('./src/content/set-form-return-url.js'))
     global.packageJSON.dashboard.content.push(require('./src/content/set-form-return-url.js'))
+    if (global.applicationServer) {
+      global.packageJSON.dashboard.serverFilePaths.push(
+        require.resolve('./src/server/fetch-application-server-special-html.js'),
+        require.resolve('./src/server/fetch-application-server-static-file.js')
+      )
+      global.packageJSON.dashboard.server.push(
+        require('./src/server/fetch-application-server-special-html.js'),
+        require('./src/server/fetch-application-server-static-file.js')
+      )
+    }
     if (global.hotReload) {
       global.packageJSON.dashboard.serverFilePaths.push(
         require.resolve('./src/server/hot-reload.js')
