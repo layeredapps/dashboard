@@ -107,7 +107,7 @@ const dashboard = module.exports = {
         require.resolve('./src/server/hot-reload.js')
       )
       global.packageJSON.dashboard.server.push(
-        require('./src/server/hot-reloads.js')
+        require('./src/server/hot-reload.js')
       )
     }
     // the sitemap merged from your dashboard server + dashboard + modules
