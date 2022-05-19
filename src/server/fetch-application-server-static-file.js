@@ -54,7 +54,7 @@ async function fetchApplicationServerPublicFile (req, res) {
     contents = await Proxy.get({ url })
   } catch (error) {
   }
-  if (!contents) {
+  if (!contents || !contents.length) {
     nonexistent[url] = true
     return
   }

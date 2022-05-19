@@ -28,8 +28,20 @@ async function fetchApplicationServerSpecialHTML (req) {
         nonexistent[url] = null
       }
     }
-    // abort if the file is already cached or nonexistent
-    if (cache[url] || nonexistent[url]) {
+    // abort if the file is nonexistent
+    if (nonexistent[url]) {
+      return
+    }
+    // abort if the file is cached
+    if (cache[url]) {
+      const prefix = file.split('.').shift()
+      if (req.packageJSON) {
+        req.packageJSON.dashboard[`${prefix}HTML`] = cache[url]
+        req.packageJSON.dashboard[`${prefix}HTMLPath`] = url
+      } else {
+        global.packageJSON.dashboard[`${prefix}HTML`] = cache[url]
+        global.packageJSON.dashboard[`${prefix}HTMLPath`] = url
+      }
       return
     }
     // load from the server
@@ -46,13 +58,14 @@ async function fetchApplicationServerSpecialHTML (req) {
       nonexistent[url] = true
     } else {
       // update the global configuration
+      const prefix = file.split('.').shift()
       if (req.packageJSON) {
-        req.packageJSON.dashboard[`${file}HTML`] = contents
-        req.packageJSON.dashboard[`${file}HTMLPath`] = url
+        req.packageJSON.dashboard[`${prefix}HTML`] = contents
+        req.packageJSON.dashboard[`${prefix}HTMLPath`] = url
         cache[url] = contents
       } else {
-        global.packageJSON.dashboard[`${file}HTML`] = contents
-        global.packageJSON.dashboard[`${file}HTMLPath`] = url
+        global.packageJSON.dashboard[`${prefix}HTML`] = contents
+        global.packageJSON.dashboard[`${prefix}HTMLPath`] = url
         cache[url] = contents
       }
     }
