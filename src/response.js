@@ -32,7 +32,8 @@ module.exports = {
   wrapTemplateWithSrcDoc,
   wrapSrcDocWithTemplate,
   eTag,
-  sri
+  sri,
+  mimeTypes
 }
 
 async function end (req, res, doc, blob) {
