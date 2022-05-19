@@ -53,11 +53,12 @@ nav, input, select, textarea, a, button, div { outline: 0 }
 .template .navigation-link:focus { color: var(--template-navigation-link-focus-text-color) }
 .template .navigation-link span { height: 2rem; display: block }
 .template .navigation-link img { margin: 0.5rem; height: 1rem; width: 1rem; filter: var(--template-navigation-link-icon-filter) }
-.template .navigation-link.current-page { color: var(--template-navigation-current-page-link-text-color); background-color: var(--template-navigation-current-page-link-background-color); border-radius: 0.5rem }
-.template .navigation-link:hover:focus img,
-.template .navigation-link:hover img,
+.template .navigation-link.current-page { color: var(--template-navigation-link-current-page-link-text-color); background-color: var(--template-navigation-link-current-page-link-background-color); border-radius: 0.5rem }
 .template .navigation-link.current-page img { filter: var(--template-navigation-link-current-page-icon-filter) }
 .template .navigation-link:focus img { filter: var(--template-navigation-link-focus-icon-filter) }
+.template .navigation-link:hover:focus img,
+.template .navigation-link:hover img,
+.template .navigation-link.current-page:hover img { filter: var(--template-navigation-link-hover-icon-filter) }
 
 .template .spillage { flex-direction: column; height: 3rem; padding: 0 0.5rem; margin-right: 0.5rem; cursor: pointer; overflow: hidden }
 .template .spillage-active,
@@ -92,7 +93,6 @@ nav, input, select, textarea, a, button, div { outline: 0 }
   .template .navigation-link { height: 2rem; margin-left: 0.5rem; margin-right: 0.5rem }
   .template .navigation-link:first-of-type { padding-left: 0.5rem; margin-right: 0 }
   .template .spillage { height: 2.5rem }
-  /* .template .spillage-links { top: 1.5rem } */
   .template .spillage-links a { font-size: 0.8rem }
   .template .navigation-links span { display: none }
   .template .spillage img { padding-right: 0 }
@@ -150,13 +150,14 @@ these variables to changes that only affect that element.
   --template-menu-link-hover-background-color: var(--template-blue-dark);
   --template-menu-shadow-color: var(--template-gray);
   --template-navigation-link-icon-filter: var(--template-svg-black);
-  --template-navigation-link-current-page-icon-filter: var(--template-svg-white);
+  --template-navigation-link-hover-icon-filter: var(--template-svg-black);
   --template-navigation-link-focus-icon-filter: var(--template-svg-blue);
   --template-navigation-link-focus-text-color: var(--template-blue);
   --template-navigation-link-hover-text-color: var(--template-light);
   --template-navigation-link-hover-background-color: var(--template-blue);
-  --template-navigation-current-page-link-text-color: var(--template-light);
-  --template-navigation-current-page-link-background-color: var(--template-blue);
+  --template-navigation-link-current-page-link-text-color: var(--template-light);
+  --template-navigation-link-current-page-link-background-color: var(--template-blue);
+  --template-navigation-link-current-page-icon-filter: var(--template-svg-white);
   --template-spillage-menu-icon-filter: var(--template-svg-black);
   --template-spillage-menu-active-icon-filter: var(--template-svg-white);
   --template-spillage-menu-background-color: var(--template-blue);
@@ -173,6 +174,8 @@ these variables to changes that only affect that element.
     --template-menu-active-icon-filter: var(--template-svg-black);
     --template-navigation-link-icon-filter: var(--template-svg-white);
     --template-navigation-link-focus-icon-filter: var(--template-svg-white);
+    --template-navigation-link-hover-icon-filter: var(--template-svg-black);
+    --template-navigation-link-current-page-icon-filter: var(--template-svg-black);
     --template-spillage-menu-icon-filter: var(--template-svg-white);
   }
 }
