@@ -12,22 +12,16 @@ module.exports = {
 }
 
 async function pass (req, res) {
-  let baseURL = (req.applicationServer || global.applicationServer).split('://')[1]
-  const baseSlash = baseURL.indexOf('/')
-  if (baseSlash > -1) {
-    baseURL = baseURL.substring(0, baseSlash)
+  const parsedURL = new URL(`${req.applicationServer || global.applicationServer}${req.url}`)
+  let host = parsedURL.hostname
+  if (host.indexOf(':') > -1) {
+    host = host.substring(0, host.indexOf(':'))
   }
-  let port
-  const portColon = baseURL.indexOf(':')
-  if (portColon > -1) {
-    port = baseURL.substring(portColon + 1)
-    baseURL = baseURL.substring(0, portColon)
-  } else {
-    port = global.applicationServer.startsWith('https') ? 443 : 80
-  }
+  const port = parsedURL.port
+  const path = parsedURL.pathname
   const requestOptions = {
-    host: baseURL,
-    path: req.url,
+    host,
+    path,
     method: req.method,
     port,
     headers: {
@@ -75,11 +69,12 @@ async function pass (req, res) {
   }
   const protocol = (req.applicationServerToken || global.applicationServer).startsWith('https') ? https : http
   const proxyRequest = protocol.request(requestOptions, (proxyResponse) => {
-    let body
+    const bodyParts = []
     proxyResponse.on('data', (chunk) => {
-      body = body ? Buffer.concat([body, chunk]) : chunk
+      bodyParts.push(chunk)
     })
     proxyResponse.on('end', () => {
+      let body = Buffer.concat(bodyParts)
       switch (proxyResponse.statusCode) {
         case 200:
           if (proxyResponse.headers['content-type'] && proxyResponse.headers['content-type'].indexOf('text/html') === 0) {
@@ -135,18 +130,16 @@ async function pass (req, res) {
 }
 
 async function get (req, callback) {
-  let host = global.applicationServer
-  let port = 80
-  if (global.applicationServer.lastIndexOf(':') > global.applicationServer.indexOf(':')) {
-    host = global.applicationServer.substring(0, global.applicationServer.lastIndexOf(':'))
-    host = host.substring(host.indexOf('://') + 3)
-    port = global.applicationServer.substring(global.applicationServer.lastIndexOf(':') + 1)
-  } else {
-    port = host.startsWith('https://') ? 443 : 80
+  const parsedURL = new URL(`${global.applicationServer}${req.url}`)
+  let host = parsedURL.hostname
+  if (host.indexOf(':') > -1) {
+    host = host.substring(0, host.indexOf(':'))
   }
+  const port = parsedURL.port
+  const path = parsedURL.pathname
   const requestOptions = {
     host,
-    path: req.url,
+    path,
     port,
     method: 'GET',
     headers: {}
@@ -162,17 +155,12 @@ async function get (req, callback) {
   }
   const protocol = global.applicationServer.startsWith('http://') ? 'http' : 'https'
   const proxyRequest = require(protocol).request(requestOptions, (proxyResponse) => {
-    let bodyChunks
+    const bodyParts = []
     proxyResponse.on('data', (chunk) => {
-      if (!bodyChunks) {
-        bodyChunks = [chunk]
-      } else {
-        bodyChunks.push(chunk)
-      }
+      bodyParts.push(chunk)
     })
     return proxyResponse.on('end', () => {
-      const body = bodyChunks ? Buffer.concat(bodyChunks) : undefined
-      return callback(null, body)
+      return callback(null, Buffer.concat(bodyParts))
     })
   })
   proxyRequest.on('error', (error) => {
@@ -182,20 +170,16 @@ async function get (req, callback) {
 }
 
 async function externalPOST (url, headers, body, callback) {
-  let host = url
-  let port = 80
-  if (url.lastIndexOf(':') > url.indexOf(':')) {
-    host = url.substring(0, url.lastIndexOf(':'))
-    host = host.substring(host.indexOf('://') + 3)
-    port = url.substring(url.lastIndexOf(':') + 1)
-  } else {
-    host = host.substring(host.indexOf('://') + 3)
-    host = host.substring(0, host.indexOf('/'))
-    port = url.startsWith('https://') ? 443 : 80
+  const parsedURL = new URL(url)
+  let host = parsedURL.hostname
+  if (host.indexOf(':') > -1) {
+    host = host.substring(0, host.indexOf(':'))
   }
+  const port = parsedURL.port
+  const path = parsedURL.pathname
   const requestOptions = {
     host,
-    path: url.substring(url.indexOf(host) + host.length),
+    path,
     port,
     method: 'POST',
     headers: headers || {}
@@ -211,12 +195,12 @@ async function externalPOST (url, headers, body, callback) {
   }
   const protocol = url.startsWith('http://') ? 'http' : 'https'
   const proxyRequest = require(protocol).request(requestOptions, (proxyResponse) => {
-    let body = ''
+    const bodyParts = []
     proxyResponse.on('data', (chunk) => {
-      body += chunk
+      bodyParts.push(chunk)
     })
     return proxyResponse.on('end', () => {
-      return callback(null, body)
+      return callback(null, Buffer.concat(bodyParts))
     })
   })
   proxyRequest.on('error', (error) => {
@@ -227,32 +211,32 @@ async function externalPOST (url, headers, body, callback) {
 }
 
 async function externalGET (url, headers, callback) {
-  let host = url
-  let port = 80
-  if (url.lastIndexOf(':') > url.indexOf(':')) {
-    host = url.substring(0, url.lastIndexOf(':'))
-    host = host.substring(host.indexOf('://') + 3)
-    port = url.substring(url.lastIndexOf(':') + 1)
-  } else {
-    host = host.substring(host.indexOf('://') + 3)
-    host = host.substring(0, host.indexOf('/'))
-    port = url.startsWith('https://') ? 443 : 80
+  if (arguments.length === 2) {
+    callback = arguments[1]
+    headers = undefined
   }
+  const parsedURL = new URL(url)
+  let host = parsedURL.hostname
+  if (host.indexOf(':') > -1) {
+    host = host.substring(0, host.indexOf(':'))
+  }
+  const port = parsedURL.port
+  const path = parsedURL.pathname
   const requestOptions = {
     host,
-    path: url.substring(url.indexOf(host) + host.length),
+    path,
     port,
     method: 'GET',
     headers: headers || {}
   }
   const protocol = url.startsWith('http://') ? 'http' : 'https'
   const proxyRequest = require(protocol).request(requestOptions, (proxyResponse) => {
-    let body = ''
+    const bodyParts = []
     proxyResponse.on('data', (chunk) => {
-      body += chunk
+      bodyParts.push(chunk)
     })
     return proxyResponse.on('end', () => {
-      return callback(null, body)
+      return callback(null, Buffer.concat(bodyParts))
     })
   })
   proxyRequest.on('error', (error) => {
