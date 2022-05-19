@@ -25,6 +25,25 @@ describe('internal-api/proxy', () => {
       global.applicationServer = `http://localhost:${port}`
       global.applicationServerToken = 'secret'
       requestHandler = null
+      // before each test remove the server handler that preemptively
+      // downloads 'special html files' regardless of the requested URL
+      // if a global.applicationServer is configured
+      for (let i = 0; i < global.packageJSON.dashboard.server.length; i++) {
+        if (global.packageJSON.dashboard.serverFilePaths[i].endsWith('fetch-application-server-special-html.js')) {
+          global.packageJSON.dashboard.server[i] = null
+          return
+        }
+      }
+    })
+
+    afterEach (async () => {
+      // after each test add it back
+      for (let i = 0; i < global.packageJSON.dashboard.server.length; i++) {
+        if (global.packageJSON.dashboard.serverFilePaths[i].endsWith('fetch-application-server-special-html.js')) {
+          global.packageJSON.dashboard.server[i] = require(global.packageJSON.dashboard.serverFilePaths[i])
+          return
+        }
+      } 
     })
 
     it('should include x-accountid header', async () => {
