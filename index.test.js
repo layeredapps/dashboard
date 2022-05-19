@@ -24,7 +24,11 @@ const properties = [
   { camelCase: 'requireProfile', raw: 'REQUIRE_PROFILE', description: 'Require registration information', value: 'true', default: '', valueDescription: 'Integer' },
   { camelCase: 'userProfileFields', raw: 'USER_PROFILE_FIELDS', description: 'Information to collect at registration', value: 'full-name,contact-email,display-name,display-email,dob,location,phone,company-name,website,occupation', default: 'contact-email,full-name', valueDescription: 'Profile property list' },
   { camelCase: 'sessionVerificationDelay', raw: 'SESSION_VERIFICATION_DELAY', description: 'Seconds before verifying a prolongued session', value: '28800', default: '14400', valueDescription: 'Integer' },
-  { camelCase: 'cacheApplicationServerFiles', raw: 'CACHE_APPLICATION_SERVER_FILES', description: 'Seconds to cache files from application server', value: '600', default: '60', valueDescription: 'Integer' }
+  { camelCase: 'cacheApplicationServerFiles', raw: 'CACHE_APPLICATION_SERVER_FILES', description: 'Seconds to cache files from application server', value: '600', default: '60', valueDescription: 'Integer' },
+  { camelCase: 'hotReload', raw: 'HOT_RELOAD', description: 'Reloads files every request', value: 'true', noDefaultValue: true, valueDescription: 'Boolean' },
+  { camelCase: 'inlineCSS', raw: 'INLINE_CSS', description: 'Replaces linked CSS with embedded CSS', value: 'true', noDefaultValue: true, valueDescription: 'Boolean' },
+  { camelCase: 'inlineJS', raw: 'INLINE_JS', description: 'Replaces linked JS with embedded JS', value: 'true', noDefaultValue: true, valueDescription: 'Boolean' },
+  { camelCase: 'inlineSVG', raw: 'INLINE_SVG', description: 'Replaces image SVG wtih embedded SVG', value: 'true', noDefaultValue: true, valueDescription: 'Boolean' }
 ]
 
 describe('index', () => {

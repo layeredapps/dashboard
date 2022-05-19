@@ -76,6 +76,10 @@ global.cacheApplicationServerFiles = parseInt(process.env.CACHE_APPLICATION_SERV
 global.deleteDelay = parseInt(process.env.DELETE_DELAY || '7', 10)
 global.pageSize = parseInt(process.env.PAGE_SIZE || '10', 10)
 global.sessionVerificationDelay = parseInt(process.env.SESSION_VERIFICATION_DELAY || '14400', 10)
+global.inlineCSS = process.env.INLINE_CSS === 'true'
+global.inlineJS = process.env.INLINE_JS === 'true'
+global.inlineSVG = process.env.INLINE_SVG === 'true'
+global.hotReload = process.env.HOT_RELOAD === 'true'
 
 let Server
 
@@ -102,12 +106,36 @@ const dashboard = module.exports = {
     global.packageJSON.dashboard.server.push(require('./src/server/check-xss-injection.js'))
     global.packageJSON.dashboard.contentFilePaths.push(require.resolve('./src/content/set-form-return-url.js'))
     global.packageJSON.dashboard.content.push(require('./src/content/set-form-return-url.js'))
-    if (process.env.HOT_RELOAD) {
+    if (global.hotReload) {
       global.packageJSON.dashboard.serverFilePaths.push(
         require.resolve('./src/server/hot-reload.js')
       )
       global.packageJSON.dashboard.server.push(
         require('./src/server/hot-reload.js')
+      )
+    }
+    if (global.inlineCSS) {
+      global.packageJSON.dashboard.contentFilePaths.push(
+        require.resolve('./src/content/inline-css.js')
+      )
+      global.packageJSON.dashboard.content.push(
+        require('./src/content/inline-css.js')
+      )
+    }
+    if (global.inlineJS) {
+      global.packageJSON.dashboard.contentFilePaths.push(
+        require.resolve('./src/content/inline-js.js')
+      )
+      global.packageJSON.dashboard.content.push(
+        require('./src/content/inline-js.js')
+      )
+    }
+    if (global.inlineSVG) {
+      global.packageJSON.dashboard.contentFilePaths.push(
+        require.resolve('./src/content/inline-svg.js')
+      )
+      global.packageJSON.dashboard.content.push(
+        require('./src/content/inline-svg.js')
       )
     }
     // the sitemap merged from your dashboard server + dashboard + modules
