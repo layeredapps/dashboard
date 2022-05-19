@@ -23,7 +23,8 @@ const properties = [
   { camelCase: 'maximumResetCodeLength', raw: 'MAXIMUM_RESET_CODE_LENGTH', description: 'Longest reset code length', value: '1000', default: '50', valueDescription: 'Integer' },
   { camelCase: 'requireProfile', raw: 'REQUIRE_PROFILE', description: 'Require registration information', value: 'true', default: '', valueDescription: 'Integer' },
   { camelCase: 'userProfileFields', raw: 'USER_PROFILE_FIELDS', description: 'Information to collect at registration', value: 'full-name,contact-email,display-name,display-email,dob,location,phone,company-name,website,occupation', default: 'contact-email,full-name', valueDescription: 'Profile property list' },
-  { camelCase: 'sessionVerificationDelay', raw: 'SESSION_VERIFICATION_DELAY', description: 'Seconds before verifying a prolongued session', value: '28800', default: '14400', valueDescription: 'Integer' }
+  { camelCase: 'sessionVerificationDelay', raw: 'SESSION_VERIFICATION_DELAY', description: 'Seconds before verifying a prolongued session', value: '28800', default: '14400', valueDescription: 'Integer' },
+  { camelCase: 'cacheApplicationServerFiles', raw: 'CACHE_APPLICATION_SERVER_FILES', description: 'Seconds to cache files from application server', value: '600', default: '60', valueDescription: 'Integer' }
 ]
 
 describe('index', () => {

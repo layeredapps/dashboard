@@ -75,9 +75,7 @@ describe('internal-api/package-json', () => {
       ]
       const applicationJSON = blankPackageJSON()
       applicationJSON.dashboard.server = [
-        './server/fetch-application-server-error-html.js',
-        './server/fetch-application-server-redirect-html.js',
-        './server/fetch-application-server-template-html.js'
+        './server/fetch-application-server-special-html.js'
       ]
       const packageJSON = blankPackageJSON()
       PackageJSON.mergeScriptArray(packageJSON, dashboardJSON, 'server')
@@ -85,9 +83,7 @@ describe('internal-api/package-json', () => {
       assert.strictEqual(packageJSON.dashboard.server[0], require.resolve('./server/allow-api-access-cross-domain.js'))
       assert.strictEqual(packageJSON.dashboard.server[1], require.resolve('./server/allow-api-access.js'))
       assert.strictEqual(packageJSON.dashboard.server[2], require.resolve('./server/allow-api-requests-from-application.js'))
-      assert.strictEqual(packageJSON.dashboard.server[3], require.resolve('./server/fetch-application-server-error-html.js'))
-      assert.strictEqual(packageJSON.dashboard.server[4], require.resolve('./server/fetch-application-server-redirect-html.js'))
-      assert.strictEqual(packageJSON.dashboard.server[5], require.resolve('./server/fetch-application-server-template-html.js'))
+      assert.strictEqual(packageJSON.dashboard.server[3], require.resolve('./server/fetch-application-server-special-html.js'))
     })
   })
 

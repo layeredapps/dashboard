@@ -54,7 +54,6 @@ if (!process.env.USER_PROFILE_FIELDS) {
   global.userProfileFields = process.env.USER_PROFILE_FIELDS.split(',')
 }
 global.appid = process.env.APPID || process.env.DOMAIN || 'dashboard'
-global.allowSameDomainAPI = process.env.ALLOW_PUBLIC_API === 'true'
 global.domain = process.env.DOMAIN || ''
 global.language = process.env.LANGUAGE || 'en'
 global.homePath = process.env.HOME_PATH ? process.env.HOME_PATH : undefined
@@ -73,6 +72,7 @@ global.minimumProfileDisplayNameLength = parseInt(process.env.MINIMUM_PROFILE_DI
 global.maximumProfileDisplayNameLength = parseInt(process.env.MAXIMUM_PROFILE_DISPLAY_NAME_LENGTH || '50', 10)
 global.minimumProfileCompanyNameLength = parseInt(process.env.MINIMUM_PROFILE_COMPANY_NAME_LENGTH || '1', 10)
 global.maximumProfileCompanyNameLength = parseInt(process.env.MAXIMUM_PROFILE_COMPANY_NAME_LENGTH || '50', 10)
+global.cacheApplicationServerFiles = parseInt(process.env.CACHE_APPLICATION_SERVER_FILES || '60', 10)
 global.deleteDelay = parseInt(process.env.DELETE_DELAY || '7', 10)
 global.pageSize = parseInt(process.env.PAGE_SIZE || '10', 10)
 global.sessionVerificationDelay = parseInt(process.env.SESSION_VERIFICATION_DELAY || '14400', 10)
@@ -104,12 +104,11 @@ const dashboard = module.exports = {
     global.packageJSON.dashboard.content.push(require('./src/content/set-form-return-url.js'))
     if (process.env.HOT_RELOAD) {
       global.packageJSON.dashboard.serverFilePaths.push(
-        require.resolve('./src/server/always-reload-files.js'),
-        require.resolve('./src/server/always-reload-routes.js')
+        require.resolve('./src/server/hot-reload.js')
       )
       global.packageJSON.dashboard.server.push(
-        require('./src/server/always-reload-files.js'),
-        require('./src/server/always-reload-routes.js'))
+        require('./src/server/hot-reloads.js')
+      )
     }
     // the sitemap merged from your dashboard server + dashboard + modules
     global.sitemap = Sitemap.generate()

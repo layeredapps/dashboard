@@ -15,12 +15,11 @@
 
 - [Introduction](#introduction)
 - [Hosting Dashboard yourself](#hosting-dashboard-yourself)
+- [Customize Dashboard appearance](#customizing-dashboard-appearance)
+- [Customize registration information](#customize-registration-information)
 - [Configuring Dashboard](#configuring-dashboard)
 - [Provided server, content and proxy handlers](#provided-server-content-and-proxy-handlers)
-- [Favicon and icon settings](#favicon-and-icon-settings)
 - [Dashboard modules](#dashboard-modules)
-- [Customize registration information](#customize-registration-information)
-- [Adding links to the header menus](#adding-links-to-the-header-menus)
 - [Access the API from your application server](#access-the-api)
 - [Localization](#localization)
 - [Storage backends](#storage-backends)
@@ -38,11 +37,9 @@ Web applications often require coding a user account system, organizations, subs
 
 Dashboard packages everything web apps need into reusable, modular software.  It runs separately to your application so you have two web servers instead of one, and Dashboard fuses their content together to provide a single website or interface for your users.  To get started your web app just needs to serve something on `/` for your guest home page and `/home` for signed in users.
 
-Dashboard is stateless and designed to scale 'horizontally', that is you can run multiple instances of your Dashboard server in parallel to handle user requests using Heroku, Kubernetes, etc.  Managed hosting is avilable at [Layered Apps](https://layeredapps.com).
+Dashboard is stateless and designed to scale 'horizontally', that is you can run multiple instances of your Dashboard server in parallel to handle user requests using Heroku, Render, Fly, Digital Ocean's App Platform, etc.  Managed hosting is available at [Layered Apps](https://layeredapps.com).
 
-Dashboard uses a `template.html` with header, navigation and content structure.  Dashboard and module content is provided in HTML pages.  Your application server can serve two special CSS files at `/public/template-additional.css` and `/public/content-additional.css` to theme the template and pages to match your application design.
-
-Your application server can return special HTML attributes and tags to interoperate with the Dashboard server.  Your content can be accessible to guests by specifying `<html data-auth="false">` and you can serve full-page content by specifying `<html data-template="false">` in your HTML.  Otherwise the routes will require authentication, and Dashboard will inject the template's header and navigation int the top of the page and merge the head tag's script and CSS references.
+Your application server can return special HTML attributes and tags to interoperate with the Dashboard server.  Your content can be accessible to guests by specifying `<html data-auth="false">` and you can serve full-page content by specifying `<html data-template="false">` in your HTML.  Otherwise the routes will require authentication, and Dashboard will inject the template's header and navigation into the top of the page and merge the head tag's script and CSS references.
 
 You can populate the template's navigation bar by including `<template id="navbar"></template>` with the links and any other HTML for your menu.
 
@@ -56,6 +53,63 @@ Dashboard requires NodeJS `16+` be installed.
     $ npm install @layeredapps/dashboard
     $ echo "require('@layeredapps/dashboard').start(__dirname)" > main.js
     $ node main.js
+
+# Customizing Dashboard appearance
+
+Dashboard and module content is provided in HTML pages.  Your application server can serve two special CSS files at `/public/template-additional.css` and `/public/content-additional.css` to theme the template and pages to match your application design.
+
+    /public/template-additional.css
+    /public/content-additional.css
+
+You can make structural changes to the template, redirect and error pages by serving your own pages from your application server.  Dashboard will try to fetch alternative HTML pages from your application server and use its own files if you do not have any:
+
+    /template.html
+    /error.html
+    /redirect.html
+
+The account and administrator drop-down menus are created from stub HTML files placed in Dashboard, modules, and your application server.  To add your own links serve a `/menu-account.html` and `/menu-administrator.html` on your application server with the HTML to include.
+
+The account menu is assembled in this order:
+
+1) Your application server's `/menu-account.html`
+2) Any activated module's `/menu-account.html` files
+3) Dashboard's `/menu-account.html`
+
+The administrator menu is assembled in this order:
+
+1) Your application server's `/menu-administrator.html`
+2) Any activated module's `/menu-administrator.html` files
+3) Dashboard's `/menu-administrator.html`
+
+Dashboard will try to fetch alternative icons from your application server:
+
+    /favicon.ico
+    /public/favicon.ico
+    /public/favicon-16x16.png
+    /public/favicon-32x32.png
+    /public/apple-touch-icon.png
+
+# Customize registration information
+
+By default users may register with just a username and password, both of which are encrypted so they cannot be used for anything but signing in.  You can specify some personal information fields to require in an environment variable:
+
+    REQUIRE_PROFILE=true
+    PROFILE_FIELDS=any,combination
+
+These fields are supported by the registration form:
+
+| Field         | Description                |
+|---------------|----------------------------|
+| full-name     | First and last name        |
+| contact-email | Contact email              |
+| display-name  | Name to display to users   |
+| display-email | Email to display to users  |
+| dob           | Date of birth              |
+| location      | Location description       |
+| phone         | Phone number               |
+| company-name  | Company name               |
+| website       | Website                    |
+| occupation    | Occupation                 |
 
 # Configuring Dashboard
 
@@ -127,31 +181,20 @@ Dashboard comes with some convenience scripts you can add to your `package.json`
 | server   | @layeredapps/dashboard/src/server/allow-api-requests-from-application.js               | Allows your application server to query `/api/*` while Dashboard's API is not publicly shared.                                                                                                                                                                                                                                                                                    |
 | server   | @layeredapps/dashboard/src/server/allow-api-requests-to-application.js                 | When an unknown `/api/*` request occurs it will be passed to your application server while Dashboard's API is not publicly shared.                                                                                                                                                                                                                                                |
 | server   | @layeredapps/dashboard/src/server/check-before-delete-account.js                       | Require users complete steps, such as deleting subscriptions, before deleting their account.  Set a `CHECK_BEFORE_DELETE_ACCOUNT` path such as `/check-delete` on your Application server, Dashboard will query this API passing `?accountid=xxxxx` and you may respond with { "redirect": "/your-delete-requirements" } or { "redirect": false }" to enforce the requirements.   |
-| server   | @layeredapps/dashboard/src/server/fetch-application-server-error-html.js               | Serve a custom `error.html` from your application server at `/error.html`.  Dashboard will cache this for 60 seconds.                                                                                                                                                                                                                                                             |
-| server   | @layeredapps/dashboard/src/server/fetch-application-server-redirect-html.js            | Serve a custom `redirect.html` from your application server at `/redirect.html`.  Dashboard will cache this for 60 seconds.                                                                                                                                                                                                                                                       |
-| server   | @layeredapps/dashboard/src/server/fetch-application-server-template-html.js            | Serve a custom `template.html` from your application server at `/template.html`.  Dashboard will cache this for 60 seconds.                                                                                                                                                                                                                                                       |
-| server   | @layeredapps/dashboard/src/server/fetch-application-server-menu-account-html.js        | Serve a custom `menu-account.html` from your application server at `/menu-account.html` containing links to add to the start of your account menu.  Dashboard will cache this for 60 seconds.                                                                                                                                                                                     |
-| server   | @layeredapps/dashboard/src/server/fetch-application-server-menu-administrator-html.js  | Serve a custom `menu-administrator.html` from your application server at `/menu-administrator.html` containing links to add to the start of your administrator menu.  Dashboard will cache this for 60 seconds.                                                                                                                                                                   |
+| server   | @layeredapps/dashboard/src/server/fetch-application-server-special-html.js             | Serve a custom `error.html`, `redirect.html`, `template.html`, `menu-account.html` or `menu-administrator.html` from your application server at `/FILE_NAME.html`.  Dashboard will cache this for 60 seconds or an amount you set in CACHE_APPLICATION_SERVER_FILES.                                                                                                              |
+| server   | @layeredapps/dashboard/src/server/fetch-application-server-static-file.js              | Serve a custom `/robots.txt`, `/favicon.ico` or any `/public/` files from your application server.  Dashboard will cache this for 60 seconds or an amount you set in CACHE_APPLICATION_SERVER_FILES.                                                                                                                                                                              |
 
 Dashboard includes some "private" content scripts that are configured automatically:
 
+| Type     | Script path                                                                            | Description                                                                                                                                                                                                                                                                                                                                                                       |
 |----------|----------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | content  | @layeredapps/dashboard/src/content/insert-csrf-token.js                                | Adds a CSRF token to Dashboard and module forms, this does not add CSRF tokens to your application's forms.                                                                                                                                                                                                                                                                       |
 | content  | @layeredapps/dashboard/src/content/set-form-novalidate.js                              | When NODE_ENV=testing this adds "novalidate" to FORM attributes so input validation (eg required) does not occur so server error messages can be tested.                                                                                                                                                                                                                          |
 | content  | @layeredapps/dashboard/src/content/set-form-return-url.js                              | Copies the 'return-url' from URL parameters to the FORM action if there is no pre-existing return-url defined in the FORM action.                                                                                                                                                                                                                                                 |
-| server   | @layeredapps/dashboard/src/server/always-reload-files.js                               | When NODE_ENV=development this un-caches any /public/ files so changes can be observed immediately without restarting the server.                                                                                                                                                                                                                                                 |
-| server   | @layeredapps/dashboard/src/server/always-reload-routes.js                              | When NODE_ENV=development this reloads route JS and HTML so changes can be observed immediately without restarting the server.                                                                                                                                                                                                                                                    |
 | server   | @layeredapps/dashboard/src/server/check-csrf-token.js                                  | Compares posted CSRF token to expected CSRF token and renders an error message if they are not matching.                                                                                                                                                                                                                                                                          |
 | server   | @layeredapps/dashboard/src/server/check-xss-injection.js                               | Checks input for XSS injections when posting to Dashboard and module forms and APIs.  This does not check data posted to your application server since Dashboard does not know if you want HTML in user input.                                                                                                                                                                    |
+| server   | @layeredapps/dashboard/src/server/hot-reload.js                                        | When HOT_RELOAD=true this forces files to be reloaded on each request so changes can be observed immediately without restarting the server.                                                                                                                                                                                                                                       |
 
-# Favicon and icon settings 
-
-The "themeColor" and "tileColor" will replace the META tag values in template and template-less pages of Dashboard, allowing you to style your favicon and other icons.  Dashboard will check your application server for replacement icons:
-
-    /public/favicon.ico
-    /public/favicon-16x16.png
-    /public/favicon-32x32.png
-    /public/apple-touch-icon.png
 
 # Dashboard modules
 
@@ -179,52 +222,18 @@ You need to notify Dashboard which modules you are using in `package.json` conff
       ]
     }
 
-# Customize registration information
-
-By default users may register with just a username and password, both of which are encrypted so they cannot be used for anything but signing in.  You can specify some personal information fields to require in an environment variable:
-
-    REQUIRE_PROFILE=true
-    PROFILE_FIELDS=any,combination
-
-These fields are supported by the registration form:
-
-| Field         | Description                |
-|---------------|----------------------------|
-| full-name     | First and last name        |
-| contact-email | Contact email              |
-| display-name  | Name to display to users   |
-| display-email | Email to display to users  |
-| dob           | Date of birth              |
-| location      | Location description       |
-| phone         | Phone number               |
-| company-name  | Company name               |
-| website       | Website                    |
-| occupation    | Occupation                 |
-
-# Adding links to the header menus
-
-The account and administrator drop-down menus are created from stub HTML files placed in Dashboard, modules, and your project.  To add your own links create a `/menu-account.html` and `/menu-administrator.html` in your project with the HTML to include.
-
-The account menu is compiled in this order:
-
-1) Your project's `/menu-account.html`
-2) Any activated module's `/menu-account.html` files
-3) Dashboard's `/menu-account.html`
-
-The administrator menu is compiled in this order:
-
-1) Your project's `/menu-administrator.html`
-2) Any activated module's `/menu-administrator.html` files
-3) Dashboard's `/menu-administrator.html`
-
 # Access the API
 
 Dashboard and official modules are completely API-driven and you can access the same APIs on behalf of the user making requests.  You perform `GET`, `POST`, `PATCH`, and `DELETE` HTTP requests against the API endpoints to fetch or modify data.  You can use a shared secret `APPLICATION_SERVER_TOKEN` to verify requests between servers, both servers send it in an `x-application-server-token` header. 
 
 By default the API is not accessible, you can allow total access to it with an `ENV` variable:
 
-    ALLOW_PUBLIC_API=true
-
+    "dashboard": {
+      "server": [
+        "@layeredapps/dashboard/src/server/allow-api-access.js"
+      ]
+    }
+ 
 Or enable requests from your application server with a `server` script handler:
 
     "dashboard": {

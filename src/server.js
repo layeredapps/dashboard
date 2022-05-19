@@ -245,23 +245,8 @@ async function receiveRequest (req, res) {
     return
   }
   if (req.urlPath === '/') {
-    let contents
-    if (global.applicationServer) {
-      contents = await Proxy.get(req)
-    } else {
-      const rootPath = path.join(global.applicationPath, 'src/www/index.html')
-      if (fs.existsSync(rootPath)) {
-        contents = fs.readFileSync(rootPath)
-      }
-      const relativePath = path.join(__dirname, 'src/www/index.html')
-      if (fs.existsSync(relativePath)) {
-        contents = fs.existsSync(relativePath)
-      }
-    }
-    if (contents) {
-      res.setHeader('content-type', 'text/html')
-      return res.end(contents)
-    }
+    req.urlPath = '/index.html'
+    return staticFile(req, res)
   }
   if (req.urlPath === '/administrator' || req.urlPath.startsWith('/administrator/') || req.urlPath.startsWith('/api/administrator/')) {
     if (!req.account) {
@@ -354,32 +339,6 @@ async function staticFile (req, res) {
   if (fs.existsSync(filePath)) {
     resolvedPath = filePath
   } else {
-    if (req.urlPath === '/public/content-additional.css' || req.urlPath === '/public/template-additional.css') {
-      let contents
-      if (global.applicationServer) {
-        contents = await Proxy.get(req)
-      } else {
-        contents = ''
-      }
-      res.setHeader('content-type', 'text/css')
-      res.statusCode = 200
-      return res.end(contents)
-    }
-    if (req.urlPath.startsWith('/public/favicon') || req.urlPath === '/public/apple-touch-icon.png') {
-      if (global.applicationServer) {
-        const blob = fileCache[filePath] || await Proxy.get(req)
-        if (blob) {
-          fileCache[filePath] = fileCache[filePath] || blob
-          const browserCached = req.headers['if-none-match']
-          req.eTag = dashboard.Response.eTag(blob)
-          if (browserCached && browserCached === req.eTag) {
-            res.statusCode = 304
-            return res.end()
-          }
-          return dashboard.Response.end(req, res, null, blob)
-        }
-      }
-    }
     filePath = `@layeredapps/dashboard/src/www${req.urlPath}`
     try {
       resolvedPath = require.resolve(filePath)
@@ -406,9 +365,6 @@ async function staticFile (req, res) {
     if (stat.isDirectory()) {
       return dashboard.Response.throw404(req, res)
     }
-    if (process.env.HOT_RELOAD) {
-      delete (fileCache[filePath])
-    }
     const blob = fileCache[filePath] || fs.readFileSync(resolvedPath)
     fileCache[filePath] = fileCache[filePath] || blob
     const browserCached = req.headers['if-none-match']
@@ -418,9 +374,6 @@ async function staticFile (req, res) {
       return res.end()
     }
     return dashboard.Response.end(req, res, null, blob)
-  }
-  if (global.applicationServer) {
-    return Proxy.pass(req, res)
   }
   return dashboard.Response.throw404(req, res)
 }
