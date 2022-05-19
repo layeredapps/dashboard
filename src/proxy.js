@@ -18,7 +18,7 @@ async function pass (req, res) {
     host = host.substring(0, host.indexOf(':'))
   }
   const port = parsedURL.port
-  const path = parsedURL.pathname
+  const path = `${parsedURL.pathname}${parsedURL.search || ''}`
   const requestOptions = {
     host,
     path,
@@ -136,7 +136,7 @@ async function get (req, callback) {
     host = host.substring(0, host.indexOf(':'))
   }
   const port = parsedURL.port
-  const path = parsedURL.pathname
+  const path = `${parsedURL.pathname}${parsedURL.search || ''}`
   const requestOptions = {
     host,
     path,
@@ -176,7 +176,7 @@ async function externalPOST (url, headers, body, callback) {
     host = host.substring(0, host.indexOf(':'))
   }
   const port = parsedURL.port
-  const path = parsedURL.pathname
+  const path = `${parsedURL.pathname}${parsedURL.search || ''}`
   const requestOptions = {
     host,
     path,
@@ -221,7 +221,7 @@ async function externalGET (url, headers, callback) {
     host = host.substring(0, host.indexOf(':'))
   }
   const port = parsedURL.port
-  const path = parsedURL.pathname
+  const path = `${parsedURL.pathname}${parsedURL.search || ''}`
   const requestOptions = {
     host,
     path,
