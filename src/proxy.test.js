@@ -36,14 +36,14 @@ describe('internal-api/proxy', () => {
       }
     })
 
-    afterEach (async () => {
+    afterEach(async () => {
       // after each test add it back
       for (let i = 0; i < global.packageJSON.dashboard.server.length; i++) {
         if (global.packageJSON.dashboard.serverFilePaths[i].endsWith('fetch-application-server-special-html.js')) {
           global.packageJSON.dashboard.server[i] = require(global.packageJSON.dashboard.serverFilePaths[i])
           return
         }
-      } 
+      }
     })
 
     it('should include x-accountid header', async () => {
