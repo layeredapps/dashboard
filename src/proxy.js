@@ -130,7 +130,7 @@ async function pass (req, res) {
 }
 
 async function get (req, callback) {
-  const parsedURL = new URL(`${global.applicationServer}${req.url}`)
+  const parsedURL = new URL(req.url.startsWith('/') ? `${global.applicationServer}${req.url}` : req.url)
   let host = parsedURL.hostname
   if (host.indexOf(':') > -1) {
     host = host.substring(0, host.indexOf(':'))

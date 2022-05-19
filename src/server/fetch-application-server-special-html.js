@@ -14,42 +14,47 @@ module.exports = {
   before: fetchApplicationServerSpecialHTML
 }
 
-async function fetchApplicationServerSpecialHTML () {
+async function fetchApplicationServerSpecialHTML (req) {
   if (!global.applicationServer) {
     return
   }
   const now = new Date()
   for (const file of files) {
+    const url = `${global.applicationServer}/${file}`
     // expire old cached responses
-    if (lastFetched[file]) {
-      if (now.getTime() - lastFetched[file].getTime() > global.cacheApplicationServerFiles * 1000) {
-        cache[file] = null
-        nonexistent[file] = null
+    if (lastFetched[url]) {
+      if (now.getTime() - lastFetched[url].getTime() > global.cacheApplicationServerFiles * 1000) {
+        cache[url] = null
+        nonexistent[url] = null
       }
     }
     // abort if the file is already cached or nonexistent
-    if (cache[file] || nonexistent[file]) {
+    if (cache[url] || nonexistent[url]) {
       return
     }
     // load from the server
-    lastFetched[file] = now
+    lastFetched[url] = now
     let contents
     try {
-      contents = await Proxy.get({
-        url: `${global.applicationServer}/${file}`
-      })
+      contents = await Proxy.get({ url })
       if (contents && contents.toString) {
         contents = contents.toString()
       }
     } catch (error) {
     }
     if (!contents || !contents.length) {
-      nonexistent[file] = true
+      nonexistent[url] = true
     } else {
       // update the global configuration
-      global.packageJSON.dashboard[`${file}HTML`] = contents
-      global.packageJSON.dashboard[`${file}HTMLPath`] = `${global.applicationServer}/${file}`
-      cache[file] = contents
+      if (req.packageJSON) {
+        req.packageJSON.dashboard[`${file}HTML`] = contents
+        req.packageJSON.dashboard[`${file}HTMLPath`] = url
+        cache[url] = contents
+      } else {
+        global.packageJSON.dashboard[`${file}HTML`] = contents
+        global.packageJSON.dashboard[`${file}HTMLPath`] = url
+        cache[url] = contents
+      }
     }
   }
 }

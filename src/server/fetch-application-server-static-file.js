@@ -27,39 +27,38 @@ async function fetchApplicationServerPublicFile (req, res) {
     return
   }
   const now = new Date()
+  const url = `${global.applicationServer}${req.urlPath}`
   // expire old cached repsonses
-  if (lastFetched[req.urlPath]) {
-    if (now.getTime() - lastFetched[req.urlPath].getTime() > global.cacheApplicationServerFiles * 1000) {
-      nonexistent[req.urlPath] = null
-      cache[req.urlPath] = null
+  if (lastFetched[url]) {
+    if (now.getTime() - lastFetched[url].getTime() > global.cacheApplicationServerFiles * 1000) {
+      nonexistent[url] = null
+      cache[url] = null
     }
   }
   // abort if a cached nonexistence exists
-  if (nonexistent[req.urlPath]) {
+  if (nonexistent[url]) {
     return
   }
   const mimeType = Response.mimeTypes[req.extension === 'jpeg' ? 'jpg' : req.extension] || Response.mimeTypes.html
   // shortcircuit if a cached file exists
-  if (cache[req.urlPath]) {
+  if (cache[url]) {
     res.setHeader('content-type', mimeType)
     res.statusCode = 200
     res.ended = true
-    return res.end(cache[req.url])
+    return res.end(cache[url])
   }
   // cache the file or its nonexistence
-  lastFetched[req.urlPath] = now
+  lastFetched[url] = now
   let contents
   try {
-    contents = await Proxy.get({
-      url: `${global.applicationServer}/${req.urlPath}`
-    })
+    contents = await Proxy.get({ url })
   } catch (error) {
   }
   if (!contents) {
-    nonexistent[req.urlPath] = true
+    nonexistent[url] = true
     return
   }
-  cache[req.urlPath] = contents
+  cache[url] = contents
   res.setHeader('content-type', mimeType)
   res.statusCode = 200
   res.ended = true
