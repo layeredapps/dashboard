@@ -25,6 +25,11 @@ if (fs.existsSync(`${global.applicationPath}/log.js`)) {
     if (excludePrefix.indexOf(prefix) > -1) {
       return logger
     }
+    for (const key of excludePrefix) {
+      if (prefix.indexOf(key) > -1) {
+        return logger
+      }
+    }
     for (const level of allowedLevels) {
       if (!logger[level] || !console[level]) {
         continue
