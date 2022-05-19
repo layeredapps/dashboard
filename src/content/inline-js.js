@@ -10,18 +10,22 @@ async function inlineLinkedJS (_, __, doc) {
   if (scripts && scripts.length) {
     const chunks = []
     for (const script of scripts) {
-      if (script.attr && script.attr.src && script.attr.src.startsWith('/')) {
-        script.parentNode.removeChild(script)
-        try {
-          const url = `${global.dashboardServer}${script.attr.src}`
-          const code = await Proxy.externalGET(url)
-          if (!code || !code.length) {
-            continue
-          }
-          chunks.push(code)
-        } catch (error) {
+      if (!script.attr || !script.attr.src || !script.attr.src.startsWith('/')) {
+        continue
+      }
+      if (script.attr.defer) {
+        continue
+      }
+      script.parentNode.removeChild(script)
+      try {
+        const url = `${global.dashboardServer}${script.attr.src}`
+        const code = await Proxy.externalGET(url)
+        if (!code || !code.length) {
           continue
         }
+        chunks.push(code)
+      } catch (error) {
+        continue
       }
     }
     const script = doc.createElement('script')
