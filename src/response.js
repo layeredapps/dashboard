@@ -176,7 +176,7 @@ function sri (buffer) {
 
 async function wrapSrcDocWithTemplate (req, res, doc) {
   const packageJSON = req.packageJSON || global.packageJSON
-  const templateDoc = HTML.parse(req.templateHTML || packageJSON.dashboard.templateHTML)
+  const templateDoc = HTML.parse(packageJSON.dashboard.templateHTML)
   if (!templateDoc) {
     throw new Error('invalid-template')
   }
@@ -320,7 +320,7 @@ async function wrapSrcDocWithTemplate (req, res, doc) {
 
 async function wrapTemplateWithSrcDoc (req, res, doc) {
   const packageJSON = req.packageJSON || global.packageJSON
-  const templateDoc = HTML.parse(req.templateHTML || packageJSON.dashboard.templateHTML)
+  const templateDoc = HTML.parse(packageJSON.dashboard.templateHTML)
   if (!templateDoc) {
     throw new Error()
   }
