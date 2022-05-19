@@ -1,6 +1,6 @@
 /* basic resetting */
 html { height: 100%; width: 100% }
-body { min-height: 100%; width: 100%; padding: 0; margin: 0; font-family: sans-serif; background-color: var(--content-background-color); color: var(--content-text-color) }
+body { min-height: 100%; width: 100%; padding: 0; margin: 0; font-family: var(--content-font-sans-serif); background-color: var(--content-background-color); color: var(--content-text-color) }
 * { font-family: var(--content-font-sans-serif) }
 .container ul, ol, li, nav, menu, p, h1, h2, h3, fieldset, form { list-style-type: none; padding: 0; margin: 0 }
 .container input, select, textarea, a, button, div { outline: 0 }
@@ -207,7 +207,7 @@ these variables to changes that only affect that element.
 
 */
 :root {
-  --content-body: #FFF;
+  --content-body: #F1F1F1;
   --content-blue: #0d6efd;
   --content-blue-dark: #0950b9;
   --content-red: #dc3545;
