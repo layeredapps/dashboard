@@ -45,6 +45,7 @@ body { min-height: 100%; width: 100%; padding: 0; margin: 0; font-family: var(--
 .container .form-buttons { margin-bottom: 2rem }
 .container .nested-button { margin-top: 1rem }
 .container .spaced-buttons .button { margin-right: 1rem }
+.container .no-buttons,
 .container .single-button,
 .container .button-group { margin-bottom: 2rem; text-align: left }
 .container .single-button .button,
