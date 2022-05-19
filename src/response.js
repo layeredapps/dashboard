@@ -280,10 +280,14 @@ async function wrapSrcDocWithTemplate (req, res, doc) {
   highlightCurrentPage(req.urlPath, templateDoc)
   // merge head scripts and css
   const templateScripts = templateDoc.getElementsByTagName('script').reverse()
-  const templateStyles = templateDoc.getElementsByTagName('link').reverse()
+  const templateLinks = templateDoc.getElementsByTagName('link').reverse()
+  const templateStyles = templateDoc.getElementsByTagName('style').reverse()
   const head = doc.getElementsByTagName('head')[0]
   for (const script of templateScripts) {
     head.child.unshift(script)
+  }
+  for (const link of templateLinks) {
+    head.child.unshift(link)
   }
   for (const style of templateStyles) {
     head.child.unshift(style)
