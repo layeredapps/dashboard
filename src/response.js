@@ -245,22 +245,24 @@ async function wrapSrcDocWithTemplate (req, res, doc) {
     accountMenuContainer.parentNode.removeChild(accountMenuContainer)
     administratorMenuContainer.removeChild(administratorMenuContainer)
   } else {
+    const prependHTML = packageJSON.dashboard.menuAccountHTML || ''
     if (packageJSON.dashboard.menus &&
         packageJSON.dashboard.menus.account &&
         packageJSON.dashboard.menus.account.length) {
       const accountMenu = templateDoc.getElementById('account-menu')
-      accountMenu.child = HTML.parse('<div>' + packageJSON.dashboard.menus.account.join('\n') + '</div>').child
+      accountMenu.child = HTML.parse('<div>' + prependHTML + packageJSON.dashboard.menus.account.join('\n') + '</div>').child
     } else {
       accountMenuContainer.setAttribute('style', 'display: none')
     }
     if (!req.account.administrator) {
       administratorMenuContainer.setAttribute('style', 'display: none')
     } else {
+      const prependHTML = packageJSON.dashboard.menuAdministratorHTML || ''
       if (packageJSON.dashboard.menus &&
           packageJSON.dashboard.menus.administrator &&
           packageJSON.dashboard.menus.administrator.length) {
         const administratorMenu = templateDoc.getElementById('administrator-menu')
-        administratorMenu.child = HTML.parse('<div>' + packageJSON.dashboard.menus.administrator.join('\n') + '</div>').child
+        administratorMenu.child = HTML.parse('<div>' + prependHTML + packageJSON.dashboard.menus.administrator.join('\n') + '</div>').child
       } else {
         administratorMenuContainer.setAttribute('style', 'display: none')
       }

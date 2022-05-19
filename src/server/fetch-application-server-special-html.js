@@ -32,9 +32,14 @@ async function fetchApplicationServerSpecialHTML (req) {
     if (nonexistent[url]) {
       return
     }
+    let prefix = file.split('.').shift()
+    if (prefix === 'menu-account') {
+      prefix = 'menuAccount'
+    } else if (prefix === 'menu-administrator') {
+      prefix = 'menuAdministrator'
+    }
     // abort if the file is cached
     if (cache[url]) {
-      const prefix = file.split('.').shift()
       if (req.packageJSON) {
         req.packageJSON.dashboard[`${prefix}HTML`] = cache[url]
         req.packageJSON.dashboard[`${prefix}HTMLPath`] = url
@@ -58,7 +63,6 @@ async function fetchApplicationServerSpecialHTML (req) {
       nonexistent[url] = true
     } else {
       // update the global configuration
-      const prefix = file.split('.').shift()
       if (req.packageJSON) {
         req.packageJSON.dashboard[`${prefix}HTML`] = contents
         req.packageJSON.dashboard[`${prefix}HTMLPath`] = url
