@@ -23,6 +23,18 @@ async function uncacheFiles (req, res) {
   }
   // nodejs caches 'require' references
   Object.keys(require.cache).forEach((key) => {
+    // don't uncache Dashboard because storage etc won't be set up
+    if (key.endsWith('dashboard/index.js')) {
+      return
+    }
+    // don't uncache modules because storage etc won't be set up
+    if (global.packageJSON && global.packageJSON.dashboard && global.packageJSON.dashboard.moduleNames) {
+      for (const name of global.packageJSON.dashboard.moduleNames) {
+        if (key.endsWith(`${name}/index.js`)) {
+          return
+        }
+      }
+    }
     delete (require.cache[key])
   })
   // routes cache HTML and JS handlers
