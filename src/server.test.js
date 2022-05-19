@@ -6,6 +6,33 @@ const TestHelper = require('../test-helper.js')
 
 /* eslint-env mocha */
 describe('internal-api/server', () => {
+  beforeEach(async () => {
+    // before each test remove the server handler that preemptively
+    // downloads 'special html files' and 'static files' regardless 
+    // if a global.applicationServer is configured
+    for (let i = 0; i < global.packageJSON.dashboard.serverFilePaths.length; i++) {
+      if (global.packageJSON.dashboard.serverFilePaths[i].endsWith('fetch-application-server-special-html.js')) {
+        global.packageJSON.dashboard.server[i] = {}
+      }
+      if (global.packageJSON.dashboard.serverFilePaths[i].endsWith('fetch-application-server-static-file.js')) {
+        global.packageJSON.dashboard.server[i] = {}
+      }
+    }
+  })
+
+  afterEach(async () => {
+    // after each test add them back
+    for (let i = 0; i < global.packageJSON.dashboard.serverFilePaths.length; i++) {
+      if (global.packageJSON.dashboard.serverFilePaths[i].endsWith('fetch-application-server-special-html.js')) {
+        global.packageJSON.dashboard.server[i] = require(global.packageJSON.dashboard.serverFilePaths[i])
+      }
+      if (global.packageJSON.dashboard.serverFilePaths[i].endsWith('fetch-application-server-static-file.js')) {
+        global.packageJSON.dashboard.server[i] = require(global.packageJSON.dashboard.serverFilePaths[i])
+      }
+    }
+    global.packageJSON.dashboard.server.length = global.packageJSON.dashboard.serverFilePaths.length
+  })
+
   describe('Server#authenticateRequest', () => {
     it('should reject missing token', async () => {
       const req = TestHelper.createRequest('/account/change-username')
