@@ -1,5 +1,5 @@
 
-> @layeredapps/dashboard@0.0.119 test
+> @layeredapps/dashboard@0.0.121 test
 > PORT=50002 NODE_ENV=testing STORAGE=sqlite DATABASE=dashboard mocha --ignore 'node_modules/**/*' --timeout 90000 --slow 90000 --recursive --extension .test.js .
 
 
@@ -96,6 +96,18 @@
       Seconds to cache files from application server
         ✔ default 60
         ✔ Integer
+    HOT_RELOAD
+      Reloads files every request
+        ✔ Boolean
+    INLINE_CSS
+      Replaces linked CSS with embedded CSS
+        ✔ Boolean
+    INLINE_JS
+      Replaces linked JS with embedded JS
+        ✔ Boolean
+    INLINE_SVG
+      Replaces image SVG wtih embedded SVG
+        ✔ Boolean
 
   internal-api/api
     API#generate
@@ -1578,5 +1590,5 @@
       ✔ override req.userProfileFields
 
 
-  889 passing (20m)
+  893 passing (20m)
 
