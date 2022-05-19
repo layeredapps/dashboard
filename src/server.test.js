@@ -8,7 +8,7 @@ const TestHelper = require('../test-helper.js')
 describe('internal-api/server', () => {
   beforeEach(async () => {
     // before each test remove the server handler that preemptively
-    // downloads 'special html files' and 'static files' regardless 
+    // downloads 'special html files' and 'static files' regardless
     // if a global.applicationServer is configured
     for (let i = 0; i < global.packageJSON.dashboard.serverFilePaths.length; i++) {
       if (global.packageJSON.dashboard.serverFilePaths[i].endsWith('fetch-application-server-special-html.js')) {
