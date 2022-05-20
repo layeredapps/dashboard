@@ -10,10 +10,10 @@ const fs = require('fs')
 const server = require('../server.js')
 
 module.exports = {
-  before: uncacheFiles
+  before: hotReloadFiles
 }
 
-async function uncacheFiles (req, res) {
+async function hotReloadFiles (req, res) {
   // the server caches file blobs and stats
   for (const key in server.fileCache) {
     delete (server.fileCache[key])
@@ -46,5 +46,15 @@ async function uncacheFiles (req, res) {
     if (req.route.htmlFileExists) {
       req.route.html = fs.readFileSync(req.route.htmlFilePathFull).toString()
     }
+  }
+  // content, proxy and server scripts
+  for (let i = 0, len = global.packageJSON.dashboard.serverFilePaths.length; i < len; i++) {
+    global.packageJSON.dashboard.server[i] = require(global.packageJSON.dashboard.serverFilePaths[i])
+  }
+  for (let i = 0, len = global.packageJSON.dashboard.contentFilePaths.length; i < len; i++) {
+    global.packageJSON.dashboard.content[i] = require(global.packageJSON.dashboard.contentFilePaths[i])
+  }
+  for (let i = 0, len = global.packageJSON.dashboard.proxyFilePaths.length; i < len; i++) {
+    global.packageJSON.dashboard.proxy[i] = require(global.packageJSON.dashboard.proxyFilePaths[i])
   }
 }
