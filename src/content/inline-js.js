@@ -3,6 +3,7 @@
 // loading on the client-side.  Only relative URLs are inlined and
 // script tags with "defer" are ignored.
 
+const Proxy = require('../proxy.js')
 const cache = {}
 const lastFetched = {}
 const nonexistent = {}
@@ -44,7 +45,7 @@ async function inlineLinkedJS (_, __, doc) {
         continue
       }
       try {
-        const code = await Proxy.externalGET(url)
+        const code = await Proxy.get({ url })
         if (!code || !code.length) {
           continue
         }
