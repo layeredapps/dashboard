@@ -76,6 +76,7 @@ global.cacheApplicationServerFiles = parseInt(process.env.CACHE_APPLICATION_SERV
 global.deleteDelay = parseInt(process.env.DELETE_DELAY || '7', 10)
 global.pageSize = parseInt(process.env.PAGE_SIZE || '10', 10)
 global.sessionVerificationDelay = parseInt(process.env.SESSION_VERIFICATION_DELAY || '14400', 10)
+global.contentSecurityPolicy = process.env.CONTENT_SECURITY_POLICY || ''
 global.inlineCSS = process.env.INLINE_CSS === 'true'
 global.inlineJS = process.env.INLINE_JS === 'true'
 global.inlineSVG = process.env.INLINE_SVG === 'true'

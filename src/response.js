@@ -74,6 +74,9 @@ async function end (req, res, doc, blob) {
         }
       }
     }
+    if (req.contentSecurityPolicy || global.contentSecurityPolicy) {
+      res.setHeader('content-security-policy', req.contentSecurityPolicy || global.contentSecurityPolicy)
+    }
     return compress(req, res, '<!doctype html>' + doc.toString())
   }
 }
