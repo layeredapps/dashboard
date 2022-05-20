@@ -1,4 +1,4 @@
-// Scans HTML documents for <script src="/xxx" /> tags and converts 
+// Scans HTML documents for <script src="/xxx" /> tags and converts
 // them to <script data-url={}>contents</script> tags for faster
 // loading on the client-side.  Only relative URLs are inlined and
 // script tags with "defer" are ignored.

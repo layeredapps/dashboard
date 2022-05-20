@@ -1,5 +1,5 @@
-// Scans HTML documents for <img src="/xxx.svg" /> tags and converts 
-// them to <img src="data:image/svg..."> tags for faster loading 
+// Scans HTML documents for <img src="/xxx.svg" /> tags and converts
+// them to <img src="data:image/svg..."> tags for faster loading
 // on the client-side.  Only relative URLs are inlined.
 
 const Proxy = require('../proxy.js')
