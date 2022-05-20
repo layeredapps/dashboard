@@ -1,4 +1,11 @@
+// Scans HTML documents for <link rel="stylesheet" href="/xxx" /> tags
+// and converts them to <style data-url={}>contents</style> tags for
+// faster loading on the client-side.  Only relative URLs are inlined.
+
 const Proxy = require('../proxy.js')
+const cache = {}
+const lastFetched = {}
+const nonexistent = {}
 
 module.exports = {
   page: inlineLinkedCSS,
@@ -8,27 +15,43 @@ module.exports = {
 async function inlineLinkedCSS (_, __, doc) {
   const links = doc.getElementsByTagName('link')
   if (links && links.length) {
-    const chunks = []
+    const now = new Date()
     for (const link of links) {
       if (link.attr && link.attr.href && link.attr.rel === 'stylesheet') {
-        link.parentNode.removeChild(link)
+        const url = link.attr.href.indexOf('/') === 0 ? `${global.dashboardServer}${link.attr.href}` : link.attr.href
+        if (lastFetched[url]) {
+          if (now.getTime() - lastFetched[url].getTime() > global.cacheApplicationServerFiles * 1000) {
+            nonexistent[url] = null
+            cache[url] = null
+          }
+        }
+        if (nonexistent[url]) {
+          continue
+        }
+        link.tag = 'style'
+        link.attr = {
+          'data-url': url
+        }
+        if (cache[url]) {
+          link.child = [{
+            node: 'text',
+            text: cache[url]
+          }]
+          continue
+        }
         try {
-          const url = link.attr.href.indexOf('/') === 0 ? `${global.dashboardServer}${link.attr.href}` : link.attr.href
           const style = await Proxy.externalGET(url)
           if (!style || !style.length) {
             continue
           }
-          chunks.push(style)
+          cache[url] = style.toString()
+          link.child = [{
+            node: 'text',
+            text: cache[url]
+          }]
         } catch (error) {
-          continue
         }
       }
     }
-    const style = doc.createElement('style')
-    style.child = [{
-      node: 'text',
-      text: Buffer.concat(chunks).toString()
-    }]
-    doc.getElementsByTagName('head')[0].child.push(style)
   }
 }
