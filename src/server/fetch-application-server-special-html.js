@@ -21,14 +21,12 @@ async function fetchApplicationServerSpecialHTML (req) {
   const now = new Date()
   for (const file of files) {
     const url = `${global.applicationServer}/${file}`
-    // expire old cached responses
     if (lastFetched[url]) {
       if (now.getTime() - lastFetched[url].getTime() > global.cacheApplicationServerFiles * 1000) {
         cache[url] = null
         nonexistent[url] = null
       }
     }
-    // abort if the file is nonexistent
     if (nonexistent[url]) {
       return
     }
@@ -38,7 +36,6 @@ async function fetchApplicationServerSpecialHTML (req) {
     } else if (prefix === 'menu-administrator') {
       prefix = 'menuAdministrator'
     }
-    // abort if the file is cached
     if (cache[url]) {
       if (req.packageJSON) {
         req.packageJSON.dashboard[`${prefix}HTML`] = cache[url]
@@ -49,7 +46,6 @@ async function fetchApplicationServerSpecialHTML (req) {
       }
       return
     }
-    // load from the server
     lastFetched[url] = now
     let contents
     try {
@@ -62,7 +58,6 @@ async function fetchApplicationServerSpecialHTML (req) {
     if (!contents || !contents.length) {
       nonexistent[url] = true
     } else {
-      // update the global configuration
       if (req.packageJSON) {
         req.packageJSON.dashboard[`${prefix}HTML`] = contents
         req.packageJSON.dashboard[`${prefix}HTMLPath`] = url

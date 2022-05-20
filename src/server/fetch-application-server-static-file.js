@@ -28,26 +28,22 @@ async function fetchApplicationServerPublicFile (req, res) {
   }
   const now = new Date()
   const url = `${global.applicationServer}${req.urlPath}`
-  // expire old cached repsonses
   if (lastFetched[url]) {
     if (now.getTime() - lastFetched[url].getTime() > global.cacheApplicationServerFiles * 1000) {
       nonexistent[url] = null
       cache[url] = null
     }
   }
-  // abort if a cached nonexistence exists
   if (nonexistent[url]) {
     return
   }
   const mimeType = Response.mimeTypes[req.extension === 'jpeg' ? 'jpg' : req.extension] || Response.mimeTypes.html
-  // shortcircuit if a cached file exists
   if (cache[url]) {
     res.setHeader('content-type', mimeType)
     res.statusCode = 200
     res.ended = true
     return res.end(cache[url])
   }
-  // cache the file or its nonexistence
   lastFetched[url] = now
   let contents
   try {
