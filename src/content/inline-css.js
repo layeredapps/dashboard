@@ -19,7 +19,7 @@ async function inlineLinkedCSS (_, __, doc) {
     for (const link of links) {
       if (link.attr && link.attr.href && link.attr.rel === 'stylesheet') {
         const url = link.attr.href.indexOf('/') === 0 ? `${global.dashboardServer}${link.attr.href}` : link.attr.href
-        if (lastFetched[url]) {
+        if (!global.hotReload && lastFetched[url]) {
           if (now.getTime() - lastFetched[url].getTime() > global.cacheApplicationServerFiles * 1000) {
             nonexistent[url] = null
             cache[url] = null
@@ -45,6 +45,7 @@ async function inlineLinkedCSS (_, __, doc) {
             continue
           }
           cache[url] = style.toString()
+          lastFetched[url] = now
           link.child = [{
             node: 'text',
             text: cache[url]

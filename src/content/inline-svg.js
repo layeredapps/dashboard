@@ -19,7 +19,7 @@ async function inlineLinkedJS (_, __, doc) {
     for (const img of imgs) {
       if (img.attr && img.attr.src && img.attr.src.endsWith('.svg')) {
         const url = `${global.dashboardServer}${img.attr.src}`
-        if (lastFetched[url]) {
+        if (!global.hotReload && lastFetched[url]) {
           if (now.getTime() - lastFetched[url].getTime() > global.cacheApplicationServerFiles * 1000) {
             nonexistent[url] = null
             cache[url] = null
@@ -39,6 +39,7 @@ async function inlineLinkedJS (_, __, doc) {
           }
           img.attr.src = `data:image/svg+xml;base64,${svg.toString('base64')}`
           cache[url] = svg
+          lastFetched[url] = now
         } catch (error) {
         }
       }

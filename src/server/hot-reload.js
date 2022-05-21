@@ -13,7 +13,7 @@ module.exports = {
   before: hotReloadFiles
 }
 
-async function hotReloadFiles (req, res) {
+async function hotReloadFiles (req) {
   // the server caches file blobs and stats
   for (const key in server.fileCache) {
     delete (server.fileCache[key])
@@ -25,6 +25,10 @@ async function hotReloadFiles (req, res) {
   Object.keys(require.cache).forEach((key) => {
     // don't uncache Dashboard because storage etc won't be set up
     if (key.endsWith('dashboard/index.js')) {
+      return
+    }
+    // don't uncache server.js because it will detach cache references
+    if (key.endsWith('dashboard/src/server.js')) {
       return
     }
     // don't uncache modules because storage etc won't be set up

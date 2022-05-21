@@ -118,10 +118,10 @@ const dashboard = module.exports = {
       )
     }
     if (global.hotReload) {
-      global.packageJSON.dashboard.serverFilePaths.push(
+      global.packageJSON.dashboard.serverFilePaths.unshift(
         require.resolve('./src/server/hot-reload.js')
       )
-      global.packageJSON.dashboard.server.push(
+      global.packageJSON.dashboard.server.unshift(
         require('./src/server/hot-reload.js')
       )
     }

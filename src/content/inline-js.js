@@ -25,7 +25,7 @@ async function inlineLinkedJS (_, __, doc) {
         continue
       }
       const url = `${global.dashboardServer}${script.attr.src}`
-      if (lastFetched[url]) {
+      if (!global.hotReload && lastFetched[url]) {
         if (now.getTime() - lastFetched[url].getTime() > global.cacheApplicationServerFiles * 1000) {
           nonexistent[url] = null
           cache[url] = null
@@ -45,11 +45,12 @@ async function inlineLinkedJS (_, __, doc) {
         continue
       }
       try {
-        const code = await Proxy.get({ url })
+        const code = await Proxy.externalGET(url)
         if (!code || !code.length) {
           continue
         }
         cache[url] = code.toString()
+        lastFetched[url] = now
         script.child = [{
           node: 'text',
           text: cache[url]
