@@ -23,6 +23,7 @@ body { min-height: 100%; width: 100%; padding: 0; margin: 0; font-family: var(--
 .container .button:focus,
 .container label:focus,
 .container input:focus, 
+.container select:focus,
 .container .field input[type=text]:focus,
 .container .field input[type=password]:focus,
 .container .field input[type=email]:focus,
