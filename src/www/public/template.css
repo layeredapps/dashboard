@@ -61,28 +61,25 @@ nav, input, select, textarea, a, button, div { outline: 0 }
 .template .navigation-link:hover img,
 .template .navigation-link.current-page:hover img { filter: var(--template-navigation-link-hover-icon-filter) }
 
-.template .spillage { flex-direction: column; height: 3rem; padding: 0 0.5rem; margin-right: 0.5rem; cursor: pointer; overflow: hidden }
-.template .spillage-active,
-.template .spillage:hover,
-.template .spillage:focus { background-color: var(--template-spillage-menu-background-color); border-radius: 0.5rem 0.5rem 0 0 } 
-.template .spillage-trigger { cursor: pointer; height: 2rem; color: inherit; border: none; background-color: transparent; padding: 0; margin: 0; border-radius: 0.5rem }
+.template .spillage { flex-direction: column; height: 3rem; margin-right: 0.5rem; cursor: pointer; overflow: hidden }
+.template .spillage-trigger { cursor: pointer; height: 2rem; margin: 0.2rem 0.5rem; color: inherit; border: none; background-color: transparent; padding: 0 0.5rem; border-radius: 0.5rem }
 .template .spillage-trigger:focus { background-color: var(--template-spillage-menu-background-color) }
-.template .spillage-links { display: none; background-color: var(--template-spillage-menu-background-color); position: absolute; z-index: 99998; top: 2rem; right: 0.5rem; padding: 0.5rem 0.5rem 0.5rem 4rem; text-align: right; border-radius: 0.5rem 0 0.5rem 0.5rem }
-.template .spillage-icon { width: 1rem; filter: var(--template-spillage-menu-icon-filter) }
+.template .spillage-links { display: none; background-color: var(--template-spillage-menu-background-color); position: absolute; z-index: 99998; top: 2rem; right: 0.75rem; padding: 0.5rem 0.5rem 0.5rem 4rem; text-align: right; border-radius: 0.5rem 0 0.5rem 0.5rem }
+.template .spillage-icon { margin: 0.5rem 0; width: 1rem; filter: var(--template-spillage-menu-icon-filter) }
 .template .spillage-link { line-height: 2rem; font-size: 0.8rem; display: block; margin-bottom: 0.5rem; padding: 0 0.5rem; color: var(--template-spillage-menu-link-text-color) }
 .template .spillage-link:hover,
 .template .spillage-link:focus { background-color: var(--template-spillage-menu-link-hover-background-color); border-radius: 0.5rem; color: var(--template-spillage-menu-link-hover-text-color) }
 .template .spillage-links .spillage-link:last-of-type { margin-bottom: 0 }
 .template .spillage-active .spillage-links,
 .template .spillage:hover .spillage-links,
-.template .spillage:focus .spillage-links { display: block }
+.template .spillage:focus .spillage-links { display: block; box-shadow: 0 0.25rem 0.25rem var(--template-menu-shadow-color); }
 .template .spillage-active .spillage-trigger,
 .template .spillage:hover .spillage-trigger,
-.template .spillage:focus .spillage-trigger { background-color: transparent }
+.template .spillage:focus .spillage-trigger { box-shadow: 0 0.25rem 0.25rem var(--template-menu-shadow-color); background-color: var(--template-spillage-menu-background-color); border-radius: 0.5rem 0.5rem 0 0 }
+.template .spillage-trigger:focus .spillage-icon { filter: var(--template-spillage-menu-active-icon-filter) }
 .template .spillage-active .spillage-icon,
 .template .spillage:hover .spillage-icon,
 .template .spillage:focus .spillage-icon { filter: var(--template-spillage-menu-active-icon-filter) }
-
 @media (max-width: 960px) {
   .template .heading { padding-left: 0.5rem; font-size: 1rem }
   .template .menus { margin-right: 0; min-height: 2rem; line-height: 2rem }
@@ -93,10 +90,8 @@ nav, input, select, textarea, a, button, div { outline: 0 }
   .template .navigation { height: 2.5rem }
   .template .navigation-link { height: 2rem; margin-left: 0.5rem; margin-right: 0.5rem }
   .template .navigation-link:first-of-type { padding-left: 0.5rem; margin-right: 0 }
-  .template .spillage { height: 2.5rem }
   .template .spillage-links a { font-size: 0.8rem }
   .template .navigation-links span { display: none }
-  .template .spillage img { padding-right: 0 }
 }
 
 /* 
@@ -127,8 +122,8 @@ these variables to changes that only affect that element.
 
 @media (prefers-color-scheme: dark) {
   :root { 
+    --template-blue-light: #3f3f79;
     --template-body: #11111B;
-    --template-image-filter: invert(1);
     --template-blue: #a9b6c2;
     --template-blue-dark: #f8f9fa;
     --template-gray: #6c757d;
@@ -170,6 +165,7 @@ these variables to changes that only affect that element.
 
 @media (prefers-color-scheme: dark) {
   :root { 
+    --template-focus-color: var(--template-blue-light);
     --template-menu-shadow-color: var(--template-body);
     --template-menu-icon-filter: var(--template-svg-white);
     --template-menu-focus-icon-filter: var(--template-svg-white);
@@ -179,5 +175,6 @@ these variables to changes that only affect that element.
     --template-navigation-link-hover-icon-filter: var(--template-svg-black);
     --template-navigation-current-page-link-icon-filter: var(--template-svg-black);
     --template-spillage-menu-icon-filter: var(--template-svg-white);
+    --template-spillage-menu-active-icon-filter: var(--template-svg-black);
   }
 }
