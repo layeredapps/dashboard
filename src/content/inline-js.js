@@ -25,8 +25,8 @@ async function inlineLinkedJS (_, __, doc) {
         continue
       }
       const url = `${global.dashboardServer}${script.attr.src}`
-      if (!global.hotReload && lastFetched[url]) {
-        if (now.getTime() - lastFetched[url].getTime() > global.cacheApplicationServerFiles * 1000) {
+      if (lastFetched[url]) {
+        if (global.hotReload || now.getTime() - lastFetched[url].getTime() > global.cacheApplicationServerFiles * 1000) {
           nonexistent[url] = null
           cache[url] = null
         }

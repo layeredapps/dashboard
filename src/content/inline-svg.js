@@ -19,8 +19,8 @@ async function inlineLinkedJS (_, __, doc) {
     for (const img of imgs) {
       if (img.attr && img.attr.src && img.attr.src.endsWith('.svg')) {
         const url = `${global.dashboardServer}${img.attr.src}`
-        if (!global.hotReload && lastFetched[url]) {
-          if (now.getTime() - lastFetched[url].getTime() > global.cacheApplicationServerFiles * 1000) {
+        if (lastFetched[url]) {
+          if (global.hotReload || now.getTime() - lastFetched[url].getTime() > global.cacheApplicationServerFiles * 1000) {
             nonexistent[url] = null
             cache[url] = null
           }

@@ -19,8 +19,8 @@ async function inlineLinkedCSS (_, __, doc) {
     for (const link of links) {
       if (link.attr && link.attr.href && link.attr.rel === 'stylesheet') {
         const url = link.attr.href.indexOf('/') === 0 ? `${global.dashboardServer}${link.attr.href}` : link.attr.href
-        if (!global.hotReload && lastFetched[url]) {
-          if (now.getTime() - lastFetched[url].getTime() > global.cacheApplicationServerFiles * 1000) {
+        if (lastFetched[url]) {
+          if (global.hotReload || now.getTime() - lastFetched[url].getTime() > global.cacheApplicationServerFiles * 1000) {
             nonexistent[url] = null
             cache[url] = null
           }
