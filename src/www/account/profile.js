@@ -54,15 +54,6 @@ async function renderPage (req, res, messageTemplate) {
     if (retainedFields.indexOf(field) > -1) {
       continue
     }
-    if (field === 'full-name') {
-      if (retainedFields.indexOf('first-name') === -1) {
-        removeElements.push('first-name')
-      }
-      if (retainedFields.indexOf('last-name') === -1) {
-        removeElements.push('last-name')
-      }
-      continue
-    }
     removeElements.push(field)
   }
   for (const id of removeElements) {

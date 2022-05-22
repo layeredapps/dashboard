@@ -60,11 +60,8 @@ function renderPage (req, res, messageTemplate) {
     for (const field in req.data.profile) {
       let fieldid
       switch (field) {
-        case 'firstName':
-          fieldid = 'first-name'
-          break
-        case 'lastName':
-          fieldid = 'last-name'
+        case 'fullName':
+          fieldid = 'full-name'
           break
         case 'contactEmail':
           fieldid = 'contact-email'
@@ -108,19 +105,12 @@ async function submitForm (req, res) {
   for (const field of profileFields) {
     switch (field) {
       case 'full-name':
-        if (!req.body['first-name'] || !req.body['first-name'].length) {
-          return renderPage(req, res, 'invalid-first-name')
+        if (!req.body['full-name'] || !req.body['full-name'].length) {
+          return renderPage(req, res, 'invalid-full-name')
         }
-        if (global.minimumProfileFirstNameLength > req.body['first-name'].length ||
-          global.maximumProfileFirstNameLength < req.body['first-name'].length) {
-          return renderPage(req, res, 'invalid-first-name-length')
-        }
-        if (!req.body['last-name'] || !req.body['last-name'].length) {
-          return renderPage(req, res, 'invalid-last-name')
-        }
-        if (global.minimumProfileLastNameLength > req.body['last-name'].length ||
-          global.maximumProfileLastNameLength < req.body['last-name'].length) {
-          return renderPage(req, res, 'invalid-last-name-length')
+        if (global.minimumProfileFullNameLength > req.body['full-name'].length ||
+          global.maximumProfileFullNameLength < req.body['full-name'].length) {
+          return renderPage(req, res, 'invalid-full-name-length')
         }
         continue
       case 'contact-email':

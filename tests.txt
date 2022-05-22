@@ -1,5 +1,5 @@
 
-> @layeredapps/dashboard@0.0.121 test
+> @layeredapps/dashboard@0.0.135 test
 > PORT=50002 NODE_ENV=testing STORAGE=sqlite DATABASE=dashboard mocha --ignore 'node_modules/**/*' --timeout 90000 --slow 90000 --recursive --extension .test.js .
 
 
@@ -96,6 +96,9 @@
       Seconds to cache files from application server
         ✔ default 60
         ✔ Integer
+    CONTENT_SECURITY_POLICY
+      Value for content-security-policy header
+        ✔ CSP header
     HOT_RELOAD
       Reloads files every request
         ✔ Boolean
@@ -321,10 +324,8 @@
       ✔ should create profile with company-name
       ✔ should create profile with website
     errors
-      ✔ invalid-first-name
-      ✔ invalid-first-name-length
-      ✔ invalid-last-name
-      ✔ invalid-last-name-length
+      ✔ invalid-full-name
+      ✔ invalid-full-name-length
       ✔ invalid-contact-email
       ✔ invalid-display-email
       ✔ invalid-display-name
@@ -417,10 +418,8 @@
       ✔ should update profile with company-name
       ✔ should update profile with website
     errors
-      ✔ invalid-first-name
-      ✔ invalid-first-name-length
-      ✔ invalid-last-name
-      ✔ invalid-last-name-length
+      ✔ invalid-full-name
+      ✔ invalid-full-name-length
       ✔ invalid-contact-email
       ✔ invalid-display-email
       ✔ invalid-display-name
@@ -516,10 +515,8 @@
       ✔ invalid-password
       ✔ invalid-password-length
       ✔ invalid-confirm
-      ✔ invalid-first-name
-      ✔ invalid-first-name-length
-      ✔ invalid-last-name
-      ✔ invalid-last-name-length
+      ✔ invalid-full-name
+      ✔ invalid-full-name-length
       ✔ invalid-contact-email
       ✔ invalid-display-email
       ✔ invalid-display-name
@@ -1116,16 +1113,11 @@
       invalid-password-length
         ✔ posted password too short
         ✔ posted password too long
-      invalid-first-name
-        ✔ missing posted first-name
-      invalid-first-name-length
-        ✔ posted first-name too short
-        ✔ posted first-name too long
-      invalid-last-name
-        ✔ missing posted last-name
-      invalid-last-name-length
-        ✔ posted last-name too short
-        ✔ posted last-name too long
+      invalid-full-name
+        ✔ missing posted full-name
+      invalid-full-name-length
+        ✔ posted full-name too short
+        ✔ posted full-name too long
       invalid-display-name
         ✔ missing posted display-name
       invalid-display-name-length
@@ -1146,8 +1138,7 @@
       invalid-dob
         ✔ missing posted dob
     receives
-      ✔ optionally-required posted first-name
-      ✔ optionally-required posted last-name
+      ✔ optionally-required posted full-name
       ✔ optionally-required posted display-name
       ✔ optionally-required posted company-name
       ✔ optionally-required posted contact-email
@@ -1165,10 +1156,8 @@
       ✔ environment MAXIMUM_PASSWORD_LENGTH
       ✔ environment REQUIRE_PROFILE
       ✔ environment USER_PROFILE_FIELDS
-      ✔ environment MINIMUM_PROFILE_FIRST_NAME_LENGTH
-      ✔ environment MAXIMUM_PROFILE_FIRST_NAME_LENGTH
-      ✔ environment MINIMUM_PROFILE_LAST_NAME_LENGTH
-      ✔ environment MAXIMUM_PROFILE_LAST_NAME_LENGTH
+      ✔ environment MINIMUM_PROFILE_FULL_NAME_LENGTH
+      ✔ environment MAXIMUM_PROFILE_FULL_NAME_LENGTH
       ✔ environment MINIMUM_PROFILE_DISPLAY_NAME_LENGTH
       ✔ environment MAXIMUM_PROFILE_DISPLAY_NAME_LENGTH
       ✔ environment MINIMUM_PROFILE_COMPANY_NAME_LENGTH
@@ -1182,16 +1171,11 @@
         ✔ invalid querystring accountid
       invalid-accountid
         ✔ ineligible accessing account
-      invalid-first-name
-        ✔ missing posted first-name
-      invalid-first-name-length
-        ✔ posted first-name too short
-        ✔ posted first-name too long
-      invalid-last-name
-        ✔ missing posted last-name
-      invalid-last-name-length
-        ✔ posted last-name too short
-        ✔ posted last-name too long
+      invalid-full-name
+        ✔ missing posted full-name
+      invalid-full-name-length
+        ✔ posted full-name too short
+        ✔ posted full-name too long
       invalid-display-name
         ✔ missing posted display-name
       invalid-display-name-length
@@ -1215,8 +1199,7 @@
       invalid-dob
         ✔ missing posted dob
     receives
-      ✔ optionally-required posted first-name
-      ✔ optionally-required posted last-name
+      ✔ optionally-required posted full-name
       ✔ optionally-required posted display-name
       ✔ optionally-required posted company-name
       ✔ optionally-required posted contact-email
@@ -1229,10 +1212,8 @@
       ✔ object
     configuration
       ✔ environment USER_PROFILE_FIELDS
-      ✔ environment MINIMUM_PROFILE_FIRST_NAME_LENGTH
-      ✔ environment MAXIMUM_PROFILE_FIRST_NAME_LENGTH
-      ✔ environment MINIMUM_PROFILE_LAST_NAME_LENGTH
-      ✔ environment MAXIMUM_PROFILE_LAST_NAME_LENGTH
+      ✔ environment MINIMUM_PROFILE_FULL_NAME_LENGTH
+      ✔ environment MAXIMUM_PROFILE_FULL_NAME_LENGTH
       ✔ environment MINIMUM_PROFILE_DISPLAY_NAME_LENGTH
       ✔ environment MAXIMUM_PROFILE_DISPLAY_NAME_LENGTH
       ✔ environment MINIMUM_PROFILE_COMPANY_NAME_LENGTH
@@ -1532,16 +1513,11 @@
         ✔ invalid querystring profileid
       invalid-profileid
         ✔ ineligible querystring profileid
-      invalid-first-name
-        ✔ missing posted first-name
-      invalid-first-name-length
-        ✔ posted first-name too short
-        ✔ posted first-name too long
-      invalid-last-name
-        ✔ missing posted last-name
-      invalid-last-name-length
-        ✔ posted last-name too short
-        ✔ posted last-name too long
+      invalid-full-name
+        ✔ missing posted full-name
+      invalid-full-name-length
+        ✔ posted full-name too short
+        ✔ posted full-name too long
       invalid-display-name
         ✔ missing posted display-name
       invalid-display-name-length
@@ -1565,8 +1541,7 @@
       invalid-dob
         ✔ missing posted dob
     receives
-      ✔ optionally-required posted first-name
-      ✔ optionally-required posted last-name
+      ✔ optionally-required posted full-name
       ✔ optionally-required posted display-name
       ✔ optionally-required posted company-name
       ✔ optionally-required posted contact-email
@@ -1579,10 +1554,8 @@
       ✔ object
     configuration
       ✔ environment USER_PROFILE_FIELDS
-      ✔ environment MINIMUM_PROFILE_FIRST_NAME_LENGTH
-      ✔ environment MAXIMUM_PROFILE_FIRST_NAME_LENGTH
-      ✔ environment MINIMUM_PROFILE_LAST_NAME_LENGTH
-      ✔ environment MAXIMUM_PROFILE_LAST_NAME_LENGTH
+      ✔ environment MINIMUM_PROFILE_FULL_NAME_LENGTH
+      ✔ environment MAXIMUM_PROFILE_FULL_NAME_LENGTH
       ✔ environment MINIMUM_PROFILE_DISPLAY_NAME_LENGTH
       ✔ environment MAXIMUM_PROFILE_DISPLAY_NAME_LENGTH
       ✔ environment MINIMUM_PROFILE_COMPANY_NAME_LENGTH
@@ -1590,5 +1563,5 @@
       ✔ override req.userProfileFields
 
 
-  893 passing (20m)
+  870 passing (20m)
 

@@ -26,19 +26,12 @@ module.exports = {
       for (const field of profileFields) {
         switch (field) {
           case 'full-name':
-            if (!req.body['first-name'] || !req.body['first-name'].length) {
-              throw new Error('invalid-first-name')
+            if (!req.body['full-name'] || !req.body['full-name'].length) {
+              throw new Error('invalid-full-name')
             }
-            if (global.minimumProfileFirstNameLength > req.body['first-name'].length ||
-              global.maximumProfileFirstNameLength < req.body['first-name'].length) {
-              throw new Error('invalid-first-name-length')
-            }
-            if (!req.body['last-name'] || !req.body['last-name'].length) {
-              throw new Error('invalid-last-name')
-            }
-            if (global.minimumProfileLastNameLength > req.body['last-name'].length ||
-              global.maximumProfileLastNameLength < req.body['last-name'].length) {
-              throw new Error('invalid-last-name-length')
+            if (global.minimumProfileFullNameLength > req.body['full-name'].length ||
+              global.maximumProfileFullNameLength < req.body['full-name'].length) {
+              throw new Error('invalid-full-name-length')
             }
             continue
           case 'contact-email':

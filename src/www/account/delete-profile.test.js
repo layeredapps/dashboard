@@ -8,8 +8,7 @@ describe('/account/delete-profile', () => {
       const user = await TestHelper.createUser()
       const profile1 = user.profile
       await TestHelper.createProfile(user, {
-        'first-name': user.profile.firstName,
-        'last-name': user.profile.lastName,
+        'full-name': user.profile.fullName,
         'contact-email': user.profile.contactEmail,
         default: 'true'
       })
@@ -27,8 +26,7 @@ describe('/account/delete-profile', () => {
       const user = await TestHelper.createUser()
       const profile1 = user.profile
       await TestHelper.createProfile(user, {
-        'first-name': user.profile.firstName,
-        'last-name': user.profile.lastName,
+        'full-name': user.profile.fullName,
         'contact-email': user.profile.contactEmail,
         default: 'true'
       })
@@ -47,8 +45,7 @@ describe('/account/delete-profile', () => {
       const user = await TestHelper.createUser()
       const profile1 = user.profile
       await TestHelper.createProfile(user, {
-        'first-name': user.profile.firstName,
-        'last-name': user.profile.lastName,
+        'full-name': user.profile.fullName,
         'contact-email': user.profile.contactEmail,
         default: 'true'
       })
@@ -107,8 +104,7 @@ describe('/account/delete-profile', () => {
       const user = await TestHelper.createUser()
       const profile1 = user.profile
       await TestHelper.createProfile(user, {
-        'first-name': user.profile.firstName,
-        'last-name': user.profile.lastName,
+        'full-name': user.profile.fullName,
         'contact-email': user.profile.contactEmail,
         default: 'true'
       })

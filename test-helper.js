@@ -22,10 +22,8 @@ const defaultConfigurationValues = {
   maximumPasswordLength: 100,
   minimumResetCodeLength: 1,
   maximumResetCodeLength: 100,
-  minimumProfileFirstNameLength: 1,
-  maximumProfileFirstNameLength: 100,
-  minimumProfileLastNameLength: 1,
-  maximumProfileLastNameLength: 100,
+  minimumProfileFullNameLength: 1,
+  maximumProfileFullNameLength: 100,
   minimumProfileDisplayNameLength: 1,
   maximumProfileDisplayNameLength: 100,
   minimumProfileCompanyNameLength: 1,
@@ -341,8 +339,7 @@ async function createUser (username) {
   req.body = {
     username,
     password,
-    'first-name': identity.firstName,
-    'last-name': identity.lastName,
+    'full-name': identity.firstName + ' ' + identity.lastName,
     'contact-email': identity.email
   }
   let account = await req.post()

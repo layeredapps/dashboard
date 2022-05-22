@@ -46,8 +46,7 @@ async function beforeRequest (req) {
     req.query.profileid = account.profileid
     const profile = await global.api.administrator.Profile.get(req)
     account.contactEmail = profile.contactEmail
-    account.firstName = profile.firstName
-    account.lastName = profile.lastName
+    account.fullName = profile.fullName
   }
   const offset = req.query ? req.query.offset || 0 : 0
   req.data = { sessions, account, total, offset }

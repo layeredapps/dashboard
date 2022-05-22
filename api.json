@@ -466,8 +466,7 @@
     "verb": "post",
     "auth": false,
     "receives": [
-      "optionally-required posted first-name",
-      "optionally-required posted last-name",
+      "optionally-required posted full-name",
       "optionally-required posted display-name",
       "optionally-required posted company-name",
       "optionally-required posted contact-email",
@@ -495,19 +494,12 @@
         "posted password too short",
         "posted password too long"
       ],
-      "invalid-first-name": [
-        "missing posted first-name"
+      "invalid-full-name": [
+        "missing posted full-name"
       ],
-      "invalid-first-name-length": [
-        "posted first-name too short",
-        "posted first-name too long"
-      ],
-      "invalid-last-name": [
-        "missing posted last-name"
-      ],
-      "invalid-last-name-length": [
-        "posted last-name too short",
-        "posted last-name too long"
+      "invalid-full-name-length": [
+        "posted full-name too short",
+        "posted full-name too long"
       ],
       "invalid-display-name": [
         "missing posted display-name"
@@ -549,10 +541,8 @@
       "environment MAXIMUM_PASSWORD_LENGTH",
       "environment REQUIRE_PROFILE",
       "environment USER_PROFILE_FIELDS",
-      "environment MINIMUM_PROFILE_FIRST_NAME_LENGTH",
-      "environment MAXIMUM_PROFILE_FIRST_NAME_LENGTH",
-      "environment MINIMUM_PROFILE_LAST_NAME_LENGTH",
-      "environment MAXIMUM_PROFILE_LAST_NAME_LENGTH",
+      "environment MINIMUM_PROFILE_FULL_NAME_LENGTH",
+      "environment MAXIMUM_PROFILE_FULL_NAME_LENGTH",
       "environment MINIMUM_PROFILE_DISPLAY_NAME_LENGTH",
       "environment MAXIMUM_PROFILE_DISPLAY_NAME_LENGTH",
       "environment MINIMUM_PROFILE_COMPANY_NAME_LENGTH",
@@ -565,8 +555,7 @@
     "verb": "post",
     "auth": false,
     "receives": [
-      "optionally-required posted first-name",
-      "optionally-required posted last-name",
+      "optionally-required posted full-name",
       "optionally-required posted display-name",
       "optionally-required posted company-name",
       "optionally-required posted contact-email",
@@ -582,19 +571,12 @@
         "invalid querystring accountid",
         "ineligible accessing account"
       ],
-      "invalid-first-name": [
-        "missing posted first-name"
+      "invalid-full-name": [
+        "missing posted full-name"
       ],
-      "invalid-first-name-length": [
-        "posted first-name too short",
-        "posted first-name too long"
-      ],
-      "invalid-last-name": [
-        "missing posted last-name"
-      ],
-      "invalid-last-name-length": [
-        "posted last-name too short",
-        "posted last-name too long"
+      "invalid-full-name-length": [
+        "posted full-name too short",
+        "posted full-name too long"
       ],
       "invalid-display-name": [
         "missing posted display-name"
@@ -632,10 +614,8 @@
     ],
     "configuration": [
       "environment USER_PROFILE_FIELDS",
-      "environment MINIMUM_PROFILE_FIRST_NAME_LENGTH",
-      "environment MAXIMUM_PROFILE_FIRST_NAME_LENGTH",
-      "environment MINIMUM_PROFILE_LAST_NAME_LENGTH",
-      "environment MAXIMUM_PROFILE_LAST_NAME_LENGTH",
+      "environment MINIMUM_PROFILE_FULL_NAME_LENGTH",
+      "environment MAXIMUM_PROFILE_FULL_NAME_LENGTH",
       "environment MINIMUM_PROFILE_DISPLAY_NAME_LENGTH",
       "environment MAXIMUM_PROFILE_DISPLAY_NAME_LENGTH",
       "environment MINIMUM_PROFILE_COMPANY_NAME_LENGTH",
@@ -1167,8 +1147,7 @@
     "verb": "patch",
     "auth": false,
     "receives": [
-      "optionally-required posted first-name",
-      "optionally-required posted last-name",
+      "optionally-required posted full-name",
       "optionally-required posted display-name",
       "optionally-required posted company-name",
       "optionally-required posted contact-email",
@@ -1184,19 +1163,12 @@
         "invalid querystring profileid",
         "ineligible querystring profileid"
       ],
-      "invalid-first-name": [
-        "missing posted first-name"
+      "invalid-full-name": [
+        "missing posted full-name"
       ],
-      "invalid-first-name-length": [
-        "posted first-name too short",
-        "posted first-name too long"
-      ],
-      "invalid-last-name": [
-        "missing posted last-name"
-      ],
-      "invalid-last-name-length": [
-        "posted last-name too short",
-        "posted last-name too long"
+      "invalid-full-name-length": [
+        "posted full-name too short",
+        "posted full-name too long"
       ],
       "invalid-display-name": [
         "missing posted display-name"
@@ -1237,10 +1209,8 @@
     ],
     "configuration": [
       "environment USER_PROFILE_FIELDS",
-      "environment MINIMUM_PROFILE_FIRST_NAME_LENGTH",
-      "environment MAXIMUM_PROFILE_FIRST_NAME_LENGTH",
-      "environment MINIMUM_PROFILE_LAST_NAME_LENGTH",
-      "environment MAXIMUM_PROFILE_LAST_NAME_LENGTH",
+      "environment MINIMUM_PROFILE_FULL_NAME_LENGTH",
+      "environment MAXIMUM_PROFILE_FULL_NAME_LENGTH",
       "environment MINIMUM_PROFILE_DISPLAY_NAME_LENGTH",
       "environment MAXIMUM_PROFILE_DISPLAY_NAME_LENGTH",
       "environment MINIMUM_PROFILE_COMPANY_NAME_LENGTH",

@@ -58,8 +58,7 @@ describe('/account/profile', () => {
       for (const field in fields) {
         global.userProfileFields = ['full-name', 'contact-email', field]
         await TestHelper.createProfile(user, {
-          'first-name': 'Test',
-          'last-name': 'Person',
+          'full-name': 'Test Person',
           'contact-email': 'test1@test.com',
           [field]: fields[field]
         })

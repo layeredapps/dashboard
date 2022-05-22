@@ -11,8 +11,7 @@ describe('/api/user/profiles', function () {
     cachedProfiles.push(user.profile.profileid)
     for (let i = 0, len = global.pageSize + 1; i < len; i++) {
       await TestHelper.createProfile(user, {
-        'first-name': user.profile.firstName,
-        'last-name': user.profile.lastName,
+        'full-name': user.profile.fullName,
         'contact-email': user.profile.contactEmail,
         default: 'true'
       })

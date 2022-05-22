@@ -11,8 +11,7 @@ describe('/account/profiles', function () {
     cachedProfiles.push(user.profile.profileid)
     for (let i = 0, len = global.pageSize + 1; i < len; i++) {
       await TestHelper.createProfile(user, {
-        'first-name': 'Test',
-        'last-name': 'Person',
+        'full-name': 'Test Person',
         'contact-email': 'test1@test.com'
       })
       cachedProfiles.unshift(user.profile.profileid)

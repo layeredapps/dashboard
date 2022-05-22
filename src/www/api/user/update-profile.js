@@ -16,22 +16,14 @@ module.exports = {
       const displayName = global.profileFieldMap[field]
       switch (field) {
         case 'full-name':
-          if (!req.body['first-name'] || !req.body['first-name'].length) {
-            throw new Error('invalid-first-name')
+          if (!req.body['full-name'] || !req.body['full-name'].length) {
+            throw new Error('invalid-full-name')
           }
-          if (global.minimumProfileFirstNameLength > req.body['first-name'].length ||
-            global.maximumProfileFirstNameLength < req.body['first-name'].length) {
-            throw new Error('invalid-first-name-length')
+          if (global.minimumProfileFullNameLength > req.body['full-name'].length ||
+            global.maximumProfileFullNameLength < req.body['full-name'].length) {
+            throw new Error('invalid-full-name-length')
           }
-          if (!req.body['last-name'] || !req.body['last-name'].length) {
-            throw new Error('invalid-last-name')
-          }
-          if (global.minimumProfileLastNameLength > req.body['last-name'].length ||
-            global.maximumProfileLastNameLength < req.body['last-name'].length) {
-            throw new Error('invalid-last-name-length')
-          }
-          profileInfo.firstName = req.body['first-name']
-          profileInfo.lastName = req.body['last-name']
+          profileInfo.fullName = req.body['full-name']
           continue
         case 'contact-email':
           if (!req.body[field] || req.body[field].indexOf('@') < 1) {

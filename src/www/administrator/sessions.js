@@ -19,12 +19,10 @@ async function beforeRequest (req) {
         req.query.profileid = account.profileid
         const profile = await global.api.administrator.Profile.get(req)
         session.contactEmail = profile.contactEmail
-        session.firstName = profile.firstName
-        session.lastName = profile.lastName
+        session.fullName = profile.fullName
       } else {
         session.contactEmail = '-'
-        session.firstName = '-'
-        session.lastName = ''
+        session.fullName = '-'
       }
     }
   }

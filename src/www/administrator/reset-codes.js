@@ -17,12 +17,10 @@ async function beforeRequest (req) {
         req.query.profileid = account.profileid
         const profile = await global.api.administrator.Profile.get(req)
         resetCode.contactEmail = profile.contactEmail
-        resetCode.firstName = profile.firstName
-        resetCode.lastName = profile.lastName
+        resetCode.fullName = profile.fullName
       } else {
         resetCode.contactEmail = '-'
-        resetCode.firstName = '-'
-        resetCode.lastName = ''
+        resetCode.fullName = '-'
       }
     }
   }

@@ -234,8 +234,7 @@ function addAccountObjects (array, quantity) {
       updatedAtFormatted: date.getFullYear() + '-' + twoDigits(date.getMonth() + 1) + '-' + twoDigits(date.getDate()),
       lastSignedInAtFormatted: date.getFullYear() + '-' + twoDigits(date.getMonth() + 1) + '-' + twoDigits(date.getDate()),
       contactEmail: identity.email,
-      firstName: identity.firstName,
-      lastName: identity.lastName
+      fullName: `${identity.firstName} ${identity.lastName}`
     }
     array.push(account)
   }
@@ -271,8 +270,7 @@ function addSessionObjects (array, quantity) {
       updatedAt: date,
       updatedAtFormatted: date.getFullYear() + '-' + twoDigits(date.getMonth() + 1) + '-' + twoDigits(date.getDate()),
       contactEmail: identity.email,
-      firstName: identity.firstName,
-      lastName: identity.lastName
+      fullName: `${identity.firstName} ${identity.lastName}`
     }
     array.push(session)
   }
@@ -303,8 +301,7 @@ function addResetCodeObjects (array, quantity) {
       updatedAt: date,
       updatedAtFormatted: date.getFullYear() + '-' + twoDigits(date.getMonth() + 1) + '-' + twoDigits(date.getDate()),
       contactEmail: identity.email,
-      firstName: identity.firstName,
-      lastName: identity.lastName
+      fullName: `${identity.firstName} ${identity.lastName}`
     }
     array.push(resetCode)
   }
@@ -334,8 +331,7 @@ function addProfileObjects (array, quantity) {
       updatedAt: date,
       createdAtFormatted: date.getFullYear() + '-' + twoDigits(date.getMonth() + 1) + '-' + twoDigits(date.getDate()),
       contactEmail: identity.email,
-      firstName: identity.firstName,
-      lastName: identity.lastName
+      fullName: `${identity.firstName} ${identity.lastName}`
     }
     array.push(profile)
   }

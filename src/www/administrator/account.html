@@ -71,7 +71,7 @@
     <template id="profile-row">
       <tr id="${profile.profileid}">
         <td><a href="/administrator/profile?profileid=${profile.profileid}">${profile.profileid}</a></td>
-        <td>${profile.firstName} ${profile.lastName}</td>
+        <td>${profile.fullName}</td>
         <td><a href="mailto:${profile.contactEmail}">${profile.contactEmail}</a></td>
       </tr>
     </template>

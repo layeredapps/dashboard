@@ -26,11 +26,6 @@ global.requireProfile = process.env.REQUIRE_PROFILE === 'true'
 global.profileFields = ['display-name', 'display-email', 'contact-email', 'full-name', 'dob', 'phone', 'occupation', 'location', 'company-name', 'website']
 global.profileFieldMap = {}
 for (const field of global.profileFields) {
-  if (field === 'full-name') {
-    global.profileFieldMap['first-name'] = 'firstName'
-    global.profileFieldMap['last-name'] = 'lastName'
-    continue
-  }
   let displayName = field
   if (displayName.indexOf('-') > -1) {
     displayName = displayName.split('-')
@@ -64,10 +59,8 @@ global.minimumPasswordLength = parseInt(process.env.MINIMUM_PASSWORD_LENGTH || '
 global.maximumPasswordLength = parseInt(process.env.MAXIMUM_PASSWORD_LENGTH || '50', 10)
 global.minimumResetCodeLength = parseInt(process.env.MINIMUM_RESET_CODE_LENGTH || '6', 10)
 global.maximumResetCodeLength = parseInt(process.env.MAXIMUM_RESET_CODE_LENGTH || '50', 10)
-global.minimumProfileFirstNameLength = parseInt(process.env.MINIMUM_PROFILE_FIRST_NAME_LENGTH || '1', 10)
-global.maximumProfileFirstNameLength = parseInt(process.env.MAXIMUM_PROFILE_FIRST_NAME_LENGTH || '50', 10)
-global.minimumProfileLastNameLength = parseInt(process.env.MINIMUM_PROFILE_LAST_NAME_LENGTH || '1', 10)
-global.maximumProfileLastNameLength = parseInt(process.env.MAXIMUM_PROFILE_LAST_NAME_LENGTH || '50', 10)
+global.minimumProfileFullNameLength = parseInt(process.env.MINIMUM_PROFILE_FULL_NAME_LENGTH || '1', 10)
+global.maximumProfileFullNameLength = parseInt(process.env.MAXIMUM_PROFILE_FULL_NAME_LENGTH || '50', 10)
 global.minimumProfileDisplayNameLength = parseInt(process.env.MINIMUM_PROFILE_DISPLAY_NAME_LENGTH || '1', 10)
 global.maximumProfileDisplayNameLength = parseInt(process.env.MAXIMUM_PROFILE_DISPLAY_NAME_LENGTH || '50', 10)
 global.minimumProfileCompanyNameLength = parseInt(process.env.MINIMUM_PROFILE_COMPANY_NAME_LENGTH || '1', 10)

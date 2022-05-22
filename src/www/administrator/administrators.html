@@ -40,7 +40,7 @@
     <template id="administrator-row">
       <tr id="${account.accountid}">
         <td><a href="/administrator/account?accountid=${account.accountid}">${account.accountid}</a></td>
-        <td>${account.firstName} ${account.lastName}</td>
+        <td>${account.fullName}</td>
         <td><a href="mailto:${account.contactEmail}">${account.contactEmail}</a></td>
         <td>${account.createdAtFormatted}</td>
         <td>${account.administratorFormatted}</td>

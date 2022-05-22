@@ -60,7 +60,7 @@
       <tr id="${session.sessionid}">
         <td><a href="/administrator/session?sessionid=${session.sessionid}">${session.sessionid}</a></td>
         <td><a href="/administrator/account?accountid=${session.accountid}">${session.accountid}</a></td>
-        <td>${session.firstName} ${session.lastName}</td>
+        <td>${session.fullName}</td>
         <td><a href="mailto:${session.contactEmail}">${session.contactEmail}</a></td>
         <td>${session.createdAtFormatted}</td>
         <td>${session.expiresFormatted}</td>

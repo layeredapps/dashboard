@@ -27,15 +27,6 @@ async function renderPage (req, res) {
         if (retainedFields.indexOf(field) > -1) {
           continue
         }
-        if (field === 'full-name') {
-          if (retainedFields.indexOf('first-name') === -1) {
-            removeElements.push(`first-name-${profile.profileid}`)
-          }
-          if (retainedFields.indexOf('last-name') === -1) {
-            removeElements.push(`last-name-${profile.profileid}`)
-          }
-          continue
-        }
         removeElements.push(`${field}-${profile.profileid}`)
         if (profile === req.data.profiles[0]) {
           removeElements.push(field)
