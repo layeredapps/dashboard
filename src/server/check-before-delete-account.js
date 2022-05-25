@@ -18,7 +18,14 @@ async function checkBeforeDeleteAccount (req, res) {
   } else {
     req.url = `/api/check-before-delete-account?accountid=${req.account.accountid}`
   }
-  const response = await Proxy.get(req)
+  let response
+  try {
+    const responseRaw = await dashboard.Proxy.get(req)
+    if (responseRaw && responseRaw.toString) {
+      response = responseRaw.toString()
+    }
+  } catch (error) {
+  }
   req.url = urlWas
   if (response.startsWith('{')) {
     const result = JSON.parse(response)
