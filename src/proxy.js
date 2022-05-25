@@ -147,7 +147,11 @@ async function get (req, callback) {
     path,
     port,
     method: 'GET',
-    headers: {}
+    headers: {
+      referer: `${global.dashboardServer}${req.url}`,
+      'x-dashboard-server': global.dashboardServer,
+      'x-application-server-token': req.applicationServerToken || global.applicationServerToken
+    }
   }
   if (req.account) {
     requestOptions.headers['x-accountid'] = req.account.accountid
