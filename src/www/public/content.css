@@ -13,6 +13,7 @@ body { min-height: 100%; width: 100%; padding: 0; margin: 0; font-family: var(--
 .container button:disabled { pointer-events: none }
 .container .small-button { line-height: 1rem; font-size: 0.8rem; padding: 0.25rem 0.5rem }
 .container input[type=text],
+.container input[type=number],
 .container input[type=password],
 .container input[type=email] { box-sizing: border-box; width: 12rem; padding: 0.5rem; border-radius: 0.25rem }
 .container p { font-size: 0.8rem; line-height: 1.4rem; margin-bottom: 1rem }
@@ -25,6 +26,7 @@ body { min-height: 100%; width: 100%; padding: 0; margin: 0; font-family: var(--
 .container input:focus, 
 .container select:focus,
 .container .field input[type=text]:focus,
+.container .field input[type=number]:focus,
 .container .field input[type=password]:focus,
 .container .field input[type=email]:focus,
 .container .field input[type=radio]:focus,
