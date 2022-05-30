@@ -20,7 +20,7 @@ async function checkBeforeDeleteAccount (req, res) {
   }
   let response
   try {
-    const responseRaw = await dashboard.Proxy.get(req)
+    const responseRaw = await Proxy.get(req)
     if (responseRaw && responseRaw.toString) {
       response = responseRaw.toString()
     }
