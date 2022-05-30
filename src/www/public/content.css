@@ -89,7 +89,7 @@ body { min-height: 100%; width: 100%; padding: 0; margin: 0; font-family: var(--
 .container .checkbox-fields .field-label:last-of-type { margin-bottom: 0 }
 .container .field-label { font-size: 1rem }
 .container .field-note { display: block; font-size: 0.7rem; margin-top: 0.25rem; color: var(--content-field-note-color) }
-.container .field-note em { color: var(--content-field-note-em-color) }
+.container .field-note em { color: var(--content-field-note-em-color); font-weight: bold }
 .container .field { max-width: 100% }
 .container .field .tiny-field div,
 .container .field .tiny-field input,
@@ -279,7 +279,7 @@ these variables to changes that only affect that element.
   --content-input-disabled-text-color: var(--content-gray);
   --content-input-disabled-background-color: var(--content-light);
   --content-field-note-color: var(--content-gray-dark);
-  --content-field-note-em-color: var(--content-dark)
+  --content-field-note-em-color: var(--content-dark);
   --button-submit-background-color: var(--content-blue);
   --button-submit-text-color: var(--content-white);
   --button-submit-border-color: var(--content-blue);
