@@ -62,9 +62,9 @@ nav, input, select, textarea, a, button, div { outline: 0 }
 .template .navigation-link.current-page:hover img { filter: var(--template-navigation-link-hover-icon-filter) }
 
 .template .spillage { flex-direction: column; height: 3rem; margin-right: 0.5rem; cursor: pointer; overflow: hidden }
-.template .spillage-trigger { cursor: pointer; height: 2rem; margin: 0.2rem 0.5rem; color: inherit; border: none; background-color: transparent; padding: 0 0.5rem; border-radius: 0.5rem }
+.template .spillage-trigger { cursor: pointer; height: 2rem; margin: 0.2rem 0; color: inherit; border: none; background-color: transparent; padding: 0 0.5rem; border-radius: 0.5rem }
 .template .spillage-trigger:focus { background-color: var(--template-spillage-menu-background-color) }
-.template .spillage-links { display: none; background-color: var(--template-spillage-menu-background-color); position: absolute; z-index: 99998; top: 2rem; right: 0.75rem; padding: 0.5rem 0.5rem 0.5rem 4rem; text-align: right; border-radius: 0.5rem 0 0.5rem 0.5rem }
+.template .spillage-links { display: none; background-color: var(--template-spillage-menu-background-color); position: absolute; z-index: 99998; top: 2rem; right: 0.5rem; padding: 0.5rem 0.5rem 0.5rem 4rem; text-align: right; border-radius: 0.5rem 0 0.5rem 0.5rem }
 .template .spillage-icon { margin: 0.5rem 0; width: 1rem; filter: var(--template-spillage-menu-icon-filter) }
 .template .spillage-link { line-height: 2rem; font-size: 0.8rem; display: block; margin-bottom: 0.5rem; padding: 0 0.5rem; color: var(--template-spillage-menu-link-text-color) }
 .template .spillage-link:hover,
