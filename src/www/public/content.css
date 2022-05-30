@@ -113,7 +113,7 @@ body { min-height: 100%; width: 100%; padding: 0; margin: 0; font-family: var(--
 .container .field input[type=text]:focus,
 .container .field input[type=password]:active,
 .container .field input[type=password]:focus { border-color: var(--content-input-focus-border-color); background-color: var(--content-input-focus-background-color); color: var(--content-input-focus-text-color) }
-.container .field select { max-width: 100%; line-height: 2rem; height: 2rem; padding: 0 0.5rem }
+.container .field select { max-width: 100%; line-height: 2rem; height: 2rem; padding: 0 0.5rem; border-radius: 0.25rem }
 
 /* administrator charts */
 .container .charts { margin-bottom: 2rem }
