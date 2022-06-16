@@ -21,10 +21,10 @@ module.exports = {
   }
 }
 
-let devices, allDevices, browser
+let devices, browser
 
 async function fetch (method, req) {
-  allDevices = allDevices || require('puppeteer/lib/cjs/puppeteer/common/DeviceDescriptors.js')
+  const deviceMap = allDevices || require('puppeteer/lib/cjs/puppeteer/common/DeviceDescriptors.js')._devicesMap
   devices = devices || [{
     name: 'Desktop',
     userAgent: 'Desktop browser',
@@ -37,10 +37,10 @@ async function fetch (method, req) {
       isLandscape: false
     }
   },
-  allDevices.devicesMap['iPad Pro'],
-  allDevices.devicesMap['iPad Mini'],
-  allDevices.devicesMap['Pixel 2 XL'],
-  allDevices.devicesMap['iPhone SE']
+  deviceMap['iPad Pro'],
+  deviceMap['iPad Mini'],
+  deviceMap['Pixel 2 XL'],
+  deviceMap['iPhone SE']
   ]
   browser = await relaunchBrowser()
   const result = {}
