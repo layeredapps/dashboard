@@ -24,7 +24,7 @@ module.exports = {
 let devices, browser
 
 async function fetch (method, req) {
-  const deviceMap = allDevices || require('puppeteer/lib/cjs/puppeteer/common/DeviceDescriptors.js')._devicesMap
+  const deviceMap = require('puppeteer/lib/cjs/puppeteer/common/DeviceDescriptors.js')._devicesMap
   devices = devices || [{
     name: 'Desktop',
     userAgent: 'Desktop browser',
