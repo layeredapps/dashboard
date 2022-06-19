@@ -39,7 +39,7 @@ if (fs.existsSync(`${global.applicationPath}/log.js`)) {
         continue
       }
       logger[level] = (...args) => {
-        console[level](`[${Math.floor(new Date().getTime() / 1000)}-${prefix}]`, ...args)
+        console[level](`[${prefix}]`, ...args)
       }
     }
     return logger
