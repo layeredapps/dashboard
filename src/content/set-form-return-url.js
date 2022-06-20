@@ -22,7 +22,11 @@ function insertReturnURL (req, _, doc) {
     }
     const formURL = form.attr.action.startsWith('/') ? global.dashboardServer + form.attr.action : form.attr.action
     const action = new url.URL(formURL)
-    if (action['return-url']) {
+    const params = {}
+    for (const pair of action.searchParams.entries()) {
+      params[pair[0]] = pair[1]
+    }
+    if (params['return-url']) {
       continue
     }
     const divider = form.attr.action.indexOf('?') > -1 ? '&' : '?'
