@@ -1,6 +1,5 @@
 const crypto = require('crypto')
 const HTML = require('./html.js')
-const url = require('url')
 const zlib = require('zlib')
 const eightDays = 8 * 24 * 60 * 60 * 1000
 const eTagCache = {}
@@ -87,7 +86,7 @@ async function redirect (req, res, url) {
   }
   res.setHeader('content-type', mimeTypes.html)
   const packageJSON = req.packageJSON || global.packageJSON
-  const doc = HTML.parse(packageJSON.dashboard.redirectHTML.split('{url}').join(url))
+  const doc = HTML.parse(packageJSON.dashboard.redirectHTML.split('{url}').join(decodeURI(url)))
   if (packageJSON.dashboard.content && packageJSON.dashboard.content.length) {
     for (const contentHandler of packageJSON.dashboard.content) {
       if (contentHandler.page) {
@@ -297,25 +296,6 @@ async function wrapSrcDocWithTemplate (req, res, doc) {
   for (const style of templateStyles) {
     head.child.unshift(style)
   }
-  // add return urls to form, and disable field-based validation for tests
-  const forms = doc.getElementsByTagName('form')
-  for (const form of forms) {
-    form.attr = form.attr || {}
-    form.attr.method = form.attr.method || 'POST'
-    form.attr.action = form.attr.action || req.url
-    if (global.testNumber) {
-      form.attr.novalidate = 'novalidate'
-    }
-    if (req.query && req.query['return-url']) {
-      const formURL = form.attr.action.startsWith('/') ? global.dashboardServer + form.attr.action : form.attr.action
-      const action = new url.URL(formURL)
-      if (action['return-url']) {
-        continue
-      }
-      const divider = form.attr.action.indexOf('?') > -1 ? '&' : '?'
-      form.attr.action += `${divider}return-url=${encodeURI(req.query['return-url']).split('?').join('%3F').split('&').join('%26')}`
-    }
-  }
   // merge body
   const container = templateDoc.getElementById('template-header')
   const pageBody = doc.getElementsByTagName('body')[0]
@@ -415,24 +395,6 @@ async function wrapTemplateWithSrcDoc (req, res, doc) {
       } else {
         administratorMenuContainer.setAttribute('style', 'display: none')
       }
-    }
-  }
-  const forms = doc.getElementsByTagName('form')
-  for (const form of forms) {
-    form.attr = form.attr || {}
-    form.attr.method = form.attr.method || 'POST'
-    form.attr.action = form.attr.action || req.url
-    if (global.testNumber) {
-      form.attr.novalidate = 'novalidate'
-    }
-    if (req.query && req.query['return-url']) {
-      const formURL = form.attr.action.startsWith('/') ? global.dashboardServer + form.attr.action : form.attr.action
-      const action = new url.URL(formURL)
-      if (action['return-url']) {
-        continue
-      }
-      const divider = form.attr.action.indexOf('?') > -1 ? '&' : '?'
-      form.attr.action += `${divider}return-url=${encodeURI(req.query['return-url']).split('?').join('%3F').split('&').join('%26')}`
     }
   }
   if (packageJSON.dashboard.content && packageJSON.dashboard.content.length) {
