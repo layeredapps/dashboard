@@ -408,6 +408,9 @@ const screenshotCache = {
 }
 
 async function saveScreenshot (device, page, number, action, identifier, scriptName, overrideTitle, colorScheme) {
+  if (!scriptName) {
+    return
+  }
   Log.info('taking screenshot', number, action, identifier, scriptName)
   global.language = global.language || 'en'
   let filePath = scriptName.substring(scriptName.indexOf('/src/www/') + '/src/www/'.length)
