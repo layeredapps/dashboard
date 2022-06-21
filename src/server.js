@@ -173,8 +173,11 @@ async function receiveRequest (req, res) {
     applicationServer = req.server.applicationServer || applicationServer
   }
   if (req.headers['x-application-server'] && req.headers['x-application-server'] === applicationServer) {
-    const receivedToken = req.headers['x-application-server-token']
-    req.applicationServer = receivedToken === req.server.applicationServerToken || receivedToken === global.applicationServerToken
+    if (req.server) {
+      req.applicationServer = req.headers['x-application-server-token'] === req.server.applicationServerToken  
+    } else {
+      req.applicationServer = req.headers['x-application-server-token'] === global.applicationServerToken
+    }
   }
   if (!req.applicationServer && req.headers['x-application-server']) {
     return dashboard.Response.throw500(req, res)
