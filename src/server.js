@@ -174,7 +174,7 @@ async function receiveRequest (req, res) {
   }
   if (req.headers['x-application-server'] && req.headers['x-application-server'] === applicationServer) {
     if (req.server) {
-      req.applicationServer = req.headers['x-application-server-token'] === req.server.applicationServerToken  
+      req.applicationServer = req.headers['x-application-server-token'] === req.server.applicationServerToken
     } else {
       req.applicationServer = req.headers['x-application-server-token'] === global.applicationServerToken
     }
