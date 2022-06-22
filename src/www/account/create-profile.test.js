@@ -277,7 +277,7 @@ describe('/account/create-profile', () => {
       req.account = user.account
       req.session = user.session
       req.body = {
-        phone: faker.phone.phoneNumber()
+        phone: faker.phone.number()
       }
       const result = await req.post()
       const doc = TestHelper.extractDoc(result.html)
