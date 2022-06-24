@@ -1,5 +1,5 @@
 
-> @layeredapps/dashboard@0.0.144 test
+> @layeredapps/dashboard@0.0.149 test
 > PORT=50002 NODE_ENV=testing STORAGE=sqlite DATABASE=dashboard mocha --ignore 'node_modules/**/*' --timeout 90000 --slow 90000 --recursive --extension .test.js .
 
 
@@ -1563,5 +1563,5 @@
       ✔ override req.userProfileFields
 
 
-  870 passing (20m)
+  870 passing (19m)
 
