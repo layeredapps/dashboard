@@ -39,7 +39,7 @@ describe('/account/verify', () => {
     it('should verify session (screenshots)', async () => {
       const user = await TestHelper.createUser()
       await TestHelper.requireVerification(user, 3)
-      const req = TestHelper.createRequest('/account')
+      const req = TestHelper.createRequest('/home')
       req.account = user.account
       req.session = user.session
       req.body = {

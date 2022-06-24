@@ -31,7 +31,7 @@ describe('/account/signout', () => {
 
     it('should signout (screenshots)', async () => {
       const user = await TestHelper.createUser()
-      const req = TestHelper.createRequest('/account/signout')
+      const req = TestHelper.createRequest('/home')
       req.account = user.account
       req.session = user.session
       req.filename = __filename
